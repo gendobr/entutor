@@ -1,0 +1,107 @@
+.task-tip{
+    display:block;
+}
+
+.task-presentation{
+    display:inline-block;
+    position:relative;
+    width:100%;
+}
+
+.task-inputs{
+    display:inline-block;
+    position:relative;
+    width:100%;
+}
+
+.task-buttons{
+    display:inline-block;
+    position:relative;
+    width:100%;
+}
+
+
+.task-card{
+    display:inline-block;
+    position:relative;
+    width:100%;
+}
+.task-card-vertical{
+    display:inline-block;
+    position:relative;
+    width:100%;
+}
+.task-card-horizontal{
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+}
+
+
+.task-text-correct{
+    background-color:#aaffaa;
+}
+
+.task-text-error{
+    background-color:#ffaaaa;
+}
+
+
+
+
+.task-radio-correct{
+    background-color:#aaffaa;
+}
+.task-radio-error{
+    background-color:#ffaaaa;
+}
+.task-radio-checked{
+    background-color:silver;
+}
+.task-radio-label-vertical{
+    display:block;
+}
+.task-radio-label-horizontal{
+    
+}
+
+
+
+.task-checkbox-correct{
+    background-color:#aaffaa;
+}
+.task-checkbox-error{
+    background-color:#ffaaaa;
+}
+.task-checkbox-checked{
+    background-color:silver;
+}
+
+
+
+.task-counterplace{
+    display:inline-block;
+    border:1px solid gray;
+    margin-right:5px;
+    position:relative;
+}
+.task-counter{
+    display:inline-block;
+    border:1px solid gray;
+    cursor:move;
+    z-index:1000;
+}
+.task-counter.ui-draggable-dragging { background: green; color:white;}
+
+.task-dropzone{
+    display:inline-block;
+    border:1px solid red;    
+    height:1.3em;
+}
+
+.task-dropzone-error{
+    background-color:#ffaaaa;
+}
+.task-dropzone-correct{
+    background-color:#aaffaa;
+}

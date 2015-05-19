@@ -1,0 +1,186 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>presentation</title>
+
+<link href="./jplayer/skin/blue.monday/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+<div id="jquery_jplayer_1" class="jp-jplayer"></div>
+<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
+	<div class="jp-type-single">
+
+		<div class="jp-no-solution">
+			<span>Update Required</span>
+			To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+		</div>
+	</div>
+</div>
+<div id="playlist_1"></div>
+
+
+<!-- 
+
+  <div id="text123" class='presentationText'></div>
+  <div id="frames123" class='frames'>
+  	<div class="frame" data-file="5">Letter Aa [eɪ], sound [æ].</div>
+  	<div class="frame" data-from="5"  data-to="10">Буква Aa [eɪ] звук [æ].</div>
+  </div>
+
+
+
+
+  <style type="text/css">
+    .presentationText{
+    	width:420px;
+    	height:300px;
+    	background-color: #e0e000;
+    }
+    .frames{
+    	display:none;
+    }
+  </style>
+  <script type="application/javascript">
+  window.presentationFrames=[];
+  window.presentationCurrentFrame=null;
+  window.presentationShowFrame=function(frame){
+  	if(frame){
+	    var copy=frame.frame.clone();
+	    $('#text123').html(copy);
+  	}else{
+  		$('#text123').empty();
+  	}
+  }
+
+ $(document).ready(function(){
+
+    $('#frames123 .frame').each(function(i,e){
+    	var f=[];
+    	f['frame']=$(e);
+    	f['from']=parseFloat(f['frame'].attr('data-from'));
+    	f['to']=parseFloat(f['frame'].attr('data-to'));
+    	window.presentationFrames.push(f);
+    });
+
+    var searchFrame=function(currentTime){
+    	for(var i=0; i<window.presentationFrames.length; i++ ){
+    		if(window.presentationFrames[i].from <= currentTime &&  currentTime <= window.presentationFrames[i].to){
+    			return window.presentationFrames[i];
+    		}
+    	}
+    	return null;
+    }
+
+
+	$("#jquery_jplayer_1").jPlayer({
+	    ready: function () {
+		    $(this).jPlayer("setMedia", {
+		        mp3: "./presentation/taina.mp3"
+		        // ,     oga: "/media/mysound.ogg"
+		    });
+	    },
+	    timeupdate:function(event){
+	    	var currentTime=event.jPlayer.status.currentTime;
+            // console.log(currentTime);
+	    	if(   ! window.presentationCurrentFrame
+	    		|| window.presentationCurrentFrame.from > currentTime
+	    		|| window.presentationCurrentFrame.to < currentTime ){
+	    		window.presentationCurrentFrame=searchFrame(currentTime);
+	    	    window.presentationShowFrame(window.presentationCurrentFrame);
+	    	    // console.log("switch frame");
+	    	}
+	    },
+	    swfPath: "./jplayer/jplayer",
+	    supplied: "mp3",
+		wmode: "window",
+		useStateClassSkin: true,
+		autoBlur: false,
+		smoothPlayBar: true,
+		keyEnabled: true,
+		remainingDuration: true,
+		toggleDuration: true
+	});
+ });
+  </script>
+-->
+
+
+<script type="application/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="application/javascript" src="./jplayer/jplayer/jquery.jplayer.min.js"></script>
+
+<script type="application/javascript">
+var playlist_1=[
+  {
+  	title:'Бублички',
+  	mp3:'./playmessage/bublichki.mp3'
+  },
+  {
+  	title:'В землянке',
+	mp3:'./playmessage/v_zemlyanke.mp3'
+  },
+  {
+  	title:'Сердце',
+	mp3:'./playmessage/serdtse.mp3'
+  },
+];
+
+
+window.playlist_1_currenttrack=false;
+
+$(document).ready(function(){
+    for(var i=0; i<playlist_1.length; i++){
+        html="<div><input type='button' id='playlist_1_"+i+"' data-i='"+i+"' class='playlist_1_button' value='>'>&nbsp;"+playlist_1[i].title+"</div>";
+        $('#playlist_1').append($(html));
+    }
+
+    $('.playlist_1_button').click(function(ev){
+    	var btn=$(this);
+    	var i=btn.attr('data-i');
+        var player=$("#jquery_jplayer_1");
+        if(window.playlist_1_currenttrack===i){
+
+           if(player.data().jPlayer.status.paused){
+               player.jPlayer("pauseOthers")
+           	   player.jPlayer("play");
+           	   btn.attr('value','||');
+           }else{
+           	   player.jPlayer("pause");
+           	   btn.attr('value','>');
+           }
+        }else{
+    	    window.playlist_1_currenttrack=i;
+	        player.jPlayer("stop");
+			player.jPlayer("setMedia", playlist_1[i]);
+			player.jPlayer("play");
+	        player.attr('value','>');
+	    	btn.attr('value','||');
+        }
+    });
+
+	$("#jquery_jplayer_1").jPlayer({
+	    ready: function () {
+
+	    },
+
+	    swfPath: "./jplayer/jplayer",
+	    supplied: "mp3",
+		wmode: "window",
+		useStateClassSkin: true,
+		autoBlur: false,
+		smoothPlayBar: true,
+		keyEnabled: true,
+		remainingDuration: true,
+		toggleDuration: true
+	});
+
+});
+</script>
+
+
+</body>
+
+</html> 

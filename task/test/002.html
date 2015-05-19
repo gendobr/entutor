@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>presentation</title>
+
+<link href="../css/task.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<script type="application/javascript" src="../lib/jquery-2.1.4.min.js"></script>
+<script type="application/javascript" src="../lib/markup.min.js"></script>
+<script type="application/javascript" src="../js/task.js"></script>
+<script type="application/javascript">
+    $(function(){
+        var task=new tutor.task({
+            id:'1',
+            inputs:{
+                    id:'01',
+                    type:'card',
+                    arrange:'vertical',
+                    children:[
+                        {
+                            id:'02',
+                            type:'card',
+                            children:[
+                                {
+                                    id:'03',
+                                    type:'html',
+                                    innerHtml:'Correct value is zzz:'
+                                },
+                                // text field
+                                {
+                                    id:'04',
+                                    type:'text',
+                                    value:'yyy',
+                                    size:5,
+                                    pattern:/^zzz$/,
+                                    maxScore:1
+                                }
+                            ]
+                        },
+                        {
+                            id:'05',
+                            type:'card',
+                            arrange:'vertical',
+                            children:[
+                                {
+                                    id:'06',
+                                    type:'html',
+                                    innerHtml:'Choose one variant:'
+                                },
+                                // radio
+                                {
+                                    id:'07',
+                                    type:'radio',
+                                    correctVariant:'1',//'1',
+                                    maxScore:1,
+                                    arrange:'vertical',
+                                    variant:{
+                                        '1':'1 Correct answer',
+                                        '2':'2 Wrong answer',
+                                        '3':'3 Wrong answer'
+                                    }
+                                }
+                            ]   
+                        },
+                        {
+                            id:'08',
+                            type:'card',
+                            children:[
+                                {
+                                    id:'09',
+                                    type:'html',
+                                    innerHtml:'Check for correct answer:'
+                                },
+                                // checkbox
+                                {
+                                    id:'10',
+                                    type:'checkbox',
+                                    correctVariant:true,
+                                    //correctVariant:false,
+                                    maxScore:1,
+                                    label:'1 check me answer'
+                                }
+                            ]
+                            
+                        },
+                        {
+                            id:'11',
+                            type:'card',
+                            children:[
+                                {
+                                    id:'12',
+                                    type:'html',
+                                    innerHtml:'Uncheck for correct answer:'
+                                },
+                                // checkbox
+                                {
+                                    id:'13',
+                                    type:'checkbox',
+                                    //correctVariant:true,
+                                    correctVariant:false,
+                                    maxScore:1,
+                                    label:'1 check me answer'
+                                }
+                            ]
+                            
+                        }
+                    ]
+            }
+        });
+        $('#task').append(task.draw());
+    });
+</script>
+<div id="task"></div>
+</body>
+</html>
