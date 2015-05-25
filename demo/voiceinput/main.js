@@ -142,6 +142,8 @@ function toggleMono() {
     audioInput.connect(inputPoint);
 }
 
+
+// callback on audio stream created
 function gotStream(stream) {
     inputPoint = audioContext.createGain();
 
