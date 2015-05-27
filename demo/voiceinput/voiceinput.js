@@ -2,14 +2,16 @@
 
 
 
+var initAudioApi = function (options) {
 
-var initAudioApi = function () {
-
-    var soundScrorerURL="voiceinput.php";
+    
 
 
     tutor.inputs.audioapi = {};
+    
+    tutor.inputs.audioapi.options=options || {};
 
+    tutor.inputs.audioapi.soundScrorerURL=tutor.inputs.audioapi.options.soundScrorerURL||"voiceinputscorer.php";
 
     tutor.inputs.audioapi.drawAnimationFrameFactory = function (canvas) {
         if (tutor.inputs.audioapi.animationFrame) {
@@ -152,7 +154,7 @@ var initAudioApi = function () {
 
         var clearCurrentFrame=function(){
             if (tutor.inputs.audioapi.currentAudioId) {
-                var canvas = document.getElementById(tutor.inputs.audioapi.currentAudioId);
+                var canvas = document.getElementById('canvas-'+tutor.inputs.audioapi.currentAudioId);
                 var context = canvas.getContext('2d');
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 tutor.inputs.audioapi.currentAudio = null;
@@ -163,45 +165,102 @@ var initAudioApi = function () {
             }
         }
 
-        $(document).on('audioapi:activated', function () {
-            $(".recButton").click(function (ev) {
-                clearCurrentFrame();
-                // tutor.inputs.audioapi.audioGain.gain.value = 1.0;
-                var id = $(ev.target).attr("data-canvas");
-                tutor.inputs.audioapi.currentAudioId = id;
-                var canvas = document.getElementById(id);
-                var updateAnalysers = tutor.inputs.audioapi.drawAnimationFrameFactory(canvas);
-                updateAnalysers();
-                // start recording
-                tutor.inputs.audioapi.audioRecorder.clear();
-                tutor.inputs.audioapi.audioRecorder.record();
-            });
-            $(".stopButton").click(function (ev) {
-                // tutor.inputs.audioapi.audioGain.gain.value = 0.0;
-                // stop recording and send it to server
-                tutor.inputs.audioapi.audioRecorder.stop();
-                tutor.inputs.audioapi.audioRecorder.getBuffers( function ( buffers ) {
-                    tutor.inputs.audioapi.audioRecorder.exportWAV( function ( blob ) {
-                        // get current inputId
-                        // tutor.inputs.audioapi.currentAudioId
-                        // Recorder.setupDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
-                        var fileReader = new FileReader();
-                        fileReader.onload = function(){
-                            ///this.result
-                            // XMLHttpRequest.send() has the following invocations options:
-                            // void send(Blob data);
-                        };
-                        clearCurrentFrame();
-                    });
-                } );
+
+
+        tutor.inputs.audioapi.startRecording=function (ev) {
+            clearCurrentFrame();
+            // tutor.inputs.audioapi.audioGain.gain.value = 1.0;
+            var id = $(ev.target).attr("data-audio-id");
+            tutor.inputs.audioapi.currentAudioId = id;
+            var canvas = document.getElementById('canvas-'+id);
+            var updateAnalysers = tutor.inputs.audioapi.drawAnimationFrameFactory(canvas);
+            updateAnalysers();
+            // start recording
+            tutor.inputs.audioapi.audioRecorder.clear();
+            tutor.inputs.audioapi.audioRecorder.record();
+        };
+
+        tutor.inputs.audioapi.stopRecording=function (ev) {
+            // tutor.inputs.audioapi.audioGain.gain.value = 0.0;
+            // stop recording and send it to server
+            // console.log("stop recording and send it to server");
+            tutor.inputs.audioapi.audioRecorder.stop();
+            tutor.inputs.audioapi.audioRecorder.getBuffers( function ( buffers ) {
                 
-            });
-        });
+                tutor.inputs.audioapi.audioRecorder.exportWAV( function ( blob ) {
+                    
+                    
+                    var compositeBlob=new Blob([
+                        JSON.stringify({audioId:tutor.inputs.audioapi.currentAudioId, audioString:$('#config-'+tutor.inputs.audioapi.currentAudioId).attr('data-string')}),
+                        "\n\n",
+                        blob
+                    ],{type : 'audio/wav'})
+                    tutor.inputs.audioapi.ajax(
+                            tutor.inputs.audioapi.soundScrorerURL,
+                            compositeBlob, // data to send
+                            function(responseText){
+                                //console.log(responseText);
+                                var reply=JSON.parse(responseText);
+                                $(document).trigger('audioapi:score',[reply]);
+                            });
+
+                    clearCurrentFrame();
+                });
+            } );                
+        };
+
+
+
+
     } catch (e) {
         alert('Opps.. Your browser do not support audio API');
     }
     
     
+
+
+
+    tutor.inputs.audioapi.ajax = function (url, data,onLoadCallback){
+        var currentObject=this;
+
+        this.onLoadFunction=onLoadCallback;
+
+
+        try {
+            this.request = new XMLHttpRequest();
+        } catch (trymicrosoft) {
+            try {
+                this.request = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (othermicrosoft) {
+                try {
+                    this.request = new ActiveXObject("Microsoft.XMLHTTP");
+                } catch (failed) {
+                    this.request = false;
+                }
+            }
+        }
+        if(!this.request) return false;
+
+        if(data){
+            this.request.open("POST", url, true);
+            this.request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            this.request.setRequestHeader("Content-length", data.length);
+            this.request.setRequestHeader("Connection", "close");
+        }else{
+            this.request.open("GET", url, true);
+        }
+        this.request.onreadystatechange = function(){
+            if (currentObject.request.readyState == 4){
+                //console.log(currentObject.request);
+                try{
+                    currentObject.onLoadFunction(currentObject.request.responseText);
+                }catch(err){
+
+                }
+            }
+        };
+        this.request.send(data);
+    };
     
     
 };

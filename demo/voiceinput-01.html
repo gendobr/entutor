@@ -25,14 +25,16 @@ https://github.com/soareschen/web-audio-upload/blob/master/page.html
     </head>
     <body>
         <div>
-            <canvas id="indicator1" width="100" height="40"></canvas>
-            <input  type="button" value="on 1" data-canvas="indicator1" class="recButton">
-            <input  type="button" value="off 1" data-canvas="indicator1" class="stopButton">
+            <canvas id="canvas-indicator1" width="100" height="40"></canvas>
+            <input  type="button" value="on 1" data-audio-id="indicator1" class="recButton">
+            <input  type="button" value="off 1" data-audio-id="indicator1" class="stopButton">
+            <span class="audio-config" id="config-indicator1" data-string="First string"></span>
         </div>
         <div>
-            <canvas id="indicator2" width="100" height="40"></canvas>
-            <input  type="button" value="on 2" data-canvas="indicator2" class="recButton">
-            <input  type="button" value="off 2" data-canvas="indicator2" class="stopButton">
+            <canvas id="canvas-indicator2" width="100" height="40"></canvas>
+            <input  type="button" value="on 2" data-audio-id="indicator2" class="recButton">
+            <input  type="button" value="off 2" data-audio-id="indicator2" class="stopButton">
+            <span class="audio-config" id="config-indicator2" data-string="Second string"></span>
         </div>
         <script type="application/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
         <script type="application/javascript" src="voiceinput/voiceinput.js"></script>
@@ -40,7 +42,18 @@ https://github.com/soareschen/web-audio-upload/blob/master/page.html
         <script type="application/javascript" src="voiceinput/voiceinputRecorderWorker.js"></script>
         <script type="application/javascript">
             var tutor = {inputs: {}};
+            
+            $(document).on('audioapi:activated', function () {
+                $(".recButton").click(tutor.inputs.audioapi.startRecording);
+                $(".stopButton").click(tutor.inputs.audioapi.stopRecording);
+            });
+            $(document).on('audioapi:score', function (event,reply) {
+                console.log(reply);
+            });
+
+
             $(window).load(initAudioApi);
+            
         </script>
     </body>
 </html>
