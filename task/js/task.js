@@ -9,6 +9,7 @@ var tutor = {};
  *       nextbutton: 'Далее',
  *       restartbutton: 'Начать заново'
  *    },
+ *    next:'002.html'
  *    template:'some HTML',
  *    presentation:{
  *       ...
@@ -95,16 +96,24 @@ tutor.task.prototype.draw = function () {
         this.domElement.find('#task' + this.id + 'inputs').append(this.inputs.draw());
     }
 
-
     var onTestFinished = function (id, result) {
-        console.log('task:', [id, result]);
+        // console.log('task:', [id, result]);
         self.domElement.trigger('task:test', [self.id, result]);
     };
     this.domElement.find('#task' + this.id + 'testbutton').click(function () {
         self.inputs.test(onTestFinished);
     });
-    //$('#task'+this.id+'nextbutton').click(this.nextFactory);
-    //$('#task'+this.id+'restartbutton').click(this.restartbutton);
+    
+    this.domElement.find('#task'+this.id+'nextbutton').click(function(){
+        // alert('nextbutton');
+        if(self.options && self.options.next){
+            window.location.href=self.options.next;
+        }
+    });
+    this.domElement.find('#task'+this.id+'restartbutton').click(function(){
+        // alert('restart');
+        window.location.reload();
+    });
     return this.domElement;
 };
 
@@ -805,5 +814,164 @@ tutor.inputs.dropzone.prototype.value = function () {
 };
 
 tutor.inputs.dropzone.prototype.maxScore = function () {
+    return this.maxScore;
+};
+
+
+
+
+
+
+
+
+// =============================================================================
+//
+//    options={
+//        type:'audio',
+//        id:''
+//        classes:''
+//        pattern:'' // list of space separated words
+//        checker:''
+//        maxScore:1
+//        indicatorWidth:100px
+//        indicatorHeight:40px
+//        taskPassScore:0.7
+//        maxDuration:60 // seconds
+//    }
+// 
+tutor.inputs.audio = function (parent, options) {
+    this.parent = parent;
+    this.options = options;
+    
+    this.id = this.parent.id + '_' + this.options.id;
+    this.classes = this.options.classes || '';
+    this.maxScore = this.options.maxScore || 1;
+    this.result = {
+        status: tutor.task.status.waiting,
+        score: 0
+    };
+    this.pattern = this.options.pattern || null;
+    this.taskPassScore=this.options.taskPassScore || 0.7;
+    this.maxDuration=this.options.maxDuration*1000 || 60000;
+    this.indicatorWidth=this.options.indicatorWidth || 100;
+    this.indicatorHeight=this.options.indicatorHeight || 40;
+};
+
+tutor.inputs.audio.prototype.showSuccess = function () {
+    this.domElement.removeClass('task-audio-error').addClass('task-audio-correct');
+};
+
+tutor.inputs.audio.prototype.showError = function () {
+    this.domElement.removeClass('task-audio-correct').addClass('task-audio-error');
+};
+
+tutor.inputs.audio.prototype.test = function (parentCallback) {
+    parentCallback(this.id, this.result);
+};
+
+tutor.inputs.audio.prototype.enableStopButton=function(){
+    this.btnStop.addClass('audio-button-enabled').removeClass('audio-button-disabled');
+};
+tutor.inputs.audio.prototype.disableStopButton=function(){
+    this.btnStop.addClass('audio-button-disabled').removeClass('audio-button-enabled');    
+};
+tutor.inputs.audio.prototype.enableStartButton=function(){
+    this.btnStart.addClass('audio-button-enabled').removeClass('audio-button-disabled');    
+};
+tutor.inputs.audio.prototype.disableStartButton=function(){
+    this.btnStart.addClass('audio-button-disabled').removeClass('audio-button-enabled');    
+};
+tutor.inputs.audio.prototype.draw = function () {
+    
+    var self=this;
+
+    this.domElement = $('<span id="task' + this.id + '" class="task-audio ' + this.classes + '"></span>');
+
+    // words to show
+    this.wordsDom = $('<span id="taskwords' + this.id + '" class="task-audio-words"></span>');
+    this.domElement.append(this.wordsDom);
+
+    // explode
+    this.feedback={};
+    var words=this.pattern.split(/ +/);
+    for(var i=0; i<words.length; i++){
+        this.feedback[words[i]]=$('<span class="task-audio-word"></span>');
+        this.feedback[words[i]].html(words[i]);
+        this.wordsDom.append(this.feedback[words[i]]);
+    }    
+     
+    // audio indicator
+    this.indicator=$('<canvas id="canvas-' + this.id + '" width="'+this.indicatorWidth+'" class="task-audio-indicator" height="'+this.indicatorHeight+'"></canvas>');
+    this.domElement.append(this.indicator);
+
+    // button to start recording
+    this.btnStart=$('<input  type="button" data-audio-id="' + this.id + '" class="task-audio-start-record">');
+    this.btnStart.click(tutor.inputs.audioapi.startRecording);
+    this.btnStart.click(function(){
+        self.result = {
+            status: tutor.task.status.waiting,
+            score: 0
+        };
+
+        self.enableStopButton();
+        self.disableStartButton();
+
+        //stop recording after self.maxDuration milliseconds
+        setTimeout(function(){self.btnStop.trigger('click');},self.maxDuration);
+    });
+
+
+    this.domElement.append(this.btnStart);
+
+    // button to stop recording
+    this.btnStop=$('<input  type="button" data-audio-id="' + this.id + '" class="task-audio-stop-record">');
+    this.btnStop.click(tutor.inputs.audioapi.stopRecording);
+    this.btnStop.click(function(){
+        self.disableStopButton();
+        self.enableStartButton();
+    });
+    this.domElement.append(this.btnStop);
+    
+    this.configElement=$('<span class="audio-config" id="config-' + this.id + '" data-string="" data-audio-id="' + this.id + '"></span>');
+    this.configElement.attr('data-string',this.pattern);
+    this.domElement.append(this.configElement);    
+
+    $(document).on('audioapi:score', function (event,reply) {
+
+        if(reply.audioId===self.id){
+
+            self.value=reply;
+
+            self.result = {
+                status: tutor.task.status.received,
+                score: ( self.value.score>=self.taskPassScore ? self.maxScore : 0)
+            };
+
+            // mark each word
+            for(var w in self.value.wordScores){
+                if(self.value.wordScores[w]>=self.taskPassScore){
+                    self.feedback[w].removeClass('task-audio-word-error').addClass('task-audio-word-correct');
+                }else{
+                    self.feedback[w].removeClass('task-audio-word-correct').addClass('task-audio-word-error');
+                }
+            }
+
+            // mark all block
+            if(self.value.score>=self.taskPassScore){                
+                self.domElement.removeClass('task-audio-error').addClass('task-audio-correct');
+            } else {
+                self.domElement.removeClass('task-audio-correct').addClass('task-audio-error');
+            }
+            
+        }
+    });
+    return this.domElement;
+};
+
+tutor.inputs.audio.prototype.value = function () {
+    return this.value;
+};
+
+tutor.inputs.audio.prototype.maxScore = function () {
     return this.maxScore;
 };

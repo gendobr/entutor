@@ -105,3 +105,53 @@
 .task-dropzone-correct{
     background-color:#aaffaa;
 }
+
+
+
+
+.task-audio-start-record{
+    content:"Start";
+    display:inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+}
+.task-audio-stop-record{
+    content:"Stop";
+    display:inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+}
+.task-audio-error{
+    background-color:#ffaaaa;
+}
+.task-audio-correct{
+    background-color:#aaffaa;
+}
+.task-audio-word-error{
+    background-color:#ffaaaa;
+}
+.task-audio-word-correct{
+    background-color:#aaffaa;
+}
+.audio-button-disabled{
+    color:gray;
+}
+.audio-button-enabled{
+    color:black;
+}
+
+.task-audio-words{
+    display:inline-block;
+    vertical-align: middle;
+}
+.task-audio-indicator{
+    display:inline-block;
+    vertical-align: middle;
+}
+.task-audio-word{
+    display:inline-block;
+    vertical-align: top;
+    margin-right:5px;
+}
