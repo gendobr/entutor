@@ -18,7 +18,7 @@
 <script type="application/javascript" src="../js/task.js"></script>
 <script type="application/javascript">
     $(function(){
-        initAudioApi({ soundScrorerURL:'./voiceinputscorer.php',jsURL:'../js' });
+        initAudioApi({ jsURL:'../js' });
         window.task=new tutor.task({
             id:'1',
             presentation:{
@@ -38,7 +38,8 @@
                             indicatorWidth:'100px',
                             indicatorHeight:'30px',
                             taskPassScore:0.7,
-                            maxDuration:60 // seconds
+                            maxDuration:60, // seconds
+                            soundScrorerURL:'./voiceinputscorer.php'
                         }
                     ]
             }

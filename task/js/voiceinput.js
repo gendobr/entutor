@@ -97,67 +97,20 @@ var initAudioApi = function (options) {
 
             tutor.inputs.audioapi.audioRecorder.exportWAV( function ( blob ) {
 
-
                 var compositeBlob=new Blob([
                     JSON.stringify({audioId:tutor.inputs.audioapi.currentAudioId, audioString:$('#config-'+tutor.inputs.audioapi.currentAudioId).attr('data-string')}),
                     "\n\n",
-                    blob
-                ],{type : 'audio/wav'})
-                tutor.inputs.audioapi.ajax(
-                        tutor.inputs.audioapi.soundScrorerURL,
-                        compositeBlob, // data to send
-                        function(responseText){
-                            //console.log(responseText);
-                            var reply=JSON.parse(responseText);
-                            $(document).trigger('audioapi:score',[reply]);
-                        });
+                    blob ],
+                    {type : 'audio/wav'}
+                );
+        
+                $(document).trigger('audioapi:score',[tutor.inputs.audioapi.currentAudioId, compositeBlob]);
 
                 clearCurrentFrame();
             });
         } );                
     };
 
-    tutor.inputs.audioapi.ajax = function (url, data,onLoadCallback){
-        var currentObject=this;
-
-        this.onLoadFunction=onLoadCallback;
-
-
-        try {
-            this.request = new XMLHttpRequest();
-        } catch (trymicrosoft) {
-            try {
-                this.request = new ActiveXObject("Msxml2.XMLHTTP");
-            } catch (othermicrosoft) {
-                try {
-                    this.request = new ActiveXObject("Microsoft.XMLHTTP");
-                } catch (failed) {
-                    this.request = false;
-                }
-            }
-        }
-        if(!this.request) return false;
-
-        if(data){
-            this.request.open("POST", url, true);
-            this.request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            this.request.setRequestHeader("Content-length", data.length);
-            this.request.setRequestHeader("Connection", "close");
-        }else{
-            this.request.open("GET", url, true);
-        }
-        this.request.onreadystatechange = function(){
-            if (currentObject.request.readyState == 4){
-                //console.log(currentObject.request);
-                try{
-                    currentObject.onLoadFunction(currentObject.request.responseText);
-                }catch(err){
-
-                }
-            }
-        };
-        this.request.send(data);
-    };
 
     // callback on audio stream created
     // microphone -> splitter -> mono -> gain -> analyzer

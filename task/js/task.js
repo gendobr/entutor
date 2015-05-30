@@ -1,6 +1,5 @@
 var tutor = {};
 
-
 /**
  * options={
  *    id:'task01',
@@ -26,6 +25,9 @@ var tutor = {};
  */
 
 tutor.task = function (options) {
+    
+    var self = this;
+    
     this.options = options;
 
     this.id = options.id;
@@ -50,7 +52,13 @@ tutor.task = function (options) {
     // create inputs
     this.inputs = new tutor.inputs.card(this, this.options.inputs);
 
-    // console.log(this);
+    // subscribe to "input updated" event
+    $( document ).bind( "task:newinput", function(event) {
+        self.inputs.test(function (id, result) {
+            // console.log('task:', [id, result]);
+            self.domElement.trigger('task:test', [self.id, result]);
+        });
+    });
 };
 
 tutor.task.prototype.template =
@@ -75,7 +83,6 @@ tutor.task.status = {
     received: 'received',
     waiting: 'waiting'
 };
-
 
 tutor.task.prototype.draw = function () {
 
@@ -116,7 +123,6 @@ tutor.task.prototype.draw = function () {
     });
     return this.domElement;
 };
-
 
 // =============================================================================
 
@@ -169,7 +175,7 @@ tutor.inputs = {};
 //           <list of subelements>
 //        ]
 //    }
-// 
+
 tutor.inputs.card = function (parent, options) {
     this.parent = parent;
     this.options = options;
@@ -400,6 +406,7 @@ tutor.inputs.text.prototype.draw = function () {
     var self = this;
     this.textField.change(function (ev) {
         self.value = $(ev.target).val();
+        $( document ).trigger( "task:newinput" );
     });
     if (this.options.value) {
         this.textField.attr('value', this.options.value);
@@ -491,8 +498,8 @@ tutor.inputs.radio.prototype.draw = function () {
         if (btn.is(':checked')) {
             self.value = btn.val();
             btn.parent().addClass('task-radio-checked');
-
         }
+        $( document ).trigger( "task:newinput" );
     };
     this.radioButtons = [];
     for (var k in this.options.variant) {
@@ -592,6 +599,7 @@ tutor.inputs.checkbox.prototype.draw = function () {
     this.checkbox.change(function (ev) {
         var checkbox=$(ev.target)
         self.value = checkbox.prop('checked');
+        $( document ).trigger( "task:newinput" );
     });
     this.domElement = $('<label id="task' + this.id + '" class="task-checkbox-label ' + this.classes + '"></label>');
     this.domElement.append(this.checkbox);
@@ -786,10 +794,10 @@ tutor.inputs.dropzone.prototype.draw = function () {
         }
         //set new child
         self.child=ui.draggable;
-        self.value=self.child.attr('data-value')
+        self.value=self.child.attr('data-value');
         self.child.draggable( "option", "revert", false );
         self.child.offset(self.offset);
-
+        $( document ).trigger( "task:newinput" );
     };
     var draggedOut=function(event, ui){
         // remove previous child
@@ -798,7 +806,8 @@ tutor.inputs.dropzone.prototype.draw = function () {
             tutor.inputs.counterRevertQueue.push(self.child);
             self.child=null;
         }
-    }
+        $( document ).trigger( "task:newinput" );
+    };
     this.dropzone.droppable( {
         drop: handleDropEvent,
         out: draggedOut
@@ -855,6 +864,7 @@ tutor.inputs.audio = function (parent, options) {
     this.maxDuration=this.options.maxDuration*1000 || 60000;
     this.indicatorWidth=this.options.indicatorWidth || 100;
     this.indicatorHeight=this.options.indicatorHeight || 40;
+    this.indicatorHeight=this.options.indicatorHeight || 40;
 };
 
 tutor.inputs.audio.prototype.showSuccess = function () {
@@ -865,9 +875,7 @@ tutor.inputs.audio.prototype.showError = function () {
     this.domElement.removeClass('task-audio-correct').addClass('task-audio-error');
 };
 
-tutor.inputs.audio.prototype.test = function (parentCallback) {
-    parentCallback(this.id, this.result);
-};
+
 
 tutor.inputs.audio.prototype.enableStopButton=function(){
     this.btnStop.addClass('audio-button-enabled').removeClass('audio-button-disabled');
@@ -936,37 +944,57 @@ tutor.inputs.audio.prototype.draw = function () {
     this.configElement.attr('data-string',this.pattern);
     this.domElement.append(this.configElement);    
 
-    $(document).on('audioapi:score', function (event,reply) {
+    $(document).on('audioapi:score', function (event, audioId, compositeBlob) {
 
-        if(reply.audioId===self.id){
+        if(audioId===self.id){
+            self.compositeBlob=compositeBlob;
 
-            self.value=reply;
-
-            self.result = {
-                status: tutor.task.status.received,
-                score: ( self.value.score>=self.taskPassScore ? self.maxScore : 0)
-            };
-
-            // mark each word
-            for(var w in self.value.wordScores){
-                if(self.value.wordScores[w]>=self.taskPassScore){
-                    self.feedback[w].removeClass('task-audio-word-error').addClass('task-audio-word-correct');
-                }else{
-                    self.feedback[w].removeClass('task-audio-word-correct').addClass('task-audio-word-error');
-                }
-            }
-
-            // mark all block
-            if(self.value.score>=self.taskPassScore){                
-                self.domElement.removeClass('task-audio-error').addClass('task-audio-correct');
-            } else {
-                self.domElement.removeClass('task-audio-correct').addClass('task-audio-error');
-            }
-            
         }
     });
     return this.domElement;
 };
+
+
+tutor.inputs.audio.prototype.test = function (parentCallback) {
+    var self=this;
+    this.ajax(
+            this.options.soundScrorerURL,
+            this.compositeBlob, // data to send
+            function(responseText){
+
+                console.log(responseText);
+                var reply=JSON.parse(responseText);
+
+                self.value=reply;
+
+                self.result = {
+                    status: tutor.task.status.received,
+                    score: ( self.value.score>=self.taskPassScore ? self.maxScore : 0)
+                };
+
+                // mark each word
+                for(var w in self.value.wordScores){
+                    if(self.value.wordScores[w]>=self.taskPassScore){
+                        self.feedback[w].removeClass('task-audio-word-error').addClass('task-audio-word-correct');
+                    }else{
+                        self.feedback[w].removeClass('task-audio-word-correct').addClass('task-audio-word-error');
+                    }
+                }
+
+                // mark all block
+                if(self.value.score>=self.taskPassScore){                
+                    self.domElement.removeClass('task-audio-error').addClass('task-audio-correct');
+                } else {
+                    self.domElement.removeClass('task-audio-correct').addClass('task-audio-error');
+                }
+
+                parentCallback(self.id, self.result);
+
+            }
+    );
+    // parentCallback(this.id, this.result);
+};
+
 
 tutor.inputs.audio.prototype.value = function () {
     return this.value;
@@ -975,3 +1003,45 @@ tutor.inputs.audio.prototype.value = function () {
 tutor.inputs.audio.prototype.maxScore = function () {
     return this.maxScore;
 };
+
+tutor.inputs.audio.prototype.ajax = function (url, data,onLoadCallback){
+        var currentObject=this;
+
+        this.onLoadFunction=onLoadCallback;
+
+
+        try {
+            this.request = new XMLHttpRequest();
+        } catch (trymicrosoft) {
+            try {
+                this.request = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (othermicrosoft) {
+                try {
+                    this.request = new ActiveXObject("Microsoft.XMLHTTP");
+                } catch (failed) {
+                    this.request = false;
+                }
+            }
+        }
+        if(!this.request) return false;
+
+        if(data){
+            this.request.open("POST", url, true);
+            this.request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            this.request.setRequestHeader("Content-length", data.length);
+            this.request.setRequestHeader("Connection", "close");
+        }else{
+            this.request.open("GET", url, true);
+        }
+        this.request.onreadystatechange = function(){
+            if (currentObject.request.readyState == 4){
+                //console.log(currentObject.request);
+                try{
+                    currentObject.onLoadFunction(currentObject.request.responseText);
+                }catch(err){
+
+                }
+            }
+        };
+        this.request.send(data);
+    };
