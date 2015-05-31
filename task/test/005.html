@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>presentation</title>
+
+<link href="../css/task.css" rel="stylesheet" type="text/css" />
+<link href="../lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<script type="application/javascript" src="../lib/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="../lib/jquery-ui/jquery-ui.min.js"></script>
+ 
+<script type="application/javascript" src="../lib/markup.min.js"></script>
+<script type="application/javascript" src="../js/task.js"></script>
+<script type="application/javascript">
+    $(function(){
+        window.task=new tutor.task({
+            id:'1',
+            presentation:{
+                innerHtml:'<p>presentation</p>'
+            },
+            inputs:{
+                    id:'01',
+                    type:'card',
+                    children:[
+                        {
+                            id:'02',
+                            type:'card',
+                            arrange:'horizontal',
+                            children:[
+                                {  id:'04',  type:'counter',  innerHtml:'AAA1'   },
+                                {  id:'05',  type:'counter',  innerHtml:'AAA2'   },
+                                {  id:'06',  type:'counter',  innerHtml:'AAA3'   },
+                                {  id:'07',  type:'counter',  innerHtml:'BBBB1'  },
+                                {  id:'08',  type:'counter',  innerHtml:'BBBB2'  },
+                                {  id:'09',  type:'counter',  innerHtml:'BBBB3'  },
+                                {  id:'10',  type:'counter',  innerHtml:'CCCCC1' },
+                                {  id:'11',  type:'counter',  innerHtml:'CCCCC2' },
+                                {  id:'12',  type:'counter',  innerHtml:'CCCCC3' },
+                                {  id:'13',  type:'counter',  innerHtml:'DDDDDD1'},
+                                {  id:'14',  type:'counter',  innerHtml:'DDDDDD2'},
+                                {  id:'15',  type:'counter',  innerHtml:'DDDDDD3'}
+                            ]
+                        },
+                        {
+                            id:'16',
+                            type:'card',
+                            arrange:'vertical',
+                            customtest:tutor.inputs.card.prototype.customtestSets(
+                                    [
+                                      [/AAA1/,/AAA2/,/AAA3/],
+                                      [/BBBB1/,/BBBB2/,/BBBB3/],
+                                      [/CCCCC1/,/CCCCC2/,/CCCCC3/],
+                                      [/DDDDDD1/,/DDDDDD2/,/DDDDDD3/]
+                                    ]),
+                            children:[
+                                {id:'100',
+                                 type:'card',
+                                 arrange:'horizontal',
+                                 maxScore:0,
+                                 children:[
+                                    { id:'109', type:'dropzone', size:8,  pattern:null, maxScore:0 },
+                                    { id:'110', type:'dropzone', size:8,  pattern:null, maxScore:0 },
+                                    { id:'111', type:'dropzone', size:8,  pattern:null, maxScore:0 }                                     
+                                 ]
+                                },
+                                {id:'101',
+                                 type:'card',
+                                 arrange:'horizontal',
+                                 maxScore:0,
+                                 children:[
+                                    { id:'112', type:'dropzone', size:8,  pattern:null, maxScore:0 },
+                                    { id:'113', type:'dropzone', size:8,  pattern:null, maxScore:0 },
+                                    { id:'114', type:'dropzone', size:8,  pattern:null, maxScore:0 },
+                                 ]
+                                },
+                                {id:'102',
+                                 type:'card',
+                                 arrange:'horizontal',
+                                 maxScore:0,
+                                 children:[
+                                    { id:'115', type:'dropzone', size:8,  pattern:null, maxScore:0 },
+                                    { id:'116', type:'dropzone', size:8,  pattern:null, maxScore:0 },
+                                    { id:'117', type:'dropzone', size:8,  pattern:null, maxScore:0 }
+                                 ]
+                                },
+                                {id:'104',
+                                 type:'card',
+                                 arrange:'horizontal',
+                                 maxScore:0,
+                                 children:[
+                                    { id:'118', type:'dropzone', size:8,  pattern:null, maxScore:0 },
+                                    { id:'119', type:'dropzone', size:8,  pattern:null, maxScore:0 },
+                                    { id:'120', type:'dropzone', size:8,  pattern:null, maxScore:0 }
+                                 ]
+                                }
+                            ]
+                        }
+                    ]
+            }
+        });
+        // console.log(window.task);
+        $('#task').append(task.draw());
+    });
+</script>
+<div id="task"></div>
+</body>
+</html>

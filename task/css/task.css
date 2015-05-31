@@ -25,6 +25,7 @@
     display:inline-block;
     position:relative;
     width:100%;
+    padding:5px;
 }
 .task-card-vertical{
     display:inline-block;
@@ -36,6 +37,13 @@
     position:relative;
     vertical-align:top;
 }
+.task-card-error{
+    background-color:#ffaaaa;
+}
+.task-card-correct{
+    background-color:#aaffaa;
+}
+
 
 
 .task-text-correct{
