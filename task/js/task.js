@@ -1308,3 +1308,237 @@ tutor.inputs.audio.prototype.hide=function(){
 tutor.inputs.audio.prototype.show=function(){
     this.domElement.show();
 };
+
+
+
+
+/**
+ *  container:
+ *  swfPath: "./jplayer/jplayer",
+    supplied: "mp3,oga,wav",
+    media:{
+        mp3:
+        oga:
+        wav:
+    },
+    frames:[
+       {
+      	  frame:$(html);
+    	  from:parseFloat(f['frame'].attr('data-from')); // seconds
+    	  to:parseFloat(f['frame'].attr('data-to'));     // seconds
+       }
+    ]
+ */
+tutor.presentationId=0;
+tutor.presentation=function(options){
+    
+    var self = this;
+    
+    this.presentationId = ++tutor.presentationId;
+
+    this.presentationFrames=options.frames;
+
+    var html="";
+    html+='<div id="taskPresentationText'+this.presentationId+'" class="taskPresentationText"></div>';
+    html+='<div id="frames'+this.presentationId+'" class="frames"></div>';
+    html+='<div id="jquery_jplayer_'+this.presentationId+'" class="jp-jplayer"></div>';
+    html+='<div id="jp_container_'+this.presentationId+'" class="jp-audio" role="application" aria-label="media player">';
+    html+='	<div class="jp-type-single">';
+    html+='		<div class="jp-gui jp-interface">';
+    html+='			<div class="jp-controls">';
+    html+='				<button class="jp-play" role="button" tabindex="0">play</button>';
+    html+='				<button class="jp-stop" role="button" tabindex="0">stop</button>';
+    html+='			</div>';
+    html+='			<div class="jp-progress">';
+    html+='				<div class="jp-seek-bar">';
+    html+='					<div class="jp-play-bar"></div>';
+    html+='				</div>';
+    html+='			</div>';
+    html+='			<div class="jp-volume-controls">';
+    html+='				<button class="jp-mute" role="button" tabindex="0">mute</button>';
+    html+='				<button class="jp-volume-max" role="button" tabindex="0">max volume</button>';
+    html+='				<div class="jp-volume-bar">';
+    html+='					<div class="jp-volume-bar-value"></div>';
+    html+='				</div>';
+    html+='			</div>';
+    html+='			<div class="jp-time-holder">';
+    html+='				<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>';
+    html+='				<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>';
+    html+='				<div class="jp-toggles">';
+    html+='					<button class="jp-repeat" role="button" tabindex="0">repeat</button>';
+    html+='				</div>';
+    html+='			</div>';
+    html+='		</div>';
+    html+='		<div class="jp-details">';
+    html+='			<div class="jp-title" aria-label="title">&nbsp;</div>';
+    html+='		</div>';
+    html+='		<div class="jp-no-solution">';
+    html+='			<span>Update Required</span>';
+    html+='			To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.';
+    html+='		</div>';
+    html+='	</div>';
+    html+='</div>';
+    this.domElement=$(html);
+    $(options.container).append(this.domElement);
+
+    
+
+    
+    this.searchFrame=function(currentTime){
+    	for(var i=0; i<this.presentationFrames.length; i++ ){
+            if(this.presentationFrames[i].from <= currentTime &&  currentTime <= this.presentationFrames[i].to){
+                    return this.presentationFrames[i];
+            }
+    	}
+    	return null;
+    };
+    
+    
+    this.presentationShowFrame=function(frame){
+  	if(frame){
+	    var copy=frame.frame.clone();
+	    $('#taskPresentationText'+this.presentationId).html(copy);
+  	}else{
+  	    $('#taskPresentationText'+this.presentationId).empty();
+  	}
+  }
+    
+    this.timeupdate = function(event){
+        var currentTime=event.jPlayer.status.currentTime;
+        // console.log(currentTime);
+        if( ! self.presentationCurrentFrame
+            || self.presentationCurrentFrame.from > currentTime
+            || self.presentationCurrentFrame.to < currentTime ){
+            self.presentationCurrentFrame=self.searchFrame(currentTime);
+            self.presentationShowFrame(self.presentationCurrentFrame);
+        }
+    };
+    
+
+    $("#jquery_jplayer_"+this.presentationId).jPlayer({
+        ready: function () { $(this).jPlayer("setMedia", options.media ); },
+        timeupdate:this.timeupdate,
+        swfPath: options.swfPath,
+        supplied: options.supplied,
+        wmode: "window",
+        useStateClassSkin: true,
+        autoBlur: false,
+        smoothPlayBar: true,
+        keyEnabled: true,
+        remainingDuration: true,
+        toggleDuration: true
+    });
+
+};
+
+
+
+/**
+ * options{
+ *    container:
+ *    swfPath: "./jplayer/jplayer",
+ *    supplied: "mp3,oga,wav",
+ *    labels:{
+ *        playing:'||'
+ *        paused:'>'
+ *    }
+ *    playlist:[
+ *          {
+ *                 title:'Бублички',
+ *                 mp3:'./playmessage/bublichki.mp3'
+ *                 oga:
+ *                 wav:
+ *          },
+ *          {
+ *                 title:'В землянке',
+ *                 mp3:'./playmessage/v_zemlyanke.mp3'
+ *                 oga:
+ *                 wav:
+ *          },
+ *          {
+ *                 title:'Сердце',
+ *                 mp3:'./playmessage/serdtse.mp3'
+ *                 oga:
+ *                 wav:
+ *          },
+ *    ];
+ * }
+ */
+tutor.playlistId=0;
+tutor.playlist=function(options){
+        
+    var self = this;
+    
+    this.id = ++tutor.playlistId;
+
+    this.labels = options.labels || {};
+    this.labels.playing = this.labels.playing || '||';
+    this.labels.paused  = this.labels.paused  || '>' ;
+ 
+    var html="";
+    html+='<div id="jquery_jplayer_'+this.id+'" class="jp-jplayer"></div>';
+    html+='<div id="jp_container_'+this.id+'" class="jp-audio" role="application" aria-label="media player">';
+    html+='	<div class="jp-type-single">';
+    html+='		<div class="jp-no-solution">';
+    html+='			<span>Update Required</span>';
+    html+='			To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.';
+    html+='		</div>';
+    html+='	</div>';
+    html+='</div>';
+    html+='<div id="playlist_'+this.id+'"></div>';
+    this.domElement=$(html);
+    $(options.container).append(this.domElement);
+    
+    var player=$("#jquery_jplayer_"+this.id);
+    var playlistBlock=$('#playlist_'+this.id);
+
+    this.currenttrack=false;
+    
+    this.playlist = options.playlist || [];
+    for(var i=0; i<this.playlist.length; i++){
+        var html="<div class='playlist_item'><input type='button' id='playlist_" + this.id + "_" + i + "' data-i='" + i + "' class='playlist_button' value='>'>&nbsp;" + this.playlist[i].title + "</div>";
+        playlistBlock.append($(html));
+    }
+
+    playlistBlock.find('.playlist_button').click(function(ev){
+    	var btn=$(this);
+    	var i=btn.attr('data-i');
+        
+        if(self.currenttrack===i){
+           if(player.data().jPlayer.status.paused){
+                player.jPlayer("pauseOthers");
+                player.jPlayer("play");
+                btn.attr('value',self.labels.playing);
+           }else{
+                player.jPlayer("pause");
+                btn.attr('value',self.labels.paused);
+           }
+        }else{
+            self.currenttrack=i;
+            player.jPlayer("stop");
+            player.jPlayer("setMedia", self.playlist[i]);
+            player.jPlayer("play");
+            playlistBlock.find('.playlist_button').attr('value',self.labels.paused);
+            btn.attr('value',self.labels.playing);
+        }
+    });
+
+
+    player.jPlayer({
+        ready: function () { },
+        swfPath: options.swfPath,
+        supplied: options.supplied,
+        wmode: "window",
+        useStateClassSkin: true,
+        autoBlur: false,
+        smoothPlayBar: true,
+        keyEnabled: true,
+        remainingDuration: true,
+        toggleDuration: true
+    });
+
+
+};
+
+
+

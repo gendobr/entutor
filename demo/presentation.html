@@ -108,13 +108,12 @@
 	    },
 	    timeupdate:function(event){
 	    	var currentTime=event.jPlayer.status.currentTime;
-            // console.log(currentTime);
-	    	if(   ! window.presentationCurrentFrame
-	    		|| window.presentationCurrentFrame.from > currentTime
-	    		|| window.presentationCurrentFrame.to < currentTime ){
-	    		window.presentationCurrentFrame=searchFrame(currentTime);
+                // console.log(currentTime);
+	    	if( ! window.presentationCurrentFrame
+	    	    || window.presentationCurrentFrame.from > currentTime
+	    	    || window.presentationCurrentFrame.to < currentTime ){
+	    	    window.presentationCurrentFrame=searchFrame(currentTime);
 	    	    window.presentationShowFrame(window.presentationCurrentFrame);
-	    	    // console.log("switch frame");
 	    	}
 	    },
 	    swfPath: "./jplayer/jplayer",

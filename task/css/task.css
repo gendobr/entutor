@@ -163,3 +163,24 @@
     vertical-align: top;
     margin-right:5px;
 }
+
+
+
+.taskPresentationText{
+    width:420px;
+    height:300px;
+    background-color: #e0e000;
+}
+.taskPresentationFrames{
+    display:none;
+}
+
+
+.playlist_item{
+    
+}
+
+.playlist_button{
+    width:25px;
+    text-align:center;
+}
