@@ -20,9 +20,15 @@ var tutor = {};
  *     ]
  * }
  * 
- * 
- * 
+ * для автоматического пересчёта правильности ответов 
+ * после
+ * var task=new tutor.task(...)
+ * надо добавить
+ * $( document ).bind( "task:newinput", function(event,result) { task.domElement.trigger('task:test', [task.id, result])); });
  */
+
+tutor.guid=0;
+
 
 tutor.task = function (options) {
     
@@ -30,7 +36,7 @@ tutor.task = function (options) {
     
     this.options = options || {};
 
-    this.id = options.id;
+    this.id = options.id || (++tutor.guid);
 
     // text messages
     if (this.options.text) {
@@ -47,8 +53,8 @@ tutor.task = function (options) {
     }
 
     // create presentation
-    this.presentation = new tutor.presentation(this, this.options.presentation);
-
+    this.testPresentation = new tutor.testPresentation(this, this.options.presentation);
+    //console.log(this.presentation);
     // create inputs
     this.inputs = new tutor.inputs.card(this, this.options.inputs);
 
@@ -62,8 +68,8 @@ tutor.task.prototype.template =
         + '<span id="task{{id}}inputs" class="task-inputs"><!-- task.inputs --></span>'
         + '<span id="task{{id}}buttons" class="task-buttons">'
         + '<input type="button" value="{{text.testbutton}}" id="task{{id}}testbutton">'
-        + '<input type="button" value="{{text.nextbutton}}" id="task{{id}}nextbutton">'
         + '<input type="button" value="{{text.restartbutton}}" id="task{{id}}restartbutton">'
+        + '<input type="button" value="{{text.nextbutton}}" id="task{{id}}nextbutton">'
         + '</span>'
         + '</span>';
 
@@ -90,44 +96,66 @@ tutor.task.prototype.draw = function () {
     if (this.tip) {
         this.domElement.find('#task' + this.id + 'tip').append(this.tip.draw());
     }
-    if (this.presentation) {
-        this.domElement.find('#task' + this.id + 'presentation').append(this.presentation.draw());
+    if (this.testPresentation) {
+        //console.log(this.presentation);
+        this.domElement.find('#task' + this.id + 'presentation').append(this.testPresentation.draw());
     }
     if (this.inputs) {
         this.domElement.find('#task' + this.id + 'inputs').append(this.inputs.draw());
     }
 
-    var onTestFinished = function (id, result) {
-        // console.log('task:', [id, result]);
-        self.domElement.trigger('task:test', [self.id, result]);
-    };
-    this.domElement.find('#task' + this.id + 'testbutton').click(function () { self.inputs.test(onTestFinished); });
+    this.domElement.find('#task' + this.id + 'testbutton').click(this.test(this));
 
-    // $( document ).bind( "task:newinput", function(event) { self.inputs.test(onTestFinished); });
+    // $( document ).bind( "task:newinput", function(event) { self.domElement.trigger('task:test', [self.id, result])); });
     
-    this.domElement.find('#task'+this.id+'nextbutton').click(function(){
+    this.nextButton=this.domElement.find('#task'+this.id+'nextbutton');
+    this.nextButton.attr('disabled',true);
+    this.nextButton.click(function(){
         // alert('nextbutton');
         if(self.options && self.options.next){
             window.location.href=self.options.next;
         }
     });
     this.domElement.find('#task'+this.id+'restartbutton').click(function(){
-        // alert('restart');
         window.location.reload();
     });
     return this.domElement;
 };
 
+
+tutor.task.prototype.test=function (self) { 
+    return function(){
+        // console.log("self.inputs.test");
+        self.inputs.test(function (id, result) {
+            // enable Next button if test is passed
+            // console.log("self.inputs.test id=",id," result=", result);
+            if(result.passed === true){
+                self.nextButton.attr('disabled',false);
+            }
+            self.domElement.trigger('task:test', [self.id, result]);
+        });
+    };
+};
+
 // =============================================================================
 
-tutor.presentation = function (parent, options) {
+tutor.testPresentation = function (parent, options) {
     this.parent = parent;
     this.options = options||{};
+    // console.log(this);
 };
 
-tutor.presentation.prototype.draw=function(){
-    return $(this.options.innerHtml||'');
+tutor.testPresentation.prototype.draw=function(){
+    if(this.options.innerHtml){
+        return $(this.options.innerHtml);
+    }
+    if(this.options.elementSelector){
+        return $(this.options.elementSelector);
+    }
+    return $('<span class="error task-presentation-not-found"></span>');
 };
+
+
 // =============================================================================
 
 tutor.inputs = {};
@@ -196,7 +224,7 @@ tutor.inputs.card = function (parent, options) {
     this.type = 'card';
     this.parent = parent;
     this.options = options || {};
-    this.id = this.parent.id + '_' + this.options.id;
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
 
     this.classes = this.options.classes || '';
     this.arrange = this.options.arrange || 'horizontal';
@@ -226,9 +254,9 @@ tutor.inputs.card = function (parent, options) {
             this.children.push(childObject);
             this.result.subresults[childObject.id] = {
                 status: tutor.task.status.waiting,
-                score: null,
+                score: 0,
                 subresults: [],
-                passed:false,
+                passed:'undefined',
                 maxScore:0 
             };//;
         }
@@ -252,26 +280,27 @@ tutor.inputs.card.prototype.test = function (parentCallback) {
     // clear previous score
     this.result.status = tutor.task.status.waiting;
     this.result.score = null;
-    this.result.passed = false;
+    this.result.passed = 'undefined';
     this.result.maxScore=this.getMaxScore();
     for (var key in this.result.subresults) {
         with (this.result.subresults[key]) {
             status = tutor.task.status.waiting;
             score = null;
-            passed = false;
+            passed = 'undefined';
         }
     }
 
     var self = this;
     var testFinishedCallback = function (id, result) {
-        // console.log('card: received from ', id, result);
+        // console.log('card:',self.id, ' received from ',id, result);
+        // console.log('card:',self.id, ' received from ',id, result.passed);
 
         // save subresult
         self.result.subresults[id] = {
             status: tutor.task.status.received,
             score: (result?result.score:null),
             subresults: (result?result.subresults:null),
-            passed : (result?result.passed:false)
+            passed : (result && result.passed ? result.passed : 'undefined')
         };
 
         // update score
@@ -290,22 +319,39 @@ tutor.inputs.card.prototype.test = function (parentCallback) {
         }
         self.result.score = newscore;
 
+
+        // check if test passed
+        var passed = 'null';
+        for (var key in self.result.subresults) {
+            if(self.result.subresults[key].passed === 'undefined'){
+                passed='undefined';
+                break;
+            }
+            if(passed === 'null'){
+                passed = self.result.subresults[key].passed;
+                continue;
+            }
+            passed = self.result.subresults[key].passed && passed;
+        }
+        self.result.passed = passed;
+
         // check if all tests are received
         var allTestsReceived = true;
         for (var key in self.result.subresults) {
             if (self.result.subresults[key].status === tutor.task.status.waiting) {
-                // console.log("===>",key,self.result.subresults[key], self.result.subresults[key].status, tutor.task.status.waiting);
                 allTestsReceived = false;
             }
         }
-        // console.log('card '+self.id+': result ', self.result);
-        // console.log('card '+self.id+': allTestsReceived ', allTestsReceived);
 
         if (allTestsReceived) {
-            
-            if(self.customtest){
+
+            if(self.customtest) {
                 self.result=self.customtest(self.children);
-            }else{
+            } else if(passed === 'undefined' ){
+                self.result.status = tutor.task.status.received;
+                self.result.passed = 'undefined';
+                self.result.score = 0;
+            } else {
                 self.result.status = tutor.task.status.received;
                 if(self.result.maxScore>0){
                     var reachedPercentage = self.result.score/self.result.maxScore;
@@ -317,46 +363,45 @@ tutor.inputs.card.prototype.test = function (parentCallback) {
                 }
             }
             
+            self.removeFeedback();
             if(self.result){
                  if(self.result.maxScore>0){
-                    if(self.result.passed){
+                    if(self.result.passed===true){
                         self.showSuccess();
-                    } else {
+                    } else if(self.result.passed===false){
                         self.showError();
                     }
-                 }else{
-                    self.removeFeedback();
                  }
-            }else{
-                self.removeFeedback();
+            }
+            
+            // apply child pre-conditions
+            for (var key = 0; key < self.children.length; key++) {
+                if(self.children[key].precondition==='beforeCorrect' ){
+
+                    var allPreviousPassed=true;
+                    for (var i = 0; i < key; i++){
+                        if( self.children[i].result.passed === false || self.children[i].result.passed === 'undefined' ){
+                            allPreviousPassed=false;
+                        }
+                    }
+                    //console.log(key,'beforeCorrect',allPreviousPassed);
+                    if(allPreviousPassed){
+                        self.children[key].show();
+                    }else{
+                        self.children[key].hide();
+                    }
+                }else{
+                    self.children[key].show();
+                }
             }
             parentCallback(self.id, self.result);
         }
     };
 
-
     for (var key = 0; key < this.children.length; key++) {
         this.children[key].test(testFinishedCallback);
     }
 
-    // apply child pre-conditions
-    for (var key = 0; key < this.children.length; key++) {
-        if(this.children[key].precondition==='beforeCorrect' ){
-            var allPreviousPassed=true;
-            for (var i = 0; i < key; i++){
-                if(!this.children[key].result.passed){
-                    allPreviousPassed=false;
-                }
-            }
-            if(allPreviousPassed){
-                this.children[key].show();
-            }else{
-                this.children[key].hide();
-            }
-        }else{
-            this.children[key].show();
-        }
-    }
 };
 
 tutor.inputs.card.prototype.draw = function () {
@@ -368,6 +413,10 @@ tutor.inputs.card.prototype.draw = function () {
         this.children[key].domElement = child.draw();
         block.append(this.children[key].domElement);
     }
+    
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
     return this.domElement;
 };
 
@@ -457,7 +506,7 @@ tutor.inputs.html = function (parent, options) {
     this.type = 'html';
     this.parent = parent;
     this.options = options || {};
-    this.id = this.parent.id + '_' + this.options.id;
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
     this.maxScore=0;
@@ -474,6 +523,10 @@ tutor.inputs.html.prototype.test = function (testFinishedCallback) {
 
 tutor.inputs.html.prototype.draw = function () {
     this.domElement = $('<span id="task' + this.id + '" class="task-card ' + this.classes + '">' + this.options.innerHtml + '</span>');
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
     return this.domElement;
 };
 
@@ -528,7 +581,7 @@ tutor.inputs.text = function (parent, options) {
     this.parent = parent;
     this.type = 'text';
     this.options = options || {};
-    this.id = this.parent.id + '_' + this.options.id;
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
     this.maxScore = (typeof(this.options.maxScore)!=='undefined')?this.options.maxScore : 1;
@@ -536,6 +589,7 @@ tutor.inputs.text = function (parent, options) {
     this.pattern = this.options.pattern || null;
     this.customtest=this.options.customtest || false;
 
+    this.value=false;
 };
 
 tutor.inputs.text.prototype.showSuccess = function () {
@@ -546,8 +600,19 @@ tutor.inputs.text.prototype.showError = function () {
     this.textField.removeClass('task-text-correct').addClass('task-text-error');
 };
 
+tutor.inputs.text.prototype.removeFeedback = function () {
+    this.textField.removeClass('task-text-correct').removeClass('task-text-error');
+};
+
 tutor.inputs.text.prototype.test = function (parentCallback) {
-    if(this.customtest){
+    if(this.value===false){
+        this.result = {
+            status: tutor.task.status.received,
+            score: 0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };
+    }else if(this.customtest){
         this.result=this.customtest(this.value);
     }else if (this.pattern) {
         var isCorrect = this.pattern.test(this.value);
@@ -558,12 +623,19 @@ tutor.inputs.text.prototype.test = function (parentCallback) {
             maxScore: this.maxScore
         };
     } else {
-        this.result=null;
+        this.result=this.result = {
+            status: tutor.task.status.received,
+            score: 0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };
     }
+
+    this.removeFeedback();
     if(this.result && this.result.maxScore>0){
-        if (this.result.passed) {
+        if (this.result.passed === true) {
             this.showSuccess();
-        } else {
+        } else if( this.result.passed === false) {
             this.showError();
         }
     }
@@ -581,10 +653,15 @@ tutor.inputs.text.prototype.draw = function () {
     });
     if (this.options.value) {
         this.textField.attr('value', this.options.value);
-        this.value = this.options.value;
+        // this.value = this.options.value;
     }
     this.domElement = $('<span id="task' + this.id + '" class="task-text ' + this.classes + '"></span>');
     this.domElement.append(this.textField);
+    
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
     return this.domElement;
 };
 
@@ -633,14 +710,15 @@ tutor.inputs.radio = function (parent, options) {
     this.parent = parent;
     this.type = 'radio';
     this.options = options || {};
-    this.id = this.parent.id + '_' + this.options.id;
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
     this.classes = this.options.classes || '';
     this.maxScore = (typeof(this.options.maxScore)!=='undefined')?this.options.maxScore : 1; 
     this.correctVariant = this.options.correctVariant || null;
     this.precondition = this.options.precondition || 'none';
-    
+    this.value = false;
     this.result = null;
     this.arrange = this.options.arrange || 'horizontal';
+    
 };
 
 tutor.inputs.radio.prototype.showSuccess = function () {
@@ -651,27 +729,48 @@ tutor.inputs.radio.prototype.showError = function () {
     this.domElement.removeClass('task-radio-correct').addClass('task-radio-error');
 };
 
-tutor.inputs.radio.prototype.test = function (parentCallback) {
+tutor.inputs.radio.prototype.removeFeedback = function () {
+    this.domElement.removeClass('task-radio-correct').removeClass('task-radio-error');
+};
 
-    if (this.correctVariant) {
+
+tutor.inputs.radio.prototype.test = function (parentCallback) {
+    if(this.value === false){
+        this.result = {
+            status: tutor.task.status.received,
+            score: 0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };
+    }else if (this.correctVariant) {
         var isCorrect = (this.value === this.correctVariant);
-        if(this.result && this.result.maxScore>0){
-            if (isCorrect) {
-                this.showSuccess();
-            } else {
-                this.showError();
-            }
-        }
+        
         this.result = {
             status: tutor.task.status.received,
             score: isCorrect ? this.maxScore : 0,
             passed: isCorrect,
             maxScore: this.maxScore
         };
-        parentCallback(this.id, this.result);
     } else {
-        parentCallback(this.id, null);
+        this.result = {
+            status: tutor.task.status.received,
+            score: this.maxScore,
+            passed: true,
+            maxScore: this.maxScore
+        };
     }
+    
+    if(this.result && this.result.maxScore>0 ){
+        if (this.result.passed === true) {
+            this.showSuccess();
+        } else if(this.result.passed === false) {
+            this.showError();
+        } else{
+            this.removeFeedback();
+        }
+    }
+    
+    parentCallback(this.id, this.result);
 };
 
 tutor.inputs.radio.prototype.draw = function () {
@@ -693,6 +792,11 @@ tutor.inputs.radio.prototype.draw = function () {
         this.domElement.append(elm);
         this.radioButtons.push(elm);
     }
+    
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
     return  this.domElement;
 };
 
@@ -736,7 +840,7 @@ tutor.inputs.checkbox = function (parent, options) {
     this.parent = parent;
     this.type = 'checkbox';
     this.options = options || {};
-    this.id = this.parent.id + '_' + this.options.id;
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
     this.maxScore = (typeof(this.options.maxScore)!=='undefined')?this.options.maxScore : 1;
@@ -757,30 +861,49 @@ tutor.inputs.checkbox.prototype.showError = function () {
     this.domElement.removeClass('task-checkbox-correct').addClass('task-checkbox-error');
 };
 
+tutor.inputs.checkbox.prototype.removeFeedback = function () {
+    this.domElement.removeClass('task-checkbox-correct').removeClass('task-checkbox-error');
+};
+
 tutor.inputs.checkbox.prototype.test = function (parentCallback) {
-    if (this.options.correctVariant===true) {
+    
+    if( this.value === false ){
         this.result = {
             status: tutor.task.status.received,
-            score: (this.value ? this.maxScore : 0),
-            passed: this.value,
+            score: 0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };        
+    }else if(this.options.correctVariant===true) {
+        this.result = {
+            status: tutor.task.status.received,
+            score: (this.value === 'checked' ? this.maxScore : 0),
+            passed: ( this.value === 'checked' ),
             maxScore: this.maxScore
         };
     } else if(this.options.correctVariant===false){
         this.result = {
             status: tutor.task.status.received,
-            score: (!this.value ? this.maxScore : 0),
-            passed: !this.value,
+            score: (this.value === 'unchecked' ? this.maxScore : 0),
+            passed: ( this.value === 'unchecked' ),
             maxScore: this.maxScore
         };
     }else {
-        this.result=null;
+        this.result = {
+            status: tutor.task.status.received,
+            score: 0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };  
     }
     
     if(this.result && this.result.maxScore>0){
-        if (this.result.passed) {
+        if (this.result.passed === true) {
             this.showSuccess();
-        } else {
+        } else if (this.result.passed === false){
             this.showError();
+        } else {
+            this.removeFeedback();
         }
     }
     parentCallback(this.id, this.result);
@@ -792,7 +915,7 @@ tutor.inputs.checkbox.prototype.draw = function () {
     var self = this;
     this.checkbox.change(function (ev) {
         var checkbox=$(ev.target)
-        self.value = checkbox.prop('checked');
+        self.value = checkbox.prop('checked')?'checked':'unchecked';
         $( document ).trigger( "task:newinput" );
     });
     this.domElement = $('<label id="task' + this.id + '" class="task-checkbox-label ' + this.classes + '"></label>');
@@ -800,6 +923,12 @@ tutor.inputs.checkbox.prototype.draw = function () {
     if(this.options.label){
         this.domElement.append($('<span class="task-checkbox-label-text">'+this.options.label+'</span>'));
     }
+    
+    
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
     return this.domElement;
 };
 
@@ -848,7 +977,7 @@ tutor.inputs.counter = function (parent, options) {
     this.parent = parent;
     this.type = 'counter';
     this.options = options || {};
-    this.id = this.parent.id + '_' + this.options.id;
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
     this.value = this.options.value || '';
@@ -886,6 +1015,11 @@ tutor.inputs.counter.prototype.draw = function () {
     });
 
     this.counterplace.append(this.counter);
+    
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
     return this.counterplace;
 };
 
@@ -962,7 +1096,7 @@ tutor.inputs.dropzone = function (parent, options) {
     this.parent = parent;
     this.type = 'dropzone';
     this.options = options || {};
-    this.id = this.parent.id + '_' + this.options.id;
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
     this.maxScore = (typeof(this.options.maxScore)!=='undefined')?this.options.maxScore : 1;
@@ -971,6 +1105,7 @@ tutor.inputs.dropzone = function (parent, options) {
     this.child=null;
     this.offset=null;
     this.customtest=this.options.customtest || false;
+    this.value=false;
     // console.log(this);
 };
 
@@ -982,9 +1117,19 @@ tutor.inputs.dropzone.prototype.showError = function () {
     this.dropzone.removeClass('task-dropzone-correct').addClass('task-dropzone-error');
 };
 
+tutor.inputs.dropzone.prototype.removeFeedback = function () {
+    this.dropzone.removeClass('task-dropzone-correct').removeClass('task-dropzone-error');
+};
+
 tutor.inputs.dropzone.prototype.test = function (parentCallback) {
-    
-    if(this.customtest){
+    if(this.value === false){
+        this.result = {
+            status: tutor.task.status.received,
+            score:  0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };
+    }else if(this.customtest){
         this.result=this.customtest(this.value);
     }else if (this.pattern) {
         var isCorrect = this.pattern.test(this.value);
@@ -995,15 +1140,21 @@ tutor.inputs.dropzone.prototype.test = function (parentCallback) {
             maxScore: this.maxScore
         };
     } else {
-        this.result=null;
+        this.result = {
+            status: tutor.task.status.received,
+            score:  0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };
     }
     
+    this.removeFeedback();
     if(this.result && this.result.maxScore>0){
-        if (this.result.passed) {
+        if (this.result.passed === true) {
             this.showSuccess();
-        } else {
+        } else if (this.result.passed === false) {
             this.showError();
-        }        
+        }
     }
 
     parentCallback(this.id, this.result);
@@ -1016,10 +1167,9 @@ tutor.inputs.dropzone.prototype.draw = function () {
 
     this.dropzone = $('<span id="task' + this.id + 'dropzone" class="task-dropzone" style="width:' + (this.options.size || '4') + 'em;"></span>');
     
-    this.defaultWidth=this.dropzone.width();
+    // this.defaultWidth=this.dropzone.width();
     
     var handleDropEvent=function ( event, ui ) {
-        // console.log('handleDropEvent');
         if(!self.offset){
             self.offset=self.dropzone.offset();
         }
@@ -1038,23 +1188,14 @@ tutor.inputs.dropzone.prototype.draw = function () {
         self.value=self.child.attr('data-value');
         self.child.draggable( "option", "revert", false );
         self.child.offset({top:self.offset.top+1,   left:self.offset.left+1});
-        // console.log(self.offset);
-        // adjust width of dropzone
-        // console.log(self.child);
-        ///self.dropzone.css({width:(self.child.width())+'px'});
-
         $( document ).trigger( "task:newinput" );
     };
     
     var draggedOut=function(event, ui){
-        // console.log('draggedOut');
-        // remove previous child
-        // console.log(ui.draggable);
         if(self.child && self.child===ui.draggable){
             tutor.inputs.counterRevertQueue.push(self.child);
             self.child=null;
-            self.value='';
-            ///self.dropzone.css({width:self.defaultWidth+'px'});
+            self.value=false;
         }
         $( document ).trigger( "task:newinput" );
     };
@@ -1062,6 +1203,10 @@ tutor.inputs.dropzone.prototype.draw = function () {
         drop: handleDropEvent,
         out: draggedOut
     } );
+
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
 
     return this.dropzone;
 };
@@ -1094,7 +1239,6 @@ tutor.inputs.dropzone.prototype.show=function(){
 //        id:''
 //        classes:''
 //        pattern:'' // list of space separated words
-//        checker:''
 //        maxScore:1
 //        indicatorWidth:100px
 //        indicatorHeight:40px
@@ -1108,13 +1252,15 @@ tutor.inputs.audio = function (parent, options) {
     this.type = 'audio';
     this.options = options || {};
     
-    this.id = this.parent.id + '_' + this.options.id;
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
     this.maxScore = (typeof(this.options.maxScore)!=='undefined')?this.options.maxScore : 1;
     this.result = {
         status: tutor.task.status.waiting,
-        score: 0
+        score: 0,
+        passed: 'undefined',
+        maxScore: this.maxScore
     };
     this.pattern = this.options.pattern || null;
     this.taskPassScore=this.options.taskPassScore || 0.7;
@@ -1122,6 +1268,7 @@ tutor.inputs.audio = function (parent, options) {
     this.indicatorWidth=this.options.indicatorWidth || 100;
     this.indicatorHeight=this.options.indicatorHeight || 40;
     this.indicatorHeight=this.options.indicatorHeight || 40;
+    this.value=false;
 };
 
 tutor.inputs.audio.prototype.showSuccess = function () {
@@ -1132,20 +1279,24 @@ tutor.inputs.audio.prototype.showError = function () {
     this.domElement.removeClass('task-audio-correct').addClass('task-audio-error');
 };
 
+tutor.inputs.audio.prototype.removeFeedback = function () {
+    this.domElement.removeClass('task-audio-correct').removeClass('task-audio-error');
+};
+
 tutor.inputs.audio.prototype.enableStopButton=function(){
-    this.btnStop.addClass('audio-button-enabled').removeClass('audio-button-disabled');
+    this.btnStop.addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);
 };
 
 tutor.inputs.audio.prototype.disableStopButton=function(){
-    this.btnStop.addClass('audio-button-disabled').removeClass('audio-button-enabled');    
+    this.btnStop.addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);    
 };
 
 tutor.inputs.audio.prototype.enableStartButton=function(){
-    this.btnStart.addClass('audio-button-enabled').removeClass('audio-button-disabled');    
+    this.btnStart.addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);    
 };
 
 tutor.inputs.audio.prototype.disableStartButton=function(){
-    this.btnStart.addClass('audio-button-disabled').removeClass('audio-button-enabled');    
+    this.btnStart.addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);    
 };
 
 tutor.inputs.audio.prototype.draw = function () {
@@ -1177,12 +1328,14 @@ tutor.inputs.audio.prototype.draw = function () {
     this.btnStart.click(function(){
         self.result = {
             status: tutor.task.status.waiting,
-            score: 0
+            score: 0,
+            passed: 'undefined',
+            maxScore: this.maxScore
         };
         self.enableStopButton();
         self.disableStartButton();
         //stop recording after self.maxDuration milliseconds
-        setTimeout(function(){self.btnStop.trigger('click');},self.maxDuration);
+        self.stopTimeout = setTimeout(function(){self.btnStop.trigger('click');},self.maxDuration);
     });
 
 
@@ -1194,7 +1347,11 @@ tutor.inputs.audio.prototype.draw = function () {
     this.btnStop.click(function(){
         self.disableStopButton();
         self.enableStartButton();
+        if(self.stopTimeout){
+            clearTimeout(self.stopTimeout);
+        }
     });
+    this.disableStopButton();
     this.domElement.append(this.btnStop);
     
     this.configElement=$('<span class="audio-config" id="config-' + this.id + '" data-string="" data-audio-id="' + this.id + '"></span>');
@@ -1204,26 +1361,52 @@ tutor.inputs.audio.prototype.draw = function () {
     $(document).on('audioapi:score', function (event, audioId, compositeBlob) {
         if(audioId===self.id){
             self.compositeBlob=compositeBlob;
+            self.value={};
+            $( document ).trigger( "task:newinput" );
         }
     });
+    
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
     return this.domElement;
 };
 
 tutor.inputs.audio.prototype.test = function (parentCallback) {
     var self=this;
+    
+    if(this.value === false){
+        this.result = {
+            status: tutor.task.status.received,
+            score: 0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };
+        parentCallback(this.id, this.result);
+        return;
+    }
+
+    if(!this.compositeBlob){
+        parentCallback(self.id, self.result);
+        return;
+    }
+    
     this.ajax(
             this.options.soundScrorerURL,
             this.compositeBlob, // data to send
             function(responseText){
 
-                console.log(responseText);
+                // console.log(responseText);
                 var reply=JSON.parse(responseText);
 
                 self.value=reply;
 
                 self.result = {
                     status: tutor.task.status.received,
-                    score: ( self.value.score>=self.taskPassScore ? self.maxScore : 0)
+                    score: ( self.value.score>=self.taskPassScore ? self.maxScore : 0),
+                    passed: (self.value.score>=self.taskPassScore),
+                    maxScore: self.maxScore
                 };
 
                 if(this.result && this.result.maxScore>0){
@@ -1243,9 +1426,9 @@ tutor.inputs.audio.prototype.test = function (parentCallback) {
                         self.domElement.removeClass('task-audio-correct').addClass('task-audio-error');
                     }
                 }
-
+                // remove audio from RAM
+                self.compositeBlob=null;
                 parentCallback(self.id, self.result);
-
             }
     );
     // parentCallback(this.id, this.result);
@@ -1523,7 +1706,6 @@ tutor.playlist=function(options){
         }
     });
 
-
     player.jPlayer({
         ready: function () { },
         swfPath: options.swfPath,
@@ -1534,9 +1716,9 @@ tutor.playlist=function(options){
         smoothPlayBar: true,
         keyEnabled: true,
         remainingDuration: true,
-        toggleDuration: true
+        toggleDuration: true,
+        ended:function(){playlistBlock.find('.playlist_button').attr('value',self.labels.paused);}
     });
-
 
 };
 

@@ -98,6 +98,7 @@
     border:1px solid gray;
     cursor:move;
     z-index:1000;
+    padding:0 5px;
 }
 .task-counter.ui-draggable-dragging { background: green; color:white;}
 
@@ -116,16 +117,25 @@
 
 
 
-
+.task-audio{
+    display:inline-block;
+    vertical-align: middle;    
+}
 .task-audio-start-record{
-    content:"Start";
+    background-image: url('../img/icon-audio-start-record.png');
+    background-size:24px 24px;
+    background-repeat:no-repeat;
+    background-position:center center;
     display:inline-block;
     vertical-align: middle;
     width: 30px;
     height: 30px;
 }
 .task-audio-stop-record{
-    content:"Stop";
+    background-image: url('../img/icon-audio-stop-record.png');
+    background-size:24px 24px;
+    background-repeat:no-repeat;
+    background-position:center center;
     display:inline-block;
     vertical-align: middle;
     width: 30px;
@@ -144,10 +154,10 @@
     background-color:#aaffaa;
 }
 .audio-button-disabled{
-    color:gray;
+    opacity:0.5;
 }
 .audio-button-enabled{
-    color:black;
+    opacity:1;
 }
 
 .task-audio-words{

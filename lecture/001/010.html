@@ -2,10 +2,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Урок 1. Задание 2. Повторите за диктором.</title>
+<title>Урок 1. Задание 10. Повторите за диктором</title>
 
 <link href="../../task/lib/jplayer/skin/blue.monday/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css" />
-<link href="../../task/css/task.css" rel="stylesheet" type="text/css" />
 <link href="../../task/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css" />
 
 <script type="application/javascript" src="../../task/lib/jquery-2.1.4.min.js"></script>
@@ -15,15 +14,26 @@
 <!-- <script type="application/javascript" src="../../task/js/voiceinputRecorder.js"></script> -->
 <!-- <script type="application/javascript" src="../../task/js/voiceinputRecorderWorker.js"></script> -->
 <script type="application/javascript" src="../../task/lib/markup.min.js"></script>
+
+
+<link href="../../task/css/task.css" rel="stylesheet" type="text/css" />
 <script type="application/javascript" src="../../task/js/task.js"></script>
+
+<style type="text/css">
+    .frm{
+        padding-top:30px;
+        text-align:center;
+        font-size:300%;
+    }
+</style>
 </head>
 <body>
 
 <div>Урок 1</div>
-<h1>2. Повторите за диктором.</h1>
+<h1>10. Повторите за диктором</h1>
 <div id="task"></div>
 <br><br>
-<input type="button" value="Далее" id="nextButton" data-next="003.html">
+<input type="button" value="Далее" id="nextButton" data-next="011.html">
 <script type="application/javascript">
     
     $(document).ready(function(){
@@ -34,16 +44,16 @@
             labels:{ playing:'||', paused:'>' },
             playlist:[
                 {
-                       title:'Буква Aa [eɪ]',
-                       mp3:'data/task002-01.mp3',
-                       oga:'data/task002-01.ogg',
-                       wav:'data/task002-01.wav'
+                       title:'Буква Ee [i:]',
+                       mp3:'data/task010-01.mp3',
+                       oga:'data/task010-01.ogg',
+                       wav:'data/task010-01.wav'
                 },
                 {
-                       title:'Звук [æ]',
-                       mp3:'data/task002-02.mp3',
-                       oga:'data/task002-02.ogg',
-                       wav:'data/task002-02.wav'
+                       title:'Звук [e]',
+                       mp3:'data/task010-02.mp3',
+                       oga:'data/task010-02.ogg',
+                       wav:'data/task010-02.wav'
                 }
             ]
         });
@@ -55,12 +65,6 @@
         
     });
 </script>
-<style type="text/css">
-    .frm{
-        padding-top:30px;
-        text-align:center;
-        font-size:300%;
-    }
-</style>
+
 </body>
 </html>
