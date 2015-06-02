@@ -18,9 +18,9 @@ $tmp=explode("\n\n",$request_body,2);
 $parameters=json_decode($tmp[0], true);
 
 // сохраняем звук (притворяемся, что обрабатываем)
-$fOut = fopen('uploads/sound.wav', 'w');
-fwrite($fOut, $tmp[1]);
-fclose($fOut);
+//$fOut = fopen('uploads/sound.wav', 'w');
+//fwrite($fOut, $tmp[1]);
+//fclose($fOut);
 
 
 // это заглушка 
