@@ -355,7 +355,7 @@ tutor.inputs.card.prototype.test = function (parentCallback) {
                 self.result.status = tutor.task.status.received;
                 if(self.result.maxScore>0){
                     var reachedPercentage = self.result.score/self.result.maxScore;
-                    self.result.passed = reachedPercentage>=self.taskPassScore;
+                    // self.result.passed = reachedPercentage>=self.taskPassScore;
                     self.result.score = self.maxScore * reachedPercentage;
                 }else{
                     self.result.score = 0;
@@ -365,13 +365,14 @@ tutor.inputs.card.prototype.test = function (parentCallback) {
             
             self.removeFeedback();
             if(self.result){
-                 if(self.result.maxScore>0){
+                console.log(self.id,self.result);
+                if(self.result.maxScore>0){
                     if(self.result.passed===true){
                         self.showSuccess();
                     } else if(self.result.passed===false){
                         self.showError();
                     }
-                 }
+                }
             }
             
             // apply child pre-conditions
