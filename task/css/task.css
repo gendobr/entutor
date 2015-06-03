@@ -194,3 +194,13 @@
     width:25px;
     text-align:center;
 }
+
+
+.task-sound{
+    display:inline-block;
+    vertical-align: top;
+}
+.sound_button{
+    width:30px;
+    text-align:center;
+}

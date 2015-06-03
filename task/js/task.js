@@ -1724,3 +1724,152 @@ tutor.playlist=function(options){
 
 
 
+
+
+
+
+
+///////////
+// =============================================================================
+//
+//    options={
+//        type:'sound',
+//        id:''
+//        classes:''
+//        maxScore:''
+//        precondition:'none' | 
+//    playlist:[
+//          {
+//                 title:'Бублички',
+//                 mp3:'./playmessage/bublichki.mp3'
+//                 oga:
+//                 wav:
+//          },
+//          {
+//                 title:'В землянке',
+//                 mp3:'./playmessage/v_zemlyanke.mp3'
+//                 oga:
+//                 wav:
+//          },
+//          {
+//                 title:'Сердце',
+//                 mp3:'./playmessage/serdtse.mp3'
+//                 oga:
+//                 wav:
+//          },
+//    ];
+//    precondition:'none|beforeCorrect'
+//    }
+tutor.inputs.sound = function (parent, options) {
+    this.type = 'sound';
+    this.parent = parent;
+    this.options = options || {};
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
+    this.classes = this.options.classes || '';
+    this.precondition = this.options.precondition || 'none';
+    this.maxScore=0;
+    
+    this.playlist = options.playlist || [];
+    this.labels = options.labels || {};
+    this.labels.playing = this.labels.playing || '||';
+    this.labels.paused  = this.labels.paused  || '>' ;
+};
+
+tutor.inputs.sound.prototype.test = function (testFinishedCallback) {
+    testFinishedCallback(this.id, {
+        status: tutor.task.status.received,
+        score: 0,
+        passed:true,
+        maxScore:0
+    });
+};
+
+tutor.inputs.sound.prototype.draw = function () {
+    var self = this;
+    
+    var html="";
+    html+='<div id="jquery_jplayer_'+this.id+'" class="jp-jplayer" style="width:1px;height:1px;opacity:0;float:right;"></div>';
+    html+='<div id="jp_container_'+this.id+'" class="jp-audio" role="application" aria-label="media player" style="width:1px;height:1px;opacity:0;float:right;">';
+    html+='	<div class="jp-type-single">';
+    html+='		<div class="jp-no-solution">';
+    html+='			<span>Update Required</span>';
+    html+='			To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.';
+    html+='		</div>';
+    html+='	</div>';
+    html+='</div>';
+    html+='<span id="sound_'+this.id+'" class="task-sound"></span>';
+    
+    this.domElement = $('<span id="task' + this.id + '" class="task-sound ' + this.classes + '"></span>');
+    this.domElement.append($(html));
+    
+    
+    var player=this.domElement.find("#jquery_jplayer_"+this.id);
+    var soundBlock=this.domElement.find('#sound_'+this.id);
+
+    this.currenttrack=false;
+    
+    for(var i=0; i<this.playlist.length; i++){
+        var html="<span class='task-sound-label'><input type='button' id='sound_" + this.id + "_" + i + "' data-i='" + i + "' class='sound_button' value='>'>&nbsp;" + this.playlist[i].title + "</span>";
+        soundBlock.append($(html));
+    }
+
+    soundBlock.find('.sound_button').click(function(ev){
+    	var btn=$(this);
+    	var i=btn.attr('data-i');
+        soundBlock.find('.sound_button').attr('value',self.labels.paused);
+        if(self.currenttrack===i){
+           if(player.data().jPlayer.status.paused){
+                player.jPlayer("pauseOthers");
+                player.jPlayer("play");
+                btn.attr('value',self.labels.playing);
+           }else{
+                player.jPlayer("pause");
+                btn.attr('value',self.labels.paused);
+           }
+        }else{
+            self.currenttrack=i;
+            player.jPlayer("stop");
+            player.jPlayer("setMedia", self.playlist[i]);
+            player.jPlayer("play");
+            
+            btn.attr('value',self.labels.playing);
+        }
+    });    
+    
+    player.jPlayer({
+        ready: function () { },
+        swfPath: this.options.swfPath,
+        supplied: this.options.supplied,
+        wmode: "window",
+        useStateClassSkin: true,
+        autoBlur: false,
+        smoothPlayBar: true,
+        keyEnabled: true,
+        remainingDuration: true,
+        toggleDuration: true,
+        ended:function(){soundBlock.find('.sound_button').attr('value',self.labels.paused);}
+    });
+
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
+    return this.domElement;
+};
+
+tutor.inputs.sound.prototype.getValue = function () {
+    return null;
+};
+
+tutor.inputs.sound.prototype.getMaxScore = function () {
+    return this.maxScore;
+};
+
+tutor.inputs.sound.prototype.hide=function(){
+    this.domElement.hide();
+};
+
+tutor.inputs.sound.prototype.show=function(){
+    this.domElement.show();
+};
+

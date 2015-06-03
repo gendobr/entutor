@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Урок 1. Задание 21. Выберите гласные буквы</title>
+
+<link href="../../task/lib/jplayer/skin/blue.monday/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css" />
+<link href="../../task/css/task.css" rel="stylesheet" type="text/css" />
+<link href="../../task/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+
+<script type="application/javascript" src="../../task/lib/jquery-2.1.4.min.js"></script>
+<script type="application/javascript" src="../../task/lib/jquery-ui/jquery-ui.min.js"></script>
+<script type="application/javascript" src="../../task/lib/jplayer/jplayer/jquery.jplayer.min.js"></script>
+<!-- <script type="application/javascript" src="../../task/js/voiceinput.js"></script> -->
+<!-- <script type="application/javascript" src="../../task/js/voiceinputRecorder.js"></script> -->
+<!-- <script type="application/javascript" src="../../task/js/voiceinputRecorderWorker.js"></script> -->
+<script type="application/javascript" src="../../task/lib/markup.min.js"></script>
+<script type="application/javascript" src="../../task/js/task.js"></script>
+<style type="text/css">
+    .task-sound{
+        width:60px;
+        margin-right:10px;
+    }
+    .w50{
+        width:150px;
+    }
+</style>
+
+</head>
+<body>
+
+<div>Урок 1</div>
+<h1>21. Выберите гласные буквы</h1>
+
+<div id="presentation"></div>
+
+<div id="task"></div>
+
+<script type="application/javascript">
+    
+    $(document).ready(function(){
+
+        // initAudioApi({ jsURL:'../../task/js' });
+        // tutor.inputs.audioapi.soundScrorerURL="../../task/test/voiceinputscorer.php";
+        
+        var id=100;
+        
+        window.task=new tutor.task({
+            id:'1',
+            next:"022.html",
+            presentation:{ elementSelector:'#presentation' },
+            inputs:{
+                id:1,
+                type:'card',
+                arrange:'horizontal',
+                children:[
+                    {
+                        type:'card',
+                        arrange:'vertical',
+                        classes:'w50',
+                        children:[
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'G',
+                                                mp3:'data/task021-g.mp3',
+                                                oga:'data/task021-g.ogg',
+                                                wav:'data/task021-g.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'counter',  innerHtml:'G' }
+                                ]
+                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'e',
+                                                mp3:'data/task021-e.mp3',
+                                                oga:'data/task021-e.ogg',
+                                                wav:'data/task021-e.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'counter',  innerHtml:'e' }
+                                ]
+                            },//
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'I',
+                                                mp3:'data/task021-i.mp3',
+                                                oga:'data/task021-i.ogg',
+                                                wav:'data/task021-i.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'counter',  innerHtml:'I' }
+                                ]
+                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'b',
+                                                mp3:'data/task021-b.mp3',
+                                                oga:'data/task021-b.ogg',
+                                                wav:'data/task021-b.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'counter',  innerHtml:'b' }
+                                ]
+                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'A',
+                                                mp3:'data/task021-a.mp3',
+                                                oga:'data/task021-a.ogg',
+                                                wav:'data/task021-a.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'counter',  innerHtml:'A' }
+                                ]
+                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'g',
+                                                mp3:'data/task021-g.mp3',
+                                                oga:'data/task021-g.ogg',
+                                                wav:'data/task021-g.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'counter',  innerHtml:'g' }
+                                ]
+                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'E',
+                                                mp3:'data/task021-e.mp3',
+                                                oga:'data/task021-e.ogg',
+                                                wav:'data/task021-e.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'counter',  innerHtml:'E' }
+                                ]
+                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'B',
+                                                mp3:'data/task021-b.mp3',
+                                                oga:'data/task021-b.ogg',
+                                                wav:'data/task021-b.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'counter',  innerHtml:'B' }
+                                ]
+                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'a',
+                                                mp3:'data/task021-a.mp3',
+                                                oga:'data/task021-a.ogg',
+                                                wav:'data/task021-a.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'counter',  innerHtml:'a' }
+                                ]
+                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'i',
+                                                mp3:'data/task021-i.mp3',
+                                                oga:'data/task021-i.ogg',
+                                                wav:'data/task021-i.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'counter',  innerHtml:'i' }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id:(id++),
+                        type:'card',
+                        arrange:'vertical',
+                        classes:'w50',
+                        customtest:tutor.inputs.card.prototype.customtestSets(
+                                [
+                                  [/^e$/,/^I$/,/^A$/,/^E$/,/^a$/,/^i$/]
+                                ]),// , , , , , 
+                        children:[
+                            {
+                             type:'card',
+                             arrange:'vertical',
+                             maxScore:0,
+                             children:[
+                                { type:'dropzone', size:4,  pattern:null, maxScore:0 },
+                                { type:'dropzone', size:4,  pattern:null, maxScore:0 },
+                                { type:'dropzone', size:4,  pattern:null, maxScore:0 },
+                                { type:'dropzone', size:4,  pattern:null, maxScore:0 },
+                                { type:'dropzone', size:4,  pattern:null, maxScore:0 },
+                                { type:'dropzone', size:4,  pattern:null, maxScore:0 }                                     
+                             ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        });
+        // $( document ).bind( "task:newinput",window.task.test(window.task));
+        $('#task').append(window.task.draw());
+    });
+</script>
+</body>
+</html>
