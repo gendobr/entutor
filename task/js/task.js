@@ -365,7 +365,7 @@ tutor.inputs.card.prototype.test = function (parentCallback) {
             
             self.removeFeedback();
             if(self.result){
-                console.log(self.id,self.result);
+                // console.log(self.id,self.result);
                 if(self.result.maxScore>0){
                     if(self.result.passed===true){
                         self.showSuccess();
@@ -523,7 +523,7 @@ tutor.inputs.html.prototype.test = function (testFinishedCallback) {
 };
 
 tutor.inputs.html.prototype.draw = function () {
-    this.domElement = $('<span id="task' + this.id + '" class="task-card ' + this.classes + '">' + this.options.innerHtml + '</span>');
+    this.domElement = $('<span id="task' + this.id + '" class="task-html ' + this.classes + '">' + this.options.innerHtml + '</span>');
     if(this.precondition==='beforeCorrect'){
         this.hide();
     }    
@@ -1293,11 +1293,13 @@ tutor.inputs.audio.prototype.disableStopButton=function(){
 };
 
 tutor.inputs.audio.prototype.enableStartButton=function(){
-    this.btnStart.addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);    
+    //this.btnStart.addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);    
+    $('.task-audio-start-record').addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);    
 };
 
 tutor.inputs.audio.prototype.disableStartButton=function(){
-    this.btnStart.addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);    
+    // this.btnStart.addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);
+    $('.task-audio-start-record').addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);
 };
 
 tutor.inputs.audio.prototype.draw = function () {

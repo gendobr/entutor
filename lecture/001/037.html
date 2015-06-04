@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Урок 1. Задание 37</title>
+
+<link href="../../task/lib/jplayer/skin/blue.monday/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css" />
+<link href="../../task/css/task.css" rel="stylesheet" type="text/css" />
+<link href="../../task/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+
+<script type="application/javascript" src="../../task/lib/jquery-2.1.4.min.js"></script>
+<script type="application/javascript" src="../../task/lib/jquery-ui/jquery-ui.min.js"></script>
+<script type="application/javascript" src="../../task/lib/jplayer/jplayer/jquery.jplayer.min.js"></script>
+<!-- <script type="application/javascript" src="../../task/js/voiceinput.js"></script> -->
+<!-- <script type="application/javascript" src="../../task/js/voiceinputRecorder.js"></script> -->
+<!-- <script type="application/javascript" src="../../task/js/voiceinputRecorderWorker.js"></script> -->
+<script type="application/javascript" src="../../task/lib/markup.min.js"></script>
+<script type="application/javascript" src="../../task/js/task.js"></script>
+<style type="text/css">
+    .task-sound{
+        width:60px;
+        margin-right:10px;
+    }
+</style>
+
+</head>
+<body>
+
+<div>Урок 1</div>
+<h1>37. Напечатайте пары букв (прописная и строчная) под диктовку диктора.</h1>
+
+<div id="presentation"></div>
+
+<div id="task"></div>
+
+<script type="application/javascript">
+    
+    $(document).ready(function(){
+
+        // initAudioApi({ jsURL:'../../task/js' });
+        // tutor.inputs.audioapi.soundScrorerURL="../../task/test/voiceinputscorer.php";
+        
+        var id=100;
+        
+        window.task=new tutor.task({
+            id:'1',
+            next:"038.html",
+            presentation:{ elementSelector:'#presentation' },
+            inputs:{
+                type:'card',
+                arrange:'horizontal',
+                children:[
+                    {
+                        type:'card',
+                        arrange:'vertical',
+                        classes:'',
+                        children:[
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'',
+                                                mp3:'data/task037-01.mp3',
+                                                oga:'data/task037-01.ogg',
+                                                wav:'data/task037-01.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'text'    , value:'', size:2, pattern:/^ *(D *d|d *D) *$/, maxScore:1 }
+                                ]
+                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'',
+                                                mp3:'data/task037-02.mp3',
+                                                oga:'data/task037-02.ogg',
+                                                wav:'data/task037-02.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'text'    , value:'', size:2, pattern:/^ *(E *e|e *E) *$/, maxScore:1 }
+                                ]
+                            },//
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'',
+                                                mp3:'data/task037-03.mp3',
+                                                oga:'data/task037-03.ogg',
+                                                wav:'data/task037-03.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'text'    , value:'', size:2, pattern:/^ *(T *t|t *T) *$/, maxScore:1 }
+                                ]
+                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'',
+                                                mp3:'data/task037-04.mp3',
+                                                oga:'data/task037-04.ogg',
+                                                wav:'data/task037-04.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'text'    , value:'', size:2, pattern:/^ *(A *a|a *A) *$/, maxScore:1 }
+                                ]
+                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'',
+                                                mp3:'data/task037-05.mp3',
+                                                oga:'data/task037-05.ogg',
+                                                wav:'data/task037-05.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'text'    , value:'', size:2, pattern:/^ *(G *g|g *G) *$/, maxScore:1 }
+                                ]
+                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'',
+                                                mp3:'data/task037-06.mp3',
+                                                oga:'data/task037-06.ogg',
+                                                wav:'data/task037-06.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'text'    , value:'', size:2, pattern:/^ *(P *p|p *P) *$/, maxScore:1 }
+                                ]
+                            },
+//                            {
+//                                type:'card',
+//                                arrange:'horizontal',
+//                                children:[
+//                                    {
+//                                        type:'sound',
+//                                        swfPath: "../../task/lib/jplayer/jplayer",
+//                                        supplied: "mp3,oga,wav",
+//                                        playlist:[
+//                                            {
+//                                                title:'',
+//                                                mp3:'data/task037-07.mp3',
+//                                                oga:'data/task037-07.ogg',
+//                                                wav:'data/task037-07.wav'
+//                                             }
+//                                        ]
+//                                    },
+//                                    { type:'text'    , value:'', size:2, pattern:/^ *(I *i|i *I) *$/, maxScore:1 }
+//                                ]
+//                            },
+                            {
+                                type:'card',
+                                arrange:'horizontal',
+                                children:[
+                                    {
+                                        type:'sound',
+                                        swfPath: "../../task/lib/jplayer/jplayer",
+                                        supplied: "mp3,oga,wav",
+                                        playlist:[
+                                            {
+                                                title:'',
+                                                mp3:'data/task037-08.mp3',
+                                                oga:'data/task037-08.ogg',
+                                                wav:'data/task037-08.wav'
+                                             }
+                                        ]
+                                    },
+                                    { type:'text'    , value:'', size:2, pattern:/^ *(B *b|b *G) *$/, maxScore:1 }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        });
+        // $( document ).bind( "task:newinput",window.task.test(window.task));
+        $('#task').append(window.task.draw());
+    });
+</script>
+</body>
+</html>

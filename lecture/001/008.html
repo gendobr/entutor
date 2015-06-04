@@ -36,10 +36,9 @@
         // initAudioApi({ jsURL:'../../task/js' });
         // tutor.inputs.audioapi.soundScrorerURL="../../task/test/voiceinputscorer.php";
         
-        var id=100;
         
         window.task=new tutor.task({
-            id:'1',
+            id:'008',
             next:"009.html",
             presentation:{ elementSelector:'#presentation' },
             inputs:{
@@ -48,7 +47,6 @@
                 arrange:'vertical',
                 children:[
                     {
-                        id:(id++),
                         type:'card',
                         arrange:'vertical',
                         customtest:tutor.inputs.card.prototype.customtestSets(
@@ -57,39 +55,38 @@
                                   [/^G$/,/^g$/,/^\[g\]$/]
                                 ]),
                         children:[
-                            {id:(id++),
+                            {
                              type:'card',
                              arrange:'horizontal',
                              maxScore:0,
                              children:[
-                                { id:(id++), type:'dropzone', size:4,  pattern:null, maxScore:0 },
-                                { id:(id++), type:'dropzone', size:4,  pattern:null, maxScore:0 },
-                                { id:(id++), type:'dropzone', size:4,  pattern:null, maxScore:0 }                                     
+                                { type:'dropzone', size:4,  pattern:null, maxScore:0 },
+                                { type:'dropzone', size:4,  pattern:null, maxScore:0 },
+                                { type:'dropzone', size:4,  pattern:null, maxScore:0 }                                     
                              ]
                             },
-                            {id:(id++),
+                            {
                              type:'card',
                              arrange:'horizontal',
                              maxScore:0,
                              children:[
-                                { id:(id++), type:'dropzone', size:4,  pattern:null, maxScore:0 },
-                                { id:(id++), type:'dropzone', size:4,  pattern:null, maxScore:0 },
-                                { id:(id++), type:'dropzone', size:4,  pattern:null, maxScore:0 },
+                                { type:'dropzone', size:4,  pattern:null, maxScore:0 },
+                                { type:'dropzone', size:4,  pattern:null, maxScore:0 },
+                                { type:'dropzone', size:4,  pattern:null, maxScore:0 },
                              ]
                             }
                         ]
                     },
                     {
-                        id:(id++),
                         type:'card',
                         arrange:'horizontal',
                         children:[
-                            {  id:(id++),  type:'counter',  innerHtml:'G'   },
-                            {  id:(id++),  type:'counter',  innerHtml:'a'   },
-                            {  id:(id++),  type:'counter',  innerHtml:'g'   },
-                            {  id:(id++),  type:'counter',  innerHtml:'[æ]' },
-                            {  id:(id++),  type:'counter',  innerHtml:'[g]' },
-                            {  id:(id++),  type:'counter',  innerHtml:'A'   }
+                            {  type:'counter',  innerHtml:'G'   },
+                            {  type:'counter',  innerHtml:'a'   },
+                            {  type:'counter',  innerHtml:'g'   },
+                            {  type:'counter',  innerHtml:'[æ]' },
+                            {  type:'counter',  innerHtml:'[g]' },
+                            {  type:'counter',  innerHtml:'A'   }
                         ]
                     }
                 ]
