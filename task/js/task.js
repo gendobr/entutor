@@ -1855,6 +1855,7 @@ tutor.inputs.sound.prototype.draw = function () {
         smoothPlayBar: true,
         keyEnabled: true,
         remainingDuration: true,
+        volume:1,
         toggleDuration: true,
         ended:function(){soundBlock.find('.sound_button').attr('value',self.labels.paused);}
     });
@@ -2015,6 +2016,7 @@ tutor.inputs.video.prototype.draw = function () {
 	keyEnabled: true,
 	remainingDuration: true,
 	toggleDuration: true,
+        volume:1,
         //,
         //errorAlerts: false,
         //warningAlerts: false
