@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Урок 1. Задание 48</title>
+
+<link href="../../task/lib/jplayer/skin/blue.monday/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css" />
+<link href="../../task/css/task.css" rel="stylesheet" type="text/css" />
+<link href="../../task/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+
+<script type="application/javascript" src="../../task/lib/jquery-2.1.4.min.js"></script>
+<script type="application/javascript" src="../../task/lib/jquery-ui/jquery-ui.min.js"></script>
+<script type="application/javascript" src="../../task/lib/jplayer/jplayer/jquery.jplayer.min.js"></script>
+<script type="application/javascript" src="../../task/js/voiceinput.js"></script>
+<script type="application/javascript" src="../../task/js/voiceinputRecorder.js"></script>
+<script type="application/javascript" src="../../task/js/voiceinputRecorderWorker.js"></script>
+<script type="application/javascript" src="../../task/lib/markup.min.js"></script>
+<script type="application/javascript" src="../../task/js/task.js"></script>
+<style type="text/css">
+    .task-video{
+        text-align:center;
+        display:inline-block;
+    }
+</style>
+
+</head>
+<body>
+
+<div>Урок 1</div>
+<h1>48. Ответьте собеседнику, используя предложенные имена.</h1>
+
+<div id="presentation"></div>
+
+<div id="task"></div>
+
+<script type="application/javascript">
+    
+    $(document).ready(function(){
+
+        initAudioApi({ jsURL:'../../task/js' });
+        tutor.inputs.audioapi.soundScrorerURL="../../task/test/voiceinputscorer.php";
+        
+        
+        window.task=new tutor.task({
+            id:'1',
+            next:"048-5.html",
+            presentation:{ elementSelector:'#presentation' },
+            inputs:{
+                type:'card',
+                arrange:'horizontal',
+                children:[
+                    {
+                        type:'card',
+                        arrange:'vertical',
+                        classes:'',
+                        // precondition:'beforeCorrect',
+                        children:[
+                            {
+                                type:'video',
+                                swfPath: "../../task/lib/jplayer/jplayer",
+                                size:{width:'440px',height:'360px'},
+                                supplied: "m4v",//supplied: "webmv, ogv, m4v",
+                                media: {
+                                    title:'',
+                                    m4v:'toydata/TheSneezingBabyPanda.mp4'
+                                }
+                            },
+                            {
+                                type:'audio',
+                                classes:'nopattern',
+                                precondition:'none',
+                                pattern:'Hi, I’m Ed', // list of space separated words
+                                maxScore:1,
+                                indicatorWidth:'100px',
+                                indicatorHeight:'30px',
+                                taskPassScore:0.001,
+                                maxDuration:20, // seconds
+                                soundScrorerURL:tutor.inputs.audioapi.soundScrorerURL
+                            }
+                        ]
+                    }
+                ]
+            }
+        });
+        $( document ).bind( "task:newinput",window.task.test(window.task));
+        $('#task').append(window.task.draw());
+    });
+</script>
+</body>
+</html>

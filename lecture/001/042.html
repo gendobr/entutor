@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Урок 1. Задание 42</title>
+
+<link href="../../task/lib/jplayer/skin/blue.monday/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css" />
+<link href="../../task/css/task.css" rel="stylesheet" type="text/css" />
+<link href="../../task/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+
+<script type="application/javascript" src="../../task/lib/jquery-2.1.4.min.js"></script>
+<script type="application/javascript" src="../../task/lib/jquery-ui/jquery-ui.min.js"></script>
+<script type="application/javascript" src="../../task/lib/jplayer/jplayer/jquery.jplayer.min.js"></script>
+<!-- <script type="application/javascript" src="../../task/js/voiceinput.js"></script> -->
+<!-- <script type="application/javascript" src="../../task/js/voiceinputRecorder.js"></script> -->
+<!-- <script type="application/javascript" src="../../task/js/voiceinputRecorderWorker.js"></script> -->
+<script type="application/javascript" src="../../task/lib/markup.min.js"></script>
+<script type="application/javascript" src="../../task/js/task.js"></script>
+<style type="text/css">
+    .frm{
+        padding-top:30px;
+        text-align:center;
+        font-size:200%;
+    }
+    .w{
+        text-align:left;
+        padding-left:10px;
+        padding-right:10px;
+        font-size:75%;
+        color:gray;
+    }
+    .w b{
+        color:black;
+    }
+</style>
+</head>
+<body>
+
+<div>Урок 1</div>
+<h1>42. Повторите за диктором в паузах</h1>
+<div id="task"></div><br><br>
+<input type="button" value="Далее" id="nextButton" data-next="043.html">
+<script type="application/javascript">
+    
+    $(document).ready(function(){
+        var presentation=new tutor.presentation({
+            container:'#task',
+            swfPath: "../../task/lib/jplayer/jplayer",
+            supplied: "mp3,oga,wav",
+            media:{
+                mp3: 'data/task042.mp3',
+                oga: 'data/task042.ogg',
+                wav: 'data/task042.wav'
+            },
+            frames:[
+               {from: 0,to: 4,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w">bad, gad, pan, tag, dad, Nan, bag, Pat, gap, Ann, gag, bat</div></div>')},
+               {from: 4,to: 6,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w"><b>bad</b>, gad, pan, tag, dad, Nan, bag, Pat, gap, Ann, gag, bat</div></div>')},
+               {from: 6,to: 8,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w"><b>bad, gad,</b> pan, tag, dad, Nan, bag, Pat, gap, Ann, gag, bat</div></div>')},
+               {from: 8,to:10,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w"><b>bad, gad, pan,</b> tag, dad, Nan, bag, Pat, gap, Ann, gag, bat</div></div>')},
+               {from:10,to:12,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w"><b>bad, gad, pan, tag,</b> dad, Nan, bag, Pat, gap, Ann, gag, bat</div></div>')},
+               {from:12,to:14,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w"><b>bad, gad, pan, tag, dad,</b> Nan, bag, Pat, gap, Ann, gag, bat</div></div>')},
+               {from:14,to:17,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w"><b>bad, gad, pan, tag, dad, Nan,</b> bag, Pat, gap, Ann, gag, bat</div></div>')},
+               {from:17,to:19,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w"><b>bad, gad, pan, tag, dad, Nan, bag,</b> Pat, gap, Ann, gag, bat</div></div>')},
+               {from:19,to:21,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w"><b>bad, gad, pan, tag, dad, Nan, bag, Pat,</b> gap, Ann, gag, bat</div></div>')},
+               {from:21,to:24,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w"><b>bad, gad, pan, tag, dad, Nan, bag, Pat, gap,</b> Ann, gag, bat</div></div>')},
+               {from:24,to:27,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w"><b>bad, gad, pan, tag, dad, Nan, bag, Pat, gap, Ann,</b> gag, bat</div></div>')},
+               {from:27,to:29,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w"><b>bad, gad, pan, tag, dad, Nan, bag, Pat, gap, Ann, gag,</b> bat</div></div>')},
+               {from:29,to:33,  frame:$('<div class="frm">Упражнение 1: <br><b>Aa [æ]</b><div class="w"><b>bad, gad, pan, tag, dad, Nan, bag, Pat, gap, Ann, gag, bat</b></div></div>')},
+               
+               {from:33   ,to:36.05,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w">pet, bed, Ted, pen, bet, egg, deb, pep, Bet, ten, Ed, det</div></div>')},
+               {from:36.05,to:38.42,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w"><b>pet</b>, bed, Ted, pen, bet, egg, deb, pep, Bet, ten, Ed, det</div></div>')},
+               {from:38.42,to:41.00,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w"><b>pet, bed</b>, Ted, pen, bet, egg, deb, pep, Bet, ten, Ed, det</div></div>')},
+               {from:41.00,to:43.00,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w"><b>pet, bed, Ted</b>, pen, bet, egg, deb, pep, Bet, ten, Ed, det</div></div>')},
+               {from:43.00,to:46.00,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w"><b>pet, bed, Ted, pen</b>, bet, egg, deb, pep, Bet, ten, Ed, det</div></div>')},
+               {from:46.00,to:49.00,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w"><b>pet, bed, Ted, pen, bet</b>, egg, deb, pep, Bet, ten, Ed, det</div></div>')},
+               {from:49.00,to:51.00,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w"><b>pet, bed, Ted, pen, bet, egg</b>, deb, pep, Bet, ten, Ed, det</div></div>')},
+               {from:51.00,to:54.00,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w"><b>pet, bed, Ted, pen, bet, egg, deb</b>, pep, Bet, ten, Ed, det</div></div>')},
+               {from:54.00,to:56.00,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w"><b>pet, bed, Ted, pen, bet, egg, deb, pep</b>, Bet, ten, Ed, det</div></div>')},
+               {from:56.00,to:58.00,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w"><b>pet, bed, Ted, pen, bet, egg, deb, pep, Bet</b>, ten, Ed, det</div></div>')},
+               {from:58.00,to:61.00,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w"><b>pet, bed, Ted, pen, bet, egg, deb, pep, Bet, ten</b>, Ed, det</div></div>')},
+               {from:61.00,to:63.00,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w"><b>pet, bed, Ted, pen, bet, egg, deb, pep, Bet, ten, Ed</b>, det</div></div>')},
+               {from:63.00,to:67.00,  frame:$('<div class="frm">Упражнение 2: <br><b>Aa [æ]</b><div class="w"><b>pet, bed, Ted, pen, bet, egg, deb, pep, Bet, ten, Ed, det</b></div></div>')},
+               
+               
+               {from:67.00,to:70.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w">id, pin, bid, pig, Din, it, Pip, bit, dip, big, did, tip</div></div>')},
+               {from:70.00,to:72.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w"><b>id</b>, pin, bid, pig, Din, it, Pip, bit, dip, big, did, tip</div></div>')},
+               {from:72.00,to:75.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w"><b>id, pin</b>, bid, pig, Din, it, Pip, bit, dip, big, did, tip</div></div>')},
+               {from:75.00,to:77.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w"><b>id, pin, bid</b>, pig, Din, it, Pip, bit, dip, big, did, tip</div></div>')},
+               {from:77.00,to:79.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w"><b>id, pin, bid, pig</b>, Din, it, Pip, bit, dip, big, did, tip</div></div>')},
+               {from:79.00,to:82.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w"><b>id, pin, bid, pig, Din</b>, it, Pip, bit, dip, big, did, tip</div></div>')},
+               {from:82.00,to:84.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w"><b>id, pin, bid, pig, Din, it</b>, Pip, bit, dip, big, did, tip</div></div>')},
+               {from:84.00,to:86.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w"><b>id, pin, bid, pig, Din, it, Pip</b>, bit, dip, big, did, tip</div></div>')},
+               {from:86.00,to:88.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w"><b>id, pin, bid, pig, Din, it, Pip, bit</b>, dip, big, did, tip</div></div>')},
+               {from:88.00,to:91.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w"><b>id, pin, bid, pig, Din, it, Pip, bit, dip</b>, big, did, tip</div></div>')},
+               {from:91.00,to:93.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w"><b>id, pin, bid, pig, Din, it, Pip, bit, dip, big</b>, did, tip</div></div>')},
+               {from:93.00,to:96.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w"><b>id, pin, bid, pig, Din, it, Pip, bit, dip, big, did</b>, tip</div></div>')},
+               {from:96.00,to:99.00,  frame:$('<div class="frm">Упражнение 3: <br><b>Ii [ɪ]</b><div class="w"><b>id, pin, bid, pig, Din, it, Pip, bit, dip, big, did, tip</b></div></div>')},
+            ]
+
+        });
+        
+        
+        $('#nextButton').click(function(){
+            var nextUrl=$(this).attr('data-next');
+            window.location.href=nextUrl;
+        });
+        
+    });
+</script>
+</body>
+</html>
