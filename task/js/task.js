@@ -1960,8 +1960,8 @@ tutor.inputs.video.prototype.draw = function () {
     html+='            <div class="jp-play-bar"></div>';
     html+='          </div>';
     html+='        </div>';
-    html+='        <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>';
-    html+='        <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>';
+//    html+='        <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>';
+//    html+='        <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>';
 //    html+='        <div class="jp-controls-holder">';
 //    html+='          <div class="jp-volume-controls">';
 //    html+='            <button class="jp-mute" role="button" tabindex="0">mute</button>';
