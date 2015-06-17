@@ -10,9 +10,7 @@ var tutor = {};
  *    },
  *    next:'002.html'
  *    template:'some HTML',
- *    presentation:{
- *       ...
- *    },
+ *    presentation: jQuery element,
  *    inputs:{
  *     id:'01',
  *     type:'card',
