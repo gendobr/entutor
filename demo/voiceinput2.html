@@ -14,18 +14,18 @@
 </head>
 <body>
         <!-- Recorder control buttons -->
-        <div class="recorder">
+        <div class="recorder" id="recorder01">
             <button class="start-recording" onclick="FWRecorder.record('audio', 'audio.wav');">
-                <img src="../images/record.png" alt="Record">
+                <img src="./voiceinput2/record.png" alt="Record">
             </button>
             <div class="level">
                 <div class="progress"></div>
             </div>
             <button class="stop-recording" onclick="FWRecorder.stopRecording('audio');">
-                <img src="../images/stop.png" alt="Stop Recording"/>
+                <img src="./voiceinput2/stop.png" alt="Stop Recording"/>
             </button>
             <button class="start-playing" onclick="FWRecorder.playBack('audio');" title="Play">
-                <img src="../images/play.png" alt="Play"/>
+                <img src="./voiceinput2/play.png" alt="Play"/>
             </button>
         </div>
 
@@ -34,12 +34,13 @@
 <div id="flashcontent">
     <p>Your browser must have JavaScript enabled and the Adobe Flash Player installed.</p>
 </div>
-<!-- Hidden form for easy specifying the upload request parameters -->
+
+<!-- Hidden form for easy specifying the upload request parameters 
 <form id="uploadForm" name="uploadForm" action="./voiceinput2/upload.php">
     <input name="authenticity_token" value="xxxxx" type="hidden">
-    <input name="upload_file[parent_id]" value="1" type="hidden">
+    <input name="upload_file" value="1" type="hidden">
     <input name="format" value="json" type="hidden">
 </form>
-
+ -->
 </body>
 </html>

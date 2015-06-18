@@ -5,7 +5,8 @@ tutor.inputs.recorderApp.RECORDER_APP_ID = "recorderApp";
 tutor.inputs.recorderApp.appWidth = 24;
 tutor.inputs.recorderApp.appHeight = 24;
 tutor.inputs.recorderApp.uploadFormId="#uploadForm";
-tutor.inputs.recorderApp.uploadFieldName = "upload_file[filename]";
+tutor.inputs.recorderApp.uploadFieldName = "upload_file";
+tutor.inputs.recorderApp.swf = "./voiceinput2/recorder.swf";
 
 // =======================================================
 // microphone settings
@@ -48,13 +49,11 @@ tutor.inputs.recorderApp.recorderEl = function () {return $('#' + RECORDER_APP_I
       case "ready":
         var width = parseInt(arguments[1]);
         var height = parseInt(arguments[2]);
-        FWRecorder.uploadFormId = tutor.inputs.recorderApp.uploadFormId;
-        FWRecorder.uploadFieldName = tutor.inputs.recorderApp.uploadFieldName;
+        //FWRecorder.uploadFormId = tutor.inputs.recorderApp.uploadFormId;
+        //FWRecorder.uploadFieldName = tutor.inputs.recorderApp.uploadFieldName;
         FWRecorder.connect("recorderApp", 0);
         FWRecorder.recorderOriginalWidth = width;
         FWRecorder.recorderOriginalHeight = height;
-
-
 
         var rate= tutor.inputs.recorderApp.rate; // 22,050 Hz
 
@@ -71,11 +70,12 @@ tutor.inputs.recorderApp.recorderEl = function () {return $('#' + RECORDER_APP_I
 
         var loopBack=false;
 
-        FWRecorder.configure(rate, 100, $('#silenceLevel').val(), silenceTimeout);
+        FWRecorder.configure(rate, 100, silenceLevel, silenceTimeout);
         FWRecorder.setUseEchoSuppression(useEchoSuppression);
         FWRecorder.setLoopBack(loopBack);
 
         // $('.save_button').css({'width': width, 'height': height});
+        // console.log("ready");
         break;
 
       // no_microphone_found: no microphone was found when trying to record
@@ -91,7 +91,8 @@ tutor.inputs.recorderApp.recorderEl = function () {return $('#' + RECORDER_APP_I
       // user allowed access to the microphone
       case "microphone_connected":
         FWRecorder.isReady = true;
-        // $uploadStatus.css({'color': '#000'});
+        // enable Record button here
+        console.log("enable Record button here");
         break;
 
       // user closed permission dialog
@@ -119,7 +120,36 @@ tutor.inputs.recorderApp.recorderEl = function () {return $('#' + RECORDER_APP_I
       case "recording_stopped":
         name = arguments[1];
         var duration = arguments[2];
-        FWRecorder.show();
+        // FWRecorder.show();
+        // FWRecorder.updateForm();
+        // $('#uploadForm').submit();
+        // recording_stopped
+        // get the form data
+        // there are many ways to get this data using jQuery (you can use the class or id also)
+        var formData = {
+            token: "XXX",
+            until:'2015-12-19',
+            text : "some text",
+            wav  : FWRecorder.getBase64()
+        };
+
+        // process the form
+        $.ajax({
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : './voiceinput2/upload.php', // the url where we want to POST
+            data        : formData, // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+            encode      : true
+        })
+        // using the done promise callback
+        .done(function(data) {
+
+            // log data to the console so we can see
+            console.log(data); 
+
+            // here we will handle errors and validation messages
+        });
+
         // $controls = controlsEl(name);
         // setControlsClass($controls, CLASS_PLAYBACK_READY);
         // $('#duration').text(duration.toFixed(4) + " seconds");
@@ -130,8 +160,8 @@ tutor.inputs.recorderApp.recorderEl = function () {return $('#' + RECORDER_APP_I
         break;
 
       case "observing_level":
-        $showLevelButton.hide();
-        $hideLevelButton.show();
+        //$showLevelButton.hide();
+        //$hideLevelButton.show();
         break;
 
       case "observing_level_stopped":
@@ -173,12 +203,8 @@ tutor.inputs.recorderApp.recorderEl = function () {return $('#' + RECORDER_APP_I
 
       case "saved":
         name = arguments[1];
-        var data = $.parseJSON(arguments[2]);
-        if (data.saved) {
-          // $('#upload_status').css({'color': '#0F0'}).text(name + " was saved");
-        } else {
-          // $('#upload_status').css({'color': '#F00'}).text(name + " was not saved");
-        }
+        // arguments[2] is server response
+        //console.log(arguments[2]);
         break;
 
       case "save_failed":
@@ -200,7 +226,9 @@ tutor.inputs.recorderApp.recorderEl = function () {return $('#' + RECORDER_APP_I
 
 $(function () {
 
-
-
+  var flashvars = {'upload_image': './voiceinput2/upload.png'};
+  var params = {};
+  var attributes = {'id': tutor.inputs.recorderApp.RECORDER_APP_ID, 'name': tutor.inputs.recorderApp.RECORDER_APP_ID};
+  swfobject.embedSWF(tutor.inputs.recorderApp.swf, "flashcontent", tutor.inputs.recorderApp.appWidth, tutor.inputs.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
 
 });
