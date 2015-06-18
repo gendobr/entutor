@@ -1,0 +1,51 @@
+.recorder-level{
+    display:inline-block;
+    vertical-align:top;
+    width:10px;
+    height:30px;
+    overflow:hidden;
+    background-color:silver;
+}
+
+.recorder-level-indicator{
+    display:inline-block;
+    vertical-align:top;
+    width:10px;
+    height:30px;
+    background-color:#007700;
+}
+
+
+.recorder-start{
+    display:inline-block;
+    vertical-align:top;
+    height:30px;    
+}
+.recorder-start img{
+    max-height:30px;
+}
+.recorder-start.hide{
+    display:none; 
+}
+
+.recorder-stop{
+    display:inline-block;
+    vertical-align:top;
+    height:30px;    
+}
+.recorder-stop img{
+    max-height:30px;
+}
+.recorder-stop.hide{
+    display:none; 
+}
+
+
+.recorder-playback{
+    display:inline-block;
+    vertical-align:top;
+    height:30px;    
+}
+.recorder-playback img{
+    max-height:30px;
+}

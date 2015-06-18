@@ -8,25 +8,14 @@
     <script type="text/javascript" src="./voiceinput2/recorder.js"></script>
     <script type="text/javascript" src="./voiceinput2/voiceinput2.js"></script>
     <link type="text/css" rel="stylesheet" href="./voiceinput2/voiceinput2.css">
-    <style>
-
-    </style>
 </head>
 <body>
         <!-- Recorder control buttons -->
         <div class="recorder" id="recorder01">
-            <button class="start-recording" onclick="FWRecorder.record('audio', 'audio.wav');">
-                <img src="./voiceinput2/record.png" alt="Record">
-            </button>
-            <div class="level">
-                <div class="progress"></div>
-            </div>
-            <button class="stop-recording" onclick="FWRecorder.stopRecording('audio');">
-                <img src="./voiceinput2/stop.png" alt="Stop Recording"/>
-            </button>
-            <button class="start-playing" onclick="FWRecorder.playBack('audio');" title="Play">
-                <img src="./voiceinput2/play.png" alt="Play"/>
-            </button>
+            <span class="recorder-level"><span class="recorder-level-indicator"></span></span><!-- 
+         --><button class="recorder-start" data-id="01" data-text="text text text" onclick="tutor.inputs.recorderApp.startRecording(this)"><img src="./voiceinput2/record.png" alt="Record"></button><!-- 
+         --><button class="recorder-stop hide" onclick="tutor.inputs.recorderApp.stopRecording(this);"><img src="./voiceinput2/stop.png" alt="Stop Recording"/></button><!-- 
+         --><!-- <button class="recorder-playback" onclick="FWRecorder.playBack('audio');" title="Play"><img src="./voiceinput2/play.png" alt="Play"/></button> -->
         </div>
 
 
@@ -35,7 +24,8 @@
     <p>Your browser must have JavaScript enabled and the Adobe Flash Player installed.</p>
 </div>
 
-<!-- Hidden form for easy specifying the upload request parameters 
+<!-- 
+Hidden form for easy specifying the upload request parameters 
 <form id="uploadForm" name="uploadForm" action="./voiceinput2/upload.php">
     <input name="authenticity_token" value="xxxxx" type="hidden">
     <input name="upload_file" value="1" type="hidden">
