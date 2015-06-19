@@ -1,0 +1,17 @@
+{
+    "id":"002",
+    "inputs":{
+        "type":"card",
+        "arrange":"vertical",
+        "children":[
+            {
+                "type":"html",
+                "innerHtml":"row 1 row 1 row 1 "
+            },
+            {
+                "type":"html",
+                "innerHtml":"row 2 row 2 row 2 row 2 row 2 "
+            }
+        ]
+    }
+}
