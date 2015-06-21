@@ -1,0 +1,34 @@
+{
+    "id":"006",
+    "inputs":{
+        "type":"card",
+        "arrange":"horizontal",
+        "children":[
+            {
+                "type":"html",
+                "innerHtml":"Type number &nbsp;1&nbsp; "
+            },
+            {
+                "type":"radio",
+                "maxScore":"1",
+                "arrange":"vertical",
+                "_arrange":"horizontal",
+                "correctVariant":"1",
+                "precondition":"none",
+                "variant":{
+                   "1":"1 Correct answer",
+                   "2":"2 Wrong answer",
+                   "3":"3 Wrong answer"
+                },
+                "_precondition":"beforeCorrect",
+                "_id":"",
+                "_classes":""
+            }
+        ]
+    }
+}
+
+
+
+
+

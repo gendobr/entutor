@@ -59,8 +59,48 @@
     white-space: normal;
 }
 
+.task-card-error{
+    background-color:orange;
+    color:black;
+}
+.task-card-correct{
+    background-color:#aaffaa;
+    color:black;
+}
 
 /******************************************************************************/
 .taskContainer{
     text-align:center;
+}
+
+
+/******************************************************************************/
+
+.task-text-error{
+    background-color:orange;
+    color:black;
+}
+.task-text-correct{
+    background-color:#aaffaa;
+    color:black;
+}
+
+
+
+/******************************************************************************/
+
+.task-radio-correct{
+    background-color:#aaffaa;
+}
+.task-radio-error{
+    background-color:orange;
+}
+.task-radio-checked{
+    background-color:silver;
+}
+.task-radio-label-vertical{
+    display:block;
+}
+.task-radio-label-horizontal{
+    
 }

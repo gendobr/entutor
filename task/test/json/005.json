@@ -1,0 +1,27 @@
+{
+    "id":"005",
+    "inputs":{
+        "type":"card",
+        "arrange":"horizontal",
+        "children":[
+            {
+                "type":"html",
+                "innerHtml":"Type number &nbsp;1&nbsp; "
+            },
+            {
+                "type":"text",
+                "maxScore":"1",
+                "pattern":"1",
+                "value":"yyy",
+                "size":"5",
+                "precondition":"none",
+                "_precondition":"beforeCorrect",
+                "_id":"",
+                "_classes":"",
+                "_customtest":"function(value){return { \"status\": tutor.task.status.received, \"score\": null, \"subresults\": [], \"passed\":false,  \"maxScore\":0 } }"
+            }
+
+        ]
+    }
+}
+

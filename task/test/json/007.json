@@ -1,0 +1,26 @@
+{
+    "id":"007",
+    "inputs":{
+        "type":"card",
+        "arrange":"horizontal",
+        "children":[
+            {
+                "type":"html",
+                "innerHtml":"Type number &nbsp;1&nbsp; "
+            },
+            {
+                "type":"checkbox",
+                "maxScore":"1",
+                "arrange":"vertical",
+                "_arrange":"horizontal",
+                "correctVariant":true,
+                "_correctVariant":false,
+                "precondition":"none",
+                "label":"check me",
+                "_precondition":"beforeCorrect",
+                "_id":"",
+                "_classes":""
+            }
+        ]
+    }
+}

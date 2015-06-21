@@ -5,6 +5,7 @@ var tutor = {};
 tutor.guid=0;
 tutor.inputs = {};
 
+tutor.debug=false;
 
 // =============================================================================
 tutor.show = function (jsonURL,containerSelector) {
@@ -21,6 +22,8 @@ tutor.show = function (jsonURL,containerSelector) {
         window.location.hash=json.id;
     });
 };
+
+
 
 
 
@@ -123,7 +126,9 @@ tutor.task.prototype.test=function (self) {
         // console.log("self.inputs.test");
         self.inputs.test(function (id, result) {
             // enable Next button if test is passed
-            // console.log("self.inputs.test id=",id," result=", result);
+            if(tutor.debug){
+                console.log("self.inputs.test id=",id," result=", result);
+            }
             if(result.passed === true){
                 self.nextButton.attr('disabled',false);
             }
@@ -256,16 +261,27 @@ tutor.inputs.card.prototype.test = function (parentCallback) {
 
     var self = this;
     var testFinishedCallback = function (id, result) {
-        // console.log('card:',self.id, ' received from ',id, result);
-        // console.log('card:',self.id, ' received from ',id, result.passed);
+        //console.log('card:',self.id, ' received from ',id, result);
+        //console.log('card:',self.id, ' received from ',id, result.passed);
 
         // save subresult
-        self.result.subresults[id] = {
-            status: tutor.task.status.received,
-            score: (result?result.score:null),
-            subresults: (result?result.subresults:null),
-            passed : (result && result.passed ? result.passed : 'undefined')
-        };
+        if(result){
+            self.result.subresults[id] = {
+                status: tutor.task.status.received,
+                score: result.score,
+                subresults: result.subresults,
+                passed : result.passed
+            };
+        }else{
+            self.result.subresults[id] = {
+                status: tutor.task.status.received,
+                score: null,
+                subresults: null,
+                passed : 'undefined'
+            };            
+        }
+        //console.log('self.result.subresults:', id, ' = ',self.result.subresults[id]);
+
 
         // update score
         var newscore = 0;
@@ -298,6 +314,9 @@ tutor.inputs.card.prototype.test = function (parentCallback) {
             passed = self.result.subresults[key].passed && passed;
         }
         self.result.passed = passed;
+
+
+        // console.log(self.result);
 
         // check if all tests are received
         var allTestsReceived = true;
@@ -550,6 +569,9 @@ tutor.inputs.text = function (parent, options) {
     this.maxScore = (typeof(this.options.maxScore)!=='undefined')?this.options.maxScore : 1;
     this.result = null;
     this.pattern = this.options.pattern || null;
+    if(typeof(this.pattern)==='string'){
+        this.pattern=new RegExp('^ *'+this.pattern+' *$');
+    }
     this.customtest=this.options.customtest || false;
 
     this.value=false;
@@ -569,6 +591,7 @@ tutor.inputs.text.prototype.removeFeedback = function () {
 
 tutor.inputs.text.prototype.test = function (parentCallback) {
     if(this.value===false){
+        //console.log("this.value===false");
         this.result = {
             status: tutor.task.status.received,
             score: 0,
@@ -576,9 +599,12 @@ tutor.inputs.text.prototype.test = function (parentCallback) {
             maxScore: this.maxScore
         };
     }else if(this.customtest){
+        //console.log("this.customtest");
         this.result=this.customtest(this.value);
     }else if (this.pattern) {
+        // console.log("this.pattern",this.pattern);
         var isCorrect = this.pattern.test(this.value);
+        // console.log("isCorrect",isCorrect);
         this.result = {
             status: tutor.task.status.received,
             score: (isCorrect ? this.maxScore : 0),
@@ -586,6 +612,7 @@ tutor.inputs.text.prototype.test = function (parentCallback) {
             maxScore: this.maxScore
         };
     } else {
+        //console.log("undefined");
         this.result=this.result = {
             status: tutor.task.status.received,
             score: 0,
@@ -641,6 +668,622 @@ tutor.inputs.text.prototype.hide=function(){
 };
 
 tutor.inputs.text.prototype.show=function(){
+    this.domElement.show();
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =============================================================================
+//
+//    options={
+//        type:'radio',
+//        id:''
+//        classes:''
+//        maxScore:1
+//        arrange:vertical|horizontal
+//        precondition:'none|beforeCorrect'
+//        correctVariant:'1',
+//        variant:{
+//           '1':'1 Correct answer',
+//           '2':'2 Wrong answer',
+//           '3':'3 Wrong answer'
+//        },
+//     }
+// 
+tutor.inputs.radio = function (parent, options) {
+    this.parent = parent;
+    this.type = 'radio';
+    this.options = options || {};
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
+    this.classes = this.options.classes || '';
+    this.maxScore = (typeof(this.options.maxScore)!=='undefined')?this.options.maxScore : 1; 
+    this.correctVariant = this.options.correctVariant || null;
+    this.precondition = this.options.precondition || 'none';
+    this.value = false;
+    this.result = null;
+    this.arrange = this.options.arrange || 'horizontal';
+    
+};
+
+tutor.inputs.radio.prototype.showSuccess = function () {
+    this.domElement.removeClass('task-radio-error').addClass('task-radio-correct');
+};
+
+tutor.inputs.radio.prototype.showError = function () {
+    this.domElement.removeClass('task-radio-correct').addClass('task-radio-error');
+};
+
+tutor.inputs.radio.prototype.removeFeedback = function () {
+    this.domElement.removeClass('task-radio-correct').removeClass('task-radio-error');
+};
+
+
+tutor.inputs.radio.prototype.test = function (parentCallback) {
+    if(this.value === false){
+        this.result = {
+            status: tutor.task.status.received,
+            score: 0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };
+    }else if (this.correctVariant) {
+        var isCorrect = (this.value === this.correctVariant);
+        
+        this.result = {
+            status: tutor.task.status.received,
+            score: isCorrect ? this.maxScore : 0,
+            passed: isCorrect,
+            maxScore: this.maxScore
+        };
+    } else {
+        this.result = {
+            status: tutor.task.status.received,
+            score: this.maxScore,
+            passed: true,
+            maxScore: this.maxScore
+        };
+    }
+    
+    if(this.result && this.result.maxScore>0 ){
+        if (this.result.passed === true) {
+            this.showSuccess();
+        } else if(this.result.passed === false) {
+            this.showError();
+        } else{
+            this.removeFeedback();
+        }
+    }
+    
+    parentCallback(this.id, this.result);
+};
+
+tutor.inputs.radio.prototype.draw = function () {
+    this.domElement = $('<span id="task' + this.id + '" class="task-radiobuttons' + this.classes + '"></span>');
+    var self = this;
+    var onchange = function (el) {
+        var btn = $(el.target);
+        self.domElement.find('label').removeClass('task-radio-checked');
+        if (btn.is(':checked')) {
+            self.value = btn.val();
+            btn.parent().addClass('task-radio-checked');
+        }
+        $( document ).trigger( "task:newinput" );
+    };
+    this.radioButtons = [];
+    for (var k in this.options.variant) {
+        var elm = $('<label class="task-radio-label task-radio-label-'+this.arrange+'" data-value="' + k + '"><input type="radio" name="task' + this.id + 'radio"  class="task-radio-btn" value="' + k + '">' + this.options.variant[k] + '</label>');
+        elm.change(onchange);
+        this.domElement.append(elm);
+        this.radioButtons.push(elm);
+    }
+    
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
+    return  this.domElement;
+};
+
+tutor.inputs.radio.prototype.getValue = function () {
+    return this.value;
+};
+
+tutor.inputs.radio.prototype.getMaxScore = function () {
+    return this.maxScore;
+};
+
+tutor.inputs.radio.prototype.hide=function(){
+    this.domElement.hide();
+};
+
+tutor.inputs.radio.prototype.show=function(){
+    this.domElement.show();
+};
+
+
+
+
+
+
+
+
+
+// =============================================================================
+//
+//    options={
+//        type:'checkbox',
+//        id:''
+//        classes:''
+//        maxScore:1
+//        correctVariant:false|true,
+//        precondition:'none|beforeCorrect'
+//        label:'1 check me answer',
+//     }
+// 
+tutor.inputs.checkbox = function (parent, options) {
+    this.parent = parent;
+    this.type = 'checkbox';
+    this.options = options || {};
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
+    this.classes = this.options.classes || '';
+    this.precondition = this.options.precondition || 'none';
+    this.maxScore = (typeof(this.options.maxScore)!=='undefined')?this.options.maxScore : 1;
+    if(this.options.correctVariant===true || this.options.correctVariant===false){
+        this.correctVariant = this.options.correctVariant;
+    }else{
+        this.correctVariant = null;
+    }
+    this.result = null;
+    this.value=false;
+};
+
+tutor.inputs.checkbox.prototype.showSuccess = function () {
+    this.domElement.removeClass('task-checkbox-error').addClass('task-checkbox-correct');
+};
+
+tutor.inputs.checkbox.prototype.showError = function () {
+    this.domElement.removeClass('task-checkbox-correct').addClass('task-checkbox-error');
+};
+
+tutor.inputs.checkbox.prototype.removeFeedback = function () {
+    this.domElement.removeClass('task-checkbox-correct').removeClass('task-checkbox-error');
+};
+
+tutor.inputs.checkbox.prototype.test = function (parentCallback) {
+    
+    if( this.value === false ){
+        this.result = {
+            status: tutor.task.status.received,
+            score: 0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };        
+    }else if(this.options.correctVariant===true) {
+        this.result = {
+            status: tutor.task.status.received,
+            score: (this.value === 'checked' ? this.maxScore : 0),
+            passed: ( this.value === 'checked' ),
+            maxScore: this.maxScore
+        };
+    } else if(this.options.correctVariant===false){
+        this.result = {
+            status: tutor.task.status.received,
+            score: (this.value === 'unchecked' ? this.maxScore : 0),
+            passed: ( this.value === 'unchecked' ),
+            maxScore: this.maxScore
+        };
+    }else {
+        this.result = {
+            status: tutor.task.status.received,
+            score: 0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };  
+    }
+    
+    if(this.result && this.result.maxScore>0){
+        if (this.result.passed === true) {
+            this.showSuccess();
+        } else if (this.result.passed === false){
+            this.showError();
+        } else {
+            this.removeFeedback();
+        }
+    }
+    parentCallback(this.id, this.result);
+
+};
+
+tutor.inputs.checkbox.prototype.draw = function () {
+    this.checkbox = $('<input type="checkbox" id="task' + this.id + 'checkbox" class="task-checkbox">');
+    var self = this;
+    this.checkbox.change(function (ev) {
+        var checkbox=$(ev.target)
+        self.value = checkbox.prop('checked')?'checked':'unchecked';
+        $( document ).trigger( "task:newinput" );
+    });
+    this.domElement = $('<label id="task' + this.id + '" class="task-checkbox-label ' + this.classes + '"></label>');
+    this.domElement.append(this.checkbox);
+    if(this.options.label){
+        this.domElement.append($('<span class="task-checkbox-label-text">'+this.options.label+'</span>'));
+    }
+    
+    
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
+    return this.domElement;
+};
+
+tutor.inputs.checkbox.prototype.getValue = function () {
+    return this.value;
+};
+
+tutor.inputs.checkbox.prototype.getMaxScore = function () {
+    return this.maxScore;
+};
+
+tutor.inputs.checkbox.prototype.hide=function(){
+    this.domElement.hide();
+};
+
+tutor.inputs.checkbox.prototype.show=function(){
+    this.domElement.show();
+};
+
+
+
+
+
+
+
+
+
+
+
+
+///////////
+// =============================================================================
+//
+//    options={
+//        type:'sound',
+//        id:''
+//        classes:''
+//        maxScore:''
+//        precondition:'none' | 
+//        supplied : "mp3,oga,wav"
+//    this.labels = options.labels || {};
+//    this.labels.playing = this.labels.playing || '||';
+//    this.labels.paused  = this.labels.paused  || '>' ;
+//    playlist:[
+//          {
+//                 title:'Бублички',
+//                 mp3:'./playmessage/bublichki.mp3'
+//                 oga:
+//                 wav:
+//          },
+//          {
+//                 title:'В землянке',
+//                 mp3:'./playmessage/v_zemlyanke.mp3'
+//                 oga:
+//                 wav:
+//          },
+//          {
+//                 title:'Сердце',
+//                 mp3:'./playmessage/serdtse.mp3'
+//                 oga:
+//                 wav:
+//          },
+//    ];
+//    precondition:'none|beforeCorrect'
+//    }
+tutor.inputs.sound = function (parent, options) {
+    this.type = 'sound';
+    this.parent = parent;
+    this.options = options || {};
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
+    this.classes = this.options.classes || '';
+    this.precondition = this.options.precondition || 'none';
+    this.supplied = this.options.supplied || "mp3,oga,wav";
+    
+    this.maxScore=0;
+    
+    this.playlist = options.playlist || [];
+    this.labels = options.labels || {};
+    this.labels.playing = this.labels.playing || '||';
+    this.labels.paused  = this.labels.paused  || '>' ;
+};
+
+tutor.inputs.sound.prototype.test = function (testFinishedCallback) {
+    testFinishedCallback(this.id, {
+        status: tutor.task.status.received,
+        score: 0,
+        passed:true,
+        maxScore:0
+    });
+};
+
+tutor.inputs.sound.prototype.draw = function () {
+    var self = this;
+    
+    var html="";
+    html+='<div id="jquery_jplayer_'+this.id+'" class="jp-jplayer" style="width:1px;height:1px;opacity:0;float:right;"></div>';
+    html+='<div id="jp_container_'+this.id+'" class="jp-audio" role="application" aria-label="media player" style="width:1px;height:1px;opacity:0;float:right;">';
+    html+='	<div class="jp-type-single">';
+    html+='		<div class="jp-no-solution">';
+    html+='			<span>Update Required</span>';
+    html+='			To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.';
+    html+='		</div>';
+    html+='	</div>';
+    html+='</div>';
+    html+='<span id="sound_'+this.id+'" class="task-sound"></span>';
+    
+    this.domElement = $('<span id="task' + this.id + '" class="task-sound ' + this.classes + '"></span>');
+    this.domElement.append($(html));
+    
+    
+    var player=this.domElement.find("#jquery_jplayer_"+this.id);
+    var soundBlock=this.domElement.find('#sound_'+this.id);
+
+    this.currenttrack=false;
+    
+    for(var i=0; i<this.playlist.length; i++){
+        var html="<span class='task-sound-label'><input type='button' id='sound_" + this.id + "_" + i + "' data-i='" + i + "' class='sound_button' value='>'>&nbsp;" + this.playlist[i].title + "</span>";
+        soundBlock.append($(html));
+    }
+
+    soundBlock.find('.sound_button').click(function(ev){
+    	var btn=$(this);
+    	var i=btn.attr('data-i');
+        soundBlock.find('.sound_button').attr('value',self.labels.paused);
+        if(self.currenttrack===i){
+           if(player.data().jPlayer.status.paused){
+                player.jPlayer("pauseOthers");
+                player.jPlayer("play");
+                btn.attr('value',self.labels.playing);
+           }else{
+                player.jPlayer("pause");
+                btn.attr('value',self.labels.paused);
+           }
+        }else{
+            self.currenttrack=i;
+            player.jPlayer("stop");
+            player.jPlayer("setMedia", self.playlist[i]);
+            player.jPlayer("play");
+            
+            btn.attr('value',self.labels.playing);
+        }
+    });    
+    
+    player.jPlayer({
+        ready: function () { },
+        swfPath: this.options.swfPath,
+        supplied: this.supplied,
+        wmode: "window",
+        useStateClassSkin: true,
+        autoBlur: false,
+        smoothPlayBar: true,
+        keyEnabled: true,
+        remainingDuration: true,
+        volume:1,
+        toggleDuration: true,
+        ended:function(){soundBlock.find('.sound_button').attr('value',self.labels.paused);}
+    });
+
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
+    return this.domElement;
+};
+
+tutor.inputs.sound.prototype.getValue = function () {
+    return null;
+};
+
+tutor.inputs.sound.prototype.getMaxScore = function () {
+    return this.maxScore;
+};
+
+tutor.inputs.sound.prototype.hide=function(){
+    this.domElement.hide();
+};
+
+tutor.inputs.sound.prototype.show=function(){
+    this.domElement.show();
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////
+// =============================================================================
+//
+//    options={
+//        type:'video',
+//        id:''
+//        classes:''
+//        maxScore:''
+//        supplied: "webmv, ogv, m4v",
+//        swfPath: "./jplayer/jplayer",
+//        size:{width:'440px',height:'360px'},
+//        precondition:'none|beforeCorrect'
+//        media: {
+//                 title:'Бублички',
+//                 m4v:'./videomessage/talos.mp4'
+//                 webmv:
+//                 ogv:
+//        }
+//    }
+tutor.inputs.video = function (parent, options) {
+    this.type = 'video';
+    this.parent = parent;
+    this.options = options || {};
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
+    this.classes = this.options.classes || '';
+    this.precondition = this.options.precondition || 'none';
+    this.supplied = this.options.supplied || "webmv, ogv, m4v";
+    this.maxScore=0;
+    this.labels = options.labels || {};
+    this.labels.playing = this.labels.playing || '||';
+    this.labels.paused  = this.labels.paused  || '>' ;
+    this.media = options.media || {};
+
+};
+
+tutor.inputs.video.prototype.test = function (testFinishedCallback) {
+    testFinishedCallback(this.id, {
+        status: tutor.task.status.received,
+        score: 0,
+        passed:true,
+        maxScore:0
+    });
+};
+
+tutor.inputs.video.prototype.draw = function () {
+    var self = this;
+    
+    var html="";
+    
+    html+='<div id="jp_container_'+this.id+'" class="jp-video" role="application" aria-label="media player">';
+    html+='  <div class="jp-type-single">';
+    html+='    <div id="jquery_jplayer_'+this.id+'" class="jp-jplayer"></div>';
+    html+='    <div class="jp-gui">';
+    html+='      <div class="jp-interface">';
+    html+='        <div class="jp-progress">';
+    html+='          <div class="jp-seek-bar">';
+    html+='            <div class="jp-play-bar"></div>';
+    html+='          </div>';
+    html+='        </div>';
+//    html+='        <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>';
+//    html+='        <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>';
+//    html+='        <div class="jp-controls-holder">';
+//    html+='          <div class="jp-volume-controls">';
+//    html+='            <button class="jp-mute" role="button" tabindex="0">mute</button>';
+//    html+='            <button class="jp-volume-max" role="button" tabindex="0">max volume</button>';
+//    html+='            <div class="jp-volume-bar">';
+//    html+='              <div class="jp-volume-bar-value"></div>';
+//    html+='            </div>';
+//    html+='          </div>';
+//    html+='          <div class="jp-controls">';
+//    html+='            <button class="jp-play" role="button" tabindex="0">play</button>';
+//    html+='            <button class="jp-stop" role="button" tabindex="0">stop</button>';
+//    html+='          </div>';
+//    html+='          <div class="jp-toggles">';
+//    html+='            <button class="jp-repeat" role="button" tabindex="0">repeat</button>';
+//    html+='            <button class="jp-full-screen" role="button" tabindex="0">full screen</button>';
+//    html+='          </div>';
+//    html+='        </div>';
+    html+='      </div>';
+    html+='    </div>';
+    html+='    <div class="jp-no-solution">';
+    html+='      <span>Update Required</span>';
+    html+='      To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.';
+    html+='    </div>';
+    html+='  </div>';
+    html+='</div>';
+    
+    this.domElement = $('<span id="task' + this.id + '" class="task-video ' + this.classes + '"></span>');
+    this.domElement.append($(html));
+    
+    this.buttonStart=$('<input type="button" class="task-video-button">');
+    this.buttonStart.attr('value',this.labels.paused);
+    this.domElement.append(this.buttonStart);
+    
+    
+
+    
+    
+    this.player=this.domElement.find("#jquery_jplayer_"+this.id);
+    
+    this.player.jPlayer({
+	ready: function () {
+            //player.jPlayer("stop");
+            self.player.jPlayer("setMedia", self.media);
+            // player.jPlayer("play");
+        },
+        swfPath: this.options.swfPath,
+        supplied: this.supplied,
+	wmode: "window",
+	useStateClassSkin: true,
+	autoBlur: false,
+	smoothPlayBar: true,
+	keyEnabled: true,
+	remainingDuration: true,
+	toggleDuration: true,
+        volume:1,
+        //,
+        //errorAlerts: false,
+        //warningAlerts: false
+        ended:function(){self.buttonStart.attr('value',self.labels.paused);}
+    });
+    
+    
+    
+    this.buttonStart.click(function(ev){
+    	var btn=$(this);
+        btn.attr('value',self.labels.paused);
+        if(self.player.data().jPlayer.status.paused){
+             self.player.jPlayer("pauseOthers");
+             self.player.jPlayer("play");
+             btn.attr('value',self.labels.playing);
+        }else{
+             self.player.jPlayer("pause");
+             btn.attr('value',self.labels.paused);
+        }
+    });  
+    
+    
+    if(this.options.size){
+        this.player.jPlayer( "option", "size", this.options.size );
+    }
+
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
+    return this.domElement;
+};
+
+tutor.inputs.video.prototype.getValue = function () {
+    return null;
+};
+
+tutor.inputs.video.prototype.getMaxScore = function () {
+    return this.maxScore;
+};
+
+tutor.inputs.video.prototype.hide=function(){
+    this.domElement.hide();
+};
+
+tutor.inputs.video.prototype.show=function(){
     this.domElement.show();
 };
 

@@ -17,7 +17,21 @@
             <a href="javascript:void(tutor.show('json/002.json','#taskContainer'))">002</a>
             <a href="javascript:void(tutor.show('json/003.json','#taskContainer'))">003</a>
             <a href="javascript:void(tutor.show('json/004.json','#taskContainer'))">004</a>
+            <a href="javascript:void(tutor.show('json/005.json','#taskContainer'))">005</a>
+            <a href="javascript:void(tutor.show('json/006.json','#taskContainer'))">006</a>
+            <a href="javascript:void(tutor.show('json/007.json','#taskContainer'))">007</a>
+            <a href="javascript:void(tutor.show('json/008.json','#taskContainer'))">008</a>
         </div>
         <div id="taskContainer" class='taskContainer'></div>
+        
+        
+        <script type="application/javascript">
+        $(document).ready(function(){
+            if(window.location.hash){
+                tutor.show('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
+            }
+        });
+            
+        </script>
     </body>
 </html>
