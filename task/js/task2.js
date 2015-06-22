@@ -3,7 +3,9 @@
 
 var tutor = {};
 tutor.guid=0;
+tutor.config={};
 tutor.inputs = {};
+
 
 tutor.debug=false;
 
@@ -995,6 +997,7 @@ tutor.inputs.sound = function (parent, options) {
     this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
+    this.swfPath = this.options.swfPath || tutor.config.swfPath
     this.supplied = this.options.supplied || "mp3,oga,wav";
     
     this.maxScore=0;
@@ -1068,7 +1071,7 @@ tutor.inputs.sound.prototype.draw = function () {
     
     player.jPlayer({
         ready: function () { },
-        swfPath: this.options.swfPath,
+        swfPath: this.swfPath,
         supplied: this.supplied,
         wmode: "window",
         useStateClassSkin: true,
@@ -1181,25 +1184,25 @@ tutor.inputs.video.prototype.draw = function () {
     html+='            <div class="jp-play-bar"></div>';
     html+='          </div>';
     html+='        </div>';
-//    html+='        <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>';
-//    html+='        <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>';
-//    html+='        <div class="jp-controls-holder">';
-//    html+='          <div class="jp-volume-controls">';
-//    html+='            <button class="jp-mute" role="button" tabindex="0">mute</button>';
-//    html+='            <button class="jp-volume-max" role="button" tabindex="0">max volume</button>';
-//    html+='            <div class="jp-volume-bar">';
-//    html+='              <div class="jp-volume-bar-value"></div>';
-//    html+='            </div>';
-//    html+='          </div>';
-//    html+='          <div class="jp-controls">';
-//    html+='            <button class="jp-play" role="button" tabindex="0">play</button>';
-//    html+='            <button class="jp-stop" role="button" tabindex="0">stop</button>';
-//    html+='          </div>';
-//    html+='          <div class="jp-toggles">';
-//    html+='            <button class="jp-repeat" role="button" tabindex="0">repeat</button>';
-//    html+='            <button class="jp-full-screen" role="button" tabindex="0">full screen</button>';
-//    html+='          </div>';
-//    html+='        </div>';
+    html+='        <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>';
+    html+='        <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>';
+    html+='        <div class="jp-controls-holder">';
+    html+='          <div class="jp-volume-controls">';
+    html+='            <button class="jp-mute" role="button" tabindex="0">mute</button>';
+    html+='            <button class="jp-volume-max" role="button" tabindex="0">max volume</button>';
+    html+='            <div class="jp-volume-bar">';
+    html+='              <div class="jp-volume-bar-value"></div>';
+    html+='            </div>';
+    html+='          </div>';
+    html+='          <div class="jp-controls">';
+    html+='            <button class="jp-play" role="button" tabindex="0">play</button>';
+    html+='            <button class="jp-stop" role="button" tabindex="0">stop</button>';
+    html+='          </div>';
+    html+='          <div class="jp-toggles">';
+    html+='            <button class="jp-repeat" role="button" tabindex="0">repeat</button>';
+    html+='            <button class="jp-full-screen" role="button" tabindex="0">full screen</button>';
+    html+='          </div>';
+    html+='        </div>';
     html+='      </div>';
     html+='    </div>';
     html+='    <div class="jp-no-solution">';
@@ -1209,12 +1212,32 @@ tutor.inputs.video.prototype.draw = function () {
     html+='  </div>';
     html+='</div>';
     
+    html+="<script type=\"application/javascript\">\n";
+    html+="    (function(){\n";
+    html+="        $('#jquery_jplayer_"+this.id+"').jPlayer({\n";
+    html+="            ready: function () { $(this).jPlayer(\"setMedia\", "+JSON.stringify(this.media)+"); },\n";
+    html+="            swfPath: '"+this.swfPath+"',\n";
+    html+="            supplied: '"+this.supplied+"',\n";
+    html+="            cssSelectorAncestor: '#jp_container_"+this.id+"',\n";
+    html+="            wmode: \"window\",\n";
+    html+="            useStateClassSkin: true,\n";
+    html+="            autoBlur: false,\n";
+    html+="            smoothPlayBar: true,\n";
+    html+="            keyEnabled: true,\n";
+    html+="            remainingDuration: true,\n";
+    html+="            toggleDuration: true,\n";
+    html+="            volume:1,\n";
+    //html+="            ended:function(){  $('#jquery_jplayer_button_"+this.id+"').attr('value','"+this.labels.paused+"');}\n";
+    html+="        });\n";
+    html+="    })()\n";
+    html+="</script>";
+    
     this.domElement = $('<span id="task' + this.id + '" class="task-video ' + this.classes + '"></span>');
     this.domElement.append($(html));
     
-    this.buttonStart=$('<input type="button" class="task-video-button">');
-    this.buttonStart.attr('value',this.labels.paused);
-    this.domElement.append(this.buttonStart);
+    //this.buttonStart=$('<input type="button" class="task-video-button" id="jquery_jplayer_button_'+this.id+'">');
+    //this.buttonStart.attr('value',this.labels.paused);
+    //this.domElement.append(this.buttonStart);
     
     
 
@@ -1222,42 +1245,35 @@ tutor.inputs.video.prototype.draw = function () {
     
     this.player=this.domElement.find("#jquery_jplayer_"+this.id);
     
-    this.player.jPlayer({
-	ready: function () {
-            //player.jPlayer("stop");
-            self.player.jPlayer("setMedia", self.media);
-            // player.jPlayer("play");
-        },
-        swfPath: this.options.swfPath,
-        supplied: this.supplied,
-	wmode: "window",
-	useStateClassSkin: true,
-	autoBlur: false,
-	smoothPlayBar: true,
-	keyEnabled: true,
-	remainingDuration: true,
-	toggleDuration: true,
-        volume:1,
-        //,
-        //errorAlerts: false,
-        //warningAlerts: false
-        ended:function(){self.buttonStart.attr('value',self.labels.paused);}
-    });
+    //    this.player.jPlayer({
+    //	ready: function () { self.player.jPlayer("setMedia", self.media); },
+    //        swfPath: this.swfPath,
+    //        supplied: this.supplied,
+    //	wmode: "window",
+    //	useStateClassSkin: true,
+    //	autoBlur: false,
+    //	smoothPlayBar: true,
+    //	keyEnabled: true,
+    //	remainingDuration: true,
+    //	toggleDuration: true,
+    //        volume:1,
+    //        ended:function(){self.buttonStart.attr('value',self.labels.paused);}
+    //    });
     
     
     
-    this.buttonStart.click(function(ev){
-    	var btn=$(this);
-        btn.attr('value',self.labels.paused);
-        if(self.player.data().jPlayer.status.paused){
-             self.player.jPlayer("pauseOthers");
-             self.player.jPlayer("play");
-             btn.attr('value',self.labels.playing);
-        }else{
-             self.player.jPlayer("pause");
-             btn.attr('value',self.labels.paused);
-        }
-    });  
+    //    this.buttonStart.click(function(ev){
+    //    	var btn=$(this);
+    //        btn.attr('value',self.labels.paused);
+    //        if(self.player.data().jPlayer.status.paused){
+    //             self.player.jPlayer("pauseOthers");
+    //             self.player.jPlayer("play");
+    //             btn.attr('value',self.labels.playing);
+    //        }else{
+    //             self.player.jPlayer("pause");
+    //             btn.attr('value',self.labels.paused);
+    //        }
+    //    });  
     
     
     if(this.options.size){

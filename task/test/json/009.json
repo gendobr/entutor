@@ -1,0 +1,25 @@
+{
+    "id":"009",
+    "inputs":{
+        "type":"card",
+        "arrange":"horizontal",
+        "children":[
+            {
+                "type":"html",
+                "innerHtml":"Type number &nbsp;1&nbsp; "
+            },
+            {
+                "type":"sound",
+                "classes":"",
+                "playlist":[
+                    {
+                        "title":"",
+                        "mp3":"media/task047.mp3",
+                        "oga":"media/task047.ogg",
+                        "wav":"media/task047.wav"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "id":"010",
+    "inputs":{
+        "type":"card",
+        "arrange":"horizontal",
+        "children":[
+            {
+                "type":"html",
+                "innerHtml":"Type number &nbsp;1&nbsp; "
+            },
+            {
+                "type":"video",
+                "classes":"",
+                "precondition":"none",
+                "_precondition":"beforeCorrect",
+                "media": {
+                    "title":"",
+                    "m4v":"media/TheSneezingBabyPanda.mp4",
+                    "_webmv":"media/TheSneezingBabyPanda.webmv",
+                    "_ogv":"media/TheSneezingBabyPanda.ogv"
+                }
+            }
+        ]
+    }
+}
