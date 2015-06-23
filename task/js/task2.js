@@ -5,13 +5,16 @@ var tutor = {};
 tutor.guid=0;
 tutor.config={};
 tutor.inputs = {};
-
+tutor.dropzones={};
+tutor.currentCounter=false;
 
 tutor.debug=false;
 
 // =============================================================================
 tutor.show = function (jsonURL,containerSelector) {
     // process the form
+    tutor.currentCounter=false;
+    tutor.dropzones={};
     $.ajax({
         type: 'GET', // define the type of HTTP verb we want to use (POST for our form)
         url: jsonURL, // the url where we want to POST
@@ -1303,3 +1306,364 @@ tutor.inputs.video.prototype.show=function(){
     this.domElement.show();
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =============================================================================
+//
+//    options={
+//        type:'counter', // draggable answer
+//        id:''
+//        classes:''
+//        precondition:'none|beforeCorrect'
+//        innerHtml:'1 check me answer', // visible text or html code
+//        value:'' // value that will be checked, if not set the innerHtml is used
+//     }
+// 
+
+tutor.inputs.counter = function (parent, options) {
+    this.parent = parent;
+    this.type = 'counter';
+    this.options = options || {};
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
+    this.classes = this.options.classes || '';
+    this.precondition = this.options.precondition || 'none';
+    this.value = this.options.value || '';
+};
+
+tutor.inputs.counter.prototype.test = function (testFinishedCallback) {
+    testFinishedCallback(this.id, {
+        status: tutor.task.status.received,
+        score: 0,
+        passed: true,
+        maxScore: 0
+    });
+};
+
+tutor.inputs.counter.prototype.draw = function () {
+    var self=this;
+    
+    this.counterplace = $('<span id="task' + this.id + 'counterplace"  data-id="' + this.id + '" class="task-counterplace ' + this.classes + '"></span>');
+    this.counter = $('<span id="task' + this.id + 'counter" data-id="' + this.id + '" class="task-counter ' + this.classes + '">' + this.options.innerHtml + '</span>');
+    if(this.value){
+        this.counter.attr('data-value',this.value);
+    }else{
+        this.counter.attr('data-value',this.counter.text());
+    }
+    this.counter.draggable({
+        containment:'document',
+        // revert: true,
+        start: function( event, ui ) {
+            if(!$(ui.helper).attr('data-top')){
+                $(ui.helper).attr('data-top', ui.position.top);
+                $(ui.helper).attr('data-left', ui.position.left);
+            }
+        },
+        stop: function( event, ui ) {
+            // tutor.inputs.counterRevert();
+            // get position of current element
+            // 
+            // check where 
+            // console.log(ui);
+            var left=ui.offset.left;
+            var top=ui.offset.top;
+            var dLeft=ui.helper.width();
+            var dTop=ui.helper.height();
+            var j=false, dmax=false, d;
+            for(var i in tutor.dropzones){
+                d=tutor.dropzones[i].overlap(left,top,dLeft,dTop);
+                // console.log(i,d);
+                if(d > 0){
+                    if( j===false ){
+                        j=i;
+                        dmax=d;
+                    }else if(d>dmax) {
+                        j=i;
+                        dmax=d;
+                    }
+                }
+            }
+            if(j===false){
+                // revert
+                //console.log('3 removeChild '+self.id);
+                self.counter.animate(
+                    {left:self.counter.attr('data-left')+'px', top:self.counter.attr('data-top')+'px'},
+                    "slow",
+                    "swing",
+                    function(){
+                        for(var i in tutor.dropzones){
+                            tutor.dropzones[i].removeChild(self);
+                        }                        
+                    }
+                );
+            }else{
+                for(var i in tutor.dropzones){
+                    if(i===j){
+                        tutor.dropzones[j].setChild(self);
+                    }else{
+                        tutor.dropzones[i].removeChild(self);
+                    }
+                }
+            }
+        }
+    });
+
+    this.counterplace.append(this.counter);
+    
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
+    return this.counterplace;
+};
+
+tutor.inputs.counter.prototype.getValue = function () {
+    return null;
+};
+
+tutor.inputs.counter.prototype.getMaxScore = function () {
+    return 0;
+};
+
+tutor.inputs.counter.prototype.hide=function(){
+    this.counterplace.hide();
+    this.counter.hide();
+};
+
+tutor.inputs.counter.prototype.show=function(){
+    this.counterplace.show();
+    this.counter.show();
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =============================================================================
+//
+//    options={
+//        type:'dropzone',
+//        id:''
+//        classes:''
+//        maxScore:1
+//        precondition:'none|beforeCorrect'
+//        customtest:function(value){
+//            return {
+//              status: tutor.task.status.received,
+//              score: null,
+//              subresults: [],
+//              passed:false|true,
+//              maxScore:0
+//            }
+//        }
+//        pattern: //regexp, patternt to check if value of dropped counter is correct
+//        value:'' // value that will be checked, if not set the innerHtml is used
+//        size: // integer, width of placehoder, css property, units are 'em'
+//     }
+// 
+
+tutor.inputs.dropzone = function (parent, options) {
+    // console.log(options);
+    this.parent = parent;
+    this.type = 'dropzone';
+    this.options = options || {};
+    this.id = this.parent.id + '_' + ( this.options.id  || (++tutor.guid) );
+    this.classes = this.options.classes || '';
+    this.precondition = this.options.precondition || 'none';
+    this.maxScore = (typeof(this.options.maxScore)!=='undefined')?this.options.maxScore : 1;
+    this.result = null;
+    this.pattern = this.options.pattern || null;
+    if(typeof(this.pattern)==='string'){
+        this.pattern=new RegExp('^ *'+this.pattern+' *$');
+    }
+    this.child=null;
+    this.offset=null;
+    this.customtest=this.options.customtest || false;
+    this.value=false;
+    
+    //this.id
+    tutor.dropzones[this.id]=this;
+    // console.log(this);
+};
+
+tutor.inputs.dropzone.prototype.showSuccess = function () {
+    this.dropzone.removeClass('task-dropzone-error').addClass('task-dropzone-correct');
+};
+
+tutor.inputs.dropzone.prototype.showError = function () {
+    this.dropzone.removeClass('task-dropzone-correct').addClass('task-dropzone-error');
+};
+
+tutor.inputs.dropzone.prototype.removeFeedback = function () {
+    this.dropzone.removeClass('task-dropzone-correct').removeClass('task-dropzone-error');
+};
+
+tutor.inputs.dropzone.prototype.test = function (parentCallback) {
+    if(this.value === false){
+        this.result = {
+            status: tutor.task.status.received,
+            score:  0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };
+    }else if(this.customtest){
+        this.result=this.customtest(this.value);
+    }else if (this.pattern) {
+        var isCorrect = this.pattern.test(this.value);
+        this.result = {
+            status: tutor.task.status.received,
+            score: (isCorrect ? this.maxScore : 0),
+            passed: isCorrect,
+            maxScore: this.maxScore
+        };
+    } else {
+        this.result = {
+            status: tutor.task.status.received,
+            score:  0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };
+    }
+    
+    this.removeFeedback();
+    if(this.result && this.result.maxScore>0){
+        if (this.result.passed === true) {
+            this.showSuccess();
+        } else if (this.result.passed === false) {
+            this.showError();
+        }
+    }
+
+    parentCallback(this.id, this.result);
+
+};
+
+tutor.inputs.dropzone.prototype.draw = function () {
+
+    var self = this;
+
+    this.dropzone = $('<span id="task' + this.id + 'dropzone" class="task-dropzone" style="width:' + (this.options.size || '4') + 'em;"></span>');
+    
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
+    return this.dropzone;
+};
+
+tutor.inputs.dropzone.prototype.getValue = function () {
+    return this.value;
+};
+
+tutor.inputs.dropzone.prototype.getMaxScore = function () {
+    return this.maxScore;
+};
+
+tutor.inputs.dropzone.prototype.hide=function(){
+    this.dropzone.hide();
+};
+
+tutor.inputs.dropzone.prototype.show=function(){
+    this.dropzone.show();
+};
+
+
+
+tutor.inputs.dropzone.prototype.overlap = function(left,top, dLeft, dTop){
+    var offset = this.dropzone.offset();
+    var width = this.dropzone.width();
+    var height = this.dropzone.height();
+    var notContains = ( left >= offset.left + width )
+                   || ( left + dLeft <= offset.left )
+                   || ( top  >= offset.top + height )
+                   || ( top  + dTop  <= offset.top  );
+    if(notContains){
+        return 0;
+    }
+    var xMin = ( left > offset.left ) ? left : offset.left;
+    var xMax = ( left + dLeft > offset.left + width) ? offset.left + width : left + dLeft;
+    
+    var yMin = ( top > offset.top ) ? top : offset.top;
+    var yMax = ( top + dTop > offset.top + height) ? offset.top + height : top + dLeft;
+    
+    return ( xMax - xMin ) * ( yMax - yMin );
+};
+
+tutor.inputs.dropzone.prototype.setChild = function(child){
+    if(this.child && this.child.id !== child.id ){
+        //console.log('1 returning '+this.child.id);
+        this.child.counter.animate(
+            {left:this.child.counter.attr('data-left')+'px', top:this.child.counter.attr('data-top')+'px'},
+            "slow",
+            "swing"
+        );
+    }
+    this.child=child;
+    //console.log('4 adding '+this.child.id);
+    // console.log(this.child);
+    var offset=this.dropzone.offset();
+    this.child.counter.offset({top:offset.top+1, left:offset.left+1});
+    this.value=this.child.counter.attr('data-value');
+    $( document ).trigger( "task:newinput" );
+};
+
+tutor.inputs.dropzone.prototype.removeChild = function(child){
+    if(this.child && this.child.id === child.id ){
+        //console.log('2 removeChild '+this.child.id);
+        //        this.child.counter.animate(
+        //            {left:this.child.counter.attr('data-left')+'px', top:this.child.counter.attr('data-top')+'px'},
+        //            "slow",
+        //            "swing",
+        //            function(){
+        //                for(var i in tutor.dropzones){
+        //                    tutor.dropzones[i].removeChild(self);
+        //                }                        
+        //            }
+        //        );
+        this.value='';
+        this.child=false;
+    }
+};

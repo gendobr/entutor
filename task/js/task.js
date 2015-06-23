@@ -732,7 +732,6 @@ tutor.inputs.radio.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-radio-correct').removeClass('task-radio-error');
 };
 
-
 tutor.inputs.radio.prototype.test = function (parentCallback) {
     if(this.value === false){
         this.result = {

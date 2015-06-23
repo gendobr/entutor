@@ -104,3 +104,42 @@
 .task-radio-label-horizontal{
     
 }
+
+
+
+/******************************************************************************/
+
+.task-counterplace{
+    display:inline-block;
+    border:1px solid gray;
+    margin-right:5px;
+    position:relative;
+}
+.task-counter{
+    display:inline-block;
+    border:1px solid gray;
+    cursor:move;
+    z-index:1000;
+    padding:0 5px;
+}
+.task-counter.ui-draggable-dragging { background: green; color:white;}
+
+
+
+
+
+/******************************************************************************/
+.task-dropzone{
+    display:inline-block;
+    border:1px solid red;    
+    height:1.3em;
+}
+
+.task-dropzone-error{
+    background-color:#ffaaaa;
+}
+.task-dropzone-correct{
+    background-color:#aaffaa;
+}
+
+

@@ -1,0 +1,29 @@
+{
+    "id":"011",
+    "inputs":{
+        "type":"card",
+        "arrange":"horizontal",
+        "children":[
+            {
+                "type":"html",
+                "innerHtml":"Type number &nbsp;1&nbsp; "
+            },
+            {
+                "type":"counter",
+                "classes":"",
+                "precondition":"none",
+                "_precondition":"beforeCorrect",
+                "value": "val1",
+                "innerHtml":"VisibleText1"
+            },
+            {
+                "type":"counter",
+                "classes":"",
+                "precondition":"none",
+                "_precondition":"beforeCorrect",
+                "value": "val2",
+                "innerHtml":"VisibleText2"
+            }
+        ]
+    }
+}

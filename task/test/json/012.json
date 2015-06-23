@@ -1,0 +1,39 @@
+{
+    "id":"012",
+    "inputs":{
+        "type":"card",
+        "arrange":"horizontal",
+        "children":[
+            {
+                "type":"html",
+                "innerHtml":" Drag & drop test "
+            },
+            {
+                "type":"counter",
+                "classes":"",
+                "precondition":"none",
+                "_precondition":"beforeCorrect",
+                "value": "val1",
+                "innerHtml":"VisibleText1"
+            },
+            {
+                "type":"counter",
+                "classes":"",
+                "precondition":"none",
+                "_precondition":"beforeCorrect",
+                "value": "val2",
+                "innerHtml":"VisibleText2"
+            },
+            { 
+                "type":"dropzone",
+                "size":"8",
+                "pattern":"val1"
+            },
+            {
+                "type":"dropzone",
+                "size":"8",
+                "pattern":"val2"
+            }
+        ]
+    }
+}
