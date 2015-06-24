@@ -1499,7 +1499,7 @@ tutor.inputs.audio.prototype.ajax = function (url, data,onLoadCallback){
             this.request.open("GET", url, true);
         }
         this.request.onreadystatechange = function(){
-            if (currentObject.request.readyState == 4){
+            if (currentObject.request.readyState === 4){
                 //console.log(currentObject.request);
                 try{
                     currentObject.onLoadFunction(currentObject.request.responseText);

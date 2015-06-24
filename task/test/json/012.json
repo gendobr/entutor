@@ -27,12 +27,14 @@
             { 
                 "type":"dropzone",
                 "size":"8",
-                "pattern":"val1"
+                "pattern":"val1",
+                "ejectCounterOnError":true
             },
             {
                 "type":"dropzone",
                 "size":"8",
-                "pattern":"val2"
+                "pattern":"val2",
+                "ejectCounterOnError":true
             }
         ]
     }

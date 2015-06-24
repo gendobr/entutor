@@ -1,0 +1,45 @@
+{
+    "id": "013",
+    "inputs": {
+        "type": "card",
+        "arrange": "horizontal",
+        "children": [
+            {
+                "type": "html",
+                "innerHtml": " Testing playlist "
+            },
+            {
+                "type": "playlist",
+                "classes": "",
+                "supplied": "mp3",
+                "_supplied": "mp3,oga,wav",
+                "precondition": "none",
+                "_precondition": "beforeCorrect",
+                "labels": {
+                    "playing": "||",
+                    "paused": ">"
+                },
+                "playlist": [
+                    {
+                        "title": "Бублички",
+                        "mp3": "./media/bublichki.mp3",
+                        "_oga": "",
+                        "_wav": ""
+                    },
+                    {
+                        "title": "В землянке",
+                        "mp3": "./media/v_zemlyanke.mp3",
+                        "_oga": "",
+                        "_wav": ""
+                    },
+                    {
+                        "title": "Сердце",
+                        "mp3": "./media/serdtse.mp3",
+                        "_oga": "",
+                        "_wav": ""
+                    }
+                ]
+            }
+        ]
+    }
+}
