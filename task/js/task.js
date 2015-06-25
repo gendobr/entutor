@@ -1611,7 +1611,7 @@ tutor.presentation=function(options){
   	}else{
   	    $('#taskPresentationText'+this.presentationId).empty();
   	}
-  }
+    }
     
     this.timeupdate = function(event){
         var currentTime=event.jPlayer.status.currentTime;

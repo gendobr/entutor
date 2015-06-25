@@ -1716,12 +1716,11 @@ tutor.inputs.playlist.prototype.draw = function () {
 
     this.domElement = $('<span id="task' + this.id + '" class="task-playlist ' + this.classes + '"></span>');
 
-
-
     var html = "";
 
     html += '<div id="jp_container_' + this.id + '" class="jp-audio" role="application" aria-label="media player" style="width:1px;height:1px;opacity:0;float:right;overflow:hidden;">';
-    html += '   <div id="jquery_jplayer_' + this.id + '" class="jp-jplayer" style="width:1px;height:1px;opacity:0;float:right;overflow:hidden;"></div>';
+    //html += '   <div id="jquery_jplayer_' + this.id + '" class="jp-jplayer" style="width:1px;height:1px;opacity:0;float:right;overflow:hidden;"></div>';
+    html += '   <div id="jquery_jplayer_' + this.id + '" class="jp-jplayer"></div>';
     html += '	<div class="jp-type-single">';
     html += '		<div class="jp-no-solution">';
     html += '			<span>Update Required</span>';
@@ -1734,9 +1733,10 @@ tutor.inputs.playlist.prototype.draw = function () {
     html += "    (function(){\n";
     //html += "        alert('111');";
     html += "        $('#jquery_jplayer_" + this.id + "').jPlayer({\n";
-    html += "            ready: function () { alert('111'); },\n";
+    html += "            ready: function () {  },\n";
     html += "            swfPath: '" + this.swfPath + "',\n";
     html += "            supplied: '" + this.supplied + "',\n";
+    //html += "            play: function (e) { console.log(e); },\n";
     html += "            cssSelectorAncestor: '#jp_container_" + this.id + "',\n";
     html += "            wmode: \"window\",\n";
     html += "            useStateClassSkin: true,\n";
@@ -1745,14 +1745,16 @@ tutor.inputs.playlist.prototype.draw = function () {
     html += "            keyEnabled: true,\n";
     html += "            remainingDuration: true,\n";
     html += "            toggleDuration: true,\n";
+    html += "            errorAlerts: false,\n";
+    html += "            warningAlerts: false,\n";
+    html += "            consoleAlerts: false,\n";
     html += "            volume:1,\n";
-    html += "            ended:function(){  $('#playlist_" + this.id + "').attr('value','" + this.labels.paused + "');}\n";
+    html += "            ended:function(){  $('.playlist_button').attr('value','" + this.labels.paused + "');}\n";
     html += "        });\n";
     html += "    })()\n";
     html += "</script>";
 
     this.domElement.append($(html));
-
 
     var playlistBlock = $('<div id="playlist_' + this.id + '"></div>');
     this.domElement.append(playlistBlock);
@@ -1766,7 +1768,8 @@ tutor.inputs.playlist.prototype.draw = function () {
     playlistBlock.find('.playlist_button').click(function (ev) {
         var btn = $(this);
         var i = btn.attr('data-i');
-        var player = $("#jquery_jplayer_" + this.id);
+        var player = $("#jquery_jplayer_" + self.id);
+        // console.log(player);
 
         if (self.currenttrack === i) {
             if (player.data().jPlayer.status.paused) {
@@ -1809,3 +1812,38 @@ tutor.inputs.playlist.prototype.hide = function () {
 tutor.inputs.playlist.prototype.show = function () {
     this.domElement.show();
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

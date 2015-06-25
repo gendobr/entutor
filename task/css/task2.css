@@ -143,3 +143,17 @@
 }
 
 
+
+
+/******************************************************************************/
+.task-playlist{
+    display:inline-block;
+    text-align:left;
+}
+
+.playlist_button{
+    display:inline-block;
+    text-align:center;    
+    vertical-align:baseline;
+    width:2em;
+}
