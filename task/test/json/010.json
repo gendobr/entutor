@@ -2,7 +2,7 @@
     "id":"010",
     "inputs":{
         "type":"card",
-        "arrange":"horizontal",
+        "arrange":"vertical",
         "children":[
             {
                 "type":"html",

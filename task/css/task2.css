@@ -122,9 +122,37 @@
     z-index:1000;
     padding:0 5px;
 }
-.task-counter.ui-draggable-dragging { background: green; color:white;}
+.task-counter.ui-draggable-dragging {
+    background: green;
+    color:white;
+}
 
 
+
+@-webkit-keyframes counter-active{
+    0%    {background: green;}
+    50%   {background: orange;}
+    100%  {background: gold;}
+}
+@keyframes counter-active {
+    0%    {background: green;}
+    50%   {background: orange;}
+    100%  {background: gold;}
+}
+.task-counter-active{
+    background: green;
+    color:white;
+    
+    -webkit-animation-name: counter-active;
+    -webkit-animation-duration: 0.6s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: alternate;
+
+    animation-name: counter-active;
+    animation-duration: 0.6s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
 
 
 
@@ -156,4 +184,17 @@
     text-align:center;    
     vertical-align:baseline;
     width:2em;
+}
+
+
+
+
+/******************************************************************************/
+
+.taskPresentationText{
+    display:inline-block;
+    position:relative;
+    width:420px;
+    height:252px;
+    border:1px solid #009be3;
 }
