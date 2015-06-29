@@ -1,0 +1,21 @@
+{
+    "id": "015",
+    "inputs": {
+        "type": "card",
+        "arrange": "vertical",
+        "children": [
+            {
+                "type": "html",
+                "innerHtml": " Testing playlist "
+            },
+            {
+                "type": "recorder",
+                "classes": "",
+                "maxScore": 1,
+                "precondition": "none",
+                "_precondition": "beforeCorrect",
+                "text":"Text accepted from student"
+            }
+        ]
+    }
+}

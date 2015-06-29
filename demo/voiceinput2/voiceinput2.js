@@ -1,5 +1,6 @@
 tutor = {};
 tutor.inputs = {};
+
 tutor.recorderApp = {};
 tutor.recorderApp.RECORDER_APP_ID = "recorderApp";
 tutor.recorderApp.appWidth = 24;

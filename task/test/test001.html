@@ -33,6 +33,8 @@
             <a href="javascript:void(tutor.show('json/012.json','#taskContainer'))">012</a>
             <a href="javascript:void(tutor.show('json/013.json','#taskContainer'))">013</a>
             <a href="javascript:void(tutor.show('json/014.json','#taskContainer'))">014</a>
+            <a href="javascript:void(tutor.show('json/015.json','#taskContainer'))">015</a>
+            <a href="javascript:void(tutor.show('json/016.json','#taskContainer'))">016</a>
         </div>
         <div id="taskContainer" class='taskContainer'></div>
         
@@ -41,6 +43,25 @@
         $(document).ready(function(){
             
             tutor.config.swfPath = "../../task/lib/jplayer/jplayer";
+
+            // ------------------ flash recorder - begin -----------------------
+            tutor.recorderApp.swf = "../../task/lib/recorder.swf";
+            tutor.recorderApp.receiver = '../../demo/voiceinput2/upload.php';
+            tutor.recorderApp.iconRecord = '../../task/img/record.png';
+            tutor.recorderApp.iconStop = '../../task/img/stop.png';
+            tutor.recorderApp.iconUpload = '../../task/img/upload.png';
+            tutor.recorderApp.salt='kdsjlkajdo695bh';
+
+            $('body').append($('<div id="flashcontent">p>Your browser must have JavaScript enabled and the Adobe Flash Player installed.</p></div>'));
+            var flashvars = {'upload_image': tutor.recorderApp.iconUpload};
+            var params = {};
+            var attributes = {'id': tutor.recorderApp.RECORDER_APP_ID, 'name': tutor.recorderApp.RECORDER_APP_ID};
+
+            // console.log(tutor.recorderApp.swf, "flashcontent", tutor.recorderApp.appWidth, tutor.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
+            swfobject.embedSWF(tutor.recorderApp.swf, "flashcontent", tutor.recorderApp.appWidth, tutor.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
+            // ------------------ flash recorder - end -------------------------
+
+
             if(window.location.hash){
                 tutor.show('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
             }
