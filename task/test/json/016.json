@@ -1,0 +1,33 @@
+{
+    "id": "016",
+    "inputs": {
+        "type": "card",
+        "arrange": "vertical",
+        "children": [
+            {
+                "type": "html",
+                "innerHtml": " Recorder 1 "
+            },
+            {
+                "type": "recorder",
+                "classes": "",
+                "maxScore": 1,
+                "precondition": "none",
+                "_precondition": "beforeCorrect",
+                "text":"Text accepted from student"
+            },
+            {
+                "type": "html",
+                "innerHtml": " Recorder 2 "
+            },
+            {
+                "type": "recorder",
+                "classes": "",
+                "maxScore": 1,
+                "precondition": "none",
+                "_precondition": "beforeCorrect",
+                "text":"Other text from student"
+            }
+        ]
+    }
+}
