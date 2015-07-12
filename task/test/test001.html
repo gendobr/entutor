@@ -19,22 +19,22 @@
     </head>
     <body>
         <div>
-            <a href="javascript:void(tutor.show('json/001.json','#taskContainer'))">001</a>
-            <a href="javascript:void(tutor.show('json/002.json','#taskContainer'))">002</a>
-            <a href="javascript:void(tutor.show('json/003.json','#taskContainer'))">003</a>
-            <a href="javascript:void(tutor.show('json/004.json','#taskContainer'))">004</a>
-            <a href="javascript:void(tutor.show('json/005.json','#taskContainer'))">005</a>
-            <a href="javascript:void(tutor.show('json/006.json','#taskContainer'))">006</a>
-            <a href="javascript:void(tutor.show('json/007.json','#taskContainer'))">007</a>
-            <a href="javascript:void(tutor.show('json/008.json','#taskContainer'))">008</a>
-            <a href="javascript:void(tutor.show('json/009.json','#taskContainer'))">009</a>
-            <a href="javascript:void(tutor.show('json/010.json','#taskContainer'))">010</a>
-            <a href="javascript:void(tutor.show('json/011.json','#taskContainer'))">011</a>
-            <a href="javascript:void(tutor.show('json/012.json','#taskContainer'))">012</a>
-            <a href="javascript:void(tutor.show('json/013.json','#taskContainer'))">013</a>
-            <a href="javascript:void(tutor.show('json/014.json','#taskContainer'))">014</a>
-            <a href="javascript:void(tutor.show('json/015.json','#taskContainer'))">015</a>
-            <a href="javascript:void(tutor.show('json/016.json','#taskContainer'))">016</a>
+            <a href="javascript:void(entutor.show('json/001.json','#taskContainer'))">001</a>
+            <a href="javascript:void(entutor.show('json/002.json','#taskContainer'))">002</a>
+            <a href="javascript:void(entutor.show('json/003.json','#taskContainer'))">003</a>
+            <a href="javascript:void(entutor.show('json/004.json','#taskContainer'))">004</a>
+            <a href="javascript:void(entutor.show('json/005.json','#taskContainer'))">005</a>
+            <a href="javascript:void(entutor.show('json/006.json','#taskContainer'))">006</a>
+            <a href="javascript:void(entutor.show('json/007.json','#taskContainer'))">007</a>
+            <a href="javascript:void(entutor.show('json/008.json','#taskContainer'))">008</a>
+            <a href="javascript:void(entutor.show('json/009.json','#taskContainer'))">009</a>
+            <a href="javascript:void(entutor.show('json/010.json','#taskContainer'))">010</a>
+            <a href="javascript:void(entutor.show('json/011.json','#taskContainer'))">011</a>
+            <a href="javascript:void(entutor.show('json/012.json','#taskContainer'))">012</a>
+            <a href="javascript:void(entutor.show('json/013.json','#taskContainer'))">013</a>
+            <a href="javascript:void(entutor.show('json/014.json','#taskContainer'))">014</a>
+            <a href="javascript:void(entutor.show('json/015.json','#taskContainer'))">015</a>
+            <a href="javascript:void(entutor.show('json/016.json','#taskContainer'))">016</a>
         </div>
         <div id="taskContainer" class='taskContainer'></div>
         
@@ -42,28 +42,28 @@
         <script type="application/javascript">
         $(document).ready(function(){
             
-            tutor.config.swfPath = "../../task/lib/jplayer/jplayer";
+            entutor.config.swfPath = "../../task/lib/jplayer/jplayer";
 
             // ------------------ flash recorder - begin -----------------------
-            tutor.recorderApp.swf = "../../task/lib/recorder.swf";
-            tutor.recorderApp.receiver = '../../demo/voiceinput2/upload.php';
-            tutor.recorderApp.iconRecord = '../../task/img/record.png';
-            tutor.recorderApp.iconStop = '../../task/img/stop.png';
-            tutor.recorderApp.iconUpload = '../../task/img/upload.png';
-            tutor.recorderApp.salt='kdsjlkajdo695bh';
+            entutor.recorderApp.swf = "../../task/lib/recorder.swf";
+            entutor.recorderApp.receiver = '../../demo/voiceinput2/upload.php';
+            entutor.recorderApp.iconRecord = '../../task/img/record.png';
+            entutor.recorderApp.iconStop = '../../task/img/stop.png';
+            entutor.recorderApp.iconUpload = '../../task/img/upload.png';
+            entutor.recorderApp.salt='kdsjlkajdo695bh';
 
             $('body').append($('<div id="flashcontent">p>Your browser must have JavaScript enabled and the Adobe Flash Player installed.</p></div>'));
-            var flashvars = {'upload_image': tutor.recorderApp.iconUpload};
+            var flashvars = {'upload_image': entutor.recorderApp.iconUpload};
             var params = {};
-            var attributes = {'id': tutor.recorderApp.RECORDER_APP_ID, 'name': tutor.recorderApp.RECORDER_APP_ID};
+            var attributes = {'id': entutor.recorderApp.RECORDER_APP_ID, 'name': entutor.recorderApp.RECORDER_APP_ID};
 
-            // console.log(tutor.recorderApp.swf, "flashcontent", tutor.recorderApp.appWidth, tutor.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
-            swfobject.embedSWF(tutor.recorderApp.swf, "flashcontent", tutor.recorderApp.appWidth, tutor.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
+            // console.log(entutor.recorderApp.swf, "flashcontent", entutor.recorderApp.appWidth, entutor.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
+            swfobject.embedSWF(entutor.recorderApp.swf, "flashcontent", entutor.recorderApp.appWidth, entutor.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
             // ------------------ flash recorder - end -------------------------
 
 
             if(window.location.hash){
-                tutor.show('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
+                entutor.show('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
             }
         });
             

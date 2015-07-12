@@ -1,0 +1,124 @@
+.editor-presentation-textarea{
+    width:99%;
+    height:200px;
+}
+
+.editor-element-container{
+    margin:10px 3px 3px 3px;
+    border:1px dotted gray;
+    position:relative;
+}
+.editor-element-container:hover{
+    border:1px solid green;
+    background-color: #ddffdd;
+}
+.editor-toolbar{
+    display:inline-block;
+    width:100%;
+    background-color:silver;
+    font-size:80%;
+    opacity:0.6;
+}
+.editor-toolbar:hover{
+    opacity:1;
+}
+
+.delete-link,
+.editor-options-link{
+    display:inline-block;
+    float:right;
+    padding:0px 7px;
+    text-decoration:none;
+}
+.delete-link:hover,
+.editor-options-link:hover{
+    background-color:gray;
+    color:white;
+}
+.editor-element-options{
+    background-color:#ddddff;
+    padding:5px 1%;
+    position:absolute;
+    width:98%;
+    z-index:1000;
+    margin-left:30px;
+    border:1px solid #aaaaff;
+    font-size:80%;
+}
+
+.editor-component-container{
+    margin-bottom:2pt;
+    border-bottom:1px dotted gray;
+}
+
+.editor-component-label{
+    display:inline-block;
+    vertical-align: top;
+    width:30%;
+}
+.editor-component-input{
+    vertical-align: top;
+    width:67%;
+}
+
+.editor-component-input.select{
+    width:68%;
+}
+
+.editor-card-children{
+    margin:3px;
+    border:1px dotted gray;
+}
+
+.editor-card-children:hover{
+    border:1px solid green;
+}
+.editor-html-content{
+    width:99%;
+}
+
+textarea{
+    border:1px solid black;
+}
+
+.editor-card-children.horizontal{
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+.editor-card-children.horizontal > .editor-element-container{
+    white-space: normal;
+    width:33%;
+    display:inline-block;
+    vertical-align:top;
+}
+
+.addChildLink{
+    display: inline-block;
+    padding:0 5px;
+}
+.addChildLink:hover{
+    background-color:gray;
+    color:white;
+    text-decoration:none;
+}
+
+
+.editor-radio-variants{
+    display: inline-block;
+}
+.editor-radio-variants.vertical .label{
+    display:block;
+}
+.editor-radio-variants.horizontal{
+    white-space: nowrap;
+}
+.editor-radio-variants.horizontal .label{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.editor-radio-variants .label input,
+.editor-radio-variants .label .delete-link
+{
+    vertical-align:top;
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>taskEditor test</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link href="../lib/jplayer/skin/blue.monday/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css" />
+        <link href="../lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+        <link href="../css/task2.css" rel="stylesheet" type="text/css" />
+        <link href="../css/task2edit.css" rel="stylesheet" type="text/css" />
+        
+        <script type="application/javascript" src="../lib/jquery-2.1.4.min.js"></script>
+        <script type="application/javascript" src="../lib/jquery-ui/jquery-ui.min.js"></script>
+        <script type="application/javascript" src="../lib/markup.min.js"></script>
+        <script type="application/javascript" src="../lib/swfobject.js"></script>
+        <script type="text/javascript"        src="../lib/recorder.js"></script>
+        <script type="application/javascript" src="../lib/jplayer/jplayer/jquery.jplayer.min.js"></script>
+        <script type="application/javascript" src="../js/task2.js"></script>
+        <script type="application/javascript" src="../js/task2edit.js"></script>
+    </head>
+    <body>
+        <div>
+            <a href="javascript:void(entutor.loadEditor('json/001.json','#taskEditor'))">001</a>
+            <a href="javascript:void(entutor.loadEditor('json/002.json','#taskEditor'))">002</a>
+            <a href="javascript:void(entutor.loadEditor('json/003.json','#taskEditor'))">003</a>
+            <a href="javascript:void(entutor.loadEditor('json/004.json','#taskEditor'))">004</a>
+            <a href="javascript:void(entutor.loadEditor('json/005.json','#taskEditor'))">005</a>
+            <a href="javascript:void(entutor.loadEditor('json/006.json','#taskEditor'))">006</a>
+            <a href="javascript:void(entutor.loadEditor('json/007.json','#taskEditor'))">007</a>
+            <a href="javascript:void(entutor.loadEditor('json/008.json','#taskEditor'))">008</a>
+            <a href="javascript:void(entutor.loadEditor('json/009.json','#taskEditor'))">009</a>
+            <a href="javascript:void(entutor.loadEditor('json/010.json','#taskEditor'))">010</a>
+            <a href="javascript:void(entutor.loadEditor('json/011.json','#taskEditor'))">011</a>
+            <a href="javascript:void(entutor.loadEditor('json/012.json','#taskEditor'))">012</a>
+            <a href="javascript:void(entutor.loadEditor('json/013.json','#taskEditor'))">013</a>
+            <a href="javascript:void(entutor.loadEditor('json/014.json','#taskEditor'))">014</a>
+            <a href="javascript:void(entutor.loadEditor('json/015.json','#taskEditor'))">015</a>
+            <a href="javascript:void(entutor.loadEditor('json/016.json','#taskEditor'))">016</a>
+        </div>
+        
+        <h3>Editor</h3>
+        <div id="taskEditor" class='taskEditor' style="width:800px;"></div>
+        
+        <h3>Preview</h3>
+        <div id="taskContainer" class='taskContainer'></div>
+        
+        
+        <script type="application/javascript">
+        $(document).ready(function(){
+            if(window.location.hash){
+                entutor.loadEditor('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskEditor');
+            }
+            
+            $(document).on("editor:updated",function(){
+                if(entutor.currentEditor){
+                    console.log(entutor.currentEditor.getValue());
+                }
+            });
+
+            //            entutor.config.swfPath = "../../task/lib/jplayer/jplayer";
+            //
+            //            // ------------------ flash recorder - begin -----------------------
+            //            entutor.recorderApp.swf = "../../task/lib/recorder.swf";
+            //            entutor.recorderApp.receiver = '../../demo/voiceinput2/upload.php';
+            //            entutor.recorderApp.iconRecord = '../../task/img/record.png';
+            //            entutor.recorderApp.iconStop = '../../task/img/stop.png';
+            //            entutor.recorderApp.iconUpload = '../../task/img/upload.png';
+            //            entutor.recorderApp.salt='kdsjlkajdo695bh';
+            //
+            //            $('body').append($('<div id="flashcontent">p>Your browser must have JavaScript enabled and the Adobe Flash Player installed.</p></div>'));
+            //            var flashvars = {'upload_image': entutor.recorderApp.iconUpload};
+            //            var params = {};
+            //            var attributes = {'id': entutor.recorderApp.RECORDER_APP_ID, 'name': entutor.recorderApp.RECORDER_APP_ID};
+            //
+            //            // console.log(entutor.recorderApp.swf, "flashcontent", entutor.recorderApp.appWidth, entutor.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
+            //            swfobject.embedSWF(entutor.recorderApp.swf, "flashcontent", entutor.recorderApp.appWidth, entutor.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
+            //            // ------------------ flash recorder - end -------------------------
+            //
+            //
+            //            if(window.location.hash){
+            //                entutor.show('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
+            //            }
+        });
+            
+        </script>
+    </body>
+</html>
