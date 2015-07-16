@@ -122,3 +122,11 @@ textarea{
 {
     vertical-align:top;
 }
+
+
+.editor-element-container.checkbox input[type="checkbox"]{
+    width:10%;
+}
+.editor-element-container.checkbox input[type="text"]{
+    width:80%;
+}

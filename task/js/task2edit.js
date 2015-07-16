@@ -167,6 +167,18 @@ entutor.components.checkbox = function (value, attr, labelText, callback) {
     return container;
 };
 
+// =============================================================================
+
+$(document).click(function(ev){
+    var tgt=$(ev.target);
+    var L1=tgt.parents('.editor-element-options').length;
+    var L2=tgt.parents('.editor-options-link').length;
+    var L3=tgt.hasClass('editor-options-link');
+    if( L1>0 || L2>0 || L3){
+        return;
+    }
+    $('.editor-element-options').hide();
+});
 
 // =============================================================================
 //    value={
@@ -349,11 +361,11 @@ entutor.editors.card.prototype.addChild=function(type){
         this.children[i].delLink.click(this.delChild);
         this.children[i].toolbar.prepend(this.children[i].delLink);
 
-        this.children[i].upLink=$('<a class="editor-options-link" href="javascript:void(\'up\')" data-i=\"'+i+'\">up</a>');
+        this.children[i].upLink=$('<a class="editor-options-link" href="javascript:void(\'up\')" data-i=\"'+i+'\">&Wedge;</a>');
         this.children[i].upLink.click(this.getUpMover);
         this.children[i].toolbar.prepend(this.children[i].upLink);
 
-        this.children[i].downLink=$('<a class="editor-options-link" href="javascript:void(\'down\')" data-i=\"'+i+'\">down</a>');
+        this.children[i].downLink=$('<a class="editor-options-link" href="javascript:void(\'down\')" data-i=\"'+i+'\">&Vee;</a>');
         this.children[i].downLink.click(this.getDownMover);
         this.children[i].toolbar.prepend(this.children[i].downLink);
         
@@ -497,15 +509,7 @@ entutor.editors.radio = function (parent, value) {
 
     this.value.size = this.value.size || '5';
     this.value.arrange = this.value.arrange || 'vertical';
-    
-    
-    
-//        correctVariant:'1',
-//        variant:{
-//           '1':'1 Correct answer',
-//           '2':'2 Wrong answer',
-//           '3':'3 Wrong answer'
-//        }
+
 };
 
 entutor.editors.radio.prototype.draw = function () {
@@ -628,15 +632,199 @@ entutor.editors.radio.prototype.getValue = function () {
 
 
 
-// =============================================================================
 
-$(document).click(function(ev){
-    var tgt=$(ev.target);
-    var L1=tgt.parents('.editor-element-options').length;
-    var L2=tgt.parents('.editor-options-link').length;
-    var L3=tgt.hasClass('editor-options-link');
-    if( L1>0 || L2>0 || L3){
-        return;
-    }
-    $('.editor-element-options').hide();
-});
+
+
+
+
+
+
+
+
+
+// =============================================================================
+entutor.editors.checkbox = function (parent, value) {
+    this.type = 'checkbox';
+    this.parent = parent;
+    this.value = value || {};
+
+    this.id = this.parent.id + '_' + (this.value.id || (++entutor.guid));
+
+    this.maxScore = 1;
+
+    this.value.classes = this.value.classes || '';
+    this.value.precondition = this.value.precondition || 'none';
+
+    this.value.label = this.value.label || 'type checkbox label here';
+    this.value.correctVariant = this.value.correctVariant || true;
+
+};
+
+entutor.editors.checkbox.prototype.draw = function () {
+    // console.log('entutor.editors.card.prototype.draw ' + this.id);
+    var self = this;
+    this.container = $("<div class=\"editor-element-container " + this.type + "\"></div>");
+    this.toolbar = $('<div class="editor-toolbar">' + this.type + ' #' + this.id + '</div>');
+    this.container.append(this.toolbar);
+
+    this.optionsLink = $('<a class="editor-options-link" href="javascript:void(\'options\')">&Congruent;</a>');
+    this.toolbar.prepend(this.optionsLink);
+    this.optionsLink.click(function () {
+        self.optionBlock.toggle();
+    });
+
+    this.optionBlock = $("<div class=\"editor-element-options\"></div>");
+    this.optionBlock.hide();
+    this.container.append(this.optionBlock);
+
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+
+    // add checkbox field with label
+    this.checkbox = $("<input type=checkbox>");
+    this.checkbox.prop("checked",this.value.correctVariant);
+    this.checkbox.change(function () { self.value.correctVariant= self.checkbox.prop("checked");   $(document).trigger("editor:updated");  });
+    this.container.append(this.checkbox);
+    
+    this.input = $("<input type=text size=\"16\">");
+    this.input.val(this.value.label);
+    this.input.change(function () { self.value.label= self.input.val();   $(document).trigger("editor:updated");  });
+    this.container.append(this.input);
+
+    return this.container;
+};
+
+entutor.editors.checkbox.prototype.getValue = function () {
+    return this.value;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =============================================================================
+entutor.editors.counter = function (parent, value) {
+    this.type = 'counter';
+    this.parent = parent;
+    this.value = value || {};
+
+    this.id = this.parent.id + '_' + (this.value.id || (++entutor.guid));
+
+    this.maxScore = 1;
+
+    this.value.classes = this.value.classes || '';
+    this.value.precondition = this.value.precondition || 'none';
+
+    this.value.innerHtml = this.value.innerHtml || 'type visible text here';
+    this.value.value = this.value.value || '';
+
+};
+
+entutor.editors.counter.prototype.draw = function () {
+    // console.log('entutor.editors.card.prototype.draw ' + this.id);
+    var self = this;
+    this.container = $("<div class=\"editor-element-container " + this.type + "\"></div>");
+    this.toolbar = $('<div class="editor-toolbar">' + this.type + ' #' + this.id + '</div>');
+    this.container.append(this.toolbar);
+
+    this.optionsLink = $('<a class="editor-options-link" href="javascript:void(\'options\')">&Congruent;</a>');
+    this.toolbar.prepend(this.optionsLink);
+    this.optionsLink.click(function () {
+        self.optionBlock.toggle();
+    });
+
+    this.optionBlock = $("<div class=\"editor-element-options\"></div>");
+    this.optionBlock.hide();
+    this.container.append(this.optionBlock);
+
+    this.optionBlock.append(entutor.components.string(this.value, 'value', 'Value provided to dropzone'));
+
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+
+    // add checkbox field with label
+    this.input = $("<input type=text class=\"editor-counter-html\">");
+    this.input.val(this.value.innerHtml);
+    this.input.change(function () { self.value.innerHtml= self.input.val();   $(document).trigger("editor:updated");  });
+    this.container.append(this.input);
+
+    return this.container;
+};
+
+entutor.editors.counter.prototype.getValue = function () {
+    return this.value;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+// =============================================================================
+entutor.editors.dropzone = function (parent, value) {
+    this.type = 'dropzone';
+    this.parent = parent;
+    this.value = value || {};
+
+    this.id = this.parent.id + '_' + (this.value.id || (++entutor.guid));
+
+    this.maxScore = 1;
+
+    this.value.classes = this.value.classes || '';
+    this.value.precondition = this.value.precondition || 'none';
+
+    this.value.pattern = this.value.pattern || 'type correct answer here';
+    this.value.ejectCounterOnError = typeof(this.value.ejectCounterOnError)!=='undefined' ? this.value.ejectCounterOnError : false;
+    this.value.size = this.value.size || '5';
+};
+
+entutor.editors.dropzone.prototype.draw = function () {
+    // console.log('entutor.editors.card.prototype.draw ' + this.id);
+    var self = this;
+    this.container = $("<div class=\"editor-element-container " + this.type + "\"></div>");
+    this.toolbar = $('<div class="editor-toolbar">' + this.type + ' #' + this.id + '</div>');
+    this.container.append(this.toolbar);
+
+    this.optionsLink = $('<a class="editor-options-link" href="javascript:void(\'options\')">&Congruent;</a>');
+    this.toolbar.prepend(this.optionsLink);
+    this.optionsLink.click(function () {
+        self.optionBlock.toggle();
+    });
+
+    this.optionBlock = $("<div class=\"editor-element-options\"></div>");
+    this.optionBlock.hide();
+    this.container.append(this.optionBlock);
+
+    this.optionBlock.append(entutor.components.string(this.value, 'pattern', 'Correct value*',function(value){self.input.val(value);}));
+    this.optionBlock.append(entutor.components.string(this.value, 'value', 'Initial value'));
+    this.optionBlock.append(entutor.components.string(this.value, 'size', 'Width',function(value){self.input.attr('size',value);}));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+
+    // add text field
+    this.input = $("<input type=text class=\"editor-html-content\" size=\""+this.value.size+"\" disabled=\"true\">");
+    this.container.append(this.input);
+    this.input.val(this.value.pattern);
+    this.input.change(function () { self.value.pattern= self.input.val();   $(document).trigger("editor:updated");  });
+
+    return this.container;
+};
+
+entutor.editors.dropzone.prototype.getValue = function () {
+    return this.value;
+};
+
