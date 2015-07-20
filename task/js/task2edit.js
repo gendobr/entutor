@@ -107,6 +107,42 @@ entutor.components.string = function (value, attr, labelText, callback) {
     return container;
 };
 
+entutor.components.float = function (value, attr, labelText, callback) {
+    var container = $("<div class=\"editor-component-container number\"></div>");
+
+    var label = $("<span class=\"editor-component-label number\">" + labelText + "</span>");
+    container.append(label);
+
+    var input = $("<input class=\"editor-component-input number\" type=text>");
+    container.append(input);
+    input.val(value[attr]);
+    if (callback) {
+        input.change(function () { var v=parseFloat(input.val()); if(isNaN(v)){alert('Number required');} value[attr] = v;  callback(input.val());  $(document).trigger("editor:updated"); });
+    } else {
+        input.change(function () { var v=parseFloat(input.val()); if(isNaN(v)){alert('Number required');} value[attr] = v;   $(document).trigger("editor:updated");  });
+    }
+
+    return container;
+};
+
+entutor.components.integer = function (value, attr, labelText, callback) {
+    var container = $("<div class=\"editor-component-container number\"></div>");
+
+    var label = $("<span class=\"editor-component-label number\">" + labelText + "</span>");
+    container.append(label);
+
+    var input = $("<input class=\"editor-component-input number\" type=text>");
+    container.append(input);
+    input.val(value[attr]);
+    if (callback) {
+        input.change(function () { var v=parseInt(input.val()); if(isNaN(v)){alert('Number required');} value[attr] = v;  callback(input.val());  $(document).trigger("editor:updated"); });
+    } else {
+        input.change(function () { var v=parseInt(input.val()); if(isNaN(v)){alert('Number required');} value[attr] = v;   $(document).trigger("editor:updated");  });
+    }
+
+    return container;
+};
+
 entutor.components.select = function (value, attr, labelText, options, callback) {
     var container = $("<div class=\"editor-component-container string\"></div>");
 
@@ -403,6 +439,7 @@ entutor.editors.html.prototype.draw = function () {
 
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    this.optionBlock.append(entutor.components.string(this.value, 'duration', 'Duration, milleseconds'));
 
 
     
@@ -458,7 +495,10 @@ entutor.editors.text.prototype.draw = function () {
 
     this.optionBlock.append(entutor.components.string(this.value, 'pattern', 'Correct value*',function(value){self.input.val(value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'value', 'Initial value'));
-    this.optionBlock.append(entutor.components.string(this.value, 'size', 'Width',function(value){self.input.attr('size',value);}));
+    this.optionBlock.append(entutor.components.integer(this.value, 'maxlength', 'Maximal length'));
+    
+    
+    this.optionBlock.append(entutor.components.integer(this.value, 'size', 'Width',function(value){self.input.attr('size',value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
 

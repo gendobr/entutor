@@ -155,6 +155,10 @@ entutor.task.prototype.test = function (self) {
 };
 
 
+entutor.task.prototype.start = function(){
+    this.inputs.start();
+};
+
 
 
 
@@ -445,6 +449,17 @@ entutor.inputs.card.prototype.show = function () {
     this.domElement.show();
 };
 
+entutor.inputs.card.prototype.start = function(){
+    for (var key = 0; key < this.children.length; key++) {
+        this.children[key].start();
+    }
+    if(this.onstart){
+        for(var j=0; j<this.onstart.length; j++){
+            this.onstart[j]();
+        }
+    }
+};
+
 // factory, creates custom test
 entutor.inputs.card.prototype.customtestSets = function (sets) {
     return function (arrayOfChildComponents) {
@@ -513,6 +528,13 @@ entutor.inputs.html = function (parent, options) {
     this.id = this.parent.id + '_' + (this.options.id || (++entutor.guid));
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
+    
+    this.passed=false;
+    this.duration = parseFloat(this.options.duration || 'none');
+    if(!isNaN(this.duration) && this.duration>0){
+        this.duration = Math.round(1000 * this.duration);
+    }
+    
     this.maxScore = 1;
 };
 
@@ -520,7 +542,7 @@ entutor.inputs.html.prototype.test = function (testFinishedCallback) {
     testFinishedCallback(this.id, {
         status: entutor.task.status.received,
         score: 1,
-        passed: true,
+        passed: this.passed,
         maxScore: 1
     });
 };
@@ -530,7 +552,6 @@ entutor.inputs.html.prototype.draw = function () {
     if (this.precondition === 'beforeCorrect') {
         this.hide();
     }
-
     return this.domElement;
 };
 
@@ -548,8 +569,37 @@ entutor.inputs.html.prototype.hide = function () {
 
 entutor.inputs.html.prototype.show = function () {
     this.domElement.show();
+    if(!this.passed){
+        // hide after this.duration msec
+        var self=this;
+        setTimeout(function(){
+            self.passed=true;
+            self.domElement.hide();
+            $(document).trigger("task:newinput");
+        },this.duration);        
+    }
 };
 
+entutor.inputs.html.prototype.start = function () {
+    if(this.domElement.is(':visible')){
+        if( isNaN(this.duration) ){
+            this.passed=true;
+        }else{
+            // hide after this.duration msec
+            var self=this;
+            setTimeout(function(){
+                self.passed=true;
+                self.domElement.hide();
+                $(document).trigger("task:newinput");
+            },this.duration);
+        }
+    }
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
+};
 
 
 
@@ -582,6 +632,7 @@ entutor.inputs.text = function (parent, options) {
     this.options = options || {};
     this.id = this.parent.id + '_' + (this.options.id || (++entutor.guid));
     this.classes = this.options.classes || '';
+    this.maxlength = this.options.maxlength || '';
     this.precondition = this.options.precondition || 'none';
     this.maxScore = (typeof (this.options.maxScore) !== 'undefined') ? this.options.maxScore : 1;
     this.result = null;
@@ -652,7 +703,7 @@ entutor.inputs.text.prototype.test = function (parentCallback) {
 };
 
 entutor.inputs.text.prototype.draw = function () {
-    this.textField = $('<input type="text" id="task' + this.id + 'text" value="" size="' + (this.options.size || '') + '">');
+    this.textField = $('<input type="text" id="task' + this.id + 'text" value="" maxlength="'+this.maxlength+'" size="' + (this.options.size || '') + '">');
     var self = this;
     this.textField.change(function (ev) {
         self.value = $(ev.target).val();
@@ -688,6 +739,13 @@ entutor.inputs.text.prototype.show = function () {
     this.domElement.show();
 };
 
+entutor.inputs.text.prototype.start = function () {
+    if(this.onstart){
+        for(var j=0; j<this.onstart.length; j++){
+            this.onstart[j]();
+        }
+    }
+};
 
 
 
@@ -827,6 +885,13 @@ entutor.inputs.radio.prototype.show = function () {
     this.domElement.show();
 };
 
+entutor.inputs.radio.prototype.start = function () {
+    if(this.onstart){
+        for(var j=0; j<this.onstart.length; j++){
+            this.onstart[j]();
+        }
+    }
+};
 
 
 
@@ -959,6 +1024,14 @@ entutor.inputs.checkbox.prototype.show = function () {
     this.domElement.show();
 };
 
+
+entutor.inputs.checkbox.prototype.start = function () {
+    if(this.onstart){
+        for(var j=0; j<this.onstart.length; j++){
+            this.onstart[j]();
+        }
+    }
+};
 
 
 
@@ -1128,6 +1201,13 @@ entutor.inputs.sound.prototype.show = function () {
     this.domElement.show();
 };
 
+entutor.inputs.sound.prototype.start = function () {
+    if(this.onstart){
+        for(var j=0; j<this.onstart.length; j++){
+            this.onstart[j]();
+        }
+    }
+};
 
 
 
@@ -1287,6 +1367,13 @@ entutor.inputs.video.prototype.show = function () {
     this.domElement.show();
 };
 
+entutor.inputs.video.prototype.start = function () {
+    if(this.onstart){
+        for(var j=0; j<this.onstart.length; j++){
+            this.onstart[j]();
+        }
+    }
+};
 
 
 
@@ -1484,6 +1571,13 @@ entutor.inputs.counter.prototype.show = function () {
     this.counter.show();
 };
 
+entutor.inputs.counter.prototype.start = function () {
+    if(this.onstart){
+        for(var j=0; j<this.onstart.length; j++){
+            this.onstart[j]();
+        }
+    }
+};
 
 
 
@@ -1694,6 +1788,13 @@ entutor.inputs.dropzone.prototype.removeChild = function (child) {
 };
 
 
+entutor.inputs.dropzone.prototype.start = function () {
+    if(this.onstart){
+        for(var j=0; j<this.onstart.length; j++){
+            this.onstart[j]();
+        }
+    }
+};
 
 
 
@@ -1881,6 +1982,13 @@ entutor.inputs.playlist.prototype.show = function () {
     this.domElement.show();
 };
 
+entutor.inputs.playlist.prototype.start = function () {
+    if(this.onstart){
+        for(var j=0; j<this.onstart.length; j++){
+            this.onstart[j]();
+        }
+    }
+};
 
 
 
@@ -2113,6 +2221,13 @@ entutor.inputs.slideshow.prototype.show = function () {
 };
 
 
+entutor.inputs.slideshow.prototype.start = function () {
+    if(this.onstart){
+        for(var j=0; j<this.onstart.length; j++){
+            this.onstart[j]();
+        }
+    }
+};
 
 
 
@@ -2838,4 +2953,11 @@ entutor.inputs.recorder.prototype.show = function () {
     this.domElement.show();
 };
 
+entutor.inputs.recorder.prototype.start = function () {
+    if(this.onstart){
+        for(var j=0; j<this.onstart.length; j++){
+            this.onstart[j]();
+        }
+    }
+};
 
