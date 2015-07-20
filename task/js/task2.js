@@ -1614,7 +1614,6 @@ entutor.inputs.counter.prototype.start = function () {
 //            }
 //        }
 //        pattern: //regexp, patternt to check if value of dropped counter is correct
-//        value:'' // value that will be checked, if not set the innerHtml is used
 //        size: // integer, width of placehoder, css property, units are 'em'
 //     }
 // 
