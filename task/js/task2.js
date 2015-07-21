@@ -159,6 +159,10 @@ entutor.task.prototype.start = function(){
     this.inputs.start();
 };
 
+// выполняется, если элемент изменился
+entutor.task.prototype.notify = function (stack) {
+    // re-test if autocheck is true
+};
 
 
 
@@ -449,14 +453,23 @@ entutor.inputs.card.prototype.show = function () {
     this.domElement.show();
 };
 
+// выполняется сразу после вставки в документ
 entutor.inputs.card.prototype.start = function(){
     for (var key = 0; key < this.children.length; key++) {
         this.children[key].start();
     }
-    if(this.onstart){
-        for(var j=0; j<this.onstart.length; j++){
-            this.onstart[j]();
-        }
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
+};
+
+// выполняется, если элемент изменился
+entutor.inputs.card.prototype.notify = function (stack) {
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
     }
 };
 
@@ -601,6 +614,13 @@ entutor.inputs.html.prototype.start = function () {
     //    }
 };
 
+// выполняется, если элемент изменился
+entutor.inputs.html.prototype.notify = function (stack) {
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
+    }
+};
 
 
 
@@ -740,13 +760,20 @@ entutor.inputs.text.prototype.show = function () {
 };
 
 entutor.inputs.text.prototype.start = function () {
-    if(this.onstart){
-        for(var j=0; j<this.onstart.length; j++){
-            this.onstart[j]();
-        }
-    }
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
 };
 
+// выполняется, если элемент изменился
+entutor.inputs.text.prototype.notify = function (stack) {
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
+    }
+};
 
 
 
@@ -886,14 +913,20 @@ entutor.inputs.radio.prototype.show = function () {
 };
 
 entutor.inputs.radio.prototype.start = function () {
-    if(this.onstart){
-        for(var j=0; j<this.onstart.length; j++){
-            this.onstart[j]();
-        }
-    }
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
 };
 
-
+// выполняется, если элемент изменился
+entutor.inputs.radio.prototype.notify = function (stack) {
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
+    }
+};
 
 
 
@@ -1026,13 +1059,20 @@ entutor.inputs.checkbox.prototype.show = function () {
 
 
 entutor.inputs.checkbox.prototype.start = function () {
-    if(this.onstart){
-        for(var j=0; j<this.onstart.length; j++){
-            this.onstart[j]();
-        }
-    }
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
 };
 
+// выполняется, если элемент изменился
+entutor.inputs.checkbox.prototype.notify = function (stack) {
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
+    }
+};
 
 
 
@@ -1202,13 +1242,21 @@ entutor.inputs.sound.prototype.show = function () {
 };
 
 entutor.inputs.sound.prototype.start = function () {
-    if(this.onstart){
-        for(var j=0; j<this.onstart.length; j++){
-            this.onstart[j]();
-        }
-    }
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
 };
 
+
+// выполняется, если элемент изменился
+entutor.inputs.sound.prototype.notify = function (stack) {
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
+    }
+};
 
 
 
@@ -1368,13 +1416,21 @@ entutor.inputs.video.prototype.show = function () {
 };
 
 entutor.inputs.video.prototype.start = function () {
-    if(this.onstart){
-        for(var j=0; j<this.onstart.length; j++){
-            this.onstart[j]();
-        }
-    }
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
 };
 
+
+// выполняется, если элемент изменился
+entutor.inputs.video.prototype.notify = function (stack) {
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
+    }
+};
 
 
 
@@ -1572,10 +1628,18 @@ entutor.inputs.counter.prototype.show = function () {
 };
 
 entutor.inputs.counter.prototype.start = function () {
-    if(this.onstart){
-        for(var j=0; j<this.onstart.length; j++){
-            this.onstart[j]();
-        }
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
+};
+
+// выполняется, если элемент изменился
+entutor.inputs.counter.prototype.notify = function (stack) {
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
     }
 };
 
@@ -1767,10 +1831,10 @@ entutor.inputs.dropzone.prototype.overlap = function (left, top, dLeft, dTop) {
 entutor.inputs.dropzone.prototype.setChild = function (child) {
     if (this.child && this.child.id !== child.id) {
         this.child.counter.animate(
-                {left: this.child.counter.attr('data-left') + 'px', top: this.child.counter.attr('data-top') + 'px'},
-        "slow",
-                "swing"
-                );
+           {left: this.child.counter.attr('data-left') + 'px', top: this.child.counter.attr('data-top') + 'px'},
+           "slow",
+           "swing"
+        );
     }
     this.child = child;
     var offset = this.dropzone.offset();
@@ -1788,13 +1852,20 @@ entutor.inputs.dropzone.prototype.removeChild = function (child) {
 
 
 entutor.inputs.dropzone.prototype.start = function () {
-    if(this.onstart){
-        for(var j=0; j<this.onstart.length; j++){
-            this.onstart[j]();
-        }
-    }
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
 };
 
+// выполняется, если элемент изменился
+entutor.inputs.dropzone.prototype.notify = function (stack) {
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
+    }
+};
 
 
 
@@ -1982,10 +2053,18 @@ entutor.inputs.playlist.prototype.show = function () {
 };
 
 entutor.inputs.playlist.prototype.start = function () {
-    if(this.onstart){
-        for(var j=0; j<this.onstart.length; j++){
-            this.onstart[j]();
-        }
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
+};
+
+// выполняется, если элемент изменился
+entutor.inputs.playlist.prototype.notify = function (stack) {
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
     }
 };
 
@@ -2219,12 +2298,19 @@ entutor.inputs.slideshow.prototype.show = function () {
     this.domElement.show();
 };
 
-
 entutor.inputs.slideshow.prototype.start = function () {
-    if(this.onstart){
-        for(var j=0; j<this.onstart.length; j++){
-            this.onstart[j]();
-        }
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
+};
+
+// выполняется, если элемент изменился
+entutor.inputs.slideshow.prototype.notify = function (stack) {
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
     }
 };
 
@@ -2953,10 +3039,17 @@ entutor.inputs.recorder.prototype.show = function () {
 };
 
 entutor.inputs.recorder.prototype.start = function () {
-    if(this.onstart){
-        for(var j=0; j<this.onstart.length; j++){
-            this.onstart[j]();
-        }
-    }
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
 };
 
+// выполняется, если элемент изменился
+entutor.inputs.recorder.prototype.notify = function (stack) {
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
+    }
+};
