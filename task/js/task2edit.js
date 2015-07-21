@@ -47,7 +47,23 @@ entutor.editor = function (value) {
 };
 
 entutor.editor.prototype.draw = function () {
+    var self=this;
     this.container = $("<div class=\"editor-container\"></div>");
+    this.toolbar = $('<div class="editor-toolbar">task #' + this.id + '</div>');
+    this.container.append(this.toolbar);
+
+    this.optionsLink = $('<a class="editor-options-link" href="javascript:void(\'options\')">&Congruent;</a>');
+    this.toolbar.prepend(this.optionsLink);
+    this.optionsLink.click(function () {
+        self.optionBlock.toggle();
+    });
+
+    this.optionBlock = $("<div class=\"editor-element-options\"></div>");
+    this.optionBlock.hide();
+    this.container.append(this.optionBlock);
+
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+    
     this.container.append(this.presentation.draw());
     this.container.append(this.inputs.draw());
     return this.container;
@@ -164,7 +180,6 @@ entutor.components.select = function (value, attr, labelText, options, callback)
     return container;
 };
 
-
 entutor.components.text = function (value, attr, labelText, callback) {
 
     var container = $("<div class=\"editor-component-container string\"></div>");
@@ -186,12 +201,12 @@ entutor.components.text = function (value, attr, labelText, callback) {
 entutor.components.checkbox = function (value, attr, labelText, callback) {
     var container = $("<div class=\"editor-component-container checkbox\"></div>");
 
-    var label = $("<span class=\"editor-component-label checkbox\">" + labelText + "</span>");
-    container.append(label);
-
     var input = $("<input class=\"editor-component-input checkbox\" type=\"checkbox\">");
     container.append(input);
     
+    var label = $("<span class=\"editor-component-label checkbox\">" + labelText + "</span>");
+    container.append(label);
+
     input.prop( "checked", value[attr] );
     // input.val(value[attr]);
     if (callback) {
@@ -292,6 +307,7 @@ entutor.editors.card.prototype.draw = function () {
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.text(this.value, 'customtest', 'Custom test function' /*, callback */));
     this.optionBlock.append(entutor.components.string(this.value, 'maxScore', 'Max Score'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
 
     this.addLink = $('<a class="editor-options-link" href="javascript:void(\'add\')">+child</a>');
     this.toolbar.prepend(this.addLink);
@@ -452,6 +468,7 @@ entutor.editors.html.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.string(this.value, 'duration', 'Duration, milleseconds'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
 
 
     
@@ -508,7 +525,8 @@ entutor.editors.text.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'pattern', 'Correct value*',function(value){self.input.val(value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'value', 'Initial value'));
     this.optionBlock.append(entutor.components.integer(this.value, 'maxlength', 'Maximal length'));
-    
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+
     
     this.optionBlock.append(entutor.components.integer(this.value, 'size', 'Width',function(value){self.input.attr('size',value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
@@ -576,6 +594,7 @@ entutor.editors.radio.prototype.draw = function () {
     this.optionBlock.append(entutor.components.select(this.value, 'arrange', 'Arrange subelements', {'horizontal': 'horizontal', 'vertical': 'vertical','flow':'flow'} , function(value){self.variantContainer.removeClass('flow').removeClass('vertical').removeClass('horizontal').addClass(value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
 
 
     this.addLink = $('<a class="editor-options-link" href="javascript:void(\'+variant\')">+variant</a>');
@@ -719,6 +738,7 @@ entutor.editors.checkbox.prototype.draw = function () {
 
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
 
     // add checkbox field with label
     this.checkbox = $("<input type=checkbox>");
@@ -789,6 +809,7 @@ entutor.editors.counter.prototype.draw = function () {
 
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
 
     // add checkbox field with label
     this.input = $("<input type=text class=\"editor-counter-html\">");
@@ -854,6 +875,7 @@ entutor.editors.dropzone.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'size', 'Width',function(value){self.input.attr('size',value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
 
     // add text field
     this.input = $("<input type=text class=\"editor-html-content\" size=\""+this.value.size+"\" disabled=\"true\">");

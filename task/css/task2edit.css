@@ -1,3 +1,9 @@
+
+
+.editor-container{
+    position:relative;
+}
+
 .editor-presentation-textarea{
     width:99%;
     height:200px;
@@ -18,6 +24,7 @@
     background-color:silver;
     font-size:80%;
     opacity:0.6;
+    padding-left:3pt;
 }
 .editor-toolbar:hover{
     opacity:1;
@@ -60,7 +67,10 @@
     vertical-align: top;
     width:67%;
 }
-
+.editor-component-input.checkbox{
+    vertical-align: top;
+    width:auto;
+}
 .editor-component-input.select{
     width:68%;
 }

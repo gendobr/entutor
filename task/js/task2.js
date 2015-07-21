@@ -1,4 +1,11 @@
-
+// todo:
+//    this.autocheck=this.options.autocheck||false;
+//
+//    sound
+//    video
+//    slideshow
+//    recorder
+//    this.autostart=this.options.autostart||false;
 
 
 var entutor = {};
@@ -6,7 +13,7 @@ entutor.guid = 0;
 entutor.config = {};
 entutor.inputs = {};
 entutor.dropzones = {};
-entutor.jplayers = {};
+// entutor.jplayers = {};
 entutor.recorders={};
 entutor.currentCounter = false;
 
@@ -24,7 +31,7 @@ entutor.show = function (jsonURL, containerSelector) {
     // process the form
     entutor.currentCounter = false;
     entutor.dropzones = {};
-    entutor.jplayers = {};
+    // entutor.jplayers = {};
     entutor.recorders={};
     $.ajax({
         type: 'GET', // define the type of HTTP verb we want to use (POST for our form)
@@ -44,6 +51,9 @@ entutor.show = function (jsonURL, containerSelector) {
 
 
 // =============================================================================
+/**
+ * autocheck:true\false
+ */
 entutor.task = function (options) {
 
     var self = this;
@@ -51,6 +61,8 @@ entutor.task = function (options) {
     this.options = options || {};
 
     this.id = options.id || (++entutor.guid);
+
+    this.autocheck=this.options.autocheck||false;
 
     // text messages
     if (this.options.text) {
@@ -74,6 +86,7 @@ entutor.task = function (options) {
 
 };
 
+
 entutor.task.prototype.template =
         '<span id="task{{id}}" class="task-container">'
         + '<span id="task{{id}}tip" class="task-tip"><!-- task.tip --></span>'
@@ -86,6 +99,7 @@ entutor.task.prototype.template =
         + '</span>'
         + '</span>';
 
+
 entutor.task.prototype.text = {
     testbutton: 'Проверить',
     nextbutton: 'Далее',
@@ -97,6 +111,7 @@ entutor.task.status = {
     received: 'received',
     waiting: 'waiting'
 };
+
 
 entutor.task.prototype.draw = function () {
 
@@ -137,7 +152,6 @@ entutor.task.prototype.draw = function () {
 };
 
 
-
 entutor.task.prototype.test = function (self) {
     return function () {
         // console.log("self.inputs.test");
@@ -159,10 +173,16 @@ entutor.task.prototype.start = function(){
     this.inputs.start();
 };
 
+
 // выполняется, если элемент изменился
 entutor.task.prototype.notify = function (stack) {
     // re-test if autocheck is true
+    if(this.options.autocheck){
+        this.inputs.test();
+    }
 };
+
+
 
 
 
@@ -174,6 +194,7 @@ entutor.testPresentation = function (parent, options) {
     this.options = options || {};
     // console.log(this);
 };
+
 
 entutor.testPresentation.prototype.draw = function () {
     if (this.options.innerHtml) {
@@ -225,6 +246,7 @@ entutor.inputs.card = function (parent, options) {
     this.precondition = this.options.precondition || 'none';
     this.customtest = this.options.customtest || false;
     this.maxScore = (typeof (this.options.maxScore) !== 'undefined') ? this.options.maxScore : 1;
+    this.autocheck=this.options.autocheck||false;
 
     // create child elements
     this.children = [];
@@ -261,13 +283,16 @@ entutor.inputs.card.prototype.showSuccess = function () {
     this.domElement.removeClass('task-card-error').addClass('task-card-correct');
 };
 
+
 entutor.inputs.card.prototype.showError = function () {
     this.domElement.removeClass('task-card-correct').addClass('task-card-error');
 };
 
+
 entutor.inputs.card.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-card-correct').removeClass('task-card-error');
 };
+
 
 entutor.inputs.card.prototype.test = function (parentCallback) {
 
@@ -413,6 +438,7 @@ entutor.inputs.card.prototype.test = function (parentCallback) {
 
 };
 
+
 entutor.inputs.card.prototype.draw = function () {
     this.domElement = $('<span id="task' + this.id + '" class="task-card  task-card-' + this.arrange + ' ' + this.classes + '"></span>');
     for (var key = 0; key < this.children.length; key++) {
@@ -429,6 +455,7 @@ entutor.inputs.card.prototype.draw = function () {
     return this.domElement;
 };
 
+
 entutor.inputs.card.prototype.getValue = function () {
     var value = [];
     for (var key = 0; key < this.children.length; key++) {
@@ -436,6 +463,7 @@ entutor.inputs.card.prototype.getValue = function () {
     }
     return value;
 };
+
 
 entutor.inputs.card.prototype.getMaxScore = function () {
     var maxScore = 0;
@@ -445,13 +473,16 @@ entutor.inputs.card.prototype.getMaxScore = function () {
     return maxScore;
 };
 
+
 entutor.inputs.card.prototype.hide = function () {
     this.domElement.hide();
 };
 
+
 entutor.inputs.card.prototype.show = function () {
     this.domElement.show();
 };
+
 
 // выполняется сразу после вставки в документ
 entutor.inputs.card.prototype.start = function(){
@@ -465,13 +496,18 @@ entutor.inputs.card.prototype.start = function(){
     //    }
 };
 
+
 // выполняется, если элемент изменился
 entutor.inputs.card.prototype.notify = function (stack) {
+    if(this.options.autocheck){
+        this.test();
+    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
     }
 };
+
 
 // factory, creates custom test
 entutor.inputs.card.prototype.customtestSets = function (sets) {
@@ -541,7 +577,8 @@ entutor.inputs.html = function (parent, options) {
     this.id = this.parent.id + '_' + (this.options.id || (++entutor.guid));
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
-    
+    this.autocheck=this.options.autocheck||false;
+
     this.passed=false;
     this.duration = parseFloat(this.options.duration || 'none');
     if(!isNaN(this.duration) && this.duration>0){
@@ -550,6 +587,7 @@ entutor.inputs.html = function (parent, options) {
     
     this.maxScore = 1;
 };
+
 
 entutor.inputs.html.prototype.test = function (testFinishedCallback) {
     testFinishedCallback(this.id, {
@@ -560,6 +598,7 @@ entutor.inputs.html.prototype.test = function (testFinishedCallback) {
     });
 };
 
+
 entutor.inputs.html.prototype.draw = function () {
     this.domElement = $('<span id="task' + this.id + '" class="task-html ' + this.classes + '">' + this.options.innerHtml + '</span>');
     if (this.precondition === 'beforeCorrect') {
@@ -568,17 +607,21 @@ entutor.inputs.html.prototype.draw = function () {
     return this.domElement;
 };
 
+
 entutor.inputs.html.prototype.getValue = function () {
     return null;
 };
+
 
 entutor.inputs.html.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
+
 entutor.inputs.html.prototype.hide = function () {
     this.domElement.hide();
 };
+
 
 entutor.inputs.html.prototype.show = function () {
     this.domElement.show();
@@ -593,29 +636,31 @@ entutor.inputs.html.prototype.show = function () {
     }
 };
 
+
 entutor.inputs.html.prototype.start = function () {
     if(this.domElement.is(':visible')){
         if( isNaN(this.duration) ){
             this.passed=true;
+            this.notify();
         }else{
             // hide after this.duration msec
             var self=this;
             setTimeout(function(){
                 self.passed=true;
                 self.domElement.hide();
+                self.notify();
                 $(document).trigger("task:newinput");
             },this.duration);
         }
     }
-    //    if(this.onstart){
-    //        for(var j=0; j<this.onstart.length; j++){
-    //            this.onstart[j]();
-    //        }
-    //    }
 };
+
 
 // выполняется, если элемент изменился
 entutor.inputs.html.prototype.notify = function (stack) {
+    if(this.options.autocheck){
+        this.test();
+    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
@@ -661,21 +706,27 @@ entutor.inputs.text = function (parent, options) {
         this.pattern = new RegExp('^ *' + this.pattern + ' *$');
     }
     this.customtest = this.options.customtest || false;
+    this.autocheck=this.options.autocheck||false;
+
 
     this.value = false;
 };
+
 
 entutor.inputs.text.prototype.showSuccess = function () {
     this.textField.removeClass('task-text-error').addClass('task-text-correct');
 };
 
+
 entutor.inputs.text.prototype.showError = function () {
     this.textField.removeClass('task-text-correct').addClass('task-text-error');
 };
 
+
 entutor.inputs.text.prototype.removeFeedback = function () {
     this.textField.removeClass('task-text-correct').removeClass('task-text-error');
 };
+
 
 entutor.inputs.text.prototype.test = function (parentCallback) {
     if (this.value === false) {
@@ -722,11 +773,13 @@ entutor.inputs.text.prototype.test = function (parentCallback) {
 
 };
 
+
 entutor.inputs.text.prototype.draw = function () {
     this.textField = $('<input type="text" id="task' + this.id + 'text" value="" maxlength="'+this.maxlength+'" size="' + (this.options.size || '') + '">');
     var self = this;
     this.textField.change(function (ev) {
         self.value = $(ev.target).val();
+        self.notify();
         $(document).trigger("task:newinput");
     });
     if (this.options.value) {
@@ -743,21 +796,26 @@ entutor.inputs.text.prototype.draw = function () {
     return this.domElement;
 };
 
+
 entutor.inputs.text.prototype.getValue = function () {
     return this.value;
 };
+
 
 entutor.inputs.text.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
+
 entutor.inputs.text.prototype.hide = function () {
     this.domElement.hide();
 };
 
+
 entutor.inputs.text.prototype.show = function () {
     this.domElement.show();
 };
+
 
 entutor.inputs.text.prototype.start = function () {
     //    if(this.onstart){
@@ -767,8 +825,12 @@ entutor.inputs.text.prototype.start = function () {
     //    }
 };
 
+
 // выполняется, если элемент изменился
 entutor.inputs.text.prototype.notify = function (stack) {
+    if(this.options.autocheck){
+        this.test();
+    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
@@ -814,16 +876,20 @@ entutor.inputs.radio = function (parent, options) {
     this.value = false;
     this.result = null;
     this.arrange = this.options.arrange || 'horizontal';
+    this.autocheck=this.options.autocheck||false;
 
 };
+
 
 entutor.inputs.radio.prototype.showSuccess = function () {
     this.domElement.removeClass('task-radio-error').addClass('task-radio-correct');
 };
 
+
 entutor.inputs.radio.prototype.showError = function () {
     this.domElement.removeClass('task-radio-correct').addClass('task-radio-error');
 };
+
 
 entutor.inputs.radio.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-radio-correct').removeClass('task-radio-error');
@@ -869,6 +935,7 @@ entutor.inputs.radio.prototype.test = function (parentCallback) {
     parentCallback(this.id, this.result);
 };
 
+
 entutor.inputs.radio.prototype.draw = function () {
     this.domElement = $('<span id="task' + this.id + '" class="task-radiobuttons' + this.classes + '"></span>');
     var self = this;
@@ -880,6 +947,7 @@ entutor.inputs.radio.prototype.draw = function () {
             btn.parent().addClass('task-radio-checked');
         }
         $(document).trigger("task:newinput");
+        self.notify();
     };
     this.radioButtons = [];
     for (var k in this.options.variant) {
@@ -896,21 +964,26 @@ entutor.inputs.radio.prototype.draw = function () {
     return  this.domElement;
 };
 
+
 entutor.inputs.radio.prototype.getValue = function () {
     return this.value;
 };
+
 
 entutor.inputs.radio.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
+
 entutor.inputs.radio.prototype.hide = function () {
     this.domElement.hide();
 };
 
+
 entutor.inputs.radio.prototype.show = function () {
     this.domElement.show();
 };
+
 
 entutor.inputs.radio.prototype.start = function () {
     //    if(this.onstart){
@@ -920,8 +993,12 @@ entutor.inputs.radio.prototype.start = function () {
     //    }
 };
 
+
 // выполняется, если элемент изменился
 entutor.inputs.radio.prototype.notify = function (stack) {
+    if(this.options.autocheck){
+        this.test();
+    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
@@ -960,19 +1037,25 @@ entutor.inputs.checkbox = function (parent, options) {
     }
     this.result = null;
     this.value = false;
+    this.autocheck=this.options.autocheck||false;
+
 };
+
 
 entutor.inputs.checkbox.prototype.showSuccess = function () {
     this.domElement.removeClass('task-checkbox-error').addClass('task-checkbox-correct');
 };
 
+
 entutor.inputs.checkbox.prototype.showError = function () {
     this.domElement.removeClass('task-checkbox-correct').addClass('task-checkbox-error');
 };
 
+
 entutor.inputs.checkbox.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-checkbox-correct').removeClass('task-checkbox-error');
 };
+
 
 entutor.inputs.checkbox.prototype.test = function (parentCallback) {
 
@@ -1019,6 +1102,7 @@ entutor.inputs.checkbox.prototype.test = function (parentCallback) {
 
 };
 
+
 entutor.inputs.checkbox.prototype.draw = function () {
     this.checkbox = $('<input type="checkbox" id="task' + this.id + 'checkbox" class="task-checkbox">');
     var self = this;
@@ -1026,6 +1110,7 @@ entutor.inputs.checkbox.prototype.draw = function () {
         var checkbox = $(ev.target)
         self.value = checkbox.prop('checked') ? 'checked' : 'unchecked';
         $(document).trigger("task:newinput");
+        self.notify();
     });
     this.domElement = $('<label id="task' + this.id + '" class="task-checkbox-label ' + this.classes + '"></label>');
     this.domElement.append(this.checkbox);
@@ -1041,17 +1126,21 @@ entutor.inputs.checkbox.prototype.draw = function () {
     return this.domElement;
 };
 
+
 entutor.inputs.checkbox.prototype.getValue = function () {
     return this.value;
 };
+
 
 entutor.inputs.checkbox.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
+
 entutor.inputs.checkbox.prototype.hide = function () {
     this.domElement.hide();
 };
+
 
 entutor.inputs.checkbox.prototype.show = function () {
     this.domElement.show();
@@ -1066,8 +1155,12 @@ entutor.inputs.checkbox.prototype.start = function () {
     //    }
 };
 
+
 // выполняется, если элемент изменился
 entutor.inputs.checkbox.prototype.notify = function (stack) {
+    if(this.options.autocheck){
+        this.test();
+    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
@@ -1125,8 +1218,10 @@ entutor.inputs.sound = function (parent, options) {
     this.id = this.parent.id + '_' + (this.options.id || (++entutor.guid));
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
-    this.swfPath = this.options.swfPath || entutor.config.swfPath
+    this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.supplied = this.options.supplied || "mp3,oga,wav";
+    this.autocheck=this.options.autocheck||false;
+    this.autostart=this.options.autostart||false;
 
     this.maxScore = 1;
     this.passed=false;
@@ -1136,8 +1231,9 @@ entutor.inputs.sound = function (parent, options) {
     this.labels.playing = this.labels.playing || '||';
     this.labels.paused = this.labels.paused || '>';
     
-    entutor.jplayers[this.id] = this;
+    // entutor.jplayers[this.id] = this;
 };
+
 
 entutor.inputs.sound.prototype.test = function (testFinishedCallback) {
     testFinishedCallback(this.id, {
@@ -1147,6 +1243,7 @@ entutor.inputs.sound.prototype.test = function (testFinishedCallback) {
         maxScore: 0
     });
 };
+
 
 entutor.inputs.sound.prototype.draw = function () {
     var self = this;
@@ -1214,6 +1311,7 @@ entutor.inputs.sound.prototype.draw = function () {
         toggleDuration: true,
         ended: function () {
             self.passed=true;
+            self.notify();
             soundBlock.find('.sound_button').attr('value', self.labels.paused);
         }
     });
@@ -1225,21 +1323,26 @@ entutor.inputs.sound.prototype.draw = function () {
     return this.domElement;
 };
 
+
 entutor.inputs.sound.prototype.getValue = function () {
     return null;
 };
+
 
 entutor.inputs.sound.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
+
 entutor.inputs.sound.prototype.hide = function () {
     this.domElement.hide();
 };
 
+
 entutor.inputs.sound.prototype.show = function () {
     this.domElement.show();
 };
+
 
 entutor.inputs.sound.prototype.start = function () {
     //    if(this.onstart){
@@ -1252,6 +1355,9 @@ entutor.inputs.sound.prototype.start = function () {
 
 // выполняется, если элемент изменился
 entutor.inputs.sound.prototype.notify = function (stack) {
+    if(this.options.autocheck){
+        this.test();
+    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
@@ -1304,11 +1410,14 @@ entutor.inputs.video = function (parent, options) {
     this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.maxScore = 1;
     this.passed=false;
+    this.autocheck=this.options.autocheck||false;
+    this.autostart=this.options.autostart||false;
+
     this.labels = options.labels || {};
     this.labels.playing = this.labels.playing || '||';
     this.labels.paused = this.labels.paused || '>';
     this.media = options.media || {};
-    entutor.jplayers[this.id] = this;
+    // entutor.jplayers[this.id] = this;
 };
 
 entutor.inputs.video.prototype.test = function (testFinishedCallback) {
@@ -1363,25 +1472,25 @@ entutor.inputs.video.prototype.draw = function () {
     html += '  </div>';
     html += '</div>';
 
-    html += "<script type=\"application/javascript\">\n";
-    html += "    (function(){\n";
-    html += "        $('#jquery_jplayer_" + this.id + "').jPlayer({\n";
-    html += "            ready: function () { $(this).jPlayer(\"setMedia\", " + JSON.stringify(this.media) + "); },\n";
-    html += "            swfPath: '" + this.swfPath + "',\n";
-    html += "            supplied: '" + this.supplied + "',\n";
-    html += "            cssSelectorAncestor: '#jp_container_" + this.id + "',\n";
-    html += "            wmode: \"window\",\n";
-    html += "            useStateClassSkin: true,\n";
-    html += "            autoBlur: false,\n";
-    html += "            smoothPlayBar: true,\n";
-    html += "            keyEnabled: true,\n";
-    html += "            remainingDuration: true,\n";
-    html += "            toggleDuration: true,\n";
-    html += "            volume:1,\n";
-    html+="              ended:function(){  entutor.jplayers['" + this.id + "'].passed=true;}\n";
-    html += "        });\n";
-    html += "    })()\n";
-    html += "</script>";
+    //    html += "<script type=\"application/javascript\">\n";
+    //    html += "    (function(){\n";
+    //    html += "        $('#jquery_jplayer_" + this.id + "').jPlayer({\n";
+    //    html += "            ready: function () { $(this).jPlayer(\"setMedia\", " + JSON.stringify(this.media) + "); },\n";
+    //    html += "            swfPath: '" + this.swfPath + "',\n";
+    //    html += "            supplied: '" + this.supplied + "',\n";
+    //    html += "            cssSelectorAncestor: '#jp_container_" + this.id + "',\n";
+    //    html += "            wmode: \"window\",\n";
+    //    html += "            useStateClassSkin: true,\n";
+    //    html += "            autoBlur: false,\n";
+    //    html += "            smoothPlayBar: true,\n";
+    //    html += "            keyEnabled: true,\n";
+    //    html += "            remainingDuration: true,\n";
+    //    html += "            toggleDuration: true,\n";
+    //    html += "            volume:1,\n";
+    //    html+="              ended:function(){  entutor.jplayers['" + this.id + "'].passed=true; entutor.jplayers['" + this.id + "'].notify(); }\n";
+    //    html += "        });\n";
+    //    html += "    })()\n";
+    //    html += "</script>";
 
     this.domElement = $('<span id="task' + this.id + '" class="task-video ' + this.classes + '"></span>');
     this.domElement.append($(html));
@@ -1399,21 +1508,26 @@ entutor.inputs.video.prototype.draw = function () {
     return this.domElement;
 };
 
+
 entutor.inputs.video.prototype.getValue = function () {
     return null;
 };
+
 
 entutor.inputs.video.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
+
 entutor.inputs.video.prototype.hide = function () {
     this.domElement.hide();
 };
 
+
 entutor.inputs.video.prototype.show = function () {
     this.domElement.show();
 };
+
 
 entutor.inputs.video.prototype.start = function () {
     //    if(this.onstart){
@@ -1421,11 +1535,31 @@ entutor.inputs.video.prototype.start = function () {
     //            this.onstart[j]();
     //        }
     //    }
+    var self=this;
+    $('#jquery_jplayer_' + self.id).jPlayer({
+        ready: function () { $(this).jPlayer("setMedia", self.media); },
+        swfPath: this.swfPath,
+        supplied: this.supplied,
+        cssSelectorAncestor: '#jp_container_' + self.id ,
+        wmode: "window",
+        useStateClassSkin: true,
+        autoBlur: false,
+        smoothPlayBar: true,
+        keyEnabled: true,
+        remainingDuration: true,
+        toggleDuration: true,
+        volume:1,
+        ended:function(){ self.passed=true; self.notify(); }
+    });
+
 };
 
 
 // выполняется, если элемент изменился
 entutor.inputs.video.prototype.notify = function (stack) {
+    if(this.options.autocheck){
+        this.test();
+    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
@@ -1700,23 +1834,29 @@ entutor.inputs.dropzone = function (parent, options) {
     this.offset = null;
     this.customtest = this.options.customtest || false;
     this.value = false;
+    this.autocheck=this.options.autocheck||false;
+
 
     //this.id
     entutor.dropzones[this.id] = this;
     // console.log(this);
 };
 
+
 entutor.inputs.dropzone.prototype.showSuccess = function () {
     this.dropzone.removeClass('task-dropzone-error').addClass('task-dropzone-correct');
 };
+
 
 entutor.inputs.dropzone.prototype.showError = function () {
     this.dropzone.removeClass('task-dropzone-correct').addClass('task-dropzone-error');
 };
 
+
 entutor.inputs.dropzone.prototype.removeFeedback = function () {
     this.dropzone.removeClass('task-dropzone-correct').removeClass('task-dropzone-error');
 };
+
 
 entutor.inputs.dropzone.prototype.test = function (parentCallback) {
     if (this.value === false) {
@@ -1768,6 +1908,7 @@ entutor.inputs.dropzone.prototype.test = function (parentCallback) {
 
 };
 
+
 entutor.inputs.dropzone.prototype.draw = function () {
 
     var self = this;
@@ -1778,7 +1919,7 @@ entutor.inputs.dropzone.prototype.draw = function () {
         this.hide();
     }
 
-// only for touchscreens
+    // only for touchscreens
     this.dropzone.click(function(){
         if(entutor.currentCounter){
             self.setChild(entutor.currentCounter);
@@ -1790,22 +1931,25 @@ entutor.inputs.dropzone.prototype.draw = function () {
     return this.dropzone;
 };
 
+
 entutor.inputs.dropzone.prototype.getValue = function () {
     return this.value;
 };
+
 
 entutor.inputs.dropzone.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
+
 entutor.inputs.dropzone.prototype.hide = function () {
     this.dropzone.hide();
 };
 
+
 entutor.inputs.dropzone.prototype.show = function () {
     this.dropzone.show();
 };
-
 
 
 entutor.inputs.dropzone.prototype.overlap = function (left, top, dLeft, dTop) {
@@ -1828,6 +1972,7 @@ entutor.inputs.dropzone.prototype.overlap = function (left, top, dLeft, dTop) {
     return (xMax - xMin) * (yMax - yMin);
 };
 
+
 entutor.inputs.dropzone.prototype.setChild = function (child) {
     if (this.child && this.child.id !== child.id) {
         this.child.counter.animate(
@@ -1840,8 +1985,10 @@ entutor.inputs.dropzone.prototype.setChild = function (child) {
     var offset = this.dropzone.offset();
     this.child.counter.offset({top: offset.top + 1, left: offset.left + 1});
     this.value = this.child.counter.attr('data-value');
+    this.notify();
     $(document).trigger("task:newinput");
 };
+
 
 entutor.inputs.dropzone.prototype.removeChild = function (child) {
     if (this.child && this.child.id === child.id) {
@@ -1861,6 +2008,9 @@ entutor.inputs.dropzone.prototype.start = function () {
 
 // выполняется, если элемент изменился
 entutor.inputs.dropzone.prototype.notify = function (stack) {
+    if(this.options.autocheck){
+        this.test();
+    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
@@ -1930,6 +2080,7 @@ entutor.inputs.playlist = function (parent, options) {
     this.precondition = this.options.precondition || 'none';
     this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.supplied = this.options.supplied || "mp3,oga,wav";
+    this.autocheck=this.options.autocheck||false;
 
     this.maxScore = 0;
     this.labels = options.labels || {};
@@ -1941,8 +2092,9 @@ entutor.inputs.playlist = function (parent, options) {
 
     this.currenttrack = false;
     
-    entutor.jplayers[this.id] = this;
+    // entutor.jplayers[this.id] = this;
 };
+
 
 entutor.inputs.playlist.prototype.test = function (testFinishedCallback) {
     testFinishedCallback(this.id, {
@@ -1952,6 +2104,7 @@ entutor.inputs.playlist.prototype.test = function (testFinishedCallback) {
         maxScore: 0
     });
 };
+
 
 entutor.inputs.playlist.prototype.draw = function () {
     var self = this;
@@ -1970,28 +2123,28 @@ entutor.inputs.playlist.prototype.draw = function () {
     html += '	</div>';
     html += '</div>';
 
-    html += "<script type=\"application/javascript\">\n";
-    html += "    (function(){\n";
-    html += "        $('#jquery_jplayer_" + this.id + "').jPlayer({\n";
-    html += "            ready: function () {  },\n";
-    html += "            swfPath: '" + this.swfPath + "',\n";
-    html += "            supplied: '" + this.supplied + "',\n";
-    html += "            cssSelectorAncestor: '#jp_container_" + this.id + "',\n";
-    html += "            wmode: \"window\",\n";
-    html += "            useStateClassSkin: true,\n";
-    html += "            autoBlur: false,\n";
-    html += "            smoothPlayBar: true,\n";
-    html += "            keyEnabled: true,\n";
-    html += "            remainingDuration: true,\n";
-    html += "            toggleDuration: true,\n";
-    html += "            errorAlerts: false,\n";
-    html += "            warningAlerts: false,\n";
-    html += "            consoleAlerts: false,\n";
-    html += "            volume:1,\n";
-    html += "            ended:function(){  $('.playlist_button').attr('value','" + this.labels.paused + "');}\n";
-    html += "        });\n";
-    html += "    })()\n";
-    html += "</script>";
+    //    html += "<script type=\"application/javascript\">\n";
+    //    html += "    (function(){\n";
+    //    html += "        $('#jquery_jplayer_" + this.id + "').jPlayer({\n";
+    //    html += "            ready: function () {  },\n";
+    //    html += "            swfPath: '" + this.swfPath + "',\n";
+    //    html += "            supplied: '" + this.supplied + "',\n";
+    //    html += "            cssSelectorAncestor: '#jp_container_" + this.id + "',\n";
+    //    html += "            wmode: \"window\",\n";
+    //    html += "            useStateClassSkin: true,\n";
+    //    html += "            autoBlur: false,\n";
+    //    html += "            smoothPlayBar: true,\n";
+    //    html += "            keyEnabled: true,\n";
+    //    html += "            remainingDuration: true,\n";
+    //    html += "            toggleDuration: true,\n";
+    //    html += "            errorAlerts: false,\n";
+    //    html += "            warningAlerts: false,\n";
+    //    html += "            consoleAlerts: false,\n";
+    //    html += "            volume:1,\n";
+    //    html += "            ended:function(){  $('.playlist_button').attr('value','" + this.labels.paused + "');}\n";
+    //    html += "        });\n";
+    //    html += "    })()\n";
+    //    html += "</script>";
 
     this.domElement.append($(html));
 
@@ -2002,7 +2155,7 @@ entutor.inputs.playlist.prototype.draw = function () {
     for (var i = 0; i < this.playlist.length; i++) {
         var item = "<div class='playlist_item'><input type='button' id='playlist_" + this.id + "_" + i + "' data-i='" + i + "' class='playlist_button' value='>'>&nbsp;" + this.playlist[i].title + "</div>";
         playlistBlock.append($(item));
-            }
+    }
     
     playlistBlock.find('.playlist_button').click(function (ev) {
         var btn = $(this);
@@ -2018,7 +2171,7 @@ entutor.inputs.playlist.prototype.draw = function () {
             } else {
                 player.jPlayer("pause");
                 btn.attr('value', self.labels.paused);
-  	}
+  	    }
         } else {
             self.currenttrack = i;
             player.jPlayer("stop");
@@ -2026,7 +2179,7 @@ entutor.inputs.playlist.prototype.draw = function () {
             player.jPlayer("play");
             playlistBlock.find('.playlist_button').attr('value', self.labels.paused);
             btn.attr('value', self.labels.playing);
-    }
+        }
     });
     
     if (this.precondition === 'beforeCorrect') {
@@ -2036,21 +2189,26 @@ entutor.inputs.playlist.prototype.draw = function () {
     return this.domElement;
 };
 
+
 entutor.inputs.playlist.prototype.getValue = function () {
     return null;
 };
+
 
 entutor.inputs.playlist.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
+
 entutor.inputs.playlist.prototype.hide = function () {
     this.domElement.hide();
 };
 
+
 entutor.inputs.playlist.prototype.show = function () {
     this.domElement.show();
 };
+
 
 entutor.inputs.playlist.prototype.start = function () {
     //    if(this.onstart){
@@ -2058,10 +2216,32 @@ entutor.inputs.playlist.prototype.start = function () {
     //            this.onstart[j]();
     //        }
     //    }
+    var self=this;
+    $('#jquery_jplayer_' + self.id).jPlayer({
+        ready: function () {  },
+        swfPath: self.swfPath,
+        supplied: self.supplied,
+        cssSelectorAncestor: '#jp_container_' + self.id ,
+        wmode: "window",
+        useStateClassSkin: true,
+        autoBlur: false,
+        smoothPlayBar: true,
+        keyEnabled: true,
+        remainingDuration: true,
+        toggleDuration: true,
+        errorAlerts: false,
+        warningAlerts: false,
+        consoleAlerts: false,
+        volume:1,
+        ended:function(){  $('.playlist_button').attr('value',self.labels.paused);}
+    });
 };
 
 // выполняется, если элемент изменился
 entutor.inputs.playlist.prototype.notify = function (stack) {
+    if(this.options.autocheck){
+        this.test();
+    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
@@ -2141,6 +2321,8 @@ entutor.inputs.slideshow = function (parent, options) {
     this.precondition = this.options.precondition || 'none';
     this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.supplied = this.options.supplied || "mp3,oga,wav";
+    this.autocheck=this.options.autocheck||false;
+    this.autostart=this.options.autostart||false;
 
     this.media = options.media || {};
 
@@ -2152,7 +2334,7 @@ entutor.inputs.slideshow = function (parent, options) {
     this.passed=false;
     this.maxScore=1;
     
-    entutor.jplayers[this.id] = this;
+    // entutor.jplayers[this.id] = this;
 };
 
 entutor.inputs.slideshow.prototype.test = function (testFinishedCallback) {
@@ -2211,29 +2393,29 @@ entutor.inputs.slideshow.prototype.draw = function () {
     html+='	</div>';
     html+='</div>';
 
-    html += "<script type=\"application/javascript\">\n";
-    html += "    (function(){\n";
-    html += "        $('#jquery_jplayer_" + this.id + "').jPlayer({\n";
-    html += "            ready: function () { $(this).jPlayer(\"setMedia\", "+JSON.stringify(this.media)+" ); },\n";
-    html += "            timeupdate: entutor.jplayers['" + this.id + "'].timeupdate,\n";
-    html += "            swfPath: '" + this.swfPath + "',\n";
-    html += "            supplied: '" + this.supplied + "',\n";
-    html += "            cssSelectorAncestor: '#jp_container_" + this.id + "',\n";
-    html += "            wmode: \"window\",\n";
-    html += "            useStateClassSkin: true,\n";
-    html += "            autoBlur: false,\n";
-    html += "            smoothPlayBar: true,\n";
-    html += "            keyEnabled: true,\n";
-    html += "            remainingDuration: true,\n";
-    html += "            toggleDuration: true,\n";
-    html += "            errorAlerts: false,\n";
-    html += "            warningAlerts: false,\n";
-    html += "            consoleAlerts: false,\n";
-    html += "            volume:1,\n";
-    html += "            ended:function(){  entutor.jplayers['" + this.id + "'].passed=true;}\n";
-    html += "        });\n";
-    html += "    })()\n";
-    html += "</script>";
+    //    html += "<script type=\"application/javascript\">\n";
+    //    html += "    (function(){\n";
+    //    html += "        $('#jquery_jplayer_" + this.id + "').jPlayer({\n";
+    //    html += "            ready: function () { $(this).jPlayer(\"setMedia\", "+JSON.stringify(this.media)+" ); },\n";
+    //    html += "            timeupdate: entutor.jplayers['" + this.id + "'].timeupdate,\n";
+    //    html += "            swfPath: '" + this.swfPath + "',\n";
+    //    html += "            supplied: '" + this.supplied + "',\n";
+    //    html += "            cssSelectorAncestor: '#jp_container_" + this.id + "',\n";
+    //    html += "            wmode: \"window\",\n";
+    //    html += "            useStateClassSkin: true,\n";
+    //    html += "            autoBlur: false,\n";
+    //    html += "            smoothPlayBar: true,\n";
+    //    html += "            keyEnabled: true,\n";
+    //    html += "            remainingDuration: true,\n";
+    //    html += "            toggleDuration: true,\n";
+    //    html += "            errorAlerts: false,\n";
+    //    html += "            warningAlerts: false,\n";
+    //    html += "            consoleAlerts: false,\n";
+    //    html += "            volume:1,\n";
+    //    html += "            ended:function(){  entutor.jplayers['" + this.id + "'].passed=true;}\n";
+    //    html += "        });\n";
+    //    html += "    })()\n";
+    //    html += "</script>";
 
 
     this.domElement.append($(html));
@@ -2277,7 +2459,7 @@ entutor.inputs.slideshow.prototype.draw = function () {
 
     if (this.precondition === 'beforeCorrect') {
         this.hide();
-    }
+    };
 
     return this.domElement;
 };
@@ -2304,6 +2486,26 @@ entutor.inputs.slideshow.prototype.start = function () {
     //            this.onstart[j]();
     //        }
     //    }
+    var self=this;
+    $('#jquery_jplayer_' + self.id).jPlayer({
+        ready: function () { $(this).jPlayer("setMedia", self.media); },
+        timeupdate: self.timeupdate,
+        swfPath: self.swfPath,
+        supplied: self.supplied,
+        cssSelectorAncestor: '#jp_container_' + self.id,
+        wmode: "window",
+        useStateClassSkin: true,
+        autoBlur: false,
+        smoothPlayBar: true,
+        keyEnabled: true,
+        remainingDuration: true,
+        toggleDuration: true,
+        errorAlerts: false,
+        warningAlerts: false,
+        consoleAlerts: false,
+        volume:1,
+        ended:function(){  self.passed=true; self.notify();}
+    });
 };
 
 // выполняется, если элемент изменился
@@ -2311,6 +2513,9 @@ entutor.inputs.slideshow.prototype.notify = function (stack) {
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
+    }
+    if(this.options.autocheck){
+        this.test();
     }
 };
 
@@ -2579,8 +2784,6 @@ window.fwr_event_handler = function fwr_event_handler() {
 };
 
 
-
-
 function utf8_encode(argString) {
   //  discuss at: http://phpjs.org/functions/utf8_encode/
   // original by: Webtoolkit.info (http://www.webtoolkit.info/)
@@ -2651,6 +2854,7 @@ function utf8_encode(argString) {
 
   return utftext;
 }
+
 
 function md5(str) {
   //  discuss at: http://phpjs.org/functions/md5/
@@ -2893,6 +3097,7 @@ entutor.inputs.recorder = function (parent, options) {
     this.maxScore = (typeof (this.options.maxScore) !== 'undefined') ? this.options.maxScore : 1;
     this.precondition = this.options.precondition || 'none';
     this.text = this.options.text || '';
+    this.autocheck=this.options.autocheck||false;
 
     this.result = null;
     this.value = false;
@@ -2902,17 +3107,21 @@ entutor.inputs.recorder = function (parent, options) {
     // console.log(this);
 };
 
+
 entutor.inputs.recorder.prototype.showSuccess = function () {
     this.domElement.removeClass('task-recorder-error').addClass('task-recorder-correct');
 };
+
 
 entutor.inputs.recorder.prototype.showError = function () {
     this.domElement.removeClass('task-recorder-correct').addClass('task-recorder-error');
 };
 
+
 entutor.inputs.recorder.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-recorder-correct').removeClass('task-recorder-error');
 };
+
 
 entutor.inputs.recorder.prototype.test = function (parentCallback) {
 
@@ -3000,6 +3209,7 @@ entutor.inputs.recorder.prototype.test = function (parentCallback) {
 
 };
 
+
 entutor.inputs.recorder.prototype.draw = function () {
 
     var self = this;
@@ -3022,21 +3232,26 @@ entutor.inputs.recorder.prototype.draw = function () {
     return this.domElement;
 };
 
+
 entutor.inputs.recorder.prototype.getValue = function () {
     return this.value;
 };
+
 
 entutor.inputs.recorder.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
+
 entutor.inputs.recorder.prototype.hide = function () {
     this.domElement.hide();
 };
 
+
 entutor.inputs.recorder.prototype.show = function () {
     this.domElement.show();
 };
+
 
 entutor.inputs.recorder.prototype.start = function () {
     //    if(this.onstart){
@@ -3046,10 +3261,15 @@ entutor.inputs.recorder.prototype.start = function () {
     //    }
 };
 
+
 // выполняется, если элемент изменился
 entutor.inputs.recorder.prototype.notify = function (stack) {
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
     }
+    if(this.options.autocheck){
+        this.test();
+    }
 };
+
