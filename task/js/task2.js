@@ -1,15 +1,14 @@
 // todo:
-//    task
-//    card
-//    text
 //    this.autocheck=this.options.autocheck||false;
-//
-//    sound
-//    video
-//    slideshow
-//    recorder
+//    +task      +card        +text        +radio
+//    +checkbox  +dropzone    +recorder
+//    
 //    this.autostart=this.options.autostart||false;
-
+//    +sound     +video   recorder
+//    
+//  stopOnHide - auto
+// TODO: проверить .sound
+// TODO: html5 sound recorder
 
 var entutor = {};
 entutor.guid = 0;
@@ -183,6 +182,7 @@ entutor.task.prototype.notify = function (stack) {
     if(this.options.autocheck){
         this.inputs.test();
     }
+    $(document).trigger("task:newinput");
 };
 
 
@@ -488,7 +488,9 @@ entutor.inputs.card.prototype.show = function () {
 };
 
 
-// выполняется сразу после вставки в документ
+/** 
+ * выполняется сразу после вставки в документ
+ */ 
 entutor.inputs.card.prototype.start = function(){
     for (var key = 0; key < this.children.length; key++) {
         this.children[key].start();
@@ -501,7 +503,9 @@ entutor.inputs.card.prototype.start = function(){
 };
 
 
-// выполняется, если элемент изменился
+/**
+ * выполняется, если элемент изменился
+ */ 
 entutor.inputs.card.prototype.notify = function (stack) {
     if(this.options.autocheck){
         this.test();
@@ -513,7 +517,9 @@ entutor.inputs.card.prototype.notify = function (stack) {
 };
 
 
-// factory, creates custom test
+/**
+ * factory, creates custom test
+ */ 
 entutor.inputs.card.prototype.customtestSets = function (sets) {
     return function (arrayOfChildComponents) {
 
@@ -645,15 +651,14 @@ entutor.inputs.html.prototype.start = function () {
     if(this.domElement.is(':visible')){
         if( isNaN(this.duration) ){
             this.passed=true;
-            this.notify();
+            this.notify([]);
         }else{
             // hide after this.duration msec
             var self=this;
             setTimeout(function(){
                 self.passed=true;
                 self.domElement.hide();
-                self.notify();
-                $(document).trigger("task:newinput");
+                self.notify([]);
             },this.duration);
         }
     }
@@ -781,8 +786,7 @@ entutor.inputs.text.prototype.draw = function () {
     var self = this;
     this.textField.change(function (ev) {
         self.value = $(ev.target).val();
-        self.notify();
-        $(document).trigger("task:newinput");
+        self.notify([]);
     });
     if (this.options.value) {
         this.textField.attr('value', this.options.value);
@@ -948,8 +952,7 @@ entutor.inputs.radio.prototype.draw = function () {
             self.value = btn.val();
             btn.parent().addClass('task-radio-checked');
         }
-        $(document).trigger("task:newinput");
-        self.notify();
+        self.notify([]);
     };
     this.radioButtons = [];
     for (var k in this.options.variant) {
@@ -1111,8 +1114,7 @@ entutor.inputs.checkbox.prototype.draw = function () {
     this.checkbox.change(function (ev) {
         var checkbox = $(ev.target)
         self.value = checkbox.prop('checked') ? 'checked' : 'unchecked';
-        $(document).trigger("task:newinput");
-        self.notify();
+        self.notify([]);
     });
     this.domElement = $('<label id="task' + this.id + '" class="task-checkbox-label ' + this.classes + '"></label>');
     this.domElement.append(this.checkbox);
@@ -1191,26 +1193,12 @@ entutor.inputs.checkbox.prototype.notify = function (stack) {
 //    this.labels = options.labels || {};
 //    this.labels.playing = this.labels.playing || '||';
 //    this.labels.paused  = this.labels.paused  || '>' ;
-//    playlist:[
-//          {
+//    media:{
 //                 title:'Бублички',
 //                 mp3:'./playmessage/bublichki.mp3'
 //                 oga:
 //                 wav:
-//          },
-//          {
-//                 title:'В землянке',
-//                 mp3:'./playmessage/v_zemlyanke.mp3'
-//                 oga:
-//                 wav:
-//          },
-//          {
-//                 title:'Сердце',
-//                 mp3:'./playmessage/serdtse.mp3'
-//                 oga:
-//                 wav:
-//          },
-//    ];
+//          }
 //    precondition:'none|beforeCorrect'
 //    }
 entutor.inputs.sound = function (parent, options) {
@@ -1222,13 +1210,12 @@ entutor.inputs.sound = function (parent, options) {
     this.precondition = this.options.precondition || 'none';
     this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.supplied = this.options.supplied || "mp3,oga,wav";
-    this.autocheck=this.options.autocheck||false;
     this.autostart=this.options.autostart||false;
 
     this.maxScore = 1;
     this.passed=false;
 
-    this.playlist = options.playlist || [];
+    this.media = options.media || {};
     this.labels = options.labels || {};
     this.labels.playing = this.labels.playing || '||';
     this.labels.paused = this.labels.paused || '>';
@@ -1266,55 +1253,26 @@ entutor.inputs.sound.prototype.draw = function () {
     this.domElement.append($(html));
 
 
-    var player = this.domElement.find("#jquery_jplayer_" + this.id);
+    this.player = this.domElement.find("#jquery_jplayer_" + this.id);
     var soundBlock = this.domElement.find('#sound_' + this.id);
 
     this.currenttrack = false;
 
-    for (var i = 0; i < this.playlist.length; i++) {
-        var html = "<span class='task-sound-label'><input type='button' id='sound_" + this.id + "_" + i + "' data-i='" + i + "' class='sound_button' value='>'>&nbsp;" + this.playlist[i].title + "</span>";
-        soundBlock.append($(html));
-    }
+    this.btn = "<input type='button' id='sound_" + this.id +  "_btn' class='sound_button' value='>'>";
+    soundBlock.append($(btn));
+    
+    soundBlock.append($("<span class='task-sound-label'>&nbsp;" + this.media.title + "</span>"));
 
-    soundBlock.find('.sound_button').click(function (ev) {
+    this.btn.click(function (ev) {
         var btn = $(this);
-        var i = btn.attr('data-i');
-        soundBlock.find('.sound_button').attr('value', self.labels.paused);
-        if (self.currenttrack === i) {
-            if (player.data().jPlayer.status.paused) {
-                player.jPlayer("pauseOthers");
-                player.jPlayer("play");
-                btn.attr('value', self.labels.playing);
-            } else {
-                player.jPlayer("pause");
-                btn.attr('value', self.labels.paused);
-            }
-        } else {
-            self.currenttrack = i;
-            player.jPlayer("stop");
-            player.jPlayer("setMedia", self.playlist[i]);
-            player.jPlayer("play");
-
+        btn.attr('value', self.labels.paused);
+        if (self.player.data().jPlayer.status.paused) {
+            self.player.jPlayer("pauseOthers");
+            self.player.jPlayer("play");
             btn.attr('value', self.labels.playing);
-        }
-    });
-
-    player.jPlayer({
-        ready: function () {  },
-        swfPath: this.swfPath,
-        supplied: this.supplied,
-        wmode: "window",
-        useStateClassSkin: true,
-        autoBlur: false,
-        smoothPlayBar: true,
-        keyEnabled: true,
-        remainingDuration: true,
-        volume: 1,
-        toggleDuration: true,
-        ended: function () {
-            self.passed=true;
-            self.notify();
-            soundBlock.find('.sound_button').attr('value', self.labels.paused);
+        } else {
+            self.player.jPlayer("pause");
+            btn.attr('value', self.labels.paused);
         }
     });
 
@@ -1338,28 +1296,55 @@ entutor.inputs.sound.prototype.getMaxScore = function () {
 
 entutor.inputs.sound.prototype.hide = function () {
     this.domElement.hide();
+    this.player.jPlayer("pause");
+    this.btn.attr('value', this.labels.paused);
+    
 };
 
 
 entutor.inputs.sound.prototype.show = function () {
     this.domElement.show();
+    if(this.autostart){
+        this.player.jPlayer("pauseOthers");
+        this.player.jPlayer("play");
+        this.btn.attr('value', this.labels.playing);
+    }
 };
 
 
 entutor.inputs.sound.prototype.start = function () {
-    //    if(this.onstart){
-    //        for(var j=0; j<this.onstart.length; j++){
-    //            this.onstart[j]();
-    //        }
-    //    }
+    var self=this;
+    this.player.jPlayer({
+        ready: function () {
+            $(this).jPlayer("setMedia", self.media);
+            if(self.autostart && self.domElement.is(':visible')){
+                self.player.jPlayer("pauseOthers");
+                self.player.jPlayer("play");
+                self.btn.attr('value', self.labels.playing);
+            }
+        },
+        swfPath: this.swfPath,
+        supplied: this.supplied,
+        wmode: "window",
+        useStateClassSkin: true,
+        autoBlur: false,
+        smoothPlayBar: true,
+        keyEnabled: true,
+        remainingDuration: true,
+        volume: 1,
+        toggleDuration: true,
+        ended: function () {
+            self.passed=true;
+            self.notify([]);
+            self.btn.attr('value', self.labels.paused);
+        }
+    });
+
 };
 
 
 // выполняется, если элемент изменился
 entutor.inputs.sound.prototype.notify = function (stack) {
-    if(this.options.autocheck){
-        this.test();
-    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
@@ -1412,7 +1397,6 @@ entutor.inputs.video = function (parent, options) {
     this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.maxScore = 1;
     this.passed=false;
-    this.autocheck=this.options.autocheck||false;
     this.autostart=this.options.autostart||false;
 
     this.labels = options.labels || {};
@@ -1422,6 +1406,7 @@ entutor.inputs.video = function (parent, options) {
     // entutor.jplayers[this.id] = this;
 };
 
+
 entutor.inputs.video.prototype.test = function (testFinishedCallback) {
     testFinishedCallback(this.id, {
         status: entutor.task.status.received,
@@ -1430,6 +1415,7 @@ entutor.inputs.video.prototype.test = function (testFinishedCallback) {
         maxScore: this.maxScore
     });
 };
+
 
 entutor.inputs.video.prototype.draw = function () {
     var self = this;
@@ -1474,26 +1460,6 @@ entutor.inputs.video.prototype.draw = function () {
     html += '  </div>';
     html += '</div>';
 
-    //    html += "<script type=\"application/javascript\">\n";
-    //    html += "    (function(){\n";
-    //    html += "        $('#jquery_jplayer_" + this.id + "').jPlayer({\n";
-    //    html += "            ready: function () { $(this).jPlayer(\"setMedia\", " + JSON.stringify(this.media) + "); },\n";
-    //    html += "            swfPath: '" + this.swfPath + "',\n";
-    //    html += "            supplied: '" + this.supplied + "',\n";
-    //    html += "            cssSelectorAncestor: '#jp_container_" + this.id + "',\n";
-    //    html += "            wmode: \"window\",\n";
-    //    html += "            useStateClassSkin: true,\n";
-    //    html += "            autoBlur: false,\n";
-    //    html += "            smoothPlayBar: true,\n";
-    //    html += "            keyEnabled: true,\n";
-    //    html += "            remainingDuration: true,\n";
-    //    html += "            toggleDuration: true,\n";
-    //    html += "            volume:1,\n";
-    //    html+="              ended:function(){  entutor.jplayers['" + this.id + "'].passed=true; entutor.jplayers['" + this.id + "'].notify(); }\n";
-    //    html += "        });\n";
-    //    html += "    })()\n";
-    //    html += "</script>";
-
     this.domElement = $('<span id="task' + this.id + '" class="task-video ' + this.classes + '"></span>');
     this.domElement.append($(html));
 
@@ -1523,23 +1489,32 @@ entutor.inputs.video.prototype.getMaxScore = function () {
 
 entutor.inputs.video.prototype.hide = function () {
     this.domElement.hide();
+    this.player.jPlayer("pause");
 };
 
 
 entutor.inputs.video.prototype.show = function () {
     this.domElement.show();
+    if(this.autostart){
+        this.player.jPlayer("pauseOthers");
+        this.player.jPlayer("play");
+        this.btn.attr('value', this.labels.playing);
+    }
 };
 
 
 entutor.inputs.video.prototype.start = function () {
-    //    if(this.onstart){
-    //        for(var j=0; j<this.onstart.length; j++){
-    //            this.onstart[j]();
-    //        }
-    //    }
     var self=this;
-    $('#jquery_jplayer_' + self.id).jPlayer({
-        ready: function () { $(this).jPlayer("setMedia", self.media); },
+    //var player=$('#jquery_jplayer_' + self.id);
+    self.player.jPlayer({
+        ready: function () { 
+            $(this).jPlayer("setMedia", self.media);
+            if(self.autostart && self.domElement.is(':visible')){
+                self.player.jPlayer("pauseOthers");
+                self.player.jPlayer("play");
+                self.btn.attr('value', self.labels.playing);
+            }
+        },
         swfPath: this.swfPath,
         supplied: this.supplied,
         cssSelectorAncestor: '#jp_container_' + self.id ,
@@ -1551,17 +1526,15 @@ entutor.inputs.video.prototype.start = function () {
         remainingDuration: true,
         toggleDuration: true,
         volume:1,
-        ended:function(){ self.passed=true; self.notify(); }
+        ended:function(){ self.passed=true; self.notify([]); }
     });
+
 
 };
 
 
 // выполняется, если элемент изменился
 entutor.inputs.video.prototype.notify = function (stack) {
-    if(this.options.autocheck){
-        this.test();
-    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
@@ -1621,6 +1594,7 @@ entutor.inputs.counter = function (parent, options) {
     this.value = this.options.value || '';
 };
 
+
 entutor.inputs.counter.prototype.test = function (testFinishedCallback) {
     testFinishedCallback(this.id, {
         status: entutor.task.status.received,
@@ -1629,6 +1603,7 @@ entutor.inputs.counter.prototype.test = function (testFinishedCallback) {
         maxScore: 0
     });
 };
+
 
 entutor.inputs.counter.prototype.draw = function () {
     var self = this;
@@ -1745,23 +1720,28 @@ entutor.inputs.counter.prototype.draw = function () {
     return this.counterplace;
 };
 
+
 entutor.inputs.counter.prototype.getValue = function () {
     return null;
 };
 
+
 entutor.inputs.counter.prototype.getMaxScore = function () {
     return 0;
 };
+
 
 entutor.inputs.counter.prototype.hide = function () {
     this.counterplace.hide();
     this.counter.hide();
 };
 
+
 entutor.inputs.counter.prototype.show = function () {
     this.counterplace.show();
     this.counter.show();
 };
+
 
 entutor.inputs.counter.prototype.start = function () {
     //    if(this.onstart){
@@ -1771,7 +1751,9 @@ entutor.inputs.counter.prototype.start = function () {
     //    }
 };
 
-// выполняется, если элемент изменился
+/**
+ * выполняется, если элемент изменился
+ */
 entutor.inputs.counter.prototype.notify = function (stack) {
     if(this.parent){
         stack.push(this.id);
@@ -1987,8 +1969,7 @@ entutor.inputs.dropzone.prototype.setChild = function (child) {
     var offset = this.dropzone.offset();
     this.child.counter.offset({top: offset.top + 1, left: offset.left + 1});
     this.value = this.child.counter.attr('data-value');
-    this.notify();
-    $(document).trigger("task:newinput");
+    this.notify([]);
 };
 
 
@@ -2008,7 +1989,7 @@ entutor.inputs.dropzone.prototype.start = function () {
     //    }
 };
 
-// выполняется, если элемент изменился
+
 entutor.inputs.dropzone.prototype.notify = function (stack) {
     if(this.options.autocheck){
         this.test();
@@ -2082,7 +2063,6 @@ entutor.inputs.playlist = function (parent, options) {
     this.precondition = this.options.precondition || 'none';
     this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.supplied = this.options.supplied || "mp3,oga,wav";
-    this.autocheck=this.options.autocheck||false;
 
     this.maxScore = 0;
     this.labels = options.labels || {};
@@ -2239,17 +2219,13 @@ entutor.inputs.playlist.prototype.start = function () {
     });
 };
 
-// выполняется, если элемент изменился
+
 entutor.inputs.playlist.prototype.notify = function (stack) {
-    if(this.options.autocheck){
-        this.test();
-    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
     }
 };
-
 
 
 
@@ -2323,7 +2299,6 @@ entutor.inputs.slideshow = function (parent, options) {
     this.precondition = this.options.precondition || 'none';
     this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.supplied = this.options.supplied || "mp3,oga,wav";
-    this.autocheck=this.options.autocheck||false;
     this.autostart=this.options.autostart||false;
 
     this.media = options.media || {};
@@ -2506,7 +2481,7 @@ entutor.inputs.slideshow.prototype.start = function () {
         warningAlerts: false,
         consoleAlerts: false,
         volume:1,
-        ended:function(){  self.passed=true; self.notify();}
+        ended:function(){  self.passed=true; self.notify([]);}
     });
 };
 
@@ -2515,9 +2490,6 @@ entutor.inputs.slideshow.prototype.notify = function (stack) {
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
-    }
-    if(this.options.autocheck){
-        this.test();
     }
 };
 
@@ -3269,12 +3241,12 @@ entutor.inputs.recorder.prototype.start = function () {
 
 // выполняется, если элемент изменился
 entutor.inputs.recorder.prototype.notify = function (stack) {
+    if(this.options.autocheck){
+        this.test();
+    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
-    }
-    if(this.options.autocheck){
-        this.test();
     }
 };
 

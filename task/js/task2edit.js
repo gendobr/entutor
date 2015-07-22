@@ -1,3 +1,10 @@
+// todo:
+//    this.autocheck=this.options.autocheck||false;
+//    task      card        text        radio
+//    checkbox  dropzone    recorder
+//    
+// TODO: запрограммировать предварительный просмотр в редакторе
+
 
 if (typeof (entutor) === 'undefined') {
     var entutor = {};
@@ -16,8 +23,6 @@ entutor.loadEditor = function (jsonURL, containerSelector) {
         window.location.hash = json.id;
     });
 };
-
-
 
 entutor.editor = function (value) {
 
@@ -68,6 +73,7 @@ entutor.editor.prototype.draw = function () {
     this.container.append(this.inputs.draw());
     return this.container;
 };
+
 entutor.editor.prototype.getValue = function () {
     this.value.presentation = this.presentation.getValue();
     this.value.inputs = this.inputs.getValue();
@@ -282,7 +288,6 @@ entutor.editors.card = function (parent, value) {
 
 };
 
-
 entutor.editors.card.prototype.draw = function () {
     // console.log('entutor.editors.card.prototype.draw ' + this.id);
     var self = this;
@@ -424,7 +429,6 @@ entutor.editors.card.prototype.addChild=function(type){
         $(document).trigger("editor:updated");
     }
 };
-
 
 entutor.editors.card.prototype.getValue = function () {
     for (var i = 0; i < this.children.length; i++) {
@@ -889,4 +893,196 @@ entutor.editors.dropzone.prototype.draw = function () {
 entutor.editors.dropzone.prototype.getValue = function () {
     return this.value;
 };
+
+
+
+
+
+// .sound
+//    options={
+//        type:'sound',
+//        id:''
+//        classes:''
+//        precondition:'none|beforeCorrect'
+//        autostart:true|false
+//        supplied : "mp3,oga,wav"
+//        this.labels = options.labels || {};
+//        this.labels.playing = this.labels.playing || '||';
+//        this.labels.paused  = this.labels.paused  || '>' ;
+//    media:{
+//                 title:'Бублички',
+//                 mp3:'./playmessage/bublichki.mp3'
+//                 oga:
+//                 wav:
+//          }
+
+// =============================================================================
+entutor.editors.sound = function (parent, value) {
+    this.type = 'sound';
+    this.parent = parent;
+    this.value = value || {};
+
+    this.id = this.parent.id + '_' + (this.value.id || (++entutor.guid));
+
+    this.maxScore = 1;
+
+    this.value.classes = this.value.classes || '';
+    this.value.precondition = this.value.precondition || 'none';
+    this.value.autostart = this.value.autostart || false;
+    this.value.supplied = this.value.supplied || "mp3,oga,wav";
+
+    this.value.media = this.value.media || {};
+    this.value.media.title=this.value.media.title || 'title';
+    this.value.media.mp3=this.value.media.mp3 || 'mp3 file URL';
+    this.value.media.oga=this.value.media.oga || 'oga file URL';
+    this.value.media.wav=this.value.media.wav || 'mp3 file URL';
+    
+    
+};
+
+entutor.editors.sound.prototype.draw = function () {
+    // console.log('entutor.editors.card.prototype.draw ' + this.id);
+    var self = this;
+    this.container = $("<div class=\"editor-element-container " + this.type + "\"></div>");
+    this.toolbar = $('<div class="editor-toolbar">' + this.type + ' #' + this.id + '</div>');
+    this.container.append(this.toolbar);
+
+    this.optionsLink = $('<a class="editor-options-link" href="javascript:void(\'options\')">&Congruent;</a>');
+    this.toolbar.prepend(this.optionsLink);
+    this.optionsLink.click(function () { self.optionBlock.toggle(); });
+
+    this.optionBlock = $("<div class=\"editor-element-options\"></div>");
+    this.optionBlock.hide();
+    this.container.append(this.optionBlock);
+
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
+
+
+    // add text field
+    this.container.append("<div>Sound title</div>");
+    this.mediaTitleInput = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.mediaTitleInput);
+    this.mediaTitleInput.val(this.value.media.title);
+    this.mediaTitleInput.change(function () { self.value.media.title= self.mediaTitleInput.val();   $(document).trigger("editor:updated");  });
+
+    this.container.append("<div>MP3 file URL</div>");
+    this.mediaMP3Input = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.mediaMP3Input);
+    this.mediaMP3Input.val(this.value.media.mp3);
+    this.mediaMP3Input.change(function () { self.value.media.mp3= self.mediaMP3Input.val();   $(document).trigger("editor:updated");  });
+
+    this.container.append("<div>OGA file URL</div>");
+    this.mediaOGAInput = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.mediaOGAInput);
+    this.mediaOGAInput.val(this.value.media.oga);
+    this.mediaOGAInput.change(function () { self.value.media.oga= self.mediaOGAInput.val();   $(document).trigger("editor:updated");  });
+
+    this.container.append("<div>WAV file URL</div>");
+    this.mediaWAVInput = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.mediaWAVInput);
+    this.mediaWAVInput.val(this.value.media.wav);
+    this.mediaWAVInput.change(function () { self.value.media.wav= self.mediaWAVInput.val();   $(document).trigger("editor:updated");  });
+
+    return this.container;
+};
+
+entutor.editors.sound.prototype.getValue = function () {
+    return this.value;
+};
+
+
+
+
+
+
+
+// 
+// 
+// 
+// 
+// 
+// TODO .video
+// =============================================================================
+entutor.editors.video = function (parent, value) {
+    this.type = 'video';
+    this.parent = parent;
+    this.value = value || {};
+
+    this.id = this.parent.id + '_' + (this.value.id || (++entutor.guid));
+
+    this.maxScore = 1;
+
+    this.value.classes = this.value.classes || '';
+    this.value.precondition = this.value.precondition || 'none';
+    this.value.autostart = this.value.autostart || false;
+    this.value.supplied = this.value.supplied || "mp3,oga,wav";
+
+    this.value.media = this.value.media || {};
+    this.value.media.title=this.value.media.title || 'title';
+    this.value.media.mp3=this.value.media.mp3 || 'mp3 file URL';
+    this.value.media.oga=this.value.media.oga || 'oga file URL';
+    this.value.media.wav=this.value.media.wav || 'mp3 file URL';
+    
+    
+};
+
+entutor.editors.video.prototype.draw = function () {
+    // console.log('entutor.editors.card.prototype.draw ' + this.id);
+    var self = this;
+    this.container = $("<div class=\"editor-element-container " + this.type + "\"></div>");
+    this.toolbar = $('<div class="editor-toolbar">' + this.type + ' #' + this.id + '</div>');
+    this.container.append(this.toolbar);
+
+    this.optionsLink = $('<a class="editor-options-link" href="javascript:void(\'options\')">&Congruent;</a>');
+    this.toolbar.prepend(this.optionsLink);
+    this.optionsLink.click(function () { self.optionBlock.toggle(); });
+
+    this.optionBlock = $("<div class=\"editor-element-options\"></div>");
+    this.optionBlock.hide();
+    this.container.append(this.optionBlock);
+
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
+
+
+    // add text field
+    this.container.append("<div>Video title</div>");
+    this.mediaTitleInput = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.mediaTitleInput);
+    this.mediaTitleInput.val(this.value.media.title);
+    this.mediaTitleInput.change(function () { self.value.media.title= self.mediaTitleInput.val();   $(document).trigger("editor:updated");  });
+
+    this.container.append("<div>WEBMV file URL</div>");
+    this.mediaWEBMVInput = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.mediaWEBMVInput);
+    this.mediaWEBMVInput.val(this.value.media.webmv);
+    this.mediaWEBMVInput.change(function () { self.value.media.webmv= self.mediaWEBMVInput.val();   $(document).trigger("editor:updated");  });
+
+    this.container.append("<div>OGV file URL</div>");
+    this.mediaOGVInput = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.mediaOGVInput);
+    this.mediaOGVInput.val(this.value.media.ogv);
+    this.mediaOGVInput.change(function () { self.value.media.ogv= self.mediaOGVInput.val();   $(document).trigger("editor:updated");  });
+
+    this.container.append("<div>M4V file URL</div>");
+    this.mediaM4VInput = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.mediaM4VInput);
+    this.mediaM4VInput.val(this.value.media.m4v);
+    this.mediaM4VInput.change(function () { self.value.media.m4v= self.mediaM4VInput.val();   $(document).trigger("editor:updated");  });
+
+    return this.container;
+};
+
+entutor.editors.video.prototype.getValue = function () {
+    return this.value;
+};
+
+
+
+// TODO .playlist
+// TODO .slideshow
+// TODO .recorder
 
