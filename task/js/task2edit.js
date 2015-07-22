@@ -468,7 +468,7 @@ entutor.editors.html.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.string(this.value, 'duration', 'Duration, milleseconds'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+    // this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
 
 
     

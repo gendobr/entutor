@@ -1,4 +1,7 @@
 // todo:
+//    task
+//    card
+//    text
 //    this.autocheck=this.options.autocheck||false;
 //
 //    sound
@@ -210,30 +213,31 @@ entutor.testPresentation.prototype.draw = function () {
 
 
 // =============================================================================
-// card, container for other inputs
-// 
-//    options={
-//        type:'card',
-//        id:''
-//        arrange:vertical|horizontal
-//        classes:''
-//        maxScore:1
-//        precondition:'none|beforeCorrect'
-//        taskPassScore:1; // какую долю от максимума надо набрать, чтобы получить зачёт, число от 0 до 1
-//        customtest:function(arrayOfChildComponents){
-//            return {
-//              status: entutor.task.status.received,
-//              score: null,
-//              subresults: [],
-//              passed:false|true,
-//              maxScore:0
-//            }
-//        }
-//        children:[
-//           <list of subelements>
-//        ]
-//    }
-
+/** card, container for other inputs
+ 
+    options={
+        type:'card',
+        id:''
+        arrange:vertical|horizontal
+        autocheck:true|false
+        classes:''
+        maxScore:1
+        precondition:'none|beforeCorrect'
+        taskPassScore:1; // какую долю от максимума надо набрать, чтобы получить зачёт, число от 0 до 1
+        customtest:function(arrayOfChildComponents){
+            return {
+              status: entutor.task.status.received,
+              score: null,
+              subresults: [],
+              passed:false|true,
+              maxScore:0
+            }
+        }
+        children:[
+           <list of subelements>
+        ]
+    }
+*/
 entutor.inputs.card = function (parent, options) {
     this.type = 'card';
     this.parent = parent;
@@ -568,6 +572,7 @@ entutor.inputs.card.prototype.customtestSets = function (sets) {
 //        pattern:''
 //        value:'yyy',
 //        size:5,
+//        duration: <seconds : float>
 //        precondition:'none|beforeCorrect'
 //    }
 entutor.inputs.html = function (parent, options) {
@@ -577,7 +582,6 @@ entutor.inputs.html = function (parent, options) {
     this.id = this.parent.id + '_' + (this.options.id || (++entutor.guid));
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
-    this.autocheck=this.options.autocheck||false;
 
     this.passed=false;
     this.duration = parseFloat(this.options.duration || 'none');
@@ -658,9 +662,6 @@ entutor.inputs.html.prototype.start = function () {
 
 // выполняется, если элемент изменился
 entutor.inputs.html.prototype.notify = function (stack) {
-    if(this.options.autocheck){
-        this.test();
-    }
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
@@ -680,6 +681,7 @@ entutor.inputs.html.prototype.notify = function (stack) {
 //        value:'yyy',
 //        size:5,
 //        precondition:'none|beforeCorrect'
+//        autocheck: true|false
 //        customtest:function(value){
 //            return {
 //              status: entutor.task.status.received,
@@ -3082,6 +3084,8 @@ function md5(str) {
 //        type:'recorder',
 //        classes:''
 //        maxScore:1
+//        autocheck: true|false
+//        autostart: true|false
 //        precondition:'none|beforeCorrect'
 //        text:''
 //     }
@@ -3098,6 +3102,7 @@ entutor.inputs.recorder = function (parent, options) {
     this.precondition = this.options.precondition || 'none';
     this.text = this.options.text || '';
     this.autocheck=this.options.autocheck||false;
+    this.autostart=this.options.autostart||false;
 
     this.result = null;
     this.value = false;
