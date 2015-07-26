@@ -333,11 +333,11 @@ entutor.editors.card.prototype.draw = function () {
 
 
 
-    this.delChild=function(ev){
+    var delChild=function(ev){
         var trg=$(ev.target);
-        var i=trg.attr('data-i');
-        self.children[i].container.remove();
-        self.children.splice(i,1);
+        var j=trg.attr('data-i');
+        self.children[j].container.remove();
+        self.children.splice(j,1);
         for (var i = 0; i < self.children.length; i++) {
             self.children[i].delLink.attr('data-i',i);
             self.children[i].upLink.attr('data-i',i);
@@ -346,7 +346,7 @@ entutor.editors.card.prototype.draw = function () {
         $(document).trigger("editor:updated");
     };
     
-    this.getUpMover=function(ev){
+    var getUpMover=function(ev){
         var tgt=$(ev.target);
         var i=parseInt(tgt.attr('data-i'));
         if(i>0){
@@ -363,7 +363,7 @@ entutor.editors.card.prototype.draw = function () {
             $(document).trigger("editor:updated");
         }
     };
-    this.getDownMover=function(ev){
+    var getDownMover=function(ev){
         var tgt=$(ev.target);
         var i=parseInt(tgt.attr('data-i'));
         if( i < ( self.children.length - 1 )  ){
@@ -377,6 +377,8 @@ entutor.editors.card.prototype.draw = function () {
             self.children[i+1].upLink.attr('data-i',i+1);
             self.children[i].downLink.attr('data-i',i);
             self.children[i+1].downLink.attr('data-i',i+1);
+            
+            $(document).trigger("editor:updated");
         }
     };
 
@@ -388,15 +390,15 @@ entutor.editors.card.prototype.draw = function () {
         this.childContainer.append(childDomElement);
 
         this.children[i].delLink=$('<a class="editor-options-link" href="javascript:void(\'del\')" data-i=\"'+i+'\">&times;</a>');
-        this.children[i].delLink.click(this.delChild);
+        this.children[i].delLink.click(delChild);
         this.children[i].toolbar.prepend(this.children[i].delLink);
 
         this.children[i].upLink=$('<a class="editor-options-link" href="javascript:void(\'up\')" data-i=\"'+i+'\">&Wedge;</a>');
-        this.children[i].upLink.click(this.getUpMover);
+        this.children[i].upLink.click(getUpMover);
         this.children[i].toolbar.prepend(this.children[i].upLink);
 
         this.children[i].downLink=$('<a class="editor-options-link" href="javascript:void(\'down\')" data-i=\"'+i+'\">&Vee;</a>');
-        this.children[i].downLink.click(this.getDownMover);
+        this.children[i].downLink.click(getDownMover);
         this.children[i].toolbar.prepend(this.children[i].downLink);
     }
     this.container.append(this.childContainer);
@@ -405,6 +407,8 @@ entutor.editors.card.prototype.draw = function () {
 };
 
 entutor.editors.card.prototype.addChild=function(type){
+    
+    var self=this;
     if (typeof (entutor.editors[type]) === 'function') {
         var constructor = entutor.editors[type];
         var childObject = new constructor(this, {type:type});
@@ -415,7 +419,18 @@ entutor.editors.card.prototype.addChild=function(type){
         this.childContainer.append(childDomElement);
 
         this.children[i].delLink=$('<a class="editor-options-link" href="javascript:void(\'del\')" data-i=\"'+i+'\">&times;</a>');
-        this.children[i].delLink.click(this.delChild);
+        this.children[i].delLink.click(function(ev){
+            var trg=$(ev.target);
+            var j=trg.attr('data-i');
+            self.children[j].container.remove();
+            self.children.splice(j,1);
+            for (var i = 0; i < self.children.length; i++) {
+                self.children[i].delLink.attr('data-i',i);
+                self.children[i].upLink.attr('data-i',i);
+                self.children[i].downLink.attr('data-i',i);
+            }
+            $(document).trigger("editor:updated");
+        });
         this.children[i].toolbar.prepend(this.children[i].delLink);
 
         this.children[i].upLink=$('<a class="editor-options-link" href="javascript:void(\'up\')" data-i=\"'+i+'\">&Wedge;</a>');
@@ -433,6 +448,9 @@ entutor.editors.card.prototype.addChild=function(type){
 entutor.editors.card.prototype.getValue = function () {
     for (var i = 0; i < this.children.length; i++) {
         this.value.children[i] = this.children[i].getValue();
+    }
+    for(var i = this.children.length; i < this.value.children.length; i++){
+        this.value.children.splice(this.children.length,1);
     }
     return this.value;
 };
@@ -906,10 +924,7 @@ entutor.editors.dropzone.prototype.getValue = function () {
 //        precondition:'none|beforeCorrect'
 //        autostart:true|false
 //        supplied : "mp3,oga,wav"
-//        this.labels = options.labels || {};
-//        this.labels.playing = this.labels.playing || '||';
-//        this.labels.paused  = this.labels.paused  || '>' ;
-//    media:{
+//        media:{
 //                 title:'Бублички',
 //                 mp3:'./playmessage/bublichki.mp3'
 //                 oga:
@@ -1003,7 +1018,7 @@ entutor.editors.sound.prototype.getValue = function () {
 // 
 // 
 // 
-// TODO .video
+// .video
 // =============================================================================
 entutor.editors.video = function (parent, value) {
     this.type = 'video';
@@ -1082,7 +1097,470 @@ entutor.editors.video.prototype.getValue = function () {
 
 
 
-// TODO .playlist
+
+
+
+
+
+
+// =============================================================================
+// 
+// playlist
+//
+entutor.editors.playlist = function (parent, value) {
+    this.type = 'playlist';
+    this.parent = parent;
+    this.value = value || {};
+
+    this.id = this.parent.id + '_' + (this.value.id || (++entutor.guid));
+
+    this.maxScore = 1;
+
+    this.value.classes = this.value.classes || '';
+    this.value.precondition = this.value.precondition || 'none';
+    this.value.supplied = this.value.supplied || "mp3,oga,wav";
+
+    this.value.playlist = this.value.playlist || [];
+    if(!$.isArray(this.value.playlist)){
+        this.value.playlist = [];
+    }
+};
+
+entutor.editors.playlist.prototype.draw = function () {
+    // console.log('entutor.editors.card.prototype.draw ' + this.id);
+    var self = this;
+    this.container = $("<div class=\"editor-element-container " + this.type + "\"></div>");
+    this.toolbar = $('<div class="editor-toolbar">' + this.type + ' #' + this.id + '</div>');
+    this.container.append(this.toolbar);
+
+
+
+
+
+    this.optionsLink = $('<a class="editor-options-link" href="javascript:void(\'options\')">&Congruent;</a>');
+    this.toolbar.prepend(this.optionsLink);
+    this.optionsLink.click(function () { self.optionBlock.toggle(); });
+
+    this.optionBlock = $("<div class=\"editor-element-options\"></div>");
+    this.optionBlock.hide();
+    this.container.append(this.optionBlock);
+
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    // this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
+
+
+    var deletePlaylistItem=function(ev){
+        var lnk=$(ev.target);
+        var uid=lnk.attr("data-uid");
+        for(var i=0; i<self.playlistDom.length; i++){
+            if(self.playlistDom[i].uid === uid){
+                self.playlistDom[i].listitemContainer.remove();
+                self.playlistDom.splice(i, 1);
+                self.playlist.splice(i, 1);
+                return;
+            }
+        }
+    };
+
+    var updatePlaylistItemTitle=function(ev){
+        var fld=$(ev.target);
+        var uid=fld.attr("data-uid");
+        for(var i=0; i<self.playlistDom.length; i++){
+            if(self.playlistDom[i].uid === uid){
+                self.value.playlist[i].title=fld.val();
+                $(document).trigger("editor:updated");
+                return;
+            }
+        }
+    };
+
+    var updatePlaylistItemMp3=function(ev){
+        var fld=$(ev.target);
+        var uid=fld.attr("data-uid");
+        for(var i=0; i<self.playlistDom.length; i++){
+            if(self.playlistDom[i].uid === uid){
+                self.value.playlist[i].mp3=fld.val();
+                $(document).trigger("editor:updated");
+                return;
+            }
+        }
+    };
+    
+    var updatePlaylistItemOga=function(ev){
+        var fld=$(ev.target);
+        var uid=fld.attr("data-uid");
+        for(var i=0; i<self.playlistDom.length; i++){
+            if(self.playlistDom[i].uid === uid){
+                self.value.playlist[i].oga=fld.val();
+                $(document).trigger("editor:updated");
+                return;
+            }
+        }
+    };
+    
+    var updatePlaylistItemWav=function(ev){
+        var fld=$(ev.target);
+        var uid=fld.attr("data-uid");
+        for(var i=0; i<self.playlistDom.length; i++){
+            if(self.playlistDom[i].uid === uid){
+                self.value.playlist[i].wav=fld.val();
+                $(document).trigger("editor:updated");
+                return;
+            }
+        }
+    };
+
+    this.playlistDom=[];
+    for(var i=0; i<this.value.playlist.length; i++){
+        
+        var playlistItemData = this.value.playlist[i];
+        
+        var playlistDomItem={};
+        
+        playlistDomItem.uid="playlist" + this.id + "_media_" + Math.random();
+        
+        playlistDomItem.listitemContainer=$("<div class=\"playlist-item\" id=\"" + playlistDomItem.uid + "\"></div>");
+        this.container.append(playlistDomItem.listitemContainer);
+        
+        playlistDomItem.listitemToolbar=$("<div></div>");
+        playlistDomItem.listitemContainer.append(playlistDomItem.listitemToolbar);
+        
+        playlistDomItem.listitemDelete=$("<a class='delete-link' data-uid=\"" + playlistDomItem.uid + "\">&times;</a>");
+        playlistDomItem.listitemToolbar.append(playlistDomItem.listitemDelete);
+        playlistDomItem.listitemDelete.click(deletePlaylistItem);
+        
+        
+        playlistDomItem.listitemContainer.append("<div class=\"label\">Sound title</div>");
+        playlistDomItem.titleInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
+        playlistDomItem.listitemContainer.append(playlistDomItem.titleInput);
+        playlistDomItem.titleInput.val(playlistItemData.title);
+        playlistDomItem.titleInput.change(updatePlaylistItemTitle);
+
+        playlistDomItem.listitemContainer.append("<div class=\"label\">MP3 file URL</div>");
+        playlistDomItem.mp3Input = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
+        playlistDomItem.listitemContainer.append(playlistDomItem.mp3Input);
+        playlistDomItem.mp3Input.val(playlistItemData.mp3);
+        playlistDomItem.mp3Input.change(updatePlaylistItemMp3);
+
+        playlistDomItem.listitemContainer.append("<div class=\"label\">OGA file URL</div>");
+        playlistDomItem.ogaInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
+        playlistDomItem.listitemContainer.append(playlistDomItem.ogaInput);
+        playlistDomItem.ogaInput.val(playlistItemData.oga);
+        playlistDomItem.ogaInput.change(updatePlaylistItemOga);
+
+        playlistDomItem.listitemContainer.append("<div class=\"label\">WAV file URL</div>");
+        playlistDomItem.wavInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
+        playlistDomItem.listitemContainer.append(playlistDomItem.wavInput);
+        playlistDomItem.wavInput.val(playlistItemData.wav);
+        playlistDomItem.wavInput.change(updatePlaylistItemWav);
+        
+        
+        this.playlistDom[i]=playlistDomItem;
+
+    }
+
+
+
+    this.addLink = $('<a class="editor-options-link" href="javascript:void(\'+variant\')">+</a>');
+    this.toolbar.prepend(this.addLink);
+    this.addLink.click(function () {
+        var playlistItemData={ title:'', mp3:'', oga:'', wav:''};
+        var playlistDomItem={};
+        
+        playlistDomItem.uid="playlist" + this.id + "_media_" + Math.random();
+        
+        playlistDomItem.listitemContainer=$("<div class=\"playlist-item\" id=\"" + playlistDomItem.uid + "\"></div>");
+        self.container.append(playlistDomItem.listitemContainer);
+        
+        playlistDomItem.listitemToolbar=$("<div class='toolbar'></div>");
+        playlistDomItem.listitemContainer.append(playlistDomItem.listitemToolbar);
+        
+        playlistDomItem.listitemDelete=$("<a class='delete-link' data-uid=\"" + playlistDomItem.uid + "\">&times;</a>");
+        playlistDomItem.listitemToolbar.append(playlistDomItem.listitemDelete);
+        playlistDomItem.listitemDelete.click(deletePlaylistItem);
+        
+        
+        playlistDomItem.listitemContainer.append("<div class=\"label\">Sound title</div>");
+        playlistDomItem.titleInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
+        playlistDomItem.listitemContainer.append(playlistDomItem.titleInput);
+        playlistDomItem.titleInput.val(playlistItemData.title);
+        playlistDomItem.titleInput.change(updatePlaylistItemTitle);
+
+        playlistDomItem.listitemContainer.append("<div class=\"label\">MP3 file URL</div>");
+        playlistDomItem.mp3Input = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
+        playlistDomItem.listitemContainer.append(playlistDomItem.mp3Input);
+        playlistDomItem.mp3Input.val(playlistItemData.mp3);
+        playlistDomItem.mp3Input.change(updatePlaylistItemMp3);
+
+        playlistDomItem.listitemContainer.append("<div class=\"label\">OGA file URL</div>");
+        playlistDomItem.ogaInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
+        playlistDomItem.listitemContainer.append(playlistDomItem.ogaInput);
+        playlistDomItem.ogaInput.val(playlistItemData.oga);
+        playlistDomItem.ogaInput.change(updatePlaylistItemOga);
+
+        playlistDomItem.listitemContainer.append("<div class=\"label\">WAV file URL</div>");
+        playlistDomItem.wavInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
+        playlistDomItem.listitemContainer.append(playlistDomItem.wavInput);
+        playlistDomItem.wavInput.val(playlistItemData.wav);
+        playlistDomItem.wavInput.change(updatePlaylistItemWav);
+        
+        self.value.playlist.push(playlistItemData);
+        self.playlistDom.push(playlistDomItem);
+        $(document).trigger("editor:updated");
+    });
+
+
+
+    return this.container;
+};
+
+entutor.editors.playlist.prototype.getValue = function () {
+    return this.value;
+};
+
+
+
+
+
+
 // TODO .slideshow
+
+// =============================================================================
+// 
+// 
+// slideshow
+//
+entutor.editors.slideshow = function (parent, value) {
+    this.type = 'slideshow';
+    this.parent = parent;
+    this.value = value || {};
+
+    this.id = this.parent.id + '_' + (this.value.id || (++entutor.guid));
+
+    this.maxScore = 1;
+
+    this.value.classes = this.value.classes || '';
+    this.value.precondition = this.value.precondition || 'none';
+    this.value.supplied = this.value.supplied || "mp3,oga,wav";
+
+
+    this.value.media = this.value.media || {};
+    this.value.media.title=this.value.media.title || 'title';
+    this.value.media.mp3=this.value.media.mp3 || 'mp3 file URL';
+    this.value.media.oga=this.value.media.oga || 'oga file URL';
+    this.value.media.wav=this.value.media.wav || 'mp3 file URL';
+    
+
+    this.value.slides = this.value.slides || [];
+    if(!$.isArray(this.value.slides)){
+        this.value.slides = [];
+    }
+};
+
+entutor.editors.slideshow.prototype.draw = function () {
+    // console.log('entutor.editors.card.prototype.draw ' + this.id);
+    var self = this;
+    this.container = $("<div class=\"editor-element-container " + this.type + "\"></div>");
+    this.toolbar = $('<div class="editor-toolbar">' + this.type + ' #' + this.id + '</div>');
+    this.container.append(this.toolbar);
+
+
+
+
+
+    this.optionsLink = $('<a class="editor-options-link" href="javascript:void(\'options\')">&Congruent;</a>');
+    this.toolbar.prepend(this.optionsLink);
+    this.optionsLink.click(function () { self.optionBlock.toggle(); });
+
+    this.optionBlock = $("<div class=\"editor-element-options\"></div>");
+    this.optionBlock.hide();
+    this.container.append(this.optionBlock);
+
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    // this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
+
+
+
+    // add text field
+    this.container.append("<div class=\"label\">Sound title</div>");
+    this.mediaTitleInput = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.mediaTitleInput);
+    this.mediaTitleInput.val(this.value.media.title);
+    this.mediaTitleInput.change(function () { self.value.media.title= self.mediaTitleInput.val();   $(document).trigger("editor:updated");  });
+
+    this.container.append("<div class=\"label\">MP3 file URL</div>");
+    this.mediaMP3Input = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.mediaMP3Input);
+    this.mediaMP3Input.val(this.value.media.mp3);
+    this.mediaMP3Input.change(function () { self.value.media.mp3= self.mediaMP3Input.val();   $(document).trigger("editor:updated");  });
+
+    this.container.append("<div class=\"label\">OGA file URL</div>");
+    this.mediaOGAInput = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.mediaOGAInput);
+    this.mediaOGAInput.val(this.value.media.oga);
+    this.mediaOGAInput.change(function () { self.value.media.oga= self.mediaOGAInput.val();   $(document).trigger("editor:updated");  });
+
+    this.container.append("<div class=\"label\">WAV file URL</div>");
+    this.mediaWAVInput = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.mediaWAVInput);
+    this.mediaWAVInput.val(this.value.media.wav);
+    this.mediaWAVInput.change(function () { self.value.media.wav= self.mediaWAVInput.val();   $(document).trigger("editor:updated");  });
+
+
+
+
+
+    var deleteSlide=function(ev){
+        var lnk=$(ev.target);
+        var uid=lnk.attr("data-uid");
+        for(var i=0; i<self.slidesDom.length; i++){
+            if(self.slidesDom[i].uid === uid){
+                self.slidesDom[i].container.remove();
+                self.slidesDom.splice(i, 1);
+                self.value.slides.splice(i, 1);
+                return;
+            }
+        }
+    };
+
+    var updateSlideHtml=function(ev){
+        var fld=$(ev.target);
+        var uid=fld.attr("data-uid");
+        for(var i=0; i<self.slidesDom.length; i++){
+            if(self.slidesDom[i].uid === uid){
+                self.value.slides[i].html=fld.val();
+                $(document).trigger("editor:updated");
+                return;
+            }
+        }
+    };
+
+    var updateSlideFrom=function(ev){
+        var fld=$(ev.target);
+        var uid=fld.attr("data-uid");
+        for(var i=0; i<self.slidesDom.length; i++){
+            if(self.slidesDom[i].uid === uid){
+                self.value.slides[i].from=fld.val();
+                $(document).trigger("editor:updated");
+                return;
+            }
+        }
+    };
+    
+    var updateSlideTo=function(ev){
+        var fld=$(ev.target);
+        var uid=fld.attr("data-uid");
+        for(var i=0; i<self.slidesDom.length; i++){
+            if(self.slidesDom[i].uid === uid){
+                self.value.slides[i].to=fld.val();
+                $(document).trigger("editor:updated");
+                return;
+            }
+        }
+    };
+
+
+    this.slidesDom=[];
+    for(var i=0; i<this.value.slides.length; i++){
+        
+        var slideData = this.value.slides[i];
+        
+        var slideDom={};
+        
+        slideDom.uid="slide" + this.id + "_slide_" + Math.random();
+        
+        slideDom.container=$("<div class=\"slide-item\" id=\"" + slideDom.uid + "\"></div>");
+        this.container.append(slideDom.container);
+        
+        slideDom.toolbar=$("<div class=\"toolbar\"></div>");
+        slideDom.container.append(slideDom.toolbar);
+        
+        slideDom.deleteSlide=$("<a class='delete-link' data-uid=\"" + slideDom.uid + "\">&times;</a>");
+        slideDom.toolbar.append(slideDom.deleteSlide);
+        slideDom.deleteSlide.click(deleteSlide);
+        
+        
+        slideDom.container.append("<div class=\"label\">Slide html</div>");
+        slideDom.html = $("<textarea class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\"></textarea>");
+        slideDom.container.append(slideDom.html);
+        slideDom.html.val(slideData.html);
+        slideDom.html.change(updateSlideHtml);
+
+        slideDom.container.append("<div class=\"label\">From time</div>");
+        slideDom.fromInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\">");
+        slideDom.container.append(slideDom.fromInput);
+        slideDom.fromInput.val(slideData.from);
+        slideDom.fromInput.change(updateSlideFrom);
+
+        slideDom.container.append("<div class=\"label\">OGA file URL</div>");
+        slideDom.toInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\">");
+        slideDom.container.append(slideDom.toInput);
+        slideDom.toInput.val(slideData.to);
+        slideDom.toInput.change(updateSlideTo);
+        
+        this.slidesDom[i]=slideDom;
+
+    }
+
+
+
+    this.addLink = $('<a class="editor-options-link" href="javascript:void(\'+variant\')">+</a>');
+    this.toolbar.prepend(this.addLink);
+    this.addLink.click(function () {
+        var slideData={ html:'', from:'', to:''};
+        var slideDom={};
+        
+        var slideDom={};
+        
+        slideDom.uid="slide" + this.id + "_slide_" + Math.random();
+        
+        slideDom.container=$("<div class=\"slide-item\" id=\"" + slideDom.uid + "\"></div>");
+        self.container.append(slideDom.container);
+        
+        slideDom.toolbar=$("<div class=\"toolbar\"></div>");
+        slideDom.container.append(slideDom.toolbar);
+        
+        slideDom.deleteSlide=$("<a class='delete-link' data-uid=\"" + slideDom.uid + "\">&times;</a>");
+        slideDom.toolbar.append(slideDom.deleteSlide);
+        slideDom.deleteSlide.click(deleteSlide);
+        
+        
+        slideDom.container.append("<div class=\"label\">Slide html</div>");
+        slideDom.html = $("<textarea class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\"></textarea>");
+        slideDom.container.append(slideDom.html);
+        slideDom.html.val(slideData.html);
+        slideDom.html.change(updateSlideHtml);
+
+        slideDom.container.append("<div class=\"label\">From time</div>");
+        slideDom.fromInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\">");
+        slideDom.container.append(slideDom.fromInput);
+        slideDom.fromInput.val(slideData.from);
+        slideDom.fromInput.change(updateSlideFrom);
+
+        slideDom.container.append("<div class=\"label\">To time</div>");
+        slideDom.toInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\">");
+        slideDom.container.append(slideDom.toInput);
+        slideDom.toInput.val(slideData.to);
+        slideDom.toInput.change(updateSlideTo);
+        
+        self.value.slides.push(slideData);
+        self.slidesDom.push(slideDom);
+        $(document).trigger("editor:updated");
+    });
+
+    return this.container;
+};
+
+entutor.editors.slideshow.prototype.getValue = function () {
+    return this.value;
+};
+
+
+
+
+
+
 // TODO .recorder
 

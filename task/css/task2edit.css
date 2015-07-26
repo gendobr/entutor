@@ -5,7 +5,7 @@
 }
 
 .editor-presentation-textarea{
-    width:99%;
+    width:99.5%;
     height:200px;
 }
 
@@ -19,8 +19,8 @@
     background-color: #ddffdd;
 }
 .editor-toolbar{
-    display:inline-block;
-    width:100%;
+    /*display:inline-block;*/
+    width: 99.5%;
     background-color:silver;
     font-size:80%;
     opacity:0.6;
@@ -84,7 +84,7 @@
     border:1px solid green;
 }
 .editor-html-content{
-    width:99%;
+    width:99.5%;
 }
 
 textarea{
@@ -140,3 +140,39 @@ textarea{
 .editor-element-container.checkbox input[type="text"]{
     width:80%;
 }
+
+.playlist-item{
+    margin-top:10px;
+    margin-bottom:10px;
+    padding-left:5px;
+    border-left:2px solid gray;
+}
+.editor-element-container.playlist .label{
+    font-size:80%;
+    padding-left:10px;
+}
+
+.editor-element-container.playlist .toolbar{
+    display:inline-block;
+    width:100%;
+    background-color:silver;
+}
+
+
+
+.editor-element-container.slideshow .label{
+    font-size:80%;
+}
+
+.slide-item{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.slide-item .toolbar {
+  background-color: rgb(192, 192, 192);
+  clear: both;
+  display: inline-block;
+  width: 100%;
+}
+
+
