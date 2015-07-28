@@ -93,11 +93,11 @@ entutor.task.prototype.template =
         '<span id="task{{id}}" class="task-container">'
         + '<span id="task{{id}}tip" class="task-tip"><!-- task.tip --></span>'
         + '<span id="task{{id}}presentation" class="task-presentation"><!-- task.presentation --></span>'
-        + '<span id="task{{id}}inputs" class="task-inputs"><!-- task.inputs --></span>'
-        + '<span id="task{{id}}buttons" class="task-buttons">'
-        + '<input type="button" value="{{text.testbutton}}" id="task{{id}}testbutton">'
-        + '<input type="button" value="{{text.restartbutton}}" id="task{{id}}restartbutton">'
-        + '<input type="button" value="{{text.nextbutton}}" id="task{{id}}nextbutton">'
+        + '<span id="task{{id}}inputs" class="task-inputs form-group"><!-- task.inputs --></span>'
+        + '<span id="task{{id}}buttons" class="btn-group">'
+        + '<input type="button" value="{{text.testbutton}}" id="task{{id}}testbutton" class="btn btn-default">'
+        + '<input type="button" value="{{text.restartbutton}}" id="task{{id}}restartbutton" class="btn btn-default">'
+        + '<input type="button" value="{{text.nextbutton}}" id="task{{id}}nextbutton" class="btn btn-default">'
         + '</span>'
         + '</span>';
 
@@ -782,7 +782,7 @@ entutor.inputs.text.prototype.test = function (parentCallback) {
 
 
 entutor.inputs.text.prototype.draw = function () {
-    this.textField = $('<input type="text" id="task' + this.id + 'text" value="" maxlength="'+this.maxlength+'" size="' + (this.options.size || '') + '">');
+    this.textField = $('<input type="text"  class="form-control" id="task' + this.id + 'text" value="" maxlength="'+this.maxlength+'" size="' + (this.options.size || '') + '">');
     var self = this;
     this.textField.change(function (ev) {
         self.value = $(ev.target).val();

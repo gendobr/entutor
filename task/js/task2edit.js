@@ -274,6 +274,10 @@ entutor.editors.card = function (parent, value) {
     this.value.customtest = this.value.customtest || '';
     this.value.maxScore = (typeof (this.value.maxScore) !== 'undefined') ? this.value.maxScore : 1;
 
+    this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
+
+
+
     // create child elements
     this.children = [];
 
@@ -313,6 +317,10 @@ entutor.editors.card.prototype.draw = function () {
     this.optionBlock.append(entutor.components.text(this.value, 'customtest', 'Custom test function' /*, callback */));
     this.optionBlock.append(entutor.components.string(this.value, 'maxScore', 'Max Score'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+
+
+
 
     this.addLink = $('<a class="editor-options-link" href="javascript:void(\'add\')">+child</a>');
     this.toolbar.prepend(this.addLink);
@@ -467,6 +475,10 @@ entutor.editors.html = function (parent, value) {
     this.id = this.parent.id + '_' + (this.value.id || (++entutor.guid));
     this.value.classes = this.value.classes || '';
     this.value.precondition = this.value.precondition || 'none';
+    this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
+    this.value.duration = this.value.duration || 0;
+    
+    
     this.maxScore = 1;
 };
 
@@ -490,7 +502,7 @@ entutor.editors.html.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.string(this.value, 'duration', 'Duration, milleseconds'));
-    // this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
 
     
@@ -1562,5 +1574,61 @@ entutor.editors.slideshow.prototype.getValue = function () {
 
 
 
-// TODO .recorder
+// =============================================================================
+//  recorder
+entutor.editors.recorder = function (parent, value) {
+    this.type = 'recorder';
+    this.parent = parent;
+    this.value = value || {};
+
+    this.id = this.parent.id + '_' + (this.value.id || (++entutor.guid));
+
+    this.maxScore = 1;
+
+    this.value.classes = this.value.classes || '';
+    this.value.precondition = this.value.precondition || 'none';
+    this.value.autostart = this.value.autostart ? true : false;
+    this.value.autocheck = this.value.autocheck ? true : false;
+    this.value.text=this.value.text || 'title';    
+    
+};
+
+entutor.editors.recorder.prototype.draw = function () {
+    // console.log('entutor.editors.card.prototype.draw ' + this.id);
+    var self = this;
+    this.container = $("<div class=\"editor-element-container " + this.type + "\"></div>");
+    this.toolbar = $('<div class="editor-toolbar">' + this.type + ' #' + this.id + '</div>');
+    this.container.append(this.toolbar);
+
+    this.optionsLink = $('<a class="editor-options-link" href="javascript:void(\'options\')">&Congruent;</a>');
+    this.toolbar.prepend(this.optionsLink);
+    this.optionsLink.click(function () { self.optionBlock.toggle(); });
+
+    this.optionBlock = $("<div class=\"editor-element-options\"></div>");
+    this.optionBlock.hide();
+    this.container.append(this.optionBlock);
+
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+
+
+    // add text field
+    this.container.append("<div>Text to check</div>");
+    this.textInput = $("<input type=text class=\"editor-html-content\">");
+    this.container.append(this.textInput);
+    this.textInput.val(this.value.text);
+    this.textInput.change(function () { self.value.text= self.textInput.val();   $(document).trigger("editor:updated");  });
+
+    return this.container;
+};
+
+entutor.editors.recorder.prototype.getValue = function () {
+    return this.value;
+};
+
+
+
+
 
