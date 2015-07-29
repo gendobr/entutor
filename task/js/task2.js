@@ -251,6 +251,7 @@ entutor.inputs.card = function (parent, options) {
     this.customtest = this.options.customtest || false;
     this.maxScore = (typeof (this.options.maxScore) !== 'undefined') ? this.options.maxScore : 1;
     this.autocheck=this.options.autocheck||false;
+    this.hideOnCorrect = this.options.hideOnCorrect? true :false;
 
     // create child elements
     this.children = [];
@@ -406,6 +407,9 @@ entutor.inputs.card.prototype.test = function (parentCallback) {
                 if (self.result.maxScore > 0) {
                     if (self.result.passed === true) {
                         self.showSuccess();
+                        if(self.hideOnCorrect){
+                            self.hide();
+                        }
                     } else if (self.result.passed === false) {
                         self.showError();
                     }
@@ -641,7 +645,10 @@ entutor.inputs.html.prototype.show = function () {
         setTimeout(function(){
             self.passed=true;
             self.domElement.hide();
-            $(document).trigger("task:newinput");
+            self.notify([]);
+            if(self.hideOnCorrect){
+                self.hide();
+            }
         },this.duration);        
     }
 };
@@ -659,6 +666,9 @@ entutor.inputs.html.prototype.start = function () {
                 self.passed=true;
                 self.domElement.hide();
                 self.notify([]);
+                if(self.hideOnCorrect){
+                    self.hide();
+                }
             },this.duration);
         }
     }
@@ -771,13 +781,14 @@ entutor.inputs.text.prototype.test = function (parentCallback) {
     if (this.result && this.result.maxScore > 0) {
         if (this.result.passed === true) {
             this.showSuccess();
+            if(this.hideOnCorrect){
+                this.hide();
+            }
         } else if (this.result.passed === false) {
             this.showError();
         }
     }
-
     parentCallback(this.id, this.result);
-
 };
 
 
@@ -931,13 +942,15 @@ entutor.inputs.radio.prototype.test = function (parentCallback) {
     if (this.result && this.result.maxScore > 0) {
         if (this.result.passed === true) {
             this.showSuccess();
+            if(this.hideOnCorrect){
+                this.hide();
+            }
         } else if (this.result.passed === false) {
             this.showError();
         } else {
             this.removeFeedback();
         }
     }
-
     parentCallback(this.id, this.result);
 };
 
@@ -1097,6 +1110,9 @@ entutor.inputs.checkbox.prototype.test = function (parentCallback) {
     if (this.result && this.result.maxScore > 0) {
         if (this.result.passed === true) {
             this.showSuccess();
+            if(this.hideOnCorrect){
+                this.hide();
+            }
         } else if (this.result.passed === false) {
             this.showError();
         } else {
@@ -1337,6 +1353,9 @@ entutor.inputs.sound.prototype.start = function () {
             self.passed=true;
             self.notify([]);
             self.btn.attr('value', self.labels.paused);
+            if(self.hideOnCorrect){
+                self.hide();
+            }
         }
     });
 
@@ -1526,7 +1545,14 @@ entutor.inputs.video.prototype.start = function () {
         remainingDuration: true,
         toggleDuration: true,
         volume:1,
-        ended:function(){ self.passed=true; self.notify([]); }
+        ended:function(){ 
+            self.passed=true; 
+            self.notify([]);
+            if(self.hideOnCorrect){
+                self.hide();
+            }
+        }
+        
     });
 
 
@@ -1873,6 +1899,9 @@ entutor.inputs.dropzone.prototype.test = function (parentCallback) {
     if (this.result && this.result.maxScore > 0) {
         if (this.result.passed === true) {
             this.showSuccess();
+            if(this.hideOnCorrect){
+                this.hide();
+            }
         } else if (this.result.passed === false) {
             this.showError();
         }
@@ -2481,7 +2510,13 @@ entutor.inputs.slideshow.prototype.start = function () {
         warningAlerts: false,
         consoleAlerts: false,
         volume:1,
-        ended:function(){  self.passed=true; self.notify([]);}
+        ended:function(){
+            self.passed=true;
+            self.notify([]);
+            if(self.hideOnCorrect){
+                self.hide();
+            }
+        }
     });
 };
 
@@ -3062,7 +3097,7 @@ function md5(str) {
 //        text:''
 //     }
 // 
-entutor.inputs.recorder = function (parent, options) {
+entutor.flashrecorder = function (parent, options) {
     // console.log(options);
     this.parent = parent;
     this.type = 'recorder';
@@ -3075,6 +3110,7 @@ entutor.inputs.recorder = function (parent, options) {
     this.text = this.options.text || '';
     this.autocheck=this.options.autocheck||false;
     this.autostart=this.options.autostart||false;
+    this.taskPassScore=this.options.taskPassScore || 0.7;
 
     this.result = null;
     this.value = false;
@@ -3085,22 +3121,22 @@ entutor.inputs.recorder = function (parent, options) {
 };
 
 
-entutor.inputs.recorder.prototype.showSuccess = function () {
+entutor.flashrecorder.prototype.showSuccess = function () {
     this.domElement.removeClass('task-recorder-error').addClass('task-recorder-correct');
 };
 
 
-entutor.inputs.recorder.prototype.showError = function () {
+entutor.flashrecorder.prototype.showError = function () {
     this.domElement.removeClass('task-recorder-correct').addClass('task-recorder-error');
 };
 
 
-entutor.inputs.recorder.prototype.removeFeedback = function () {
+entutor.flashrecorder.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-recorder-correct').removeClass('task-recorder-error');
 };
 
 
-entutor.inputs.recorder.prototype.test = function (parentCallback) {
+entutor.flashrecorder.prototype.test = function (parentCallback) {
 
     // don't post if sound was not saved
     if(!this.value){
@@ -3177,6 +3213,9 @@ entutor.inputs.recorder.prototype.test = function (parentCallback) {
         if (self.result && self.maxScore > 0) {
             if (self.result.passed === true) {
                 self.showSuccess();
+                if(self.hideOnCorrect){
+                    self.hide();
+                }
             } else if (self.result.passed === false) {
                 self.showError();
             }
@@ -3187,7 +3226,7 @@ entutor.inputs.recorder.prototype.test = function (parentCallback) {
 };
 
 
-entutor.inputs.recorder.prototype.draw = function () {
+entutor.flashrecorder.prototype.draw = function () {
 
     var self = this;
 
@@ -3210,27 +3249,27 @@ entutor.inputs.recorder.prototype.draw = function () {
 };
 
 
-entutor.inputs.recorder.prototype.getValue = function () {
+entutor.flashrecorder.prototype.getValue = function () {
     return this.value;
 };
 
 
-entutor.inputs.recorder.prototype.getMaxScore = function () {
+entutor.flashrecorder.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
 
-entutor.inputs.recorder.prototype.hide = function () {
+entutor.flashrecorder.prototype.hide = function () {
     this.domElement.hide();
 };
 
 
-entutor.inputs.recorder.prototype.show = function () {
+entutor.flashrecorder.prototype.show = function () {
     this.domElement.show();
 };
 
 
-entutor.inputs.recorder.prototype.start = function () {
+entutor.flashrecorder.prototype.start = function () {
     //    if(this.onstart){
     //        for(var j=0; j<this.onstart.length; j++){
     //            this.onstart[j]();
@@ -3240,7 +3279,7 @@ entutor.inputs.recorder.prototype.start = function () {
 
 
 // выполняется, если элемент изменился
-entutor.inputs.recorder.prototype.notify = function (stack) {
+entutor.flashrecorder.prototype.notify = function (stack) {
     if(this.options.autocheck){
         this.test();
     }
@@ -3250,3 +3289,309 @@ entutor.inputs.recorder.prototype.notify = function (stack) {
     }
 };
 
+
+
+
+
+
+
+
+
+
+
+
+// =============================================================================
+//
+//    options={
+//        type:'audio',
+//        id:''
+//        classes:''
+//        text:'' // list of space separated words
+//        maxScore:1
+//        indicatorWidth:100px
+//        indicatorHeight:40px
+//        taskPassScore:0.7
+//        precondition:'none|beforeCorrect'
+//        duration:60 // seconds
+//    }
+// 
+entutor.html5recorder = function (parent, options) {
+    this.parent = parent;
+    this.type = 'recorder';
+    this.options = options || {};
+    
+    
+    this.id = this.parent.id + '_' + (this.options.id || (++entutor.guid));
+    this.classes = this.options.classes || '';
+    this.maxScore = (typeof (this.options.maxScore) !== 'undefined') ? this.options.maxScore : 1;
+    this.precondition = this.options.precondition || 'none';
+    this.text = this.options.text || '';
+    this.autocheck=this.options.autocheck||false;
+    this.autostart=this.options.autostart||false;
+    this.duration = this.options.duration || 30; 
+    this.taskPassScore=this.options.taskPassScore || 0.7;
+    
+    
+    
+    this.result = {
+        status: entutor.task.status.waiting,
+        score: 0,
+        passed: 'undefined',
+        maxScore: this.maxScore
+    };
+    this.indicatorWidth=this.options.indicatorWidth || 100;
+    this.indicatorHeight=this.options.indicatorHeight || 40;
+    this.indicatorHeight=this.options.indicatorHeight || 40;
+    this.value=false;
+};
+
+entutor.html5recorder.prototype.showSuccess = function () {
+    this.domElement.removeClass('task-audio-error').addClass('task-audio-correct');
+};
+
+entutor.html5recorder.prototype.showError = function () {
+    this.domElement.removeClass('task-audio-correct').addClass('task-audio-error');
+};
+
+entutor.html5recorder.prototype.removeFeedback = function () {
+    this.domElement.removeClass('task-audio-correct').removeClass('task-audio-error');
+};
+
+entutor.html5recorder.prototype.enableStopButton=function(){
+    this.btnStop.addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);
+};
+
+entutor.html5recorder.prototype.disableStopButton=function(){
+    this.btnStop.addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);    
+};
+
+entutor.html5recorder.prototype.enableStartButton=function(){
+    //this.btnStart.addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);    
+    $('.task-audio-start-record').addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);    
+};
+
+entutor.html5recorder.prototype.disableStartButton=function(){
+    // this.btnStart.addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);
+    $('.task-audio-start-record').addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);
+};
+
+entutor.html5recorder.prototype.draw = function () {
+    
+    var self=this;
+
+    this.domElement = $('<span id="task' + this.id + '" class="task-audio ' + this.classes + '"></span>');
+
+    // words to show
+    this.wordsDom = $('<span id="taskwords' + this.id + '" class="task-audio-words"></span>');
+    this.domElement.append(this.wordsDom);
+
+    // explode
+    this.feedback={};
+    var words=this.text.split(/ +/);
+    for(var i=0; i<words.length; i++){
+        this.feedback[words[i]]=$('<span class="task-audio-word"></span>');
+        this.feedback[words[i]].html(words[i]);
+        this.wordsDom.append(this.feedback[words[i]]);
+    }    
+     
+    // audio indicator
+    this.indicator=$('<canvas id="canvas-' + this.id + '" width="'+this.indicatorWidth+'" class="task-audio-indicator" height="'+this.indicatorHeight+'"></canvas>');
+    this.domElement.append(this.indicator);
+
+    // button to start recording
+    this.btnStart=$('<input  type="button" data-audio-id="' + this.id + '" class="task-audio-start-record">');
+    this.btnStart.click(entutor.inputs.audioapi.startRecording);
+    this.btnStart.click(function(){
+        self.result = {
+            status: entutor.task.status.waiting,
+            score: 0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };
+        self.enableStopButton();
+        self.disableStartButton();
+        //stop recording after self.duration milliseconds
+        self.stopTimeout = setTimeout(function(){self.btnStop.trigger('click');},self.duration*1000);
+    });
+
+
+    this.domElement.append(this.btnStart);
+
+    // button to stop recording
+    this.btnStop=$('<input  type="button" data-audio-id="' + this.id + '" class="task-audio-stop-record">');
+    this.btnStop.click(entutor.inputs.audioapi.stopRecording);
+    this.btnStop.click(function(){
+        self.disableStopButton();
+        self.enableStartButton();
+        if(self.stopTimeout){
+            clearTimeout(self.stopTimeout);
+        }
+    });
+    this.disableStopButton();
+    this.domElement.append(this.btnStop);
+    
+    this.configElement=$('<span class="audio-config" id="config-' + this.id + '" data-string="" data-audio-id="' + this.id + '"></span>');
+    this.configElement.attr('data-string',this.text);
+    this.domElement.append(this.configElement);    
+
+    $(document).on('audioapi:score', function (event, audioId, compositeBlob) {
+        if(audioId===self.id){
+            self.compositeBlob=compositeBlob;
+            self.value={};
+            $( document ).trigger( "task:newinput" );
+        }
+    });
+    
+    if(this.precondition==='beforeCorrect'){
+        this.hide();
+    }    
+
+    return this.domElement;
+};
+
+entutor.html5recorder.prototype.test = function (parentCallback) {
+    var self=this;
+    
+    if(this.value === false){
+        this.result = {
+            status: entutor.task.status.received,
+            score: 0,
+            passed: 'undefined',
+            maxScore: this.maxScore
+        };
+        parentCallback(this.id, this.result);
+        return;
+    }
+
+    if(!this.compositeBlob){
+        parentCallback(self.id, self.result);
+        return;
+    }
+    
+    this.ajax(
+            this.options.soundScrorerURL,
+            this.compositeBlob, // data to send
+            function(responseText){
+
+                // console.log(responseText);
+                var reply=JSON.parse(responseText);
+
+                self.value=reply;
+
+                self.result = {
+                    status: entutor.task.status.received,
+                    score: ( self.value.score>=self.taskPassScore ? self.maxScore : 0),
+                    passed: (self.value.score>=self.taskPassScore),
+                    maxScore: self.maxScore
+                };
+
+                if(this.result && this.result.maxScore>0){
+                    // mark each word
+                    for(var w in self.value.wordScores){
+                        if(self.value.wordScores[w]>=self.taskPassScore){
+                            self.feedback[w].removeClass('task-audio-word-error').addClass('task-audio-word-correct');
+                        }else{
+                            self.feedback[w].removeClass('task-audio-word-correct').addClass('task-audio-word-error');
+                        }
+                    }
+
+                    // mark all block
+                    if(self.value.score>=self.taskPassScore){                
+                        self.domElement.removeClass('task-audio-error').addClass('task-audio-correct');
+                    } else {
+                        self.domElement.removeClass('task-audio-correct').addClass('task-audio-error');
+                    }
+                }
+                // remove audio from RAM
+                self.compositeBlob=null;
+                parentCallback(self.id, self.result);
+            }
+    );
+    // parentCallback(this.id, this.result);
+};
+
+entutor.html5recorder.prototype.getValue = function () {
+    return this.value;
+};
+
+entutor.html5recorder.prototype.getMaxScore = function () {
+    return this.maxScore;
+};
+
+entutor.html5recorder.prototype.ajax = function (url, data,onLoadCallback){
+        var currentObject=this;
+
+        this.onLoadFunction=onLoadCallback;
+
+
+        try {
+            this.request = new XMLHttpRequest();
+        } catch (trymicrosoft) {
+            try {
+                this.request = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (othermicrosoft) {
+                try {
+                    this.request = new ActiveXObject("Microsoft.XMLHTTP");
+                } catch (failed) {
+                    this.request = false;
+                }
+            }
+        }
+        if(!this.request) return false;
+
+        if(data){
+            this.request.open("POST", url, true);
+            this.request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            this.request.setRequestHeader("Content-length", data.length);
+            this.request.setRequestHeader("Connection", "close");
+        }else{
+            this.request.open("GET", url, true);
+        }
+        this.request.onreadystatechange = function(){
+            if (currentObject.request.readyState === 4){
+                //console.log(currentObject.request);
+                try{
+                    currentObject.onLoadFunction(currentObject.request.responseText);
+                }catch(err){
+
+                }
+            }
+        };
+        this.request.send(data);
+    };
+
+entutor.html5recorder.prototype.hide=function(){
+    this.domElement.hide();
+};
+
+entutor.html5recorder.prototype.show=function(){
+    this.domElement.show();
+};
+
+
+entutor.html5recorder.prototype.start = function () {
+    //    if(this.onstart){
+    //        for(var j=0; j<this.onstart.length; j++){
+    //            this.onstart[j]();
+    //        }
+    //    }
+};
+
+
+// выполняется, если элемент изменился
+entutor.html5recorder.prototype.notify = function (stack) {
+    if(this.options.autocheck){
+        this.test();
+    }
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
+    }
+};
+
+
+
+
+
+
+entutor.inputs.recorder=entutor.html5recorder;

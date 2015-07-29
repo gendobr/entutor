@@ -533,7 +533,7 @@ entutor.editors.text = function (parent, value) {
 
     this.value.classes = this.value.classes || '';
     this.value.precondition = this.value.precondition || 'none';
-
+    this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
     this.value.pattern = this.value.pattern || 'type correct answer here';
     this.value.value = this.value.value || '';
     this.value.size = this.value.size || '5';
@@ -560,7 +560,7 @@ entutor.editors.text.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'value', 'Initial value'));
     this.optionBlock.append(entutor.components.integer(this.value, 'maxlength', 'Maximal length'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
-
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
     
     this.optionBlock.append(entutor.components.integer(this.value, 'size', 'Width',function(value){self.input.attr('size',value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
@@ -598,6 +598,7 @@ entutor.editors.radio = function (parent, value) {
 
     this.value.classes = this.value.classes || '';
     this.value.precondition = this.value.precondition || 'none';
+    this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
 
     this.value.size = this.value.size || '5';
     this.value.arrange = this.value.arrange || 'vertical';
@@ -629,7 +630,7 @@ entutor.editors.radio.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
-
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
     this.addLink = $('<a class="editor-options-link" href="javascript:void(\'+variant\')">+variant</a>');
     this.toolbar.prepend(this.addLink);
@@ -747,6 +748,7 @@ entutor.editors.checkbox = function (parent, value) {
 
     this.value.classes = this.value.classes || '';
     this.value.precondition = this.value.precondition || 'none';
+    this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
 
     this.value.label = this.value.label || 'type checkbox label here';
     this.value.correctVariant = this.value.correctVariant || true;
@@ -773,6 +775,7 @@ entutor.editors.checkbox.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
     // add checkbox field with label
     this.checkbox = $("<input type=checkbox>");
@@ -881,6 +884,7 @@ entutor.editors.dropzone = function (parent, value) {
 
     this.value.classes = this.value.classes || '';
     this.value.precondition = this.value.precondition || 'none';
+    this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
 
     this.value.pattern = this.value.pattern || 'type correct answer here';
     this.value.ejectCounterOnError = typeof(this.value.ejectCounterOnError)!=='undefined' ? this.value.ejectCounterOnError : false;
@@ -910,6 +914,7 @@ entutor.editors.dropzone.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
     // add text field
     this.input = $("<input type=text class=\"editor-html-content\" size=\""+this.value.size+"\" disabled=\"true\">");
@@ -957,6 +962,7 @@ entutor.editors.sound = function (parent, value) {
     this.value.precondition = this.value.precondition || 'none';
     this.value.autostart = this.value.autostart || false;
     this.value.supplied = this.value.supplied || "mp3,oga,wav";
+    this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
 
     this.value.media = this.value.media || {};
     this.value.media.title=this.value.media.title || 'title';
@@ -985,6 +991,7 @@ entutor.editors.sound.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
 
     // add text field
@@ -1045,6 +1052,7 @@ entutor.editors.video = function (parent, value) {
     this.value.precondition = this.value.precondition || 'none';
     this.value.autostart = this.value.autostart || false;
     this.value.supplied = this.value.supplied || "mp3,oga,wav";
+    this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
 
     this.value.media = this.value.media || {};
     this.value.media.title=this.value.media.title || 'title';
@@ -1073,6 +1081,7 @@ entutor.editors.video.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
 
     // add text field
@@ -1336,10 +1345,7 @@ entutor.editors.playlist.prototype.getValue = function () {
 
 
 
-// TODO .slideshow
-
 // =============================================================================
-// 
 // 
 // slideshow
 //
@@ -1355,6 +1361,7 @@ entutor.editors.slideshow = function (parent, value) {
     this.value.classes = this.value.classes || '';
     this.value.precondition = this.value.precondition || 'none';
     this.value.supplied = this.value.supplied || "mp3,oga,wav";
+    this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
 
 
     this.value.media = this.value.media || {};
@@ -1392,6 +1399,7 @@ entutor.editors.slideshow.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     // this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
 
 
@@ -1590,7 +1598,12 @@ entutor.editors.recorder = function (parent, value) {
     this.value.autostart = this.value.autostart ? true : false;
     this.value.autocheck = this.value.autocheck ? true : false;
     this.value.text=this.value.text || 'title';    
+    this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
+    this.value.duration = this.value.duration || 30;    
+    this.taskPassScore.duration = this.value.taskPassScore || 0.7;    
     
+    
+    if(this.value.duration>30 || this.value.duration<0) this.value.duration=30;
 };
 
 entutor.editors.recorder.prototype.draw = function () {
@@ -1612,6 +1625,9 @@ entutor.editors.recorder.prototype.draw = function () {
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    this.optionBlock.append(entutor.components.string(this.value, 'duration', 'Duration, seconds'));
+    this.optionBlock.append(entutor.components.string(this.value, 'taskPassScore', 'Min score to pass (0 ... 1)'));
 
 
     // add text field
