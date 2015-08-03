@@ -12,8 +12,13 @@
         <script type="application/javascript" src="../lib/jquery-2.1.4.min.js"></script>
         <script type="application/javascript" src="../lib/jquery-ui/jquery-ui.min.js"></script>
         <script type="application/javascript" src="../lib/markup.min.js"></script>
+        
         <script type="application/javascript" src="../lib/swfobject.js"></script>
         <script type="text/javascript"        src="../lib/recorder.js"></script>
+        
+        <script type="application/javascript" src="../js/voiceinputRecorder.js"></script>
+        <script type="application/javascript" src="../js/voiceinputRecorderWorker.js"></script>
+
         <script type="application/javascript" src="../lib/jplayer/jplayer/jquery.jplayer.min.js"></script>
         <script type="application/javascript" src="../js/task2.js"></script>
     </head>
@@ -52,7 +57,7 @@
             entutor.recorderApp.iconUpload = '../../task/img/upload.png';
             entutor.recorderApp.salt='kdsjlkajdo695bh';
 
-            $('body').append($('<div id="flashcontent">p>Your browser must have JavaScript enabled and the Adobe Flash Player installed.</p></div>'));
+            $('body').append($('<div id="flashcontent"><p>Your browser must have JavaScript enabled and the Adobe Flash Player installed.</p></div>'));
             var flashvars = {'upload_image': entutor.recorderApp.iconUpload};
             var params = {};
             var attributes = {'id': entutor.recorderApp.RECORDER_APP_ID, 'name': entutor.recorderApp.RECORDER_APP_ID};
@@ -60,6 +65,9 @@
             // console.log(entutor.recorderApp.swf, "flashcontent", entutor.recorderApp.appWidth, entutor.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
             swfobject.embedSWF(entutor.recorderApp.swf, "flashcontent", entutor.recorderApp.appWidth, entutor.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
             // ------------------ flash recorder - end -------------------------
+
+
+
 
 
             if(window.location.hash){

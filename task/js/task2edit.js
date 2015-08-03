@@ -1600,8 +1600,7 @@ entutor.editors.recorder = function (parent, value) {
     this.value.text=this.value.text || 'title';    
     this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
     this.value.duration = this.value.duration || 30;    
-    this.taskPassScore.duration = this.value.taskPassScore || 0.7;    
-    
+    this.value.taskPassScore = this.value.taskPassScore || 0.7;
     
     if(this.value.duration>30 || this.value.duration<0) this.value.duration=30;
 };

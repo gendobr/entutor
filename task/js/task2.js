@@ -3315,6 +3315,207 @@ entutor.flashrecorder.prototype.notify = function (stack) {
 //        duration:60 // seconds
 //    }
 // 
+entutor.html5audioapi = {};
+
+entutor.html5audioapi.initAudioApi = function (options) {
+    
+    entutor.html5audioapi.options=options || {};
+
+    entutor.html5audioapi.soundScrorerURL=entutor.html5audioapi.options.soundScrorerURL||"voiceinputscorer.php";
+
+    entutor.html5audioapi.drawAnimationFrameFactory = function (canvas) {
+        
+        if (entutor.html5audioapi.animationFrame) {
+            window.cancelAnimationFrame(entutor.html5audioapi.animationFrame);
+        }
+
+        var canvasWidth = canvas.width;
+        var canvasHeight = canvas.height;
+        var analyserContext = canvas.getContext('2d');
+        var scaleY = 0.7 * canvasHeight / 255.0;
+
+        var drawAnimationFrame = function (time) {
+            // analyzer draw code here
+            var SPACING = 5;
+            var BAR_WIDTH = 3;
+
+            var numBars = Math.round(canvasWidth / SPACING);
+            var freqByteData = new Uint8Array(entutor.html5audioapi.analyserNode.frequencyBinCount);
+
+            entutor.html5audioapi.analyserNode.getByteFrequencyData(freqByteData);
+
+            analyserContext.clearRect(0, 0, canvasWidth, canvasHeight);
+            analyserContext.fillStyle = '#F6D565';
+            analyserContext.lineCap = 'round';
+            var multiplier = entutor.html5audioapi.analyserNode.frequencyBinCount / numBars;
+
+            // Draw rectangle for each frequency bin.
+            for (var i = 0; i < numBars; ++i) {
+                var magnitude = 0;
+                var offset = Math.floor(i * multiplier);
+                // gotta sum/average the block, or we miss narrow-bandwidth spikes
+                for (var j = 0; j < multiplier; j++) {
+                    magnitude += freqByteData[offset + j];
+                }
+                magnitude = scaleY * magnitude / multiplier;
+                // var magnitude2 = freqByteData[i * multiplier];
+                analyserContext.fillStyle = "hsl( " + Math.round((i * 360) / numBars) + ", 100%, 50%)";
+                analyserContext.fillRect(i * SPACING, canvasHeight, BAR_WIDTH, -magnitude);
+            }
+            
+            entutor.html5audioapi.animationFrame = window.requestAnimationFrame(drawAnimationFrame);
+        };
+
+        return  drawAnimationFrame;
+
+    };
+
+    entutor.html5audioapi.clearCurrentFrame=function(){
+        if (entutor.html5audioapi.currentAudioId) {
+            var canvas = document.getElementById('canvas-'+entutor.html5audioapi.currentAudioId);
+            var context = canvas.getContext('2d');
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            entutor.html5audioapi.currentAudio = null;
+        }
+        if (entutor.html5audioapi.animationFrame) {
+            window.cancelAnimationFrame(entutor.html5audioapi.animationFrame);
+            entutor.html5audioapi.animationFrame=null;
+        }
+    };
+
+    entutor.html5audioapi.startRecording=function (ev) {
+        entutor.html5audioapi.clearCurrentFrame();
+        // entutor.html5audioapi.audioGain.gain.value = 1.0;
+        var id = $(ev.target).attr("data-audio-id");
+        entutor.html5audioapi.currentAudioId = id;
+        var canvas = document.getElementById('canvas-'+id);
+        var updateAnalysers = entutor.html5audioapi.drawAnimationFrameFactory(canvas);
+        updateAnalysers();
+        // start recording
+        entutor.html5audioapi.audioRecorder.clear();
+        entutor.html5audioapi.audioRecorder.record();
+    };
+
+    entutor.html5audioapi.stopRecording=function (ev) {
+        // entutor.html5audioapi.audioGain.gain.value = 0.0;
+        // stop recording and send it to server
+        // console.log("stop recording and send it to server");
+        entutor.html5audioapi.audioRecorder.stop();
+        entutor.html5audioapi.audioRecorder.getBuffers( function ( buffers ) {
+
+            entutor.html5audioapi.audioRecorder.exportWAV( function ( blob ) {
+
+                var compositeBlob=new Blob([
+                    JSON.stringify({audioId:entutor.html5audioapi.currentAudioId, audioString:$('#config-'+entutor.html5audioapi.currentAudioId).attr('data-string')}),
+                    "\n\n",
+                    blob ],
+                    {type : 'audio/wav'}
+                );
+        
+                $(document).trigger('audioapi:score',[entutor.html5audioapi.currentAudioId, compositeBlob]);
+
+                entutor.html5audioapi.clearCurrentFrame();
+            });
+        } );                
+    };
+
+
+    // callback on audio stream created
+    // microphone -> splitter -> mono -> gain -> analyzer
+    entutor.html5audioapi.gotStream = function (stream) {
+
+        // Create AudioNode from the stream.
+        entutor.html5audioapi.userSourceNode = entutor.html5audioapi.context.createMediaStreamSource(stream);
+
+        // create mono channel
+        var splitter = entutor.html5audioapi.context.createChannelSplitter(2);
+        entutor.html5audioapi.userSourceNode.connect(splitter);
+
+
+        // on-channel sound, mono
+        entutor.html5audioapi.monoSoundSourceNode = entutor.html5audioapi.context.createChannelMerger(2);
+        splitter.connect(entutor.html5audioapi.monoSoundSourceNode, 0, 0);
+        splitter.connect(entutor.html5audioapi.monoSoundSourceNode, 0, 1);
+
+        // Gain (Усилитель)
+        entutor.html5audioapi.audioGain = entutor.html5audioapi.context.createGain();
+        entutor.html5audioapi.audioGain.gain.value = 0.0;
+        // source           destination
+        entutor.html5audioapi.monoSoundSourceNode.connect(entutor.html5audioapi.audioGain);
+
+        // create audio analyzer
+        entutor.html5audioapi.analyserNode = entutor.html5audioapi.context.createAnalyser();
+        entutor.html5audioapi.analyserNode.fftSize = 128;
+        entutor.html5audioapi.monoSoundSourceNode.connect(entutor.html5audioapi.analyserNode);
+        //entutor.html5audioapi.audioGain.connect( entutor.html5audioapi.analyserNode );
+
+        // направляем выход от усилителя в наушники/колонки
+        // entutor.html5audioapi.audioGain.connect(entutor.html5audioapi.context.destination);
+
+        // глушим эхо от микрофона в наушниках
+        var zeroGain = entutor.html5audioapi.context.createGain();
+        zeroGain.gain.value = 0.0;
+        entutor.html5audioapi.audioGain.connect( zeroGain );
+        zeroGain.connect( entutor.html5audioapi.context.destination );
+
+
+        // create recorder object
+        entutor.html5audioapi.audioRecorder = new Recorder( entutor.html5audioapi.monoSoundSourceNode,{workerPath:entutor.html5audioapi.options.jsURL+'/voiceinputRecorderWorker.js'} );
+
+        // activate buttons
+        $(document).trigger('audioapi:activated');
+
+    };
+
+    try {
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        entutor.html5audioapi.context = new AudioContext();
+
+        // operate animation frame
+        if (!navigator.cancelAnimationFrame) {
+            navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
+        }
+        // operate animation frame
+        if (!navigator.requestAnimationFrame) {
+            navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
+        }
+
+        // get media source
+        if (!navigator.getUserMedia) {
+            navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+        }
+
+        navigator.getUserMedia(
+            // options
+            {
+                "audio": {
+                    "mandatory": {
+                        "googEchoCancellation": "false",
+                        "googAutoGainControl": "false",
+                        "googNoiseSuppression": "false",
+                        "googHighpassFilter": "false"
+                    },
+                    "optional": []
+                }
+            },
+            // on stream created
+            entutor.html5audioapi.gotStream,
+            // on error
+            function (e) {  alert('Error getting audio');  console.log(e); }
+        );
+
+
+    } catch (e) {
+        alert('Opps.. Your browser do not support audio API');
+    }
+    
+};
+
+
+
+
+
+
 entutor.html5recorder = function (parent, options) {
     this.parent = parent;
     this.type = 'recorder';
@@ -3568,7 +3769,6 @@ entutor.html5recorder.prototype.show=function(){
     this.domElement.show();
 };
 
-
 entutor.html5recorder.prototype.start = function () {
     //    if(this.onstart){
     //        for(var j=0; j<this.onstart.length; j++){
@@ -3577,8 +3777,6 @@ entutor.html5recorder.prototype.start = function () {
     //    }
 };
 
-
-// выполняется, если элемент изменился
 entutor.html5recorder.prototype.notify = function (stack) {
     if(this.options.autocheck){
         this.test();
