@@ -3467,47 +3467,42 @@ entutor.html5audioapi.initAudioApi = function (options) {
 
     };
 
-    try {
-        window.AudioContext = window.AudioContext || window.webkitAudioContext;
-        entutor.html5audioapi.context = new AudioContext();
+    
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    entutor.html5audioapi.context = new AudioContext();
 
-        // operate animation frame
-        if (!navigator.cancelAnimationFrame) {
-            navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
-        }
-        // operate animation frame
-        if (!navigator.requestAnimationFrame) {
-            navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
-        }
-
-        // get media source
-        if (!navigator.getUserMedia) {
-            navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        }
-
-        navigator.getUserMedia(
-            // options
-            {
-                "audio": {
-                    "mandatory": {
-                        "googEchoCancellation": "false",
-                        "googAutoGainControl": "false",
-                        "googNoiseSuppression": "false",
-                        "googHighpassFilter": "false"
-                    },
-                    "optional": []
-                }
-            },
-            // on stream created
-            entutor.html5audioapi.gotStream,
-            // on error
-            function (e) {  alert('Error getting audio');  console.log(e); }
-        );
-
-
-    } catch (e) {
-        alert('Opps.. Your browser do not support audio API');
+    // operate animation frame
+    if (!navigator.cancelAnimationFrame) {
+        navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
     }
+    // operate animation frame
+    if (!navigator.requestAnimationFrame) {
+        navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
+    }
+
+    // get media source
+    if (!navigator.getUserMedia) {
+        navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    }
+
+    navigator.getUserMedia(
+        // options
+        {
+            "audio": {
+                "mandatory": {
+                    "googEchoCancellation": "false",
+                    "googAutoGainControl": "false",
+                    "googNoiseSuppression": "false",
+                    "googHighpassFilter": "false"
+                },
+                "optional": []
+            }
+        },
+        // on stream created
+        entutor.html5audioapi.gotStream,
+        // on error
+        function (e) {  throw { message: "Error activating audioAPI",  code: 403 }; }
+    );
     
 };
 
