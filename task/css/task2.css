@@ -254,3 +254,63 @@
 .recorder-playback img{
     max-height:30px;
 }
+
+
+
+
+.task-audio{
+    display:inline-block;
+    vertical-align: middle;    
+}
+.task-audio-start-record{
+    background-image: url('../img/icon-audio-start-record.png');
+    background-size:24px 24px;
+    background-repeat:no-repeat;
+    background-position:center center;
+    display:inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+}
+.task-audio-stop-record{
+    background-image: url('../img/icon-audio-stop-record.png');
+    background-size:24px 24px;
+    background-repeat:no-repeat;
+    background-position:center center;
+    display:inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+}
+.task-audio-error{
+    background-color:#ffaaaa;
+}
+.task-audio-correct{
+    background-color:#aaffaa;
+}
+.task-audio-word-error{
+    background-color:#ffaaaa;
+}
+.task-audio-word-correct{
+    background-color:#aaffaa;
+}
+.audio-button-disabled{
+    opacity:0.5;
+}
+.audio-button-enabled{
+    opacity:1;
+}
+
+.task-audio-words{
+    display:inline-block;
+    vertical-align: middle;
+}
+.task-audio-indicator{
+    display:inline-block;
+    vertical-align: middle;
+}
+.task-audio-word{
+    display:inline-block;
+    vertical-align: top;
+    margin-right:5px;
+}

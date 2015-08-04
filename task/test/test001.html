@@ -47,28 +47,29 @@
         <script type="application/javascript">
         $(document).ready(function(){
             
-            entutor.config.swfPath = "../../task/lib/jplayer/jplayer";
-
-            // ------------------ flash recorder - begin -----------------------
-            entutor.recorderApp.swf = "../../task/lib/recorder.swf";
-            entutor.recorderApp.receiver = '../../demo/voiceinput2/upload.php';
-            entutor.recorderApp.iconRecord = '../../task/img/record.png';
-            entutor.recorderApp.iconStop = '../../task/img/stop.png';
-            entutor.recorderApp.iconUpload = '../../task/img/upload.png';
-            entutor.recorderApp.salt='kdsjlkajdo695bh';
-
-            $('body').append($('<div id="flashcontent"><p>Your browser must have JavaScript enabled and the Adobe Flash Player installed.</p></div>'));
-            var flashvars = {'upload_image': entutor.recorderApp.iconUpload};
-            var params = {};
-            var attributes = {'id': entutor.recorderApp.RECORDER_APP_ID, 'name': entutor.recorderApp.RECORDER_APP_ID};
-
-            // console.log(entutor.recorderApp.swf, "flashcontent", entutor.recorderApp.appWidth, entutor.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
-            swfobject.embedSWF(entutor.recorderApp.swf, "flashcontent", entutor.recorderApp.appWidth, entutor.recorderApp.appHeight, "11.0.0", "", flashvars, params, attributes);
-            // ------------------ flash recorder - end -------------------------
-
-
-
-
+            try{
+                entutor.html5audioapi.initAudioApi({
+                    workerPath:'../js/voiceinputRecorderWorker.js',
+                    soundScrorerURL:"./voiceinputscorer.php",
+                    salt : 'kdsjlkajdo695bh'
+                });
+                entutor.inputs.recorder=entutor.html5recorder;
+                console.log("entutor.html5recorder");
+            }catch(ex){
+                // ------------------ flash recorder - begin -------------------
+                entutor.recorderApp.initFlashRecorder({
+                    swfPath : "../../task/lib/jplayer/jplayer",
+                    swf : "../../task/lib/recorder.swf",
+                    receiver : '../../demo/voiceinput2/upload.php',
+                    iconRecord : '../../task/img/record.png',
+                    iconStop : '../../task/img/stop.png',
+                    iconUpload : '../../task/img/upload.png',
+                    salt : 'kdsjlkajdo695bh'
+                });
+                entutor.inputs.recorder=entutor.flashrecorder;
+                console.log("entutor.flashrecorder");
+                // ------------------ flash recorder - end ---------------------
+            }
 
             if(window.location.hash){
                 entutor.show('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
