@@ -263,8 +263,8 @@
     vertical-align: middle;    
 }
 .task-audio-start-record{
-    background-image: url('../img/icon-audio-start-record.png');
-    background-size:24px 24px;
+    background-image: url('../img/icon-audio-record.png');
+    background-size:16px 16px;
     background-repeat:no-repeat;
     background-position:center center;
     display:inline-block;
@@ -272,15 +272,29 @@
     width: 30px;
     height: 30px;
 }
+
+
+/* The animation code */
+@keyframes example {
+    0%   {background-color: red; left:0px; top:0px;}
+    25%  {background-color: yellow; left:200px; top:0px;}
+    50%  {background-color: blue; left:200px; top:200px;}
+    75%  {background-color: green; left:0px; top:200px;}
+    100% {background-color: red; left:0px; top:0px;}
+}
+
 .task-audio-stop-record{
-    background-image: url('../img/icon-audio-stop-record.png');
-    background-size:24px 24px;
+    background-image: url('../img/icon-audio-record.png');
+    background-size:16px 16px;
     background-repeat:no-repeat;
     background-position:center center;
     display:inline-block;
     vertical-align: middle;
     width: 30px;
     height: 30px;
+    animation-name: example;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
 }
 .task-audio-error{
     background-color:#ffaaaa;

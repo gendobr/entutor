@@ -3631,17 +3631,25 @@ entutor.html5recorder.prototype.draw = function () {
 
     // button to start recording
     this.btnStart=$('<input  type="button" data-audio-id="' + this.id + '" class="task-audio-start-record">');
-    this.btnStart.click(entutor.html5audioapi.stopRecording);
-    this.btnStart.click(function(){
+
+    this.btnStart.click(function(ev){
+        // console.log(" this.btnStart.click ",self.btnStart);
+        self.btnStart.hide();
+        self.btnStop.show();
+        // stop recorder
+        // clear previous result
+        // hide current button
+        // and show stop button
+        //        entutor.html5audioapi.stopRecording(ev);
         self.result = {
             status: entutor.task.status.waiting,
             score: 0,
             passed: 'undefined',
             maxScore: this.maxScore
         };
-        self.enableStopButton();
-        self.disableStartButton();
-        //stop recording after self.duration milliseconds
+        //        self.enableStopButton();
+        //        self.disableStartButton();
+        //        //stop recording after self.duration milliseconds
         self.stopTimeout = setTimeout(function(){self.btnStop.trigger('click');},self.duration*1000);
     });
 
@@ -3650,15 +3658,19 @@ entutor.html5recorder.prototype.draw = function () {
 
     // button to stop recording
     this.btnStop=$('<input  type="button" data-audio-id="' + this.id + '" class="task-audio-stop-record">');
-    this.btnStop.click(entutor.html5audioapi.stopRecording);
-    this.btnStop.click(function(){
-        self.disableStopButton();
-        self.enableStartButton();
-        if(self.stopTimeout){
-            clearTimeout(self.stopTimeout);
-        }
+    this.btnStop.click(function(ev){
+        //console.log(" this.btnStop.click ",self.btnStop);
+        self.btnStart.show();
+        self.btnStop.hide();
+        //        entutor.html5audioapi.stopRecording(ev);
+        //        self.disableStopButton();
+        //        self.enableStartButton();
+        //        if(self.stopTimeout){
+        //            clearTimeout(self.stopTimeout);
+        //        }
     });
-    this.disableStopButton();
+    // this.disableStopButton();
+    this.btnStop.hide();
     this.domElement.append(this.btnStop);
     
     this.configElement=$('<span class="audio-config" id="config-' + this.id + '" data-string="" data-audio-id="' + this.id + '"></span>');

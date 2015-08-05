@@ -14,7 +14,8 @@
                 "maxScore": 1,
                 "precondition": "none",
                 "_precondition": "beforeCorrect",
-                "text":"Text accepted from student"
+                "text":"Text accepted from student",
+                "duration":5
             }
         ]
     }
