@@ -2727,7 +2727,7 @@ entutor.recorderApp.initFlashRecorder=function(options){
                 recorder.find('.recorder-stop').addClass('hide');
 
                 with (entutor.recorders[entutor.recorderApp.currentRecorderId]) {
-                    value = FWRecorder.getBase64();
+                    wav = FWRecorder.getBase64();
                     result.status = entutor.task.status.waiting;
                     result.score = 0;
                     result.passed = 'undefined';
@@ -2887,7 +2887,7 @@ entutor.recorderApp.initFlashRecorder=function(options){
         }
 
         return utftext;
-    }
+    };
 
     window.md5 = function (str) {
         //  discuss at: http://phpjs.org/functions/md5/
@@ -3100,7 +3100,7 @@ entutor.recorderApp.initFlashRecorder=function(options){
         var temp = wordToHex(a) + wordToHex(b) + wordToHex(c) + wordToHex(d);
 
         return temp.toLowerCase();
-    }
+    };
 
     
 };
@@ -3140,6 +3140,7 @@ entutor.flashrecorder = function (parent, options) {
 
     this.result = null;
     this.value = false;
+    this.wav = false;
 
     //this.id
     entutor.recorders[this.id] = this;
@@ -3165,7 +3166,7 @@ entutor.flashrecorder.prototype.removeFeedback = function () {
 entutor.flashrecorder.prototype.test = function (parentCallback) {
 
     // don't post if sound was not saved
-    if(!this.value){
+    if(!this.wav){
         this.result = {
             status: entutor.task.status.waiting,
             score: 0,
@@ -3216,7 +3217,7 @@ entutor.flashrecorder.prototype.test = function (parentCallback) {
         token: token,
         until: toDatetimeString,
         text: this.text,
-        wav: this.value
+        wav: this.wav
     };
 
     // process the form
@@ -3304,7 +3305,6 @@ entutor.flashrecorder.prototype.start = function () {
 };
 
 
-// выполняется, если элемент изменился
 entutor.flashrecorder.prototype.notify = function (stack) {
     if(this.options.autocheck){
         this.test();
@@ -3668,13 +3668,6 @@ entutor.html5recorder.prototype.draw = function () {
     this.configElement=$('<span class="audio-config" id="config-' + this.id + '" data-string="" data-audio-id="' + this.id + '"></span>');
     this.configElement.attr('data-string',this.text);
     this.domElement.append(this.configElement);    
-
-    $(document).on('audioapi:score', function (event, audioId, compositeBlob) {
-        if(audioId===self.id){
-            self.compositeBlob=compositeBlob;
-            self.value={};
-        }
-    });
     
     if(this.precondition==='beforeCorrect'){
         this.hide();
@@ -3717,7 +3710,7 @@ entutor.html5recorder.prototype.test = function (parentCallback) {
             + (da<10?'0':'') + da + ' '
             + (ho<10?'0':'') + ho + ':'
             + (mi<10?'0':'') + mi;
-    var token = md5(toDatetimeString +';'+ entutor.recorderApp.salt);
+    var token = md5(toDatetimeString +';'+ entutor.html5audioapi.options.salt);
     
     
     var formData = {
@@ -3757,7 +3750,7 @@ entutor.html5recorder.prototype.test = function (parentCallback) {
         }
         parentCallback(self.id, self.result);
     });
-    //
+
     //    this.ajax(
     //            this.options.soundScrorerURL,
     //            this.compositeBlob, // data to send
@@ -3808,48 +3801,6 @@ entutor.html5recorder.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-entutor.html5recorder.prototype.ajax = function (url, data,onLoadCallback){
-        var currentObject=this;
-
-        this.onLoadFunction=onLoadCallback;
-
-
-        try {
-            this.request = new XMLHttpRequest();
-        } catch (trymicrosoft) {
-            try {
-                this.request = new ActiveXObject("Msxml2.XMLHTTP");
-            } catch (othermicrosoft) {
-                try {
-                    this.request = new ActiveXObject("Microsoft.XMLHTTP");
-                } catch (failed) {
-                    this.request = false;
-                }
-            }
-        }
-        if(!this.request) return false;
-
-        if(data){
-            this.request.open("POST", url, true);
-            this.request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            this.request.setRequestHeader("Content-length", data.length);
-            this.request.setRequestHeader("Connection", "close");
-        }else{
-            this.request.open("GET", url, true);
-        }
-        this.request.onreadystatechange = function(){
-            if (currentObject.request.readyState === 4){
-                //console.log(currentObject.request);
-                try{
-                    currentObject.onLoadFunction(currentObject.request.responseText);
-                }catch(err){
-
-                }
-            }
-        };
-        this.request.send(data);
-    };
-
 entutor.html5recorder.prototype.hide=function(){
     this.domElement.hide();
 };
@@ -3879,11 +3830,11 @@ entutor.html5recorder.prototype.notify = function (stack) {
 entutor.html5recorder.prototype.onRecordFinished = function(blob){
     var self=this;
     var reader = new window.FileReader();
+    var prefix="data:audio/wav;base64,";
     reader.readAsDataURL(blob); 
     reader.onloadend = function() {
-        self.wav= reader.result;                
-        console.log(self.wav);
-    }
+        self.wav= reader.result.substr(prefix.length);                
+    };
     this.result = {
         status: entutor.task.status.waiting,
         score: 0,
