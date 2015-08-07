@@ -328,3 +328,14 @@
     vertical-align: top;
     margin-right:5px;
 }
+
+
+
+.audio-countdown{
+    display:inline-block;
+    vertical-align: middle;
+    width:35px;
+    height:30px;
+    font-size:150%;
+    text-align:right;
+}

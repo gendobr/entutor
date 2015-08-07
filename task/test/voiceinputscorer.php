@@ -1,37 +1,34 @@
 <?php
 
 
+$SALT='kdsjlkajdo695bh';
 
-$fIn = fopen('php://input', 'r');
-$request_body = stream_get_contents($fIn);
-fclose($fIn);
-
-// формат пакета с данными:
-// - параметры в формате JSON
-// - пустая строка
-// - бинарный файл в формате WAV
-$tmp=explode("\n\n",$request_body,2);
-
-// Входные параметры:
-// "audioId" - уникальный идентификатор задания, используется для поиска эталона
-// "audioString" - строка из слов, которые должен произнести студент, каждому отдельному слову надо выставить оценку
-$parameters=json_decode($tmp[0], true);
-
-// сохраняем звук (притворяемся, что обрабатываем)
-//$fOut = fopen('uploads/sound.wav', 'w');
-//fwrite($fOut, $tmp[1]);
+//// сохраняем звук (притворяемся, что обрабатываем)
+//$fOut = fopen('uploads/audio'.( (int)$_REQUEST['audioId'] ) .date('-Y-m-d-H-i-s').'.wav', 'w');
+//fwrite($fOut, base64_decode($_REQUEST['wav']));
 //fclose($fOut);
+
+$until=strtotime($_REQUEST['until']);
+$received_token=$_REQUEST['token'];
+$control_token = md5(date('Y-m-d H:i',$until) .';'. $SALT);
 
 
 // это заглушка 
 // на самом деле сюда надо добавить правильный подсчёт правильности звука в целом
 // и каждого слова отдельно
 $reply=[];
-$reply['audioId']= $parameters['audioId'];
-$reply['audioString']= $parameters['audioString'];
+
+$reply['access_allowed'] = (  $until<time() && $received_token==$control_token);
+//$reply['access_until'] = (  $until );
+//$reply['access_until_ok'] = (  $until<time() );
+//$reply['access_received_token'] = (  $received_token );
+//$reply['access_control_token'] = (  $control_token );
+//$reply['access_token_ok'] = (  $received_token==$control_token );
+$reply['audioId']= $_REQUEST['audioId'];
+$reply['text']= $_REQUEST['text'];
 $reply['score']= rand(0,100) * 0.01;
 $reply['wordScores']=[];
-$subscores=explode(' ',$reply['audioString']);
+$subscores=explode(' ',$reply['text']);
 foreach($subscores as $word){
     $reply['wordScores'][$word]= rand(0,100) * 0.01;
 }
