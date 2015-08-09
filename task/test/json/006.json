@@ -11,7 +11,8 @@
             {
                 "type":"radio",
                 "maxScore":"1",
-                "arrange":"vertical",
+                "arrange":"flow",
+                "_arrange":"vertical",
                 "_arrange":"horizontal",
                 "correctVariant":"1",
                 "precondition":"none",

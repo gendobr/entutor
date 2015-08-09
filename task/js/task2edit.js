@@ -558,9 +558,13 @@ entutor.editors.text.prototype.draw = function () {
 
     this.optionBlock.append(entutor.components.string(this.value, 'pattern', 'Correct value*',function(value){self.input.val(value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'value', 'Initial value'));
+    this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
     this.optionBlock.append(entutor.components.integer(this.value, 'maxlength', 'Maximal length'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'resetOnError', 'Reset if Error'));
+    
+    
     
     this.optionBlock.append(entutor.components.integer(this.value, 'size', 'Width',function(value){self.input.attr('size',value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
@@ -628,6 +632,7 @@ entutor.editors.radio.prototype.draw = function () {
 
     this.optionBlock.append(entutor.components.select(this.value, 'arrange', 'Arrange subelements', {'horizontal': 'horizontal', 'vertical': 'vertical','flow':'flow'} , function(value){self.variantContainer.removeClass('flow').removeClass('vertical').removeClass('horizontal').addClass(value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
+    this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
@@ -774,6 +779,7 @@ entutor.editors.checkbox.prototype.draw = function () {
 
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
@@ -911,6 +917,7 @@ entutor.editors.dropzone.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'pattern', 'Correct value*',function(value){self.input.val(value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'value', 'Initial value'));
     this.optionBlock.append(entutor.components.string(this.value, 'size', 'Width',function(value){self.input.attr('size',value);}));
+    this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
@@ -1625,6 +1632,7 @@ entutor.editors.recorder.prototype.draw = function () {
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
     this.optionBlock.append(entutor.components.string(this.value, 'duration', 'Duration, seconds'));
     this.optionBlock.append(entutor.components.string(this.value, 'taskPassScore', 'Min score to pass (0 ... 1)'));
 
