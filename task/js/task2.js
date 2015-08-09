@@ -281,21 +281,17 @@ entutor.inputs.card = function (parent, options) {
     }
 };
 
-
 entutor.inputs.card.prototype.showSuccess = function () {
     this.domElement.removeClass('task-card-error').addClass('task-card-correct');
 };
-
 
 entutor.inputs.card.prototype.showError = function () {
     this.domElement.removeClass('task-card-correct').addClass('task-card-error');
 };
 
-
 entutor.inputs.card.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-card-correct').removeClass('task-card-error');
 };
-
 
 entutor.inputs.card.prototype.test = function (parentCallback) {
     var self = this;
@@ -444,7 +440,6 @@ entutor.inputs.card.prototype.test = function (parentCallback) {
 
 };
 
-
 entutor.inputs.card.prototype.draw = function () {
     this.domElement = $('<span id="task' + this.id + '" class="task-card  task-card-' + this.arrange + ' ' + this.classes + '"></span>');
     for (var key = 0; key < this.children.length; key++) {
@@ -461,7 +456,6 @@ entutor.inputs.card.prototype.draw = function () {
     return this.domElement;
 };
 
-
 entutor.inputs.card.prototype.getValue = function () {
     var value = [];
     for (var key = 0; key < this.children.length; key++) {
@@ -469,7 +463,6 @@ entutor.inputs.card.prototype.getValue = function () {
     }
     return value;
 };
-
 
 entutor.inputs.card.prototype.getMaxScore = function () {
     var maxScore = 0;
@@ -479,20 +472,14 @@ entutor.inputs.card.prototype.getMaxScore = function () {
     return maxScore;
 };
 
-
 entutor.inputs.card.prototype.hide = function () {
     this.domElement.hide();
 };
-
 
 entutor.inputs.card.prototype.show = function () {
     this.domElement.show();
 };
 
-
-/** 
- * выполняется сразу после вставки в документ
- */ 
 entutor.inputs.card.prototype.start = function(){
     for (var key = 0; key < this.children.length; key++) {
         this.children[key].start();
@@ -504,10 +491,6 @@ entutor.inputs.card.prototype.start = function(){
     //    }
 };
 
-
-/**
- * выполняется, если элемент изменился
- */ 
 entutor.inputs.card.prototype.notify = function (stack) {
     if(this.options.autocheck){
         this.test();
@@ -518,10 +501,6 @@ entutor.inputs.card.prototype.notify = function (stack) {
     }
 };
 
-
-/**
- * factory, creates custom test
- */ 
 entutor.inputs.card.prototype.customtestSets = function (sets) {
     return function (arrayOfChildComponents) {
 
@@ -600,7 +579,6 @@ entutor.inputs.html = function (parent, options) {
     this.maxScore = 1;
 };
 
-
 entutor.inputs.html.prototype.test = function (testFinishedCallback) {
     testFinishedCallback(this.id, {
         status: entutor.task.status.received,
@@ -610,7 +588,6 @@ entutor.inputs.html.prototype.test = function (testFinishedCallback) {
     });
 };
 
-
 entutor.inputs.html.prototype.draw = function () {
     this.domElement = $('<span id="task' + this.id + '" class="task-html ' + this.classes + '">' + this.options.innerHtml + '</span>');
     if (this.precondition === 'beforeCorrect') {
@@ -619,21 +596,17 @@ entutor.inputs.html.prototype.draw = function () {
     return this.domElement;
 };
 
-
 entutor.inputs.html.prototype.getValue = function () {
     return null;
 };
-
 
 entutor.inputs.html.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-
 entutor.inputs.html.prototype.hide = function () {
     this.domElement.hide();
 };
-
 
 entutor.inputs.html.prototype.show = function () {
     this.domElement.show();
@@ -650,7 +623,6 @@ entutor.inputs.html.prototype.show = function () {
         },this.duration);        
     }
 };
-
 
 entutor.inputs.html.prototype.start = function () {
     if(this.domElement.is(':visible')){
@@ -672,8 +644,6 @@ entutor.inputs.html.prototype.start = function () {
     }
 };
 
-
-// выполняется, если элемент изменился
 entutor.inputs.html.prototype.notify = function (stack) {
     if(this.parent){
         stack.push(this.id);
@@ -732,21 +702,17 @@ entutor.inputs.text = function (parent, options) {
     this.value = false;
 };
 
-
 entutor.inputs.text.prototype.showSuccess = function () {
     this.textField.removeClass('task-text-error').addClass('task-text-correct');
 };
-
 
 entutor.inputs.text.prototype.showError = function () {
     this.textField.removeClass('task-text-correct').addClass('task-text-error');
 };
 
-
 entutor.inputs.text.prototype.removeFeedback = function () {
     this.textField.removeClass('task-text-correct').removeClass('task-text-error');
 };
-
 
 entutor.inputs.text.prototype.test = function (parentCallback) {
     if (this.value === false) {
@@ -805,7 +771,6 @@ entutor.inputs.text.prototype.test = function (parentCallback) {
     parentCallback(this.id, this.result);
 };
 
-
 entutor.inputs.text.prototype.draw = function () {
     this.textField = $('<input type="text"  class="form-control" id="task' + this.id + 'text" value="" maxlength="'+this.maxlength+'" size="' + (this.options.size || '') + '">');
     var self = this;
@@ -827,26 +792,21 @@ entutor.inputs.text.prototype.draw = function () {
     return this.domElement;
 };
 
-
 entutor.inputs.text.prototype.getValue = function () {
     return this.value;
 };
-
 
 entutor.inputs.text.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-
 entutor.inputs.text.prototype.hide = function () {
     this.domElement.hide();
 };
 
-
 entutor.inputs.text.prototype.show = function () {
     this.domElement.show();
 };
-
 
 entutor.inputs.text.prototype.start = function () {
     //    if(this.onstart){
@@ -855,7 +815,6 @@ entutor.inputs.text.prototype.start = function () {
     //        }
     //    }
 };
-
 
 entutor.inputs.text.prototype.notify = function (stack) {
     if(this.options.autocheck){
@@ -866,7 +825,6 @@ entutor.inputs.text.prototype.notify = function (stack) {
         this.parent.notify(stack);
     }
 };
-
 
 entutor.inputs.text.prototype.showHint = function () {
     if(this.hint){
@@ -918,21 +876,17 @@ entutor.inputs.radio = function (parent, options) {
     this.hint=this.options.hint||'';
 };
 
-
 entutor.inputs.radio.prototype.showSuccess = function () {
     this.domElement.removeClass('task-radio-error').addClass('task-radio-correct');
 };
-
 
 entutor.inputs.radio.prototype.showError = function () {
     this.domElement.removeClass('task-radio-correct').addClass('task-radio-error');
 };
 
-
 entutor.inputs.radio.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-radio-correct').removeClass('task-radio-error');
 };
-
 
 entutor.inputs.radio.prototype.test = function (parentCallback) {
     if (this.value === false) {
@@ -978,9 +932,9 @@ entutor.inputs.radio.prototype.test = function (parentCallback) {
             this.removeFeedback();
         }
     }
+    this.previousValue=this.value;
     parentCallback(this.id, this.result);
 };
-
 
 entutor.inputs.radio.prototype.draw = function () {
     this.domElement = $('<span id="task' + this.id + '" class="task-radiobuttons ' + this.classes + ' ' + this.arrange + '"></span>');
@@ -1009,26 +963,21 @@ entutor.inputs.radio.prototype.draw = function () {
     return  this.domElement;
 };
 
-
 entutor.inputs.radio.prototype.getValue = function () {
     return this.value;
 };
-
 
 entutor.inputs.radio.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-
 entutor.inputs.radio.prototype.hide = function () {
     this.domElement.hide();
 };
 
-
 entutor.inputs.radio.prototype.show = function () {
     this.domElement.show();
 };
-
 
 entutor.inputs.radio.prototype.start = function () {
     //    if(this.onstart){
@@ -1037,7 +986,6 @@ entutor.inputs.radio.prototype.start = function () {
     //        }
     //    }
 };
-
 
 entutor.inputs.radio.prototype.notify = function (stack) {
     if(this.options.autocheck){
@@ -1048,7 +996,6 @@ entutor.inputs.radio.prototype.notify = function (stack) {
         this.parent.notify(stack);
     }
 };
-
 
 entutor.inputs.radio.prototype.showHint = function () {
     if(this.hint){
@@ -1094,21 +1041,17 @@ entutor.inputs.checkbox = function (parent, options) {
 
 };
 
-
 entutor.inputs.checkbox.prototype.showSuccess = function () {
     this.domElement.removeClass('task-checkbox-error').addClass('task-checkbox-correct');
 };
-
 
 entutor.inputs.checkbox.prototype.showError = function () {
     this.domElement.removeClass('task-checkbox-correct').addClass('task-checkbox-error');
 };
 
-
 entutor.inputs.checkbox.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-checkbox-correct').removeClass('task-checkbox-error');
 };
-
 
 entutor.inputs.checkbox.prototype.test = function (parentCallback) {
 
@@ -1161,10 +1104,9 @@ entutor.inputs.checkbox.prototype.test = function (parentCallback) {
             this.removeFeedback();
         }
     }
+    this.previousValue=this.value;
     parentCallback(this.id, this.result);
-
 };
-
 
 entutor.inputs.checkbox.prototype.draw = function () {
     this.checkbox = $('<input type="checkbox" id="task' + this.id + 'checkbox" class="task-checkbox">');
@@ -1188,26 +1130,21 @@ entutor.inputs.checkbox.prototype.draw = function () {
     return this.domElement;
 };
 
-
 entutor.inputs.checkbox.prototype.getValue = function () {
     return this.value;
 };
-
 
 entutor.inputs.checkbox.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-
 entutor.inputs.checkbox.prototype.hide = function () {
     this.domElement.hide();
 };
 
-
 entutor.inputs.checkbox.prototype.show = function () {
     this.domElement.show();
 };
-
 
 entutor.inputs.checkbox.prototype.start = function () {
     //    if(this.onstart){
@@ -1217,8 +1154,6 @@ entutor.inputs.checkbox.prototype.start = function () {
     //    }
 };
 
-
-// выполняется, если элемент изменился
 entutor.inputs.checkbox.prototype.notify = function (stack) {
     if(this.options.autocheck){
         this.test();
@@ -1228,7 +1163,6 @@ entutor.inputs.checkbox.prototype.notify = function (stack) {
         this.parent.notify(stack);
     }
 };
-
 
 entutor.inputs.checkbox.prototype.showHint = function () {
     if(this.hint){
@@ -1286,7 +1220,6 @@ entutor.inputs.sound = function (parent, options) {
     // entutor.jplayers[this.id] = this;
 };
 
-
 entutor.inputs.sound.prototype.test = function (testFinishedCallback) {
     testFinishedCallback(this.id, {
         status: entutor.task.status.received,
@@ -1295,7 +1228,6 @@ entutor.inputs.sound.prototype.test = function (testFinishedCallback) {
         maxScore: 0
     });
 };
-
 
 entutor.inputs.sound.prototype.draw = function () {
     var self = this;
@@ -1346,16 +1278,13 @@ entutor.inputs.sound.prototype.draw = function () {
     return this.domElement;
 };
 
-
 entutor.inputs.sound.prototype.getValue = function () {
     return null;
 };
 
-
 entutor.inputs.sound.prototype.getMaxScore = function () {
     return this.maxScore;
 };
-
 
 entutor.inputs.sound.prototype.hide = function () {
     this.domElement.hide();
@@ -1363,7 +1292,6 @@ entutor.inputs.sound.prototype.hide = function () {
     this.btn.attr('value', this.labels.paused);
     
 };
-
 
 entutor.inputs.sound.prototype.show = function () {
     this.domElement.show();
@@ -1373,7 +1301,6 @@ entutor.inputs.sound.prototype.show = function () {
         this.btn.attr('value', this.labels.playing);
     }
 };
-
 
 entutor.inputs.sound.prototype.start = function () {
     var self=this;
@@ -1408,8 +1335,6 @@ entutor.inputs.sound.prototype.start = function () {
 
 };
 
-
-// выполняется, если элемент изменился
 entutor.inputs.sound.prototype.notify = function (stack) {
     if(this.parent){
         stack.push(this.id);
@@ -1472,7 +1397,6 @@ entutor.inputs.video = function (parent, options) {
     // entutor.jplayers[this.id] = this;
 };
 
-
 entutor.inputs.video.prototype.test = function (testFinishedCallback) {
     testFinishedCallback(this.id, {
         status: entutor.task.status.received,
@@ -1481,7 +1405,6 @@ entutor.inputs.video.prototype.test = function (testFinishedCallback) {
         maxScore: this.maxScore
     });
 };
-
 
 entutor.inputs.video.prototype.draw = function () {
     var self = this;
@@ -1542,22 +1465,18 @@ entutor.inputs.video.prototype.draw = function () {
     return this.domElement;
 };
 
-
 entutor.inputs.video.prototype.getValue = function () {
     return null;
 };
-
 
 entutor.inputs.video.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-
 entutor.inputs.video.prototype.hide = function () {
     this.domElement.hide();
     this.player.jPlayer("pause");
 };
-
 
 entutor.inputs.video.prototype.show = function () {
     this.domElement.show();
@@ -1567,7 +1486,6 @@ entutor.inputs.video.prototype.show = function () {
         this.btn.attr('value', this.labels.playing);
     }
 };
-
 
 entutor.inputs.video.prototype.start = function () {
     var self=this;
@@ -1605,8 +1523,6 @@ entutor.inputs.video.prototype.start = function () {
 
 };
 
-
-// выполняется, если элемент изменился
 entutor.inputs.video.prototype.notify = function (stack) {
     if(this.parent){
         stack.push(this.id);
@@ -1667,7 +1583,6 @@ entutor.inputs.counter = function (parent, options) {
     this.value = this.options.value || '';
 };
 
-
 entutor.inputs.counter.prototype.test = function (testFinishedCallback) {
     testFinishedCallback(this.id, {
         status: entutor.task.status.received,
@@ -1676,7 +1591,6 @@ entutor.inputs.counter.prototype.test = function (testFinishedCallback) {
         maxScore: 0
     });
 };
-
 
 entutor.inputs.counter.prototype.draw = function () {
     var self = this;
@@ -1793,28 +1707,23 @@ entutor.inputs.counter.prototype.draw = function () {
     return this.counterplace;
 };
 
-
 entutor.inputs.counter.prototype.getValue = function () {
     return null;
 };
 
-
 entutor.inputs.counter.prototype.getMaxScore = function () {
     return 0;
 };
-
 
 entutor.inputs.counter.prototype.hide = function () {
     this.counterplace.hide();
     this.counter.hide();
 };
 
-
 entutor.inputs.counter.prototype.show = function () {
     this.counterplace.show();
     this.counter.show();
 };
-
 
 entutor.inputs.counter.prototype.start = function () {
     //    if(this.onstart){
@@ -1823,7 +1732,6 @@ entutor.inputs.counter.prototype.start = function () {
     //        }
     //    }
 };
-
 
 entutor.inputs.counter.prototype.notify = function (stack) {
     if(this.parent){
@@ -1899,21 +1807,17 @@ entutor.inputs.dropzone = function (parent, options) {
     // console.log(this);
 };
 
-
 entutor.inputs.dropzone.prototype.showSuccess = function () {
     this.dropzone.removeClass('task-dropzone-error').addClass('task-dropzone-correct');
 };
-
 
 entutor.inputs.dropzone.prototype.showError = function () {
     this.dropzone.removeClass('task-dropzone-correct').addClass('task-dropzone-error');
 };
 
-
 entutor.inputs.dropzone.prototype.removeFeedback = function () {
     this.dropzone.removeClass('task-dropzone-correct').removeClass('task-dropzone-error');
 };
-
 
 entutor.inputs.dropzone.prototype.test = function (parentCallback) {
     if (this.value === false) {
@@ -1971,10 +1875,10 @@ entutor.inputs.dropzone.prototype.test = function (parentCallback) {
         }
         this.removeChild(this.child);
     }
+    this.previousValue=this.value;
     parentCallback(this.id, this.result);
 
 };
-
 
 entutor.inputs.dropzone.prototype.draw = function () {
 
@@ -1998,26 +1902,21 @@ entutor.inputs.dropzone.prototype.draw = function () {
     return this.dropzone;
 };
 
-
 entutor.inputs.dropzone.prototype.getValue = function () {
     return this.value;
 };
-
 
 entutor.inputs.dropzone.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-
 entutor.inputs.dropzone.prototype.hide = function () {
     this.dropzone.hide();
 };
 
-
 entutor.inputs.dropzone.prototype.show = function () {
     this.dropzone.show();
 };
-
 
 entutor.inputs.dropzone.prototype.overlap = function (left, top, dLeft, dTop) {
     var offset = this.dropzone.offset();
@@ -2039,7 +1938,6 @@ entutor.inputs.dropzone.prototype.overlap = function (left, top, dLeft, dTop) {
     return (xMax - xMin) * (yMax - yMin);
 };
 
-
 entutor.inputs.dropzone.prototype.setChild = function (child) {
     if (this.child && this.child.id !== child.id) {
         this.child.counter.animate(
@@ -2055,14 +1953,12 @@ entutor.inputs.dropzone.prototype.setChild = function (child) {
     this.notify([]);
 };
 
-
 entutor.inputs.dropzone.prototype.removeChild = function (child) {
     if (this.child && this.child.id === child.id) {
         this.value = '';
         this.child = false;
     }
 };
-
 
 entutor.inputs.dropzone.prototype.start = function () {
     //    if(this.onstart){
@@ -2071,7 +1967,6 @@ entutor.inputs.dropzone.prototype.start = function () {
     //        }
     //    }
 };
-
 
 entutor.inputs.dropzone.prototype.notify = function (stack) {
     if(this.options.autocheck){
@@ -2082,7 +1977,6 @@ entutor.inputs.dropzone.prototype.notify = function (stack) {
         this.parent.notify(stack);
     }
 };
-
 
 entutor.inputs.dropzone.prototype.showHint = function () {
     if(this.hint){
@@ -2166,7 +2060,6 @@ entutor.inputs.playlist = function (parent, options) {
     // entutor.jplayers[this.id] = this;
 };
 
-
 entutor.inputs.playlist.prototype.test = function (testFinishedCallback) {
     testFinishedCallback(this.id, {
         status: entutor.task.status.received,
@@ -2175,7 +2068,6 @@ entutor.inputs.playlist.prototype.test = function (testFinishedCallback) {
         maxScore: 0
     });
 };
-
 
 entutor.inputs.playlist.prototype.draw = function () {
     var self = this;
@@ -2260,26 +2152,21 @@ entutor.inputs.playlist.prototype.draw = function () {
     return this.domElement;
 };
 
-
 entutor.inputs.playlist.prototype.getValue = function () {
     return null;
 };
-
 
 entutor.inputs.playlist.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-
 entutor.inputs.playlist.prototype.hide = function () {
     this.domElement.hide();
 };
 
-
 entutor.inputs.playlist.prototype.show = function () {
     this.domElement.show();
 };
-
 
 entutor.inputs.playlist.prototype.start = function () {
     //    if(this.onstart){
@@ -2307,7 +2194,6 @@ entutor.inputs.playlist.prototype.start = function () {
         ended:function(){  $('.playlist_button').attr('value',self.labels.paused);}
     });
 };
-
 
 entutor.inputs.playlist.prototype.notify = function (stack) {
     if(this.parent){
@@ -2580,7 +2466,6 @@ entutor.inputs.slideshow.prototype.start = function () {
     });
 };
 
-// выполняется, если элемент изменился
 entutor.inputs.slideshow.prototype.notify = function (stack) {
     if(this.parent){
         stack.push(this.id);
@@ -3220,21 +3105,17 @@ entutor.flashrecorder = function (parent, options) {
     // console.log(this);
 };
 
-
 entutor.flashrecorder.prototype.showSuccess = function () {
     this.domElement.removeClass('task-recorder-error').addClass('task-recorder-correct');
 };
-
 
 entutor.flashrecorder.prototype.showError = function () {
     this.domElement.removeClass('task-recorder-correct').addClass('task-recorder-error');
 };
 
-
 entutor.flashrecorder.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-recorder-correct').removeClass('task-recorder-error');
 };
-
 
 entutor.flashrecorder.prototype.test = function (parentCallback) {
 
@@ -3311,6 +3192,7 @@ entutor.flashrecorder.prototype.test = function (parentCallback) {
                 }
             }
         }
+        self.previousValue=self.value;
         // mark separate words as correct of wrong
         if(self.result && self.result.details && self.result.details.wordScores){
             var wordScores=self.result.details.wordScores;
@@ -3327,7 +3209,6 @@ entutor.flashrecorder.prototype.test = function (parentCallback) {
     });
 
 };
-
 
 entutor.flashrecorder.prototype.draw = function () {
 
@@ -3351,26 +3232,21 @@ entutor.flashrecorder.prototype.draw = function () {
     return this.domElement;
 };
 
-
 entutor.flashrecorder.prototype.getValue = function () {
     return this.value;
 };
-
 
 entutor.flashrecorder.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-
 entutor.flashrecorder.prototype.hide = function () {
     this.domElement.hide();
 };
 
-
 entutor.flashrecorder.prototype.show = function () {
     this.domElement.show();
 };
-
 
 entutor.flashrecorder.prototype.start = function () {
     //    if(this.onstart){
@@ -3379,7 +3255,6 @@ entutor.flashrecorder.prototype.start = function () {
     //        }
     //    }
 };
-
 
 entutor.flashrecorder.prototype.notify = function (stack) {
     if(this.options.autocheck){
@@ -3390,7 +3265,6 @@ entutor.flashrecorder.prototype.notify = function (stack) {
         this.parent.notify(stack);
     }
 };
-
 
 entutor.flashrecorder.prototype.showHint = function () {
     if(this.hint){
@@ -3672,23 +3546,20 @@ entutor.html5recorder.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-audio-correct').removeClass('task-audio-error');
 };
 
-entutor.html5recorder.prototype.enableStopButton=function(){
-    this.btnStop.addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);
-};
-
-entutor.html5recorder.prototype.disableStopButton=function(){
-    this.btnStop.addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);    
-};
-
-entutor.html5recorder.prototype.enableStartButton=function(){
-    //this.btnStart.addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);    
-    $('.task-audio-start-record').addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);    
-};
-
-entutor.html5recorder.prototype.disableStartButton=function(){
-    // this.btnStart.addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);
-    $('.task-audio-start-record').addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);
-};
+//entutor.html5recorder.prototype.enableStopButton=function(){
+//    this.btnStop.addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);
+//};
+//entutor.html5recorder.prototype.disableStopButton=function(){
+//    this.btnStop.addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);    
+//};
+//entutor.html5recorder.prototype.enableStartButton=function(){
+//    //this.btnStart.addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);    
+//    $('.task-audio-start-record').addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);    
+//};
+//entutor.html5recorder.prototype.disableStartButton=function(){
+//    // this.btnStart.addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);
+//    $('.task-audio-start-record').addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);
+//};
 
 entutor.html5recorder.prototype.draw = function () {
     
@@ -3768,7 +3639,6 @@ entutor.html5recorder.prototype.draw = function () {
             clearInterval(self.countDownTimeout);        
         }
     });
-    // this.disableStopButton();
     this.btnStop.hide();
     this.domElement.append(this.btnStop);
     
@@ -3868,13 +3738,16 @@ entutor.html5recorder.prototype.test = function (parentCallback) {
                     self.showHint();
                 }
             }
-            
-            // mark each word
-            for(var w in self.value.wordScores){
-                if(self.value.wordScores[w]>=self.taskPassScore){
-                    self.feedback[w].removeClass('task-audio-word-error').addClass('task-audio-word-correct');
-                }else{
-                    self.feedback[w].removeClass('task-audio-word-correct').addClass('task-audio-word-error');
+            self.previousValue=self.value;
+            // mark separate words as correct of wrong
+            if(self.result && self.result.details && self.result.details.wordScores){
+                var wordScores=self.result.details.wordScores;
+                for(var w in wordScores){
+                    if(wordScores[w]>=self.taskPassScore){
+                        self.feedback[w].removeClass('task-audio-word-error').addClass('task-audio-word-correct');
+                    }else{
+                        self.feedback[w].removeClass('task-audio-word-correct').addClass('task-audio-word-error');
+                    }
                 }
             }
         }
