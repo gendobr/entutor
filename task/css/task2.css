@@ -98,13 +98,29 @@
 .task-radio-checked{
     background-color:silver;
 }
-.task-radio-label-vertical{
+
+.task-radiobuttons{
     display:block;
 }
-.task-radio-label-horizontal{
-    
+.task-radiobuttons.vertical label{
+    display:block;
 }
 
+.task-radiobuttons.horizontal{
+    white-space:nowrap;
+}
+.task-radiobuttons.horizontal label{
+    white-space:normal;
+    display:inline-block;
+}
+
+.task-radiobuttons.flow{
+    white-space:normal;
+}
+.task-radiobuttons.flow label{
+    white-space:normal;
+    display:inline-block;
+}
 
 
 /******************************************************************************/
@@ -327,4 +343,12 @@
     display:inline-block;
     vertical-align: top;
     margin-right:5px;
+}
+
+
+
+.task-card-flow  > .task-card-element{
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
 }
