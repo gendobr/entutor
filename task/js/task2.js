@@ -7,8 +7,7 @@
 //    +sound     +video   recorder
 //    
 //  stopOnHide - auto
-// TODO: проверить .sound
-// TODO: html5 sound recorder
+
 
 var entutor = {};
 entutor.guid = 0;
@@ -218,7 +217,7 @@ entutor.testPresentation.prototype.draw = function () {
     options={
         type:'card',
         id:''
-        arrange:vertical|horizontal
+        arrange:vertical|horizontal|flow
         autocheck:true|false
         classes:''
         maxScore:1
@@ -697,6 +696,7 @@ entutor.inputs.html.prototype.notify = function (stack) {
 //        size:5,
 //        precondition:'none|beforeCorrect'
 //        autocheck: true|false
+//        resetOnError:true|false
 //        customtest:function(value){
 //            return {
 //              status: entutor.task.status.received,
@@ -710,6 +710,7 @@ entutor.inputs.html.prototype.notify = function (stack) {
 // 
 entutor.inputs.text = function (parent, options) {
     this.parent = parent;
+    
     this.type = 'text';
     this.options = options || {};
     this.id = this.parent.id + '_' + (this.options.id || (++entutor.guid));
@@ -724,7 +725,11 @@ entutor.inputs.text = function (parent, options) {
     }
     this.customtest = this.options.customtest || false;
     this.autocheck=this.options.autocheck||false;
-
+    this.resetOnError=this.options.resetOnError||false;
+    
+    this.previousValue=this.options.value;
+    this.countFailures=0;
+    this.hint=this.options.hint||'';
 
     this.value = false;
 };
@@ -786,8 +791,19 @@ entutor.inputs.text.prototype.test = function (parentCallback) {
             }
         } else if (this.result.passed === false) {
             this.showError();
+            if(this.previousValue!==this.value){
+                this.countFailures++;
+            }
+            if(this.countFailures>1){
+                this.showHint();
+            }
+            if(this.resetOnError){
+                this.textField.val('');
+            }
         }
     }
+    
+    this.previousValue=this.value;
     parentCallback(this.id, this.result);
 };
 
@@ -843,7 +859,6 @@ entutor.inputs.text.prototype.start = function () {
 };
 
 
-// выполняется, если элемент изменился
 entutor.inputs.text.prototype.notify = function (stack) {
     if(this.options.autocheck){
         this.test();
@@ -855,6 +870,12 @@ entutor.inputs.text.prototype.notify = function (stack) {
 };
 
 
+entutor.inputs.text.prototype.showHint = function () {
+    if(this.hint){
+        this.textField.tooltip({ content: this.hint, items:'#task' + this.id + 'text' });        
+        this.textField.tooltip( "open" );
+    }
+};
 
 
 
@@ -871,7 +892,7 @@ entutor.inputs.text.prototype.notify = function (stack) {
 //        id:''
 //        classes:''
 //        maxScore:1
-//        arrange:vertical|horizontal
+//        arrange:vertical|horizontal|flow
 //        precondition:'none|beforeCorrect'
 //        correctVariant:'1',
 //        variant:{
@@ -895,6 +916,8 @@ entutor.inputs.radio = function (parent, options) {
     this.arrange = this.options.arrange || 'horizontal';
     this.autocheck=this.options.autocheck||false;
 
+    this.countFailures=0;
+    this.hint=this.options.hint||'';
 };
 
 
@@ -947,6 +970,12 @@ entutor.inputs.radio.prototype.test = function (parentCallback) {
             }
         } else if (this.result.passed === false) {
             this.showError();
+            if(this.previousValue!==this.value){
+                this.countFailures++;
+            }
+            if(this.countFailures>1){
+                this.showHint();
+            }
         } else {
             this.removeFeedback();
         }
@@ -956,7 +985,7 @@ entutor.inputs.radio.prototype.test = function (parentCallback) {
 
 
 entutor.inputs.radio.prototype.draw = function () {
-    this.domElement = $('<span id="task' + this.id + '" class="task-radiobuttons' + this.classes + '"></span>');
+    this.domElement = $('<span id="task' + this.id + '" class="task-radiobuttons ' + this.classes + ' ' + this.arrange + '"></span>');
     var self = this;
     var onchange = function (el) {
         var btn = $(el.target);
@@ -969,7 +998,7 @@ entutor.inputs.radio.prototype.draw = function () {
     };
     this.radioButtons = [];
     for (var k in this.options.variant) {
-        var elm = $('<label class="task-radio-label task-radio-label-' + this.arrange + '" data-value="' + k + '"><input type="radio" name="task' + this.id + 'radio"  class="task-radio-btn" value="' + k + '">' + this.options.variant[k] + '</label>');
+        var elm = $('<label class="task-radio-label" data-value="' + k + '"><input type="radio" name="task' + this.id + 'radio"  class="task-radio-btn" value="' + k + '">' + this.options.variant[k] + '</label>');
         elm.change(onchange);
         this.domElement.append(elm);
         this.radioButtons.push(elm);
@@ -1012,7 +1041,6 @@ entutor.inputs.radio.prototype.start = function () {
 };
 
 
-// выполняется, если элемент изменился
 entutor.inputs.radio.prototype.notify = function (stack) {
     if(this.options.autocheck){
         this.test();
@@ -1023,6 +1051,13 @@ entutor.inputs.radio.prototype.notify = function (stack) {
     }
 };
 
+
+entutor.inputs.radio.prototype.showHint = function () {
+    if(this.hint){
+        this.domElement.tooltip({ content: this.hint, items:'#task' + this.id });        
+        this.domElement.tooltip( "open" );
+    }
+};
 
 
 
@@ -1056,6 +1091,9 @@ entutor.inputs.checkbox = function (parent, options) {
     this.result = null;
     this.value = false;
     this.autocheck=this.options.autocheck||false;
+    
+    this.countFailures=0;
+    this.hint=this.options.hint||'';
 
 };
 
@@ -1115,6 +1153,13 @@ entutor.inputs.checkbox.prototype.test = function (parentCallback) {
             }
         } else if (this.result.passed === false) {
             this.showError();
+            if(this.previousValue!==this.value){
+                this.countFailures++;
+            }
+            if(this.countFailures>0){
+                this.showHint();
+            }
+
         } else {
             this.removeFeedback();
         }
@@ -1188,7 +1233,12 @@ entutor.inputs.checkbox.prototype.notify = function (stack) {
 };
 
 
-
+entutor.inputs.checkbox.prototype.showHint = function () {
+    if(this.hint){
+        this.domElement.tooltip({ content: this.hint, items:'#task' + this.id });        
+        this.domElement.tooltip( "open" );
+    }
+};
 
 
 
@@ -1777,9 +1827,7 @@ entutor.inputs.counter.prototype.start = function () {
     //    }
 };
 
-/**
- * выполняется, если элемент изменился
- */
+
 entutor.inputs.counter.prototype.notify = function (stack) {
     if(this.parent){
         stack.push(this.id);
@@ -1846,6 +1894,9 @@ entutor.inputs.dropzone = function (parent, options) {
     this.value = false;
     this.autocheck=this.options.autocheck||false;
 
+    this.countFailures=0;
+    this.hint=this.options.hint||'';
+
 
     //this.id
     entutor.dropzones[this.id] = this;
@@ -1904,6 +1955,13 @@ entutor.inputs.dropzone.prototype.test = function (parentCallback) {
             }
         } else if (this.result.passed === false) {
             this.showError();
+            if(this.previousValue!==this.value){
+                this.countFailures++;
+            }
+            if(this.countFailures>1){
+                this.showHint();
+            }
+
         }
     }
 
@@ -2030,7 +2088,12 @@ entutor.inputs.dropzone.prototype.notify = function (stack) {
 };
 
 
-
+entutor.inputs.dropzone.prototype.showHint = function () {
+    if(this.hint){
+        this.domElement.tooltip({ content: this.hint, items:'#task' + this.id });        
+        this.domElement.tooltip( "open" );
+    }
+};
 
 
 
@@ -2320,7 +2383,7 @@ entutor.inputs.playlist.prototype.notify = function (stack) {
 //    ];
 //    }
 entutor.inputs.slideshow = function (parent, options) {
-    this.type = 'playlist';
+    this.type = 'slideshow';
     this.parent = parent;
     this.options = options || {};
     this.id = this.parent.id + '_' + (this.options.id || (++entutor.guid));
@@ -3142,6 +3205,9 @@ entutor.flashrecorder = function (parent, options) {
     this.value = false;
     this.wav = false;
 
+    this.countFailures=0;
+    this.hint=this.options.hint||'';
+
     //this.id
     entutor.recorders[this.id] = this;
     // console.log(this);
@@ -3245,6 +3311,12 @@ entutor.flashrecorder.prototype.test = function (parentCallback) {
                 }
             } else if (self.result.passed === false) {
                 self.showError();
+                if(self.previousValue!==self.value){
+                    self.countFailures++;
+                }
+                if(self.countFailures>1){
+                    self.showHint();
+                }
             }
         }
         parentCallback(self.id, self.result);
@@ -3316,7 +3388,12 @@ entutor.flashrecorder.prototype.notify = function (stack) {
 };
 
 
-
+entutor.flashrecorder.prototype.showHint = function () {
+    if(this.hint){
+        this.domElement.tooltip({ content: this.hint, items:'#task' + this.id });        
+        this.domElement.tooltip( "open" );
+    }
+};
 
 
 
@@ -3569,6 +3646,10 @@ entutor.html5recorder = function (parent, options) {
     this.indicatorHeight=this.options.indicatorHeight || 30;
     this.value=false;
     this.wav=false;
+    
+    this.countFailures=0;
+    this.hint=this.options.hint||'';
+
 };
 
 entutor.html5recorder.prototype.showSuccess = function () {
@@ -3746,6 +3827,21 @@ entutor.html5recorder.prototype.test = function (parentCallback) {
                 }
             } else if (self.result.passed === false) {
                 self.showError();
+                if(self.previousValue!==self.value){
+                    self.countFailures++;
+                }
+                if(self.countFailures>1){
+                    self.showHint();
+                }
+            }
+            
+            // mark each word
+            for(var w in self.value.wordScores){
+                if(self.value.wordScores[w]>=self.taskPassScore){
+                    self.feedback[w].removeClass('task-audio-word-error').addClass('task-audio-word-correct');
+                }else{
+                    self.feedback[w].removeClass('task-audio-word-correct').addClass('task-audio-word-error');
+                }
             }
         }
         parentCallback(self.id, self.result);
@@ -3845,4 +3941,9 @@ entutor.html5recorder.prototype.onRecordFinished = function(blob){
     this.notify([]);
 };
 
-
+entutor.html5recorder.prototype.showHint = function () {
+    if(this.hint){
+        this.domElement.tooltip({ content: this.hint, items:'#task' + this.id });        
+        this.domElement.tooltip( "open" );
+    }
+};
