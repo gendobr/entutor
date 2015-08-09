@@ -8,6 +8,7 @@
 //    
 //  stopOnHide - auto
 
+
 var entutor = {};
 entutor.guid = 0;
 entutor.config = {};
@@ -709,6 +710,7 @@ entutor.inputs.html.prototype.notify = function (stack) {
 // 
 entutor.inputs.text = function (parent, options) {
     this.parent = parent;
+    
     this.type = 'text';
     this.options = options || {};
     this.id = this.parent.id + '_' + (this.options.id || (++entutor.guid));
@@ -1060,6 +1062,7 @@ entutor.inputs.radio.prototype.showHint = function () {
 
 
 
+
 // =============================================================================
 //
 //    options={
@@ -1236,7 +1239,6 @@ entutor.inputs.checkbox.prototype.showHint = function () {
         this.domElement.tooltip( "open" );
     }
 };
-
 
 
 
@@ -1894,6 +1896,7 @@ entutor.inputs.dropzone = function (parent, options) {
 
     this.countFailures=0;
     this.hint=this.options.hint||'';
+
 
     //this.id
     entutor.dropzones[this.id] = this;
