@@ -1,0 +1,12 @@
+{
+    "id":"001",
+    "inputs":{
+        "type":"card",
+        "children":[
+            {
+                "type":"html",
+                "innerHtml":"Correct value is zzz:"
+            }
+        ]
+    }
+}

@@ -15,7 +15,10 @@
                 "precondition": "none",
                 "_precondition": "beforeCorrect",
                 "text":"Text accepted from student",
-                "duration":5
+                "duration":5,
+                "autocheck":true,
+                "taskPassScore":0.63,
+                "autostart":true
             }
         ]
     }

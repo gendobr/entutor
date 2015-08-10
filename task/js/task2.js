@@ -30,6 +30,7 @@ entutor.debug = true;
 entutor.show = function (jsonURL, containerSelector) {
     // process the form
     entutor.currentCounter = false;
+    entutor.containerSelector=containerSelector;
     entutor.dropzones = {};
     // entutor.jplayers = {};
     entutor.recorders={};
@@ -40,8 +41,10 @@ entutor.show = function (jsonURL, containerSelector) {
         dataType: 'json', // what type of data do we expect back from the server
         encode: true
     }).done(function (json) {
-        var task = new entutor.task(json);
-        $(containerSelector).empty().append(task.draw());
+        entutor.json=json;
+        var task = new entutor.task(entutor.json);
+        $(entutor.containerSelector).empty().append(task.draw());
+        task.start();
         window.location.hash = json.id;
     });
 };
@@ -55,6 +58,9 @@ entutor.show = function (jsonURL, containerSelector) {
  * autocheck:true\false
  */
 entutor.task = function (options) {
+
+    $(document).unbind('audioapi:activated');
+
 
     var self = this;
 
@@ -84,6 +90,19 @@ entutor.task = function (options) {
     // create inputs
     this.inputs = new entutor.inputs.card(this, this.options.inputs);
 
+    this.testFinishedCallback=function (id, result) {
+        // enable Next button if test is passed
+        //if (entutor.debug) {
+        //    console.log("self.inputs.test id=", id, " result=", result);
+        //}
+        if (result.passed === true) {
+            self.nextButton.attr('disabled', false);
+        }else{
+            self.nextButton.attr('disabled', true);
+        }
+        self.domElement.trigger('task:test', [self.id, result]);
+    };
+    
 };
 
 
@@ -133,10 +152,12 @@ entutor.task.prototype.draw = function () {
         this.domElement.find('#task' + this.id + 'inputs').append(this.inputs.draw());
     }
 
-    this.domElement.find('#task' + this.id + 'testbutton').click(this.test(this));
+    this.test = function () {
+        self.inputs.test();
+    };
+    this.domElement.find('#task' + this.id + 'testbutton').click(this.test);
 
-    // $( document ).bind( "task:newinput", function(event) { self.domElement.trigger('task:test', [self.id, result])); });
-
+    
     this.nextButton = this.domElement.find('#task' + this.id + 'nextbutton');
     this.nextButton.attr('disabled', true);
     this.nextButton.click(function () {
@@ -146,30 +167,16 @@ entutor.task.prototype.draw = function () {
         }
     });
     this.domElement.find('#task' + this.id + 'restartbutton').click(function () {
-        window.location.reload();
+        var task = new entutor.task(entutor.json);
+        $(entutor.containerSelector).empty().append(task.draw());
+        task.start();
     });
     return this.domElement;
 };
 
 
-entutor.task.prototype.test = function (self) {
-    return function () {
-        //console.log("self.inputs.test");
-        self.inputs.test(function (id, result) {
-            // enable Next button if test is passed
-            if (entutor.debug) {
-                console.log("self.inputs.test id=", id, " result=", result);
-            }
-            if (result.passed === true) {
-                self.nextButton.attr('disabled', false);
-            }
-            self.domElement.trigger('task:test', [self.id, result]);
-        });
-    };
-};
-
-
 entutor.task.prototype.start = function(){
+    // console.log("this.inputs.start()");
     this.inputs.start();
 };
 
@@ -177,12 +184,18 @@ entutor.task.prototype.start = function(){
 // выполняется, если элемент изменился
 entutor.task.prototype.notify = function (stack) {
     // re-test if autocheck is true
-    if(this.options.autocheck){
+    if(this.autocheck){
         this.inputs.test();
     }
-    $(document).trigger("task:newinput");
+    $(document).trigger("task:changed");
 };
 
+
+entutor.print_call_stack = function() {
+  var stack = new Error().stack;
+  console.log("PRINTING CALL STACK");
+  console.log( stack );
+};
 
 
 
@@ -237,6 +250,7 @@ entutor.testPresentation.prototype.draw = function () {
     }
 */
 entutor.inputs.card = function (parent, options) {
+    var self=this;
     this.type = 'card';
     this.parent = parent;
     this.options = options || {};
@@ -260,56 +274,10 @@ entutor.inputs.card = function (parent, options) {
         passed: false,
         maxScore: 0
     };
-    var childMaxScoreSum = 0;
-    for (var key = 0; key < this.options.children.length; key++) {
-        var child = this.options.children[key];
-        if (typeof (entutor.inputs[child.type]) === 'function') {
-            var constructor = entutor.inputs[child.type];
-            var childObject = new constructor(this, child);
-            // console.log(childObject);
-            // console.log(childObject.maxScore());
-            childMaxScoreSum += childObject.getMaxScore();
-            this.children.push(childObject);
-            this.result.subresults[childObject.id] = {
-                status: entutor.task.status.waiting,
-                score: 0,
-                subresults: [],
-                passed: 'undefined',
-                maxScore: 0
-            };//;
-        }
-    }
-};
+    
+    
 
-entutor.inputs.card.prototype.showSuccess = function () {
-    this.domElement.removeClass('task-card-error').addClass('task-card-correct');
-};
-
-entutor.inputs.card.prototype.showError = function () {
-    this.domElement.removeClass('task-card-correct').addClass('task-card-error');
-};
-
-entutor.inputs.card.prototype.removeFeedback = function () {
-    this.domElement.removeClass('task-card-correct').removeClass('task-card-error');
-};
-
-entutor.inputs.card.prototype.test = function (parentCallback) {
-    var self = this;
-    // console.log('card.test:',self.id);
-    // clear previous score
-    this.result.status = entutor.task.status.waiting;
-    this.result.score = null;
-    this.result.passed = 'undefined';
-    this.result.maxScore = this.getMaxScore();
-    for (var key in this.result.subresults) {
-        with (this.result.subresults[key]) {
-            status = entutor.task.status.waiting;
-            score = null;
-            passed = 'undefined';
-        }
-    }
-
-    var testFinishedCallback = function (id, result) {
+    this.testFinishedCallback = function (id, result) {
         //console.log('card:',self.id, ' received from ',id, result);
         //console.log('card:',self.id, ' received from ',id, result.passed);
 
@@ -430,12 +398,66 @@ entutor.inputs.card.prototype.test = function (parentCallback) {
                     self.children[key].show();
                 }
             }
-            parentCallback(self.id, self.result);
+            
+            if(self.parent && self.parent.testFinishedCallback){
+                self.parent.testFinishedCallback(self.id, self.result);
+            }
         }
     };
 
+    
+    
+    var childMaxScoreSum = 0;
+    for (var key = 0; key < this.options.children.length; key++) {
+        var child = this.options.children[key];
+        if (typeof (entutor.inputs[child.type]) === 'function') {
+            var constructor = entutor.inputs[child.type];
+            var childObject = new constructor(this, child);
+            // console.log(childObject);
+            // console.log(childObject.maxScore());
+            childMaxScoreSum += childObject.getMaxScore();
+            this.children.push(childObject);
+            this.result.subresults[childObject.id] = {
+                status: entutor.task.status.waiting,
+                score: 0,
+                subresults: [],
+                passed: 'undefined',
+                maxScore: 0
+            };//;
+        }
+    }
+};
+
+entutor.inputs.card.prototype.showSuccess = function () {
+    this.domElement.removeClass('task-card-error').addClass('task-card-correct');
+};
+
+entutor.inputs.card.prototype.showError = function () {
+    this.domElement.removeClass('task-card-correct').addClass('task-card-error');
+};
+
+entutor.inputs.card.prototype.removeFeedback = function () {
+    this.domElement.removeClass('task-card-correct').removeClass('task-card-error');
+};
+
+entutor.inputs.card.prototype.test = function () {
+    // var self = this;
+    // console.log('card.test:',self.id);
+    // clear previous score
+    this.result.status = entutor.task.status.waiting;
+    this.result.score = null;
+    this.result.passed = 'undefined';
+    this.result.maxScore = this.getMaxScore();
+    for (var key in this.result.subresults) {
+        with (this.result.subresults[key]) {
+            status = entutor.task.status.waiting;
+            score = null;
+            passed = 'undefined';
+        }
+    }
+
     for (var key = 0; key < this.children.length; key++) {
-        this.children[key].test(testFinishedCallback);
+        this.children[key].test();
     }
 
 };
@@ -570,6 +592,8 @@ entutor.inputs.html = function (parent, options) {
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
 
+    this.hideOnCorrect = this.options.hideOnCorrect? true : false;
+
     this.passed=false;
     this.duration = parseFloat(this.options.duration || 'none');
     if(!isNaN(this.duration) && this.duration>0){
@@ -579,19 +603,23 @@ entutor.inputs.html = function (parent, options) {
     this.maxScore = 1;
 };
 
-entutor.inputs.html.prototype.test = function (testFinishedCallback) {
-    testFinishedCallback(this.id, {
-        status: entutor.task.status.received,
-        score: 1,
-        passed: this.passed,
-        maxScore: 1
-    });
+entutor.inputs.html.prototype.test = function () {
+    if(this.parent && this.parent.testFinishedCallback){
+        this.parent.testFinishedCallback(this.id, {
+            status: entutor.task.status.received,
+            score: 1,
+            passed: this.passed,
+            maxScore: 1
+        });
+    }
 };
 
 entutor.inputs.html.prototype.draw = function () {
     this.domElement = $('<span id="task' + this.id + '" class="task-html ' + this.classes + '">' + this.options.innerHtml + '</span>');
     if (this.precondition === 'beforeCorrect') {
         this.hide();
+    }else{
+        this.show();
     }
     return this.domElement;
 };
@@ -605,6 +633,8 @@ entutor.inputs.html.prototype.getMaxScore = function () {
 };
 
 entutor.inputs.html.prototype.hide = function () {
+    // entutor.print_call_stack();
+    // console.log("entutor.inputs.html.prototype.hide");
     this.domElement.hide();
 };
 
@@ -615,7 +645,6 @@ entutor.inputs.html.prototype.show = function () {
         var self=this;
         setTimeout(function(){
             self.passed=true;
-            self.domElement.hide();
             self.notify([]);
             if(self.hideOnCorrect){
                 self.hide();
@@ -634,7 +663,6 @@ entutor.inputs.html.prototype.start = function () {
             var self=this;
             setTimeout(function(){
                 self.passed=true;
-                self.domElement.hide();
                 self.notify([]);
                 if(self.hideOnCorrect){
                     self.hide();
@@ -695,6 +723,8 @@ entutor.inputs.text = function (parent, options) {
     this.autocheck=this.options.autocheck||false;
     this.resetOnError=this.options.resetOnError||false;
     
+    this.hideOnCorrect = this.options.hideOnCorrect? true : false;
+    
     this.previousValue=this.options.value;
     this.countFailures=0;
     this.hint=this.options.hint||'';
@@ -714,7 +744,7 @@ entutor.inputs.text.prototype.removeFeedback = function () {
     this.textField.removeClass('task-text-correct').removeClass('task-text-error');
 };
 
-entutor.inputs.text.prototype.test = function (parentCallback) {
+entutor.inputs.text.prototype.test = function () {
     if (this.value === false) {
         //console.log("this.value===false");
         this.result = {
@@ -768,7 +798,9 @@ entutor.inputs.text.prototype.test = function (parentCallback) {
     }
     
     this.previousValue=this.value;
-    parentCallback(this.id, this.result);
+    if(this.parent && this.parent.testFinishedCallback){
+        this.parent.testFinishedCallback(this.id, this.result);
+    }
 };
 
 entutor.inputs.text.prototype.draw = function () {
@@ -817,7 +849,7 @@ entutor.inputs.text.prototype.start = function () {
 };
 
 entutor.inputs.text.prototype.notify = function (stack) {
-    if(this.options.autocheck){
+    if(this.autocheck){
         this.test();
     }
     if(this.parent){
@@ -871,6 +903,7 @@ entutor.inputs.radio = function (parent, options) {
     this.result = null;
     this.arrange = this.options.arrange || 'horizontal';
     this.autocheck=this.options.autocheck||false;
+    this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
     this.countFailures=0;
     this.hint=this.options.hint||'';
@@ -888,7 +921,7 @@ entutor.inputs.radio.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-radio-correct').removeClass('task-radio-error');
 };
 
-entutor.inputs.radio.prototype.test = function (parentCallback) {
+entutor.inputs.radio.prototype.test = function () {
     if (this.value === false) {
         this.result = {
             status: entutor.task.status.received,
@@ -933,7 +966,9 @@ entutor.inputs.radio.prototype.test = function (parentCallback) {
         }
     }
     this.previousValue=this.value;
-    parentCallback(this.id, this.result);
+    if(this.parent && this.parent.testFinishedCallback){
+        this.parent.testFinishedCallback(this.id, this.result);
+    }
 };
 
 entutor.inputs.radio.prototype.draw = function () {
@@ -988,7 +1023,7 @@ entutor.inputs.radio.prototype.start = function () {
 };
 
 entutor.inputs.radio.prototype.notify = function (stack) {
-    if(this.options.autocheck){
+    if(this.autocheck){
         this.test();
     }
     if(this.parent){
@@ -1035,6 +1070,7 @@ entutor.inputs.checkbox = function (parent, options) {
     this.result = null;
     this.value = false;
     this.autocheck=this.options.autocheck||false;
+    this.hideOnCorrect = this.options.hideOnCorrect? true : false;
     
     this.countFailures=0;
     this.hint=this.options.hint||'';
@@ -1053,7 +1089,7 @@ entutor.inputs.checkbox.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-checkbox-correct').removeClass('task-checkbox-error');
 };
 
-entutor.inputs.checkbox.prototype.test = function (parentCallback) {
+entutor.inputs.checkbox.prototype.test = function () {
 
     if (this.value === false) {
         this.result = {
@@ -1105,7 +1141,9 @@ entutor.inputs.checkbox.prototype.test = function (parentCallback) {
         }
     }
     this.previousValue=this.value;
-    parentCallback(this.id, this.result);
+    if(this.parent && this.parent.testFinishedCallback){
+        this.parent.testFinishedCallback(this.id, this.result);
+    }
 };
 
 entutor.inputs.checkbox.prototype.draw = function () {
@@ -1155,7 +1193,7 @@ entutor.inputs.checkbox.prototype.start = function () {
 };
 
 entutor.inputs.checkbox.prototype.notify = function (stack) {
-    if(this.options.autocheck){
+    if(this.autocheck){
         this.test();
     }
     if(this.parent){
@@ -1208,6 +1246,7 @@ entutor.inputs.sound = function (parent, options) {
     this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.supplied = this.options.supplied || "mp3,oga,wav";
     this.autostart=this.options.autostart||false;
+    this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
     this.maxScore = 1;
     this.passed=false;
@@ -1221,12 +1260,15 @@ entutor.inputs.sound = function (parent, options) {
 };
 
 entutor.inputs.sound.prototype.test = function (testFinishedCallback) {
-    testFinishedCallback(this.id, {
+    this.result={
         status: entutor.task.status.received,
         score: this.passed?1:0,
         passed: this.passed,
         maxScore: 0
-    });
+    };
+    if(this.parent && this.parent.testFinishedCallback){
+        this.parent.testFinishedCallback(this.id, this.result);
+    }
 };
 
 entutor.inputs.sound.prototype.draw = function () {
@@ -1253,8 +1295,8 @@ entutor.inputs.sound.prototype.draw = function () {
 
     this.currenttrack = false;
 
-    this.btn = "<input type='button' id='sound_" + this.id +  "_btn' class='sound_button' value='>'>";
-    soundBlock.append($(btn));
+    this.btn = $("<input type='button' id='sound_" + this.id +  "_btn' class='sound_button' value='>'>");
+    soundBlock.append(this.btn);
     
     soundBlock.append($("<span class='task-sound-label'>&nbsp;" + this.media.title + "</span>"));
 
@@ -1303,6 +1345,7 @@ entutor.inputs.sound.prototype.show = function () {
 };
 
 entutor.inputs.sound.prototype.start = function () {
+    // console.log("entutor.inputs.sound.prototype.start");
     var self=this;
     this.player.jPlayer({
         ready: function () {
@@ -1333,6 +1376,12 @@ entutor.inputs.sound.prototype.start = function () {
         }
     });
 
+
+    if(this.autostart && this.domElement.is(':visible')){
+        this.player.jPlayer("pauseOthers");
+        this.player.jPlayer("play");
+        this.btn.attr('value', this.labels.playing);
+    }
 };
 
 entutor.inputs.sound.prototype.notify = function (stack) {
@@ -1389,6 +1438,7 @@ entutor.inputs.video = function (parent, options) {
     this.maxScore = 1;
     this.passed=false;
     this.autostart=this.options.autostart||false;
+    this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
     this.labels = options.labels || {};
     this.labels.playing = this.labels.playing || '||';
@@ -1398,12 +1448,15 @@ entutor.inputs.video = function (parent, options) {
 };
 
 entutor.inputs.video.prototype.test = function (testFinishedCallback) {
-    testFinishedCallback(this.id, {
+    this.result={
         status: entutor.task.status.received,
         score: this.passed?this.maxScore:0,
         passed: this.passed,
         maxScore: this.maxScore
-    });
+    };
+    if(this.parent && this.parent.testFinishedCallback){
+        this.parent.testFinishedCallback(this.id, this.result);
+    }
 };
 
 entutor.inputs.video.prototype.draw = function () {
@@ -1490,7 +1543,7 @@ entutor.inputs.video.prototype.show = function () {
 entutor.inputs.video.prototype.start = function () {
     var self=this;
     //var player=$('#jquery_jplayer_' + self.id);
-    self.player.jPlayer({
+    this.player.jPlayer({
         ready: function () { 
             $(this).jPlayer("setMedia", self.media);
             if(self.autostart && self.domElement.is(':visible')){
@@ -1520,6 +1573,11 @@ entutor.inputs.video.prototype.start = function () {
         
     });
 
+    if(this.autostart && this.domElement.is(':visible')){
+        this.player.jPlayer("pauseOthers");
+        this.player.jPlayer("play");
+        this.btn.attr('value', this.labels.playing);
+    }
 
 };
 
@@ -1584,12 +1642,15 @@ entutor.inputs.counter = function (parent, options) {
 };
 
 entutor.inputs.counter.prototype.test = function (testFinishedCallback) {
-    testFinishedCallback(this.id, {
+    this.result={
         status: entutor.task.status.received,
         score: 0,
         passed: true,
         maxScore: 0
-    });
+    };
+    if(this.parent && this.parent.testFinishedCallback){
+        this.parent.testFinishedCallback(this.id, this.result);
+    }
 };
 
 entutor.inputs.counter.prototype.draw = function () {
@@ -1798,6 +1859,7 @@ entutor.inputs.dropzone = function (parent, options) {
     this.customtest = this.options.customtest || false;
     this.value = false;
     this.autocheck=this.options.autocheck||false;
+    this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
     this.countFailures=0;
     this.hint=this.options.hint||'';
@@ -1819,7 +1881,7 @@ entutor.inputs.dropzone.prototype.removeFeedback = function () {
     this.dropzone.removeClass('task-dropzone-correct').removeClass('task-dropzone-error');
 };
 
-entutor.inputs.dropzone.prototype.test = function (parentCallback) {
+entutor.inputs.dropzone.prototype.test = function () {
     if (this.value === false) {
         this.result = {
             status: entutor.task.status.received,
@@ -1876,8 +1938,9 @@ entutor.inputs.dropzone.prototype.test = function (parentCallback) {
         this.removeChild(this.child);
     }
     this.previousValue=this.value;
-    parentCallback(this.id, this.result);
-
+    if(this.parent && this.parent.testFinishedCallback){
+        this.parent.testFinishedCallback(this.id, this.result);
+    }
 };
 
 entutor.inputs.dropzone.prototype.draw = function () {
@@ -1969,7 +2032,7 @@ entutor.inputs.dropzone.prototype.start = function () {
 };
 
 entutor.inputs.dropzone.prototype.notify = function (stack) {
-    if(this.options.autocheck){
+    if(this.autocheck){
         this.test();
     }
     if(this.parent){
@@ -2056,20 +2119,25 @@ entutor.inputs.playlist = function (parent, options) {
     this.playlist = this.options.playlist || [];
 
     this.currenttrack = false;
-    
-    // entutor.jplayers[this.id] = this;
+    // console.log(this);
+    //entutor.jplayers[this.id] = this;
 };
 
 entutor.inputs.playlist.prototype.test = function (testFinishedCallback) {
-    testFinishedCallback(this.id, {
+    this.result={
         status: entutor.task.status.received,
         score: 0,
         passed: true,
         maxScore: 0
-    });
+    };
+    if(this.parent && this.parent.testFinishedCallback){
+        this.parent.testFinishedCallback(this.id, this.result);
+    }
 };
 
 entutor.inputs.playlist.prototype.draw = function () {
+    
+    // console.log(this.playlist);
     var self = this;
 
     this.domElement = $('<span id="task' + this.id + '" class="task-playlist ' + this.classes + '"></span>');
@@ -2086,29 +2154,6 @@ entutor.inputs.playlist.prototype.draw = function () {
     html += '	</div>';
     html += '</div>';
 
-    //    html += "<script type=\"application/javascript\">\n";
-    //    html += "    (function(){\n";
-    //    html += "        $('#jquery_jplayer_" + this.id + "').jPlayer({\n";
-    //    html += "            ready: function () {  },\n";
-    //    html += "            swfPath: '" + this.swfPath + "',\n";
-    //    html += "            supplied: '" + this.supplied + "',\n";
-    //    html += "            cssSelectorAncestor: '#jp_container_" + this.id + "',\n";
-    //    html += "            wmode: \"window\",\n";
-    //    html += "            useStateClassSkin: true,\n";
-    //    html += "            autoBlur: false,\n";
-    //    html += "            smoothPlayBar: true,\n";
-    //    html += "            keyEnabled: true,\n";
-    //    html += "            remainingDuration: true,\n";
-    //    html += "            toggleDuration: true,\n";
-    //    html += "            errorAlerts: false,\n";
-    //    html += "            warningAlerts: false,\n";
-    //    html += "            consoleAlerts: false,\n";
-    //    html += "            volume:1,\n";
-    //    html += "            ended:function(){  $('.playlist_button').attr('value','" + this.labels.paused + "');}\n";
-    //    html += "        });\n";
-    //    html += "    })()\n";
-    //    html += "</script>";
-
     this.domElement.append($(html));
 
     var playlistBlock = $('<div id="playlist_' + this.id + '"></div>');
@@ -2116,6 +2161,7 @@ entutor.inputs.playlist.prototype.draw = function () {
 
     var item;
     for (var i = 0; i < this.playlist.length; i++) {
+        //console.log(this.playlist[i]);
         var item = "<div class='playlist_item'><input type='button' id='playlist_" + this.id + "_" + i + "' data-i='" + i + "' class='playlist_button' value='>'>&nbsp;" + this.playlist[i].title + "</div>";
         playlistBlock.append($(item));
     }
@@ -2275,6 +2321,8 @@ entutor.inputs.slideshow = function (parent, options) {
     this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.supplied = this.options.supplied || "mp3,oga,wav";
     this.autostart=this.options.autostart||false;
+    
+    this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
     this.media = options.media || {};
 
@@ -2289,14 +2337,16 @@ entutor.inputs.slideshow = function (parent, options) {
     // entutor.jplayers[this.id] = this;
 };
 
-entutor.inputs.slideshow.prototype.test = function (testFinishedCallback) {
+entutor.inputs.slideshow.prototype.test = function () {
     var result={
         status: entutor.task.status.received,
         score: this.passed?1:0,
         passed: this.passed,
         maxScore: 1
     };
-    testFinishedCallback(this.id, result);
+    if(this.parent && this.parent.testFinishedCallback){
+        this.parent.testFinishedCallback(this.id, this.result);
+    }
 };
 
 entutor.inputs.slideshow.prototype.draw = function () {
@@ -2345,39 +2395,9 @@ entutor.inputs.slideshow.prototype.draw = function () {
     html+='	</div>';
     html+='</div>';
 
-    //    html += "<script type=\"application/javascript\">\n";
-    //    html += "    (function(){\n";
-    //    html += "        $('#jquery_jplayer_" + this.id + "').jPlayer({\n";
-    //    html += "            ready: function () { $(this).jPlayer(\"setMedia\", "+JSON.stringify(this.media)+" ); },\n";
-    //    html += "            timeupdate: entutor.jplayers['" + this.id + "'].timeupdate,\n";
-    //    html += "            swfPath: '" + this.swfPath + "',\n";
-    //    html += "            supplied: '" + this.supplied + "',\n";
-    //    html += "            cssSelectorAncestor: '#jp_container_" + this.id + "',\n";
-    //    html += "            wmode: \"window\",\n";
-    //    html += "            useStateClassSkin: true,\n";
-    //    html += "            autoBlur: false,\n";
-    //    html += "            smoothPlayBar: true,\n";
-    //    html += "            keyEnabled: true,\n";
-    //    html += "            remainingDuration: true,\n";
-    //    html += "            toggleDuration: true,\n";
-    //    html += "            errorAlerts: false,\n";
-    //    html += "            warningAlerts: false,\n";
-    //    html += "            consoleAlerts: false,\n";
-    //    html += "            volume:1,\n";
-    //    html += "            ended:function(){  entutor.jplayers['" + this.id + "'].passed=true;}\n";
-    //    html += "        });\n";
-    //    html += "    })()\n";
-    //    html += "</script>";
-
-
     this.domElement.append($(html));
 
-
-
-
-
-
-
+    this.player = this.domElement.find("#jquery_jplayer_" + this.id);
     
     this.searchSlide=function(currentTime){
     	for(var i=0; i<this.slides.length; i++ ){
@@ -2430,6 +2450,10 @@ entutor.inputs.slideshow.prototype.hide = function () {
 
 entutor.inputs.slideshow.prototype.show = function () {
     this.domElement.show();
+    if(this.autostart){
+        this.player.jPlayer("pauseOthers");
+        this.player.jPlayer("play");
+    }
 };
 
 entutor.inputs.slideshow.prototype.start = function () {
@@ -2439,7 +2463,7 @@ entutor.inputs.slideshow.prototype.start = function () {
     //        }
     //    }
     var self=this;
-    $('#jquery_jplayer_' + self.id).jPlayer({
+    this.player.jPlayer({
         ready: function () { $(this).jPlayer("setMedia", self.media); },
         timeupdate: self.timeupdate,
         swfPath: self.swfPath,
@@ -2464,6 +2488,11 @@ entutor.inputs.slideshow.prototype.start = function () {
             }
         }
     });
+    
+    if(this.autostart && this.domElement.is(':visible')){
+        this.player.jPlayer("pauseOthers");
+        this.player.jPlayer("play");
+    }
 };
 
 entutor.inputs.slideshow.prototype.notify = function (stack) {
@@ -3086,6 +3115,7 @@ entutor.flashrecorder = function (parent, options) {
     this.autocheck=this.options.autocheck||false;
     this.autostart=this.options.autostart||false;
     this.taskPassScore=this.options.taskPassScore || 0.7;
+    this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
     this.result = {
         status: entutor.task.status.waiting,
@@ -3117,21 +3147,25 @@ entutor.flashrecorder.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-recorder-correct').removeClass('task-recorder-error');
 };
 
-entutor.flashrecorder.prototype.test = function (parentCallback) {
+entutor.flashrecorder.prototype.test = function () {
+    var self=this;
 
     // don't post empty value
     if(!this.value){
-        parentCallback(this.id, this.result);
+        if(this.parent && this.parent.testFinishedCallback){
+            this.parent.testFinishedCallback(this.id, this.result);
+        }
         return;
     }
 
     // don't post the same sound again
     if( this.result && this.result.details ){
-        parentCallback(this.id, this.result);
+        if(this.parent && this.parent.testFinishedCallback){
+            this.parent.testFinishedCallback(this.id, this.result);
+        }
         return;
     }
     
-    var self=this;
     
     // create datetime based token
     var today = new Date();
@@ -3205,7 +3239,9 @@ entutor.flashrecorder.prototype.test = function (parentCallback) {
             }
         }
 
-        parentCallback(self.id, self.result);
+        if(self.parent && self.parent.testFinishedCallback){
+            self.parent.testFinishedCallback(self.id, self.result);
+        }
     });
 
 };
@@ -3246,9 +3282,15 @@ entutor.flashrecorder.prototype.hide = function () {
 
 entutor.flashrecorder.prototype.show = function () {
     this.domElement.show();
+    if(this.autostart){
+        entutor.recorderApp.startRecording($('button[data-id="'+this.id+'"]'));
+    }
 };
 
 entutor.flashrecorder.prototype.start = function () {
+    if(this.autostart && this.domElement.is(':visible')){
+        entutor.recorderApp.startRecording($('button[data-id="'+this.id+'"]'));
+    }
     //    if(this.onstart){
     //        for(var j=0; j<this.onstart.length; j++){
     //            this.onstart[j]();
@@ -3257,7 +3299,7 @@ entutor.flashrecorder.prototype.start = function () {
 };
 
 entutor.flashrecorder.prototype.notify = function (stack) {
-    if(this.options.autocheck){
+    if(this.autocheck){
         this.test();
     }
     if(this.parent){
@@ -3510,9 +3552,8 @@ entutor.html5recorder = function (parent, options) {
     this.autostart=this.options.autostart||false;
     this.duration = this.options.duration || 30; 
     this.taskPassScore=this.options.taskPassScore || 0.7;
-    this.indicatorWidth=this.options.indicatorWidth || 30;
-    this.indicatorHeight=this.options.indicatorHeight || 30;
-    this.indicatorHeight=this.options.indicatorHeight || 30;
+    this.hideOnCorrect = this.options.hideOnCorrect? true : false;
+
     
     this.options.soundScrorerURL = options.soundScrorerURL || entutor.html5audioapi.soundScrorerURL;
     
@@ -3523,8 +3564,7 @@ entutor.html5recorder = function (parent, options) {
         maxScore: this.maxScore,
         details: false
     };
-    this.indicatorWidth=this.options.indicatorWidth || 100;
-    this.indicatorHeight=this.options.indicatorHeight || 30;
+    this.indicatorWidth=this.options.indicatorWidth || 30;
     this.indicatorHeight=this.options.indicatorHeight || 30;
     this.value=false;
     this.wav=false;
@@ -3545,21 +3585,6 @@ entutor.html5recorder.prototype.showError = function () {
 entutor.html5recorder.prototype.removeFeedback = function () {
     this.domElement.removeClass('task-audio-correct').removeClass('task-audio-error');
 };
-
-//entutor.html5recorder.prototype.enableStopButton=function(){
-//    this.btnStop.addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);
-//};
-//entutor.html5recorder.prototype.disableStopButton=function(){
-//    this.btnStop.addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);    
-//};
-//entutor.html5recorder.prototype.enableStartButton=function(){
-//    //this.btnStart.addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);    
-//    $('.task-audio-start-record').addClass('audio-button-enabled').removeClass('audio-button-disabled').attr('disabled',false);    
-//};
-//entutor.html5recorder.prototype.disableStartButton=function(){
-//    // this.btnStart.addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);
-//    $('.task-audio-start-record').addClass('audio-button-disabled').removeClass('audio-button-enabled').attr('disabled',true);
-//};
 
 entutor.html5recorder.prototype.draw = function () {
     
@@ -3657,22 +3682,29 @@ entutor.html5recorder.prototype.draw = function () {
         this.hide();
     }    
 
+
+
+
     return this.domElement;
 };
 
-entutor.html5recorder.prototype.test = function (parentCallback) {
+entutor.html5recorder.prototype.test = function () {
     
     //console.log("html5recorder.test:",this.id);
     // don't post empty value
     if(!this.value){
-        parentCallback(this.id, this.result);
+        if(this.parent && this.parent.testFinishedCallback){
+            this.parent.testFinishedCallback(this.id, this.result);
+        }
         return;
     }
 
     //console.log("html5recorder.test.value is set:");
     // don't post the same sound again
     if( this.result && this.result.details ){
-        parentCallback(this.id, this.result);
+        if(this.parent && this.parent.testFinishedCallback){
+            this.parent.testFinishedCallback(this.id, this.result);
+        }
         return;
     }
     //console.log("html5recorder.test.result is not set:");
@@ -3762,8 +3794,10 @@ entutor.html5recorder.prototype.test = function (parentCallback) {
                 }
             }
         }
+        if(self.parent && self.parent.testFinishedCallback){
+            self.parent.testFinishedCallback(self.id, self.result);
+        }
 
-        parentCallback(self.id, self.result);
     });
 
 };
@@ -3782,9 +3816,22 @@ entutor.html5recorder.prototype.hide=function(){
 
 entutor.html5recorder.prototype.show=function(){
     this.domElement.show();
+    if(entutor.html5audioapi.audioRecorder && this.autostart){
+        this.btnStart.trigger('click');
+    }
 };
 
 entutor.html5recorder.prototype.start = function () {
+    var self=this;
+    if(this.autostart && this.domElement.is(':visible')){
+        if(entutor.html5audioapi.audioRecorder){
+           this.btnStart.trigger('click');
+        }else{
+            $(document).bind('audioapi:activated',function(){
+                self.btnStart.trigger('click');
+            });
+        }
+    }
     //    if(this.onstart){
     //        for(var j=0; j<this.onstart.length; j++){
     //            this.onstart[j]();

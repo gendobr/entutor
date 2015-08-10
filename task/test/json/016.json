@@ -14,7 +14,8 @@
                 "maxScore": 1,
                 "precondition": "none",
                 "_precondition": "beforeCorrect",
-                "text":"Text accepted from student"
+                "text":"Text accepted from student",
+                "taskPassScore":0.63
             },
             {
                 "type": "html",
@@ -26,7 +27,8 @@
                 "maxScore": 1,
                 "precondition": "none",
                 "_precondition": "beforeCorrect",
-                "text":"Other text from student"
+                "text":"Other text from student",
+                "taskPassScore":0.63
             }
         ]
     }

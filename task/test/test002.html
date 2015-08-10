@@ -10,7 +10,7 @@
         <link href="../lib/jquery-ui/jquery-ui.theme.min" rel="stylesheet" type="text/css" />
         <link href="../css/task2.css" rel="stylesheet" type="text/css" />
         
-        <script type="application/javascript" src="../lib/jquery-2.1.4.js"></script>
+        <script type="application/javascript" src="../lib/jquery-2.1.4.min.js"></script>
         <script type="application/javascript" src="../lib/jquery-ui/jquery-ui.min.js"></script>
         <script type="application/javascript" src="../lib/markup.min.js"></script>
         
@@ -73,7 +73,7 @@
             }
 
             if(window.location.hash){
-                entutor.show('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
+                entutor.show('../snippet/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
             }
         });
             
