@@ -1,5 +1,6 @@
-// todo:
-//    this.autocheck=this.options.autocheck||false;
+
+//    
+//    //    this.autocheck=this.options.autocheck||false;
 //    +task      +card        +text        +radio
 //    +checkbox  +dropzone    +recorder
 //    
@@ -212,7 +213,9 @@ entutor.testPresentation = function (parent, options) {
 
 entutor.testPresentation.prototype.draw = function () {
     if (this.options.innerHtml) {
-        return $(this.options.innerHtml);
+        var d=$('<div></div>');
+        d.html(this.options.innerHtml);
+        return d;
     }
     if (this.options.elementSelector) {
         return $(this.options.elementSelector);

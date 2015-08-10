@@ -75,7 +75,7 @@ entutor.editor.prototype.draw = function () {
 };
 
 entutor.editor.prototype.getValue = function () {
-    this.value.presentation = this.presentation.getValue();
+    this.value.presentation = {innerHtml:this.presentation.getValue()};
     this.value.inputs = this.inputs.getValue();
     return this.value;
 };
@@ -275,7 +275,7 @@ entutor.editors.card = function (parent, value) {
     this.value.maxScore = (typeof (this.value.maxScore) !== 'undefined') ? this.value.maxScore : 1;
 
     this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
-
+    this.value.children = this.value.children || [];
 
 
     // create child elements
