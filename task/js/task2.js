@@ -2442,7 +2442,7 @@ entutor.inputs.slideshow.prototype.test = function () {
 entutor.inputs.slideshow.prototype.draw = function () {
     var self = this;
 
-    this.domElement = $('<span id="task' + this.id + '" class="task-playlist ' + this.classes + '"></span>');
+    this.domElement = $('<span id="task' + this.id + '" class="task-slideshow ' + this.classes + '"></span>');
 
     var html = "";
 

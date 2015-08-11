@@ -10,8 +10,8 @@
     display:inline-block;
     text-align:left;
     background-color:#EFEDEE;
-    padding:10px 0;
-    width:100%;    
+    padding:10px 1%;
+    width:98%;    
     border-radius:10px 10px 10px 10px;
     -moz-border-radius:10px 10px 10px 10px;
     -webkit-border-radius:10px 10px 10px 10px;
@@ -44,6 +44,7 @@
 
 
 /******************************************************************************/
+.task-slideshow,
 .task-playlist {
     display:inline-block;
     padding:10px;
@@ -92,7 +93,6 @@
 .task-card-element{
     white-space: normal;
     /* padding:10px; */
-
 }
 
 .task-card-error{
@@ -173,20 +173,20 @@
     position:relative;
 }
 
-.task-counterplace
-{border:none;
- cursor:pointer;
- margin:10px;
- display: inline-block;
- background:#eeece6;
- text-shadow:0px -1px 0px #0d0d0d;
- -webkit-box-shadow: inset 3px 3px 11px #9e8d95;
- -moz-box-shadow:    inset 3px 3px 11px #9e8d95;
- box-shadow:         inset 3px 3px 11px #9e8d95;
+.task-counterplace{
+    border:none;
+    cursor:pointer;
+    margin:10px;
+    display: inline-block;
+    background:#eeece6;
+    text-shadow:0px -1px 0px #0d0d0d;
+    -webkit-box-shadow: inset 3px 3px 11px #9e8d95;
+    -moz-box-shadow:    inset 3px 3px 11px #9e8d95;
+    box-shadow:         inset 3px 3px 11px #9e8d95;
 
- border-radius:15px 15px 15px 15px;
- -moz-border-radius:15px 15px 15px 15px;
- -webkit-border-radius:15px 15px 15px 15px;
+    border-radius:15px 15px 15px 15px;
+    -moz-border-radius:15px 15px 15px 15px;
+    -webkit-border-radius:15px 15px 15px 15px;
 }
 
 
@@ -338,9 +338,10 @@
     margin:10px;
 }
 /******************************************************************************/
+.task-slideshow,
 .task-playlist{
     display:inline-block;
-    text-align:left;
+    text-align:center;
 }
 
 .playlist_button{
@@ -404,7 +405,6 @@
     text-align:center;
     font-size:150%;
 }
-
 
 /******************************************************************************/
 .recorder-level{
@@ -560,4 +560,41 @@
     left:0px;
     width:100%;
     background-color:rgba(255,255,255,0.5);
+}
+
+.task-card,
+/* .task-html, */
+/* .task-text, */
+.task-radiobuttons,
+.task-checkbox-label,
+.task-sound,
+.task-video,
+.task-playlist,
+.task-slideshow,
+.task-recorder,
+.task-audio{
+    display:block;
+    padding: 10px 1%;
+    width: 98%;    
+}
+
+.jp-audio{
+    display: inline-block;
+}
+
+.blink{
+    -webkit-animation-name: counter-active;
+    -webkit-animation-duration: 0.6s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: alternate;
+
+    animation-name: counter-active;
+    animation-duration: 0.6s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;    
+}
+
+.nomargin{
+    margin:0px;
+    padding:0px;
 }

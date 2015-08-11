@@ -1,0 +1,122 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 2в)<br>\n1. На экране появляется формулировка задания и таймер обратного отсчета (3-2-1-0).<br>\n2. На экране появляется фраза № 1. После того, как диктор произнесет фразу, \n   надпись «Повторите» синего цвета начинает мигать, и студент повторяет эту же фразу. <br>\n3. Через 4 секунды запускается первый видеоряд.<br>\n4. На экране появляется фраза № 2. После того, как диктор произнесет фразу, \n   надпись «Повторите» синего цвета начинает мигать, и студент повторяет эту же фразу.<br>\n5. Через 4 секунды запускается второй видеоряд.<br>\n6. На экране появляется фраза № 3. После того, как диктор произнесет фразу, <br>\n   надпись «Повторите» синего цвета начинает мигать, и студент повторяет эту же фразу.<br>\n7. Через 4 секунды запускается третий видеоряд.<br>\n8. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».   "
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "none",
+    "hideOnCorrect": false,
+    "duration": 0,
+    "innerHtml": "Формулировка задания."
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "none",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "4"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "3"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "2"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "1"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "0"
+   },
+   {
+    "type": "slideshow",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "supplied": "mp3,oga,wav",
+    "hideOnCorrect": false,
+    "autostart": true,
+    "media": {
+     "title": "title",
+     "mp3": "../snippet/media/task001.mp3",
+     "oga": "../snippet/media/task001.ogg",
+     "wav": "../snippet/media/task001.wav"
+    },
+    "slides": [
+     {
+      "html": "<div class=\"frame\">\nфраза № 1\n</div>",
+      "from": "0",
+      "to": "2"
+     },
+     {
+      "html": "<div class=\"frame\">\nфраза № 1\n<div class=\"blink\">Повторите</div>\n</div>\n",
+      "from": "2",
+      "to": "4"
+     },
+     {
+      "html": "<div class=\"frame\">\nфраза № 2\n</div>\n",
+      "from": "4",
+      "to": "6"
+     },
+     {
+      "html": "<div class=\"frame\">\nфраза № 2\n<div class=\"blink\">Повторите</div>\n</div>",
+      "from": "6",
+      "to": "8"
+     },
+     {
+      "html": "<div class=\"frame\">\nфраза № 3\n</div>",
+      "from": "8",
+      "to": "9.5"
+     },
+     {
+      "html": "<div class=\"frame\">\nфраза № 3\n<div class=\"blink\">Повторите</div>\n</div>",
+      "from": "9.5",
+      "to": "11"
+     },
+     {
+      "html": "<div class=\"frame\">\nфраза № 4\n</div>",
+      "from": "11",
+      "to": "13"
+     },
+     {
+      "html": "<div class=\"frame\">\nфраза № 4\n<div class=\"blink\">Повторите</div>\n</div>",
+      "from": "13",
+      "to": "14"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

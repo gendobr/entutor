@@ -1,0 +1,253 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 4)<br>\n1. На экране появляется образец выполнения задания: карточка с изображением прописной буквы «А». \n   Рядом пустое место с активным курсором. \n   С помощью анимационного эффекта пробел заполняется строчной буквой «а».<br>\n2. На экране появляется карточка с одной из изученных букв, на месте пропуска активный курсор для ввода.<br>\n3. Программа проверяет задание после каждого ввода.<br>\n4. Если задание выполнено правильно, карточка загорается зеленым, и появляется следующая карточка. \n   Если нет – оранжевым, и буква, введённая студентом, пропадает и снова появляется активный курсор для ввода.<br>\n5. Программа должна строго реагировать на правильный регистр введённых букв.<br>\n6. «Правильный ответ» показывает правильно заполненную карточку в течение 2 секунд. После этого вставленная буква исчезает, а на ее месте появляется активный курсор. После этого студент должен заполнить эту карточку еще раз.<br>\n7. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».<br>\n   "
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "none",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "A <input type=text size=3>"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": false,
+    "duration": "1",
+    "innerHtml": "A <input type=text size=3 value=\"a\" disabled=\"true\">"
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "card",
+      "classes": "nomargin",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "beforeCorrect",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": "none",
+        "innerHtml": "B"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "b",
+        "value": "",
+        "size": 1,
+        "autocheck": true,
+        "resetOnError": true,
+        "maxlength": 1
+       }
+      ],
+      "autocheck": false
+     },
+     {
+      "type": "card",
+      "classes": "nomargin",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "beforeCorrect",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "C"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "c",
+        "value": "",
+        "size": 1,
+        "autocheck": true,
+        "resetOnError": true,
+        "maxlength": 1
+       }
+      ],
+      "autocheck": false
+     },
+     {
+      "type": "card",
+      "classes": "nomargin",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "beforeCorrect",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "D"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "d",
+        "value": "",
+        "size": 1,
+        "autocheck": true,
+        "maxlength": 1,
+        "resetOnError": true
+       }
+      ]
+     }
+    ],
+    "autocheck": true
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "card",
+      "classes": "nomargin",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "beforeCorrect",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "E"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "e",
+        "value": "",
+        "size": 1,
+        "autocheck": true,
+        "resetOnError": true,
+        "maxlength": 1
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "nomargin",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "beforeCorrect",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "F"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "f",
+        "value": "",
+        "size": 1,
+        "autocheck": true,
+        "maxlength": 1,
+        "resetOnError": true
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "nomargin",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "beforeCorrect",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "G"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "g",
+        "value": "",
+        "size": 1,
+        "maxlength": 1,
+        "autocheck": true,
+        "resetOnError": true
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

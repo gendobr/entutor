@@ -62,9 +62,9 @@
     "autostart": true,
     "media": {
      "title": "title",
-     "mp3": "http://localhost/entutor-js/task/snippet/media/task001.mp3",
-     "oga": "http://localhost/entutor-js/task/snippet/media/task001.ogg",
-     "wav": "http://localhost/entutor-js/task/snippet/media/task001.wav"
+     "mp3": "../snippet/media/task001.mp3",
+     "oga": "../snippet/media/task001.ogg",
+     "wav": "../snippet/media/task001.wav"
     },
     "slides": [
      {
