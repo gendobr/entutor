@@ -1,12 +1,35 @@
-{
-    "id":"001",
+{"presentation":
+    {
+      "innerHtml":"Сценарий (тип 1)<br>\nИграет музыка. Презентация идет непрерывно. Время показа пункта 1 и пункта 3 – по 5 секунд.<br>\n1. Появляется фраза на экране: Буква Aa [eɪ] звук [æ].<br>\n2. Диктор читает фразу.<br>\n3. Появляется фраза на экране: Letter Aa [eɪ], sound [æ].<br>\n4. Диктор читает фразу.<br>\n5. После окончания проигрывания Видео становится активной кнопка «Далее»."
+    },
+
     "inputs":{
-        "type":"card",
-        "children":[
-            {
-                "type":"html",
-                "innerHtml":"Correct value is zzz:"
-            }
-        ]
+       "type":"card",
+       "children":[
+           {
+             "type":"slideshow",
+             "classes":"","precondition":"none",
+             "supplied":"mp3,oga,wav",
+             "hideOnCorrect":false,
+             "media":{"title":"title",
+                      "mp3":"../snippet/media/task001.mp3",
+                      "oga":"../snippet/media/task001.ogg",
+                      "wav":"../snippet/media/task001.wav"
+              },
+             "slides":[
+                 {"html":"<div class=\"frame\">Letter <br><b>Aa [eɪ]</b></div>","from":"1","to":"4"},
+                 {"html":"<div class=\"frame\">sound <br><b>[æ]</b></div>","from":"4","to":"8"},
+                 {"html":"<div class=\"frame\">Буква <br><b>Aa [eɪ]</b></div>","from":"8","to":"11"},
+                 {"html":"<div class=\"frame\">звук <br><b>[æ]</b></div>","from":"11","to":"14"}
+              ]
+           }
+        ],
+       "classes":"",
+       "arrange":"vertical",
+       "taskPassScore":1,
+       "precondition":"none",
+       "customtest":"",
+       "maxScore":1,
+       "hideOnCorrect":false
     }
 }

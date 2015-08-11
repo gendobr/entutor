@@ -187,6 +187,14 @@ textarea{
 .editor-element-container.slideshow .label{
     font-size:80%;
 }
+.editor-element-container.slideshow .label.short{
+    display:inline-block;
+    margin-right:15px;
+}
+.editor-element-container.slideshow .label.short .editor-html-content{
+    width:100px;
+}
+
 
 .slide-item{
     margin-top:10px;
@@ -203,4 +211,29 @@ textarea{
 
 #taskContainer{
     text-align:left;
+}
+
+
+
+
+.editor-element-container.video .label{
+    font-size:80%;
+}
+.editor-element-container.video .label.short{
+    display:inline-block;
+    margin-right:15px;
+}
+.editor-element-container.video .label.short .editor-html-content{
+    width:100px;
+}
+
+.subtitle-item{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.subtitle-item .toolbar {
+  background-color: rgb(192, 192, 192);
+  clear: both;
+  display: inline-block;
+  width: 100%;
 }

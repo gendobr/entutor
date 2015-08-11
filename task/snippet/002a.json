@@ -1,0 +1,102 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 2a).<br>\n1. На экране появляется формулировка задания и таймер обратного отсчета. (3-2-1-0)<br>\n2. Воспроизведение начинается автоматически с появлением первой карточки со словами.<br>\n3. Когда диктор произносит первое слово, программа выделяет его на экране жирным черным, \n   надпись «Повторите» синего цвета начинает мигать, и студент повторяет слово. \n   Интервал между словами, которые произносит диктор, – 2 секунды. \n   Прочитанные слова остаются выделенными. <br>\n4. После выполнения студентом задания первой карточки появляется таймер обратного отсчета, и повторяются шаги пунктов 2, 3 данного сценария.<br>\n5. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».<br>"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "none",
+    "hideOnCorrect": false,
+    "duration": 0,
+    "innerHtml": "Формулировка задания."
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "none",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "4"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "3"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "2"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "1"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "0"
+   },
+   {
+    "type": "slideshow",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "supplied": "mp3,oga,wav",
+    "hideOnCorrect": false,
+    "autostart": true,
+    "media": {
+     "title": "title",
+     "mp3": "../snippet/media/task001.mp3",
+     "oga": "../snippet/media/task001.ogg",
+     "wav": "../snippet/media/task001.wav"
+    },
+    "slides": [
+     {
+      "html": "<div class=\"frame\">\n<b>Letter A</b> Sound [æ] Буква A Звук [æ]\n</div>",
+      "from": "0",
+      "to": "3"
+     },
+     {
+      "html": "<div class=\"frame\">\n<b>Letter A</b> <b>Sound [æ]</b> Буква A Звук [æ]\n</div>",
+      "from": "3",
+      "to": "8"
+     },
+     {
+      "html": "<div class=\"frame\">\n<b>Letter A Sound [æ] Буква A</b> Звук [æ]\n</div>",
+      "from": "8",
+      "to": "11"
+     },
+     {
+      "html": "<div class=\"frame\">\n<b>Letter A Sound [æ] Буква A Звук [æ]</b>\n</div>",
+      "from": "11",
+      "to": "15"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

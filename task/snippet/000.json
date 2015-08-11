@@ -1,0 +1,18 @@
+{"presentation":
+    {
+      "innerHtml":""
+    },
+
+    "inputs":{
+       "type":"card",
+       "children":[
+        ],
+       "classes":"",
+       "arrange":"vertical",
+       "taskPassScore":1,
+       "precondition":"none",
+       "customtest":"",
+       "maxScore":1,
+       "hideOnCorrect":false
+    }
+}

@@ -1,0 +1,112 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 2б).<br>\n1. Экран разделен на 2 части. В левой части появляется большая картинка. \n   Через 1 секунду в правой верхней части экрана появляется первая фраза. \n   Через 1 секунду диктор автоматически озвучивает данную фразу. \n   Начинает мигать надпись «Повторите!» (синего цвета) в течение 5 секунд (студент повторяет фразу).<br>\n2. Появляется вторая фраза в правой части экрана под первой фразой. Через 1 секунду автоматически диктор озвучивает данную фразу. Начинает мигать надпись «Повторите!» (синего цвета) в течение 4 секунд (студент повторяет фразу).<br>\n3. Появляется третья фраза в правой части экрана под второй фразой. Через 1 секунду автоматически диктор озвучивает данную фразу. Начинает мигать надпись «Повторите!» (синего цвета) в течение 3 секунд (студент повторяет фразу).<br>\n4. По истечении 3 секунд становятся активными следующие кнопки: «В1», «В2», «В3»и «Следующий»<br>\n5. Кнопки «Повторить» и «Далее» становятся активными после работы с тремя картинками.<br>"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "none",
+    "hideOnCorrect": false,
+    "duration": 0,
+    "innerHtml": "Формулировка задания."
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "none",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "4"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "3"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "2"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "1"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "0"
+   },
+   {
+    "type": "slideshow",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "supplied": "mp3,oga,wav",
+    "hideOnCorrect": false,
+    "autostart": true,
+    "media": {
+     "title": "title",
+     "mp3": "http://localhost/entutor-js/task/snippet/media/task001.mp3",
+     "oga": "http://localhost/entutor-js/task/snippet/media/task001.ogg",
+     "wav": "http://localhost/entutor-js/task/snippet/media/task001.wav"
+    },
+    "slides": [
+     {
+      "html": "<div class=\"frame2\">\n<img src=\"../snippet/media/image1.jpg\"><br>\n</div>",
+      "from": "0",
+      "to": "1"
+     },
+     {
+      "html": "<div class=\"frame2\">\n<img src=\"../snippet/media/image1.jpg\"><br>\nLetter A\n</div>\n",
+      "from": "1",
+      "to": "4"
+     },
+     {
+      "html": "<div class=\"frame2\">\n<img src=\"../snippet/media/image2.jpg\"><br>\n</div>\n",
+      "from": "4",
+      "to": "5"
+     },
+     {
+      "html": "<div class=\"frame2\">\n<img src=\"../snippet/media/image2.jpg\"><br>\nSound [æ]\n</div>",
+      "from": "5",
+      "to": "8"
+     },
+     {
+      "html": "<div class=\"frame2\">\n<img src=\"../snippet/media/image3.jpg\"><br>\n</div>",
+      "from": "11",
+      "to": "12"
+     },
+     {
+      "html": "<div class=\"frame2\">\n<img src=\"../snippet/media/image3.jpg\"><br>\nSound [æ]\n</div>",
+      "from": "12",
+      "to": "15"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

@@ -2,35 +2,69 @@
 .task-container{
     display:inline-block;
     text-align:center;
-    width:500px;
+    width:100%;
 }
 
 
 .task-presentation{
     display:inline-block;
     text-align:left;
-    background-color:#0d88c1;
-    padding:10px 5%;
-    width:90%;    
+    background-color:#EFEDEE;
+    padding:10px 0;
+    width:100%;    
+    border-radius:10px 10px 10px 10px;
+    -moz-border-radius:10px 10px 10px 10px;
+    -webkit-border-radius:10px 10px 10px 10px;
+    border-radius:10px 10px 10px 10px;
 }
 
 .task-inputs{
     display:inline-block;
     text-align:center;
-    background-color:#dadada;
-    padding:10px 5%;
-    width:90%;
+    background-color:#EFEDEE;
+    padding:10px 0;
+    width:100%;
     margin-bottom:10px;
     margin-top:10px;
+
+    border-radius:10px 10px 10px 10px;	
+    -moz-border-radius:10px 10px 10px 10px;
+    -webkit-border-radius:10px 10px 10px 10px;
+    color:#000;
 }
 
 .task-buttons{
     display:block;
 }
 
+.task-html {
+    display:inline;
+}
+
 
 
 /******************************************************************************/
+.task-playlist {
+    display:inline-block;
+    padding:10px;
+    color:#fff;
+    border-radius:10px 10px 10px 10px;	
+    -moz-border-radius:10px 10px 10px 10px;
+    -webkit-border-radius:10px 10px 10px 10px;
+    background-color:#495054;
+}
+.task-video {
+    display:inline-block;
+    padding:10px;
+    color:#fff;
+    border-radius:10px 10px 10px 10px;	
+    -moz-border-radius:10px 10px 10px 10px;
+    -webkit-border-radius:10px 10px 10px 10px;
+    background-color:#495054;
+}
+
+
+
 
 .task-card{
     display:inline-block;
@@ -57,15 +91,23 @@
 
 .task-card-element{
     white-space: normal;
+    /* padding:10px; */
+
 }
 
 .task-card-error{
-    background-color:orange;
+    /* background-color:#cf5700; */
     color:black;
+    border-radius:15px 15px 15px 15px;
+    -moz-border-radius:15px 15px 15px 15px;
+    -webkit-border-radius:15px 15px 15px 15px;
 }
 .task-card-correct{
-    background-color:#aaffaa;
+    /* background-color:#89c122; */
     color:black;
+    border-radius:15px 15px 15px 15px;
+    -moz-border-radius:15px 15px 15px 15px;
+    -webkit-border-radius:15px 15px 15px 15px;
 }
 
 /******************************************************************************/
@@ -96,7 +138,7 @@
     background-color:orange;
 }
 .task-radio-checked{
-    background-color:silver;
+    background-color:#fff;
 }
 
 .task-radiobuttons{
@@ -127,16 +169,58 @@
 
 .task-counterplace{
     display:inline-block;
-    border:1px solid gray;
     margin-right:5px;
     position:relative;
 }
+
+.task-counterplace
+{border:none;
+ cursor:pointer;
+ margin:10px;
+ display: inline-block;
+ background:#eeece6;
+ text-shadow:0px -1px 0px #0d0d0d;
+ -webkit-box-shadow: inset 3px 3px 11px #9e8d95;
+ -moz-box-shadow:    inset 3px 3px 11px #9e8d95;
+ box-shadow:         inset 3px 3px 11px #9e8d95;
+
+ border-radius:15px 15px 15px 15px;
+ -moz-border-radius:15px 15px 15px 15px;
+ -webkit-border-radius:15px 15px 15px 15px;
+}
+
+
+
 .task-counter{
     display:inline-block;
-    border:1px solid gray;
+
     cursor:move;
     z-index:1000;
-    padding:0 5px;
+
+}
+.task-counter {
+    font:normal 14px Verdana, Geneva, sans-serif;
+    font-style:normal;
+    color:#000000;
+    background: #f5f2eb;
+    background-image: -webkit-linear-gradient(top, #f5f2eb, #e0d9c5);
+    background-image: -moz-linear-gradient(top, #f5f2eb, #e0d9c5);
+    background-image: -ms-linear-gradient(top, #f5f2eb, #e0d9c5);
+    background-image: -o-linear-gradient(top, #f5f2eb, #e0d9c5);
+    background-image: linear-gradient(to bottom, #f5f2eb, #e0d9c5);
+    text-shadow:0px -1px 0px #0d0d0d;
+    box-shadow:3px 3px 11px #9e8d95;
+    -moz-box-shadow:3px 3px 11px #9e8d95;
+    -webkit-box-shadow:3px 3px 11px #9e8d95;
+    border-radius:15px 15px 15px 15px;
+    -moz-border-radius:15px 15px 15px 15px;
+    -webkit-border-radius:15px 15px 15px 15px;
+    width:100%;
+    height:100%;padding:10px 10px;
+}
+.task-counter:active{
+    cursor:pointer;
+    position:relative;
 }
 .task-counter.ui-draggable-dragging {
     background: green;
@@ -158,7 +242,7 @@
 .task-counter-active{
     background: green;
     color:white;
-    
+
     -webkit-animation-name: counter-active;
     -webkit-animation-duration: 0.6s;
     -webkit-animation-iteration-count: infinite;
@@ -175,20 +259,84 @@
 /******************************************************************************/
 .task-dropzone{
     display:inline-block;
-    border:1px solid red;    
+    border:none;    
     height:1.3em;
 }
 
 .task-dropzone-error{
-    background-color:#ffaaaa;
+    background-color:#eda5c2;
 }
 .task-dropzone-correct{
-    background-color:#aaffaa;
+    background-color:#cdfa93;
 }
 
 
+.task-dropzone{
+    border:none;
+    font:normal 14px Verdana, Geneva, sans-serif;
+    font-style:normal;
+    color:#000000;
+    background:#eeece6;
+    text-shadow:0px -1px 0px #0d0d0d;
+    -webkit-box-shadow: inset 3px 3px 11px #9e8d95;
+    -moz-box-shadow:    inset 3px 3px 11px #9e8d95;
+    box-shadow:         inset 3px 3px 11px #9e8d95;
 
+    border-radius:15px 15px 15px 15px;
+    -moz-border-radius:15px 15px 15px 15px;
+    -webkit-border-radius:15px 15px 15px 15px;
 
+    padding:20px 26px;
+    cursor:pointer;
+    margin:10px 10px 10px 10px;
+}
+
+.task-dropzone-correct{
+    font:normal 14px Verdana, Geneva, sans-serif;
+    font-style:normal;
+    color:#000000;
+    background: #cdfa93;
+    background-image: -webkit-linear-gradient(top, #cdfa93, #89c122);
+    background-image: -moz-linear-gradient(top, #cdfa93, #89c122);
+    background-image: -ms-linear-gradient(top, #cdfa93, #89c122);
+    background-image: -o-linear-gradient(top, #cdfa93, #89c122);
+    background-image: linear-gradient(to bottom, #cdfa93, #89c122);
+
+    text-shadow:0px -1px 0px #0d0d0d;
+    -webkit-box-shadow: 3px 3px 11px #9e8d95;
+    -moz-box-shadow:    3px 3px 11px #9e8d95;
+    box-shadow:         3px 3px 11px #9e8d95;
+    border-radius:15px 15px 15px 15px;
+    -moz-border-radius:15px 15px 15px 15px;
+    -webkit-border-radius:15px 15px 15px 15px;
+    width:75%;
+    padding:20px 26px;
+    cursor:pointer;
+    margin:10px;
+}
+
+.task-dropzone-error{
+    font:normal 14px Verdana, Geneva, sans-serif;
+    font-style:normal;
+    color:#000000;
+    background: #eda5c2;
+    background-image: -webkit-linear-gradient(top, #eda5c2, #d80556);
+    background-image: -moz-linear-gradient(top, #eda5c2, #d80556);
+    background-image: -ms-linear-gradient(top, #eda5c2, #d80556);
+    background-image: -o-linear-gradient(top, #eda5c2, #d80556);
+    background-image: linear-gradient(to bottom, #eda5c2, #d80556);
+    text-shadow:0px -1px 0px #0d0d0d;
+    -webkit-box-shadow: 3px 3px 11px #9e8d95;
+    -moz-box-shadow:    3px 3px 11px #9e8d95;
+    box-shadow:         3px 3px 11px #9e8d95;
+    border-radius:15px 15px 15px 15px;
+    -moz-border-radius:15px 15px 15px 15px;
+    -webkit-border-radius:15px 15px 15px 15px;
+    width:75%;
+    padding:20px 26px;
+    cursor:pointer;
+    margin:10px;
+}
 /******************************************************************************/
 .task-playlist{
     display:inline-block;
@@ -200,11 +348,42 @@
     text-align:center;    
     vertical-align:baseline;
     width:2em;
+    background-color: #89c122;
+    border-radius:5px 5px 5px 5px;
+    -moz-border-radius:5px 5px 15px 5px;
+    -webkit-border-radius:5px 5px 5px 5px;
+    padding:2px;
+}
+/******************************************************************************/
+.task-radio-label{
+    border-radius:5px 5px 5px 5px;
+    -moz-border-radius:5px 5px 15px 5px;
+    -webkit-border-radius:5px 5px 5px 5px;
+    padding:2px;
+}
+
+.task-radiobuttons {
+    text-align:left;
+    vertical-align:top;
+}
+.task-radiobuttons .task-radio-btn {
+    margin:0 7px  0 0;
 }
 
 
 
+.task-checkbox-label {
+    text-align:left;
+    vertical-align:top;
+    border-radius:5px 5px 5px 5px;
+    -moz-border-radius:5px 5px 15px 5px;
+    -webkit-border-radius:5px 5px 5px 5px;
+    padding:2px;
+}
 
+.task-checkbox-label .task-checkbox {
+    margin:0 7px  0 0;
+}
 /******************************************************************************/
 
 .taskPresentationText{
@@ -212,10 +391,19 @@
     position:relative;
     width:420px;
     height:252px;
-    border:1px solid #009be3;
+    border:1px solid #89c122;
 }
 
+.taskPresentationText .frame{
+    text-align:center;
+    font-size:150%;
+    padding-top:70px;
+}
 
+.taskPresentationText .frame2{
+    text-align:center;
+    font-size:150%;
+}
 
 
 /******************************************************************************/
@@ -359,4 +547,17 @@
     height:30px;
     font-size:150%;
     text-align:right;
+}
+
+.task-video{
+    position:relative;
+    display: inline-block;
+}
+.jp-subtitles{
+    position:absolute;
+    z-index:100;
+    bottom:80px;
+    left:0px;
+    width:100%;
+    background-color:rgba(255,255,255,0.5);
 }

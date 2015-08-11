@@ -260,7 +260,7 @@ entutor.inputs.card = function (parent, options) {
     this.id = this.parent.id + '_' + (this.options.id || (++entutor.guid));
 
     this.classes = this.options.classes || '';
-    this.arrange = this.options.arrange || 'horizontal';
+    this.arrange = this.options.arrange || 'vertical';
     this.taskPassScore = this.options.taskPassScore || 1;
     this.precondition = this.options.precondition || 'none';
     this.customtest = this.options.customtest || false;
@@ -381,29 +381,41 @@ entutor.inputs.card = function (parent, options) {
                 }
             }
 
-            // apply child pre-conditions
-            for (var key = 0; key < self.children.length; key++) {
-                if (self.children[key].precondition === 'beforeCorrect') {
 
-                    var allPreviousPassed = true;
-                    for (var i = 0; i < key; i++) {
-                        if (self.children[i].result.passed === false || self.children[i].result.passed === 'undefined') {
-                            allPreviousPassed = false;
-                        }
-                    }
-                    //console.log(key,'beforeCorrect',allPreviousPassed);
-                    if (allPreviousPassed) {
-                        self.children[key].show();
-                    } else {
-                        self.children[key].hide();
-                    }
-                } else {
-                    self.children[key].show();
-                }
-            }
             
             if(self.parent && self.parent.testFinishedCallback){
                 self.parent.testFinishedCallback(self.id, self.result);
+            }
+        }
+        
+        // apply child pre-conditions
+        for (var key = 0; key < self.children.length; key++) {
+            if (self.children[key].precondition === 'beforeCorrect') {
+                
+                // console.log(self.children[key].id);
+
+                var allPreviousPassed = true;
+                for (var i = 0; i < key; i++) {
+                    if (typeof(self.children[i].result) === 'undefined' || self.children[i].result.passed === false || self.children[i].result.passed === 'undefined') {
+                        allPreviousPassed = false;
+                    }
+                }
+                //console.log(key,'beforeCorrect',allPreviousPassed);
+                
+                var childIsVisible=self.children[key].domElement.is(':visible');
+                if (allPreviousPassed) {
+                    if(!childIsVisible){
+                        //console.log(self.children[key].id,"self.children[key].show();");
+                        self.children[key].show();
+                    }
+                } else {
+                    if(childIsVisible){
+                        //console.log(self.children[key].id, "self.children[key].hide();");
+                        self.children[key].hide();
+                    }
+                }
+            } else {
+                self.children[key].show();
             }
         }
     };
@@ -597,23 +609,25 @@ entutor.inputs.html = function (parent, options) {
 
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
-    this.passed=false;
     this.duration = parseFloat(this.options.duration || 'none');
     if(!isNaN(this.duration) && this.duration>0){
         this.duration = Math.round(1000 * this.duration);
     }
+    
+    
+    this.result={
+        status: entutor.task.status.received,
+        score: 1,
+        passed: false,
+        maxScore: 1
+    };
     
     this.maxScore = 1;
 };
 
 entutor.inputs.html.prototype.test = function () {
     if(this.parent && this.parent.testFinishedCallback){
-        this.parent.testFinishedCallback(this.id, {
-            status: entutor.task.status.received,
-            score: 1,
-            passed: this.passed,
-            maxScore: 1
-        });
+        this.parent.testFinishedCallback(this.id, this.result);
     }
 };
 
@@ -621,8 +635,6 @@ entutor.inputs.html.prototype.draw = function () {
     this.domElement = $('<span id="task' + this.id + '" class="task-html ' + this.classes + '">' + this.options.innerHtml + '</span>');
     if (this.precondition === 'beforeCorrect') {
         this.hide();
-    }else{
-        this.show();
     }
     return this.domElement;
 };
@@ -642,43 +654,66 @@ entutor.inputs.html.prototype.hide = function () {
 };
 
 entutor.inputs.html.prototype.show = function () {
+    if(this.result.passed && this.hideOnCorrect){
+        return;
+    }
     this.domElement.show();
-    if(!this.passed){
-        // hide after this.duration msec
-        var self=this;
-        setTimeout(function(){
-            self.passed=true;
-            self.notify([]);
-            if(self.hideOnCorrect){
-                self.hide();
-            }
-        },this.duration);        
+    if(this.onShow){
+        this.onShow();
     }
 };
 
 entutor.inputs.html.prototype.start = function () {
-    if(this.domElement.is(':visible')){
-        if( isNaN(this.duration) ){
-            this.passed=true;
-            this.notify([]);
-        }else{
-            // hide after this.duration msec
+
+    if( isNaN(this.duration) ){
+        this.result.passed=true;
+        this.notify([]);
+    }else{
+        if(this.domElement.is(':visible')){
             var self=this;
             setTimeout(function(){
-                self.passed=true;
+                //console.log('html ', self.id,' set to passed');
+                self.result.passed=true;
                 self.notify([]);
                 if(self.hideOnCorrect){
                     self.hide();
                 }
             },this.duration);
+        }else{
+            var self=this;
+            this.onShow=function(){
+                self.onShow=false;
+                setTimeout(function(){
+                    //console.log('html ', self.id,' set to passed');
+                    self.result.passed=true;
+                    self.notify([]);
+                    if(self.hideOnCorrect){
+                        self.hide();
+                    }
+                },this.duration);
+            };
         }
     }
+    //    if(this.domElement.is(':visible')){
+//else{
+//            // hide after this.duration msec
+//            var self=this;
+//            setTimeout(function(){
+//                self.result.passed=true;
+//                self.notify([]);
+//                if(self.hideOnCorrect){
+//                    self.hide();
+//                }
+//            },this.duration);
+//        }
+//    }
 };
 
 entutor.inputs.html.prototype.notify = function (stack) {
     if(this.parent){
         stack.push(this.id);
         this.parent.notify(stack);
+        //console.log('html ', this.id,' this.parent.notify(stack); this.result.passed=', this.result.passed);
     }
 };
 
@@ -1428,8 +1463,27 @@ entutor.inputs.sound.prototype.notify = function (stack) {
 //                 webmv:
 //                 ogv:
 //        }
+//    subtitles:[
+//          {
+//                 html:'Бублички',
+//                 from:1
+//                 to:2
+//          },
+//          {
+//                 html:'Бублички',
+//                 from:2
+//                 to:3
+//          },
+//          {
+//                 html:'Бублички',
+//                 from:3
+//                 to:4
+//          },
+//    ];
 //    }
 entutor.inputs.video = function (parent, options) {
+    var self=this;
+    
     this.type = 'video';
     this.parent = parent;
     this.options = options || {};
@@ -1443,6 +1497,36 @@ entutor.inputs.video = function (parent, options) {
     this.autostart=this.options.autostart||false;
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
+    this.subtitles = this.options.subtitles || [];
+    
+    this.searchSubtitle=function(currentTime){
+    	for(var i=0; i<this.subtitles.length; i++ ){
+            if(this.subtitles[i].from <= currentTime &&  currentTime <= this.subtitles[i].to){
+                    return this.subtitles[i];
+            }
+    	}
+    	return null;
+    };
+    
+    this.showSubtitle=function(frame){
+  	if(frame){
+            this.subtitleDom.html(frame.html);
+  	}else{
+            this.subtitleDom.html("<div>&nbsp;</div>");
+  	}
+    };
+
+    this.timeupdate = function(event){
+        var currentTime=event.jPlayer.status.currentTime;
+        // console.log(currentTime);
+        if( ! self.presentationCurrentSlide
+            || self.presentationCurrentSlide.from > currentTime
+            || self.presentationCurrentSlide.to < currentTime ){
+            self.presentationCurrentSlide=self.searchSubtitle(currentTime);
+            self.showSubtitle(self.presentationCurrentSlide);
+        }
+    };
+    
     this.labels = options.labels || {};
     this.labels.playing = this.labels.playing || '||';
     this.labels.paused = this.labels.paused || '>';
@@ -1504,11 +1588,14 @@ entutor.inputs.video.prototype.draw = function () {
     html += '    </div>';
     html += '  </div>';
     html += '</div>';
+    html += '<div id="jp_subtitles_' + this.id + '" class="jp-subtitles"></div>';
 
     this.domElement = $('<span id="task' + this.id + '" class="task-video ' + this.classes + '"></span>');
     this.domElement.append($(html));
 
     this.player = this.domElement.find("#jquery_jplayer_" + this.id);
+
+    this.subtitleDom = this.domElement.find("#jp_subtitles_" + this.id);
 
     if (this.options.size) {
         this.player.jPlayer("option", "size", this.options.size);
@@ -1566,6 +1653,7 @@ entutor.inputs.video.prototype.start = function () {
         remainingDuration: true,
         toggleDuration: true,
         volume:1,
+        timeupdate: self.timeupdate,
         ended:function(){ 
             self.passed=true; 
             self.notify([]);
@@ -2334,19 +2422,18 @@ entutor.inputs.slideshow = function (parent, options) {
 
     this.currenttrack = false;
     
-    this.passed=false;
     this.maxScore=1;
-    
+    this.result={
+        status: entutor.task.status.received,
+        score: 1,
+        passed: false,
+        maxScore: 1
+    };
     // entutor.jplayers[this.id] = this;
 };
 
 entutor.inputs.slideshow.prototype.test = function () {
-    var result={
-        status: entutor.task.status.received,
-        score: this.passed?1:0,
-        passed: this.passed,
-        maxScore: 1
-    };
+
     if(this.parent && this.parent.testFinishedCallback){
         this.parent.testFinishedCallback(this.id, this.result);
     }
@@ -2416,7 +2503,7 @@ entutor.inputs.slideshow.prototype.draw = function () {
   	if(frame){
 	    $('#taskPresentationText'+this.id).html(frame.html);
   	}else{
-  	    $('#taskPresentationText'+this.id).empty();
+  	    $('#taskPresentationText'+this.id).html("<div>&nbsp;</div>");
   	}
     };
     
@@ -2460,15 +2547,9 @@ entutor.inputs.slideshow.prototype.show = function () {
 };
 
 entutor.inputs.slideshow.prototype.start = function () {
-    //    if(this.onstart){
-    //        for(var j=0; j<this.onstart.length; j++){
-    //            this.onstart[j]();
-    //        }
-    //    }
     var self=this;
     this.player.jPlayer({
         ready: function () { $(this).jPlayer("setMedia", self.media); },
-        timeupdate: self.timeupdate,
         swfPath: self.swfPath,
         supplied: self.supplied,
         cssSelectorAncestor: '#jp_container_' + self.id,
@@ -2483,8 +2564,10 @@ entutor.inputs.slideshow.prototype.start = function () {
         warningAlerts: false,
         consoleAlerts: false,
         volume:1,
+        timeupdate: self.timeupdate,
         ended:function(){
-            self.passed=true;
+            self.result.passed=true;
+            console.log("self.notify([]);");
             self.notify([]);
             if(self.hideOnCorrect){
                 self.hide();

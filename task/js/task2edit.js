@@ -33,7 +33,7 @@ entutor.editor = function (value) {
     this.id = value.id || (++entutor.guid);
 
     // create presentation
-    this.presentation = new entutor.presentationeditor(this, this.value.presentation);
+    this.presentation = new entutor.presentationeditor(this, this.value.presentation.innerHtml);
 
 
     //    // text messages
@@ -94,6 +94,7 @@ entutor.presentationeditor.prototype.draw = function () {
     this.container = $("<div class=\"editor-element-container presentation\"></div>");
     this.container.append('<div class="editor-toolbar">Presentation</div>');
     this.textarea = $("<textarea class=\"editor-presentation-textarea\"></textarea>");
+    this.textarea.val(this.value);
     this.container.append(this.textarea);
     this.textarea.change(function () {
         self.value = self.textarea.val();
@@ -268,7 +269,7 @@ entutor.editors.card = function (parent, value) {
 
 
     this.value.classes = this.value.classes || '';
-    this.value.arrange = this.value.arrange || 'horizontal';
+    this.value.arrange = this.value.arrange || 'vertical';
     this.value.taskPassScore = this.value.taskPassScore || 1;
     this.value.precondition = this.value.precondition || 'none';
     this.value.customtest = this.value.customtest || '';
@@ -501,7 +502,7 @@ entutor.editors.html.prototype.draw = function () {
 
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    this.optionBlock.append(entutor.components.string(this.value, 'duration', 'Duration, milleseconds'));
+    this.optionBlock.append(entutor.components.string(this.value, 'duration', 'Duration, seconds'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
 
@@ -1058,15 +1059,16 @@ entutor.editors.video = function (parent, value) {
     this.value.classes = this.value.classes || '';
     this.value.precondition = this.value.precondition || 'none';
     this.value.autostart = this.value.autostart || false;
-    this.value.supplied = this.value.supplied || "mp3,oga,wav";
+    this.value.supplied = this.value.supplied || "m4v,ogv,webmv";
     this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
 
     this.value.media = this.value.media || {};
     this.value.media.title=this.value.media.title || 'title';
-    this.value.media.mp3=this.value.media.mp3 || 'mp3 file URL';
-    this.value.media.oga=this.value.media.oga || 'oga file URL';
-    this.value.media.wav=this.value.media.wav || 'mp3 file URL';
+    this.value.media.m4v=this.value.media.m4v || 'm4v file URL';
+    this.value.media.ogv=this.value.media.ogv || 'ogv file URL';
+    this.value.media.wav=this.value.media.webmv || 'webmv file URL';
     
+    this.value.subtitles = this.value.subtitles || [];
     
 };
 
@@ -1092,29 +1094,175 @@ entutor.editors.video.prototype.draw = function () {
 
 
     // add text field
-    this.container.append("<div>Video title</div>");
+    this.container.append("<div class=\"label\">Video title</div>");
     this.mediaTitleInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaTitleInput);
     this.mediaTitleInput.val(this.value.media.title);
     this.mediaTitleInput.change(function () { self.value.media.title= self.mediaTitleInput.val();   $(document).trigger("editor:updated");  });
 
-    this.container.append("<div>WEBMV file URL</div>");
+    this.container.append("<div class=\"label\">WEBMV file URL</div>");
     this.mediaWEBMVInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaWEBMVInput);
     this.mediaWEBMVInput.val(this.value.media.webmv);
     this.mediaWEBMVInput.change(function () { self.value.media.webmv= self.mediaWEBMVInput.val();   $(document).trigger("editor:updated");  });
 
-    this.container.append("<div>OGV file URL</div>");
+    this.container.append("<div class=\"label\">OGV file URL</div>");
     this.mediaOGVInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaOGVInput);
     this.mediaOGVInput.val(this.value.media.ogv);
     this.mediaOGVInput.change(function () { self.value.media.ogv= self.mediaOGVInput.val();   $(document).trigger("editor:updated");  });
 
-    this.container.append("<div>M4V file URL</div>");
+    this.container.append("<div class=\"label\">M4V file URL</div>");
     this.mediaM4VInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaM4VInput);
     this.mediaM4VInput.val(this.value.media.m4v);
     this.mediaM4VInput.change(function () { self.value.media.m4v= self.mediaM4VInput.val();   $(document).trigger("editor:updated");  });
+
+
+
+
+    var deleteSubtitle=function(ev){
+        var lnk=$(ev.target);
+        var uid=lnk.attr("data-uid");
+        for(var i=0; i<self.subtitlesDom.length; i++){
+            if(self.subtitlesDom[i].uid === uid){
+                self.subtitlesDom[i].container.remove();
+                self.subtitlesDom.splice(i, 1);
+                self.value.subtitles.splice(i, 1);
+                return;
+            }
+        }
+    };
+
+    var updateSubtitleHtml=function(ev){
+        var fld=$(ev.target);
+        var uid=fld.attr("data-uid");
+        for(var i=0; i<self.subtitlesDom.length; i++){
+            if(self.subtitlesDom[i].uid === uid){
+                self.value.subtitles[i].html=fld.val();
+                $(document).trigger("editor:updated");
+                return;
+            }
+        }
+    };
+
+    var updateSubtitleFrom=function(ev){
+        var fld=$(ev.target);
+        var uid=fld.attr("data-uid");
+        for(var i=0; i<self.subtitlesDom.length; i++){
+            if(self.subtitlesDom[i].uid === uid){
+                self.value.subtitles[i].from=fld.val();
+                $(document).trigger("editor:updated");
+                return;
+            }
+        }
+    };
+    
+    var updateSlideTo=function(ev){
+        var fld=$(ev.target);
+        var uid=fld.attr("data-uid");
+        for(var i=0; i<self.subtitlesDom.length; i++){
+            if(self.subtitlesDom[i].uid === uid){
+                self.value.subtitles[i].to=fld.val();
+                $(document).trigger("editor:updated");
+                return;
+            }
+        }
+    };
+
+    this.subtitlesDom=[];
+    var lbl;
+    for(var i=0; i<this.value.subtitles.length; i++){
+        
+        var subtitleData = this.value.subtitles[i];
+        
+        var subtitleDom={};
+        
+        subtitleDom.uid="subtitle" + this.id + "_subtitle_" + Math.random();
+        
+        subtitleDom.container=$("<div class=\"subtitle-item\" id=\"" + subtitleDom.uid + "\"></div>");
+        this.container.append(subtitleDom.container);
+        
+        subtitleDom.toolbar=$("<div class=\"toolbar\"></div>");
+        subtitleDom.container.append(subtitleDom.toolbar);
+        
+        subtitleDom.deleteSlide=$("<a class='delete-link' data-uid=\"" + subtitleDom.uid + "\">&times;</a>");
+        subtitleDom.toolbar.append(subtitleDom.deleteSlide);
+        subtitleDom.deleteSlide.click(deleteSubtitle);
+        
+        
+        // slideDom.container.append("<div class=\"label\">Slide html</div>");
+        subtitleDom.html = $("<textarea class=\"editor-html-content\" data-uid=\"" + subtitleDom.uid + "\"></textarea>");
+        subtitleDom.container.append(subtitleDom.html);
+        subtitleDom.html.val(subtitleData.html);
+        subtitleDom.html.change(updateSubtitleHtml);
+
+        lbl=$("<div class=\"label short\">From time</div>");
+        subtitleDom.container.append(lbl);
+        subtitleDom.fromInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + subtitleDom.uid + "\">");
+        lbl.append(subtitleDom.fromInput);
+        subtitleDom.fromInput.val(subtitleData.from);
+        subtitleDom.fromInput.change(updateSubtitleFrom);
+
+        lbl=$("<div class=\"label short\">To time</div>");
+        subtitleDom.container.append(lbl);
+        subtitleDom.toInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + subtitleDom.uid + "\">");
+        lbl.append(subtitleDom.toInput);
+        subtitleDom.toInput.val(subtitleData.to);
+        subtitleDom.toInput.change(updateSlideTo);
+        
+        this.subtitlesDom[i]=subtitleDom;
+
+    }
+
+
+
+    this.addLink = $('<a class="editor-options-link" href="javascript:void(\'+variant\')">+</a>');
+    this.toolbar.prepend(this.addLink);
+    this.addLink.click(function () {
+        var subtitleData={ html:'', from:'', to:''};
+        var lbl;
+        var subtitleDom={};
+        
+        subtitleDom.uid="subtitle" + this.id + "_subtitle_" + Math.random();
+        
+        subtitleDom.container=$("<div class=\"subtitle-item\" id=\"" + subtitleDom.uid + "\"></div>");
+        self.container.append(subtitleDom.container);
+        
+        subtitleDom.toolbar=$("<div class=\"toolbar\">Subtitle</div>");
+        subtitleDom.container.append(subtitleDom.toolbar);
+        
+        subtitleDom.deleteSlide=$("<a class='delete-link' data-uid=\"" + subtitleDom.uid + "\">&times;</a>");
+        subtitleDom.toolbar.append(subtitleDom.deleteSlide);
+        subtitleDom.deleteSlide.click(deleteSubtitle);
+        
+        
+        // slideDom.container.append("<div class=\"label\">Slide html</div>");
+        subtitleDom.html = $("<textarea class=\"editor-html-content\" data-uid=\"" + subtitleDom.uid + "\"></textarea>");
+        subtitleDom.container.append(subtitleDom.html);
+        subtitleDom.html.val(subtitleData.html);
+        subtitleDom.html.change(updateSubtitleHtml);
+
+        lbl=$("<div class=\"label short\">From time</div>");
+        subtitleDom.container.append(lbl);
+        subtitleDom.fromInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + subtitleDom.uid + "\">");
+        lbl.append(subtitleDom.fromInput);
+        subtitleDom.fromInput.val(subtitleData.from);
+        subtitleDom.fromInput.change(updateSubtitleFrom);
+
+        lbl=$("<div class=\"label short\">To time</div>");
+        subtitleDom.container.append(lbl);
+        subtitleDom.toInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + subtitleDom.uid + "\">");
+        lbl.append(subtitleDom.toInput);
+        subtitleDom.toInput.val(subtitleData.to);
+        subtitleDom.toInput.change(updateSlideTo);
+        
+        self.value.subtitles.push(subtitleData);
+        self.subtitlesDom.push(subtitleDom);
+        $(document).trigger("editor:updated");
+    });
+
+
 
     return this.container;
 };
@@ -1369,6 +1517,7 @@ entutor.editors.slideshow = function (parent, value) {
     this.value.precondition = this.value.precondition || 'none';
     this.value.supplied = this.value.supplied || "mp3,oga,wav";
     this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
+    this.value.autostart = this.value.autostart? true :false;
 
 
     this.value.media = this.value.media || {};
@@ -1405,7 +1554,7 @@ entutor.editors.slideshow.prototype.draw = function () {
 
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    // this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
 
@@ -1490,6 +1639,7 @@ entutor.editors.slideshow.prototype.draw = function () {
 
 
     this.slidesDom=[];
+    var lbl;
     for(var i=0; i<this.value.slides.length; i++){
         
         var slideData = this.value.slides[i];
@@ -1501,7 +1651,7 @@ entutor.editors.slideshow.prototype.draw = function () {
         slideDom.container=$("<div class=\"slide-item\" id=\"" + slideDom.uid + "\"></div>");
         this.container.append(slideDom.container);
         
-        slideDom.toolbar=$("<div class=\"toolbar\"></div>");
+        slideDom.toolbar=$("<div class=\"toolbar\">Slide</div>");
         slideDom.container.append(slideDom.toolbar);
         
         slideDom.deleteSlide=$("<a class='delete-link' data-uid=\"" + slideDom.uid + "\">&times;</a>");
@@ -1509,21 +1659,23 @@ entutor.editors.slideshow.prototype.draw = function () {
         slideDom.deleteSlide.click(deleteSlide);
         
         
-        slideDom.container.append("<div class=\"label\">Slide html</div>");
+        // slideDom.container.append("<div class=\"label\">Slide html</div>");
         slideDom.html = $("<textarea class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\"></textarea>");
         slideDom.container.append(slideDom.html);
         slideDom.html.val(slideData.html);
         slideDom.html.change(updateSlideHtml);
 
-        slideDom.container.append("<div class=\"label\">From time</div>");
+        lbl=$("<div class=\"label short\">From time</div>");
+        slideDom.container.append(lbl);
         slideDom.fromInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\">");
-        slideDom.container.append(slideDom.fromInput);
+        lbl.append(slideDom.fromInput);
         slideDom.fromInput.val(slideData.from);
         slideDom.fromInput.change(updateSlideFrom);
 
-        slideDom.container.append("<div class=\"label\">OGA file URL</div>");
+        lbl=$("<div class=\"label short\">To time</div>");
+        slideDom.container.append(lbl);
         slideDom.toInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\">");
-        slideDom.container.append(slideDom.toInput);
+        lbl.append(slideDom.toInput);
         slideDom.toInput.val(slideData.to);
         slideDom.toInput.change(updateSlideTo);
         
@@ -1538,7 +1690,7 @@ entutor.editors.slideshow.prototype.draw = function () {
     this.addLink.click(function () {
         var slideData={ html:'', from:'', to:''};
         var slideDom={};
-        
+        var lbl;
         var slideDom={};
         
         slideDom.uid="slide" + this.id + "_slide_" + Math.random();
@@ -1546,7 +1698,7 @@ entutor.editors.slideshow.prototype.draw = function () {
         slideDom.container=$("<div class=\"slide-item\" id=\"" + slideDom.uid + "\"></div>");
         self.container.append(slideDom.container);
         
-        slideDom.toolbar=$("<div class=\"toolbar\"></div>");
+        slideDom.toolbar=$("<div class=\"toolbar\">Slide</div>");
         slideDom.container.append(slideDom.toolbar);
         
         slideDom.deleteSlide=$("<a class='delete-link' data-uid=\"" + slideDom.uid + "\">&times;</a>");
@@ -1554,21 +1706,23 @@ entutor.editors.slideshow.prototype.draw = function () {
         slideDom.deleteSlide.click(deleteSlide);
         
         
-        slideDom.container.append("<div class=\"label\">Slide html</div>");
+        // slideDom.container.append("<div class=\"label\">Slide html</div>");
         slideDom.html = $("<textarea class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\"></textarea>");
         slideDom.container.append(slideDom.html);
         slideDom.html.val(slideData.html);
         slideDom.html.change(updateSlideHtml);
 
-        slideDom.container.append("<div class=\"label\">From time</div>");
+        lbl=$("<div class=\"label short\">From time</div>");
+        slideDom.container.append(lbl);
         slideDom.fromInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\">");
-        slideDom.container.append(slideDom.fromInput);
+        lbl.append(slideDom.fromInput);
         slideDom.fromInput.val(slideData.from);
         slideDom.fromInput.change(updateSlideFrom);
 
-        slideDom.container.append("<div class=\"label\">To time</div>");
+        lbl=$("<div class=\"label short\">To time</div>");
+        slideDom.container.append(lbl);
         slideDom.toInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\">");
-        slideDom.container.append(slideDom.toInput);
+        lbl.append(slideDom.toInput);
         slideDom.toInput.val(slideData.to);
         slideDom.toInput.change(updateSlideTo);
         

@@ -4,12 +4,12 @@
         <title>taskEditor test</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         <link href="../lib/jplayer/skin/blue.monday/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css" />
         <link href="../lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css" />
         <link href="../css/task2.css" rel="stylesheet" type="text/css" />
         <link href="../css/task2edit.css" rel="stylesheet" type="text/css" />
-        
+
         <script type="application/javascript" src="../lib/jquery-2.1.4.min.js"></script>
         <script type="application/javascript" src="../lib/jquery-ui/jquery-ui.min.js"></script>
         <script type="application/javascript" src="../lib/markup.min.js"></script>
@@ -22,32 +22,31 @@
         <script type="application/javascript" src="../js/task2edit.js"></script>
     </head>
     <body>
+
+        <div style="width:800px;"><span style="display:inline-block;width:100%;">
+                <div  style="float:right;margin-top:20px;">
+                    Create:
+                    <select id="snippet">
+                        <option value=""></option>
+                        <option value="../snippet/000.json">Empty task</option>
+                        <option value="../snippet/001.json">1</option>
+                        <option value="../snippet/002.json">2</option>
+                        <option value="../snippet/002a.json">2a</option>
+                        <option value="../snippet/002b.json">2b</option>
+                    </select>
+                </div>
+                <h3>Editor</h3>
+            </span></div>
+        <div id="taskEditor" class='taskEditor' style="width:800px;"></div>
         <div>
-            <a href="javascript:void(entutor.loadEditor('json/001.json','#taskEditor'))">001</a>
-            <a href="javascript:void(entutor.loadEditor('json/002.json','#taskEditor'))">002</a>
-            <a href="javascript:void(entutor.loadEditor('json/003.json','#taskEditor'))">003</a>
-            <a href="javascript:void(entutor.loadEditor('json/004.json','#taskEditor'))">004</a>
-            <a href="javascript:void(entutor.loadEditor('json/005.json','#taskEditor'))">005</a>
-            <a href="javascript:void(entutor.loadEditor('json/006.json','#taskEditor'))">006</a>
-            <a href="javascript:void(entutor.loadEditor('json/007.json','#taskEditor'))">007</a>
-            <a href="javascript:void(entutor.loadEditor('json/008.json','#taskEditor'))">008</a>
-            <a href="javascript:void(entutor.loadEditor('json/009.json','#taskEditor'))">009</a>
-            <a href="javascript:void(entutor.loadEditor('json/010.json','#taskEditor'))">010</a>
-            <a href="javascript:void(entutor.loadEditor('json/011.json','#taskEditor'))">011</a>
-            <a href="javascript:void(entutor.loadEditor('json/012.json','#taskEditor'))">012</a>
-            <a href="javascript:void(entutor.loadEditor('json/013.json','#taskEditor'))">013</a>
-            <a href="javascript:void(entutor.loadEditor('json/014.json','#taskEditor'))">014</a>
-            <a href="javascript:void(entutor.loadEditor('json/015.json','#taskEditor'))">015</a>
-            <a href="javascript:void(entutor.loadEditor('json/016.json','#taskEditor'))">016</a>
+            <input type="button" id="previewButton" value="preview">
+            <a id="download">Download</a>
         </div>
         
-        <h3>Editor</h3>
-        <div id="taskEditor" class='taskEditor' style="width:800px;"></div>
-        <div><input type="button" id="previewButton" value="preview"></div>
         <h3>Preview</h3>
         <div id="taskContainer" class='taskContainer'></div>
-        
-        
+
+
         <script type="application/javascript">
         $(document).ready(function(){
             try{
@@ -74,13 +73,19 @@
                 // ------------------ flash recorder - end ---------------------
             }
 
-            if(window.location.hash){
-                entutor.loadEditor('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskEditor');
-            }
+            //if(window.location.hash){
+            //    entutor.loadEditor('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskEditor');
+            //}
             
             $(document).on("editor:updated",function(){
                 if(entutor.currentEditor){
                     console.log(entutor.currentEditor.getValue());
+                    var a=document.getElementById('download');
+                    var json = JSON.stringify(entutor.currentEditor.getValue(), false,' '),
+                        blob = new Blob([json], {type: "octet/stream"}),
+                        url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = "undefined.json";
                 }
             });
             
@@ -89,6 +94,16 @@
                 var task = new entutor.task(entutor.json);
                 $("#taskContainer").empty().append(task.draw());
                 task.start();
+            });
+            
+            $('#snippet').change(function(){ 
+                var s=$('#snippet').val();
+                if(s.length>0){
+                    entutor.loadEditor(s,'#taskEditor');
+                    var a=document.getElementById('download');
+                    a.href = "javascript:void('download')";
+                }
+                $('#snippet').val('');
             });
             
         });
