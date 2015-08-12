@@ -1,0 +1,152 @@
+{
+ "presentation": {
+  "innerHtml": ""
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/task001.mp3",
+       "oga": "../snippet/media/task001.ogg",
+       "wav": "../snippet/media/task001.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "size": "5",
+      "arrange": "vertical",
+      "variant": {
+       "1": "a",
+       "2": "b",
+       "3": "c",
+       "4": "d",
+       "5": "e",
+       "6": "f"
+      },
+      "correctVariant": "1",
+      "autocheck": false
+     }
+    ],
+    "autocheck": false
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/task001.mp3",
+       "oga": "../snippet/media/task001.ogg",
+       "wav": "../snippet/media/task001.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "2",
+      "size": "5",
+      "arrange": "vertical",
+      "variant": {
+       "1": "b",
+       "2": "a",
+       "3": "c",
+       "4": "y",
+       "5": "s",
+       "6": "f"
+      },
+      "autocheck": false
+     }
+    ],
+    "autocheck": false
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/task001.mp3",
+       "oga": "../snippet/media/task001.ogg",
+       "wav": "../snippet/media/task001.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "3",
+      "size": "5",
+      "arrange": "vertical",
+      "variant": {
+       "1": "c",
+       "2": "b",
+       "3": "a",
+       "4": "g",
+       "5": "e",
+       "6": "t"
+      },
+      "autocheck": false
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

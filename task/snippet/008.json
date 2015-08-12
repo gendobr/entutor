@@ -1,0 +1,143 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 8)<br>\n1. «В» – кнопка для воспроизведения аудиозаписи.<br>\n2. Диктор называет букву или звук, а студент выбирает правильный вариант из 3 карточек.<br>\n3. Если карточка выбрана правильно, то она становится зеленой, и появляется \n   следующий набор карточек. Диктор произносит следующую букву или звук.<br>\n4. Если карточка выбрана неправильно, то она становится оранжевой, и студент \n   выполняет это задание еще раз.<br>\n5. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». <br>"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/task001.mp3",
+       "oga": "../snippet/media/task001.ogg",
+       "wav": "../snippet/media/task001.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "size": "5",
+      "arrange": "vertical",
+      "variant": {
+       "1": "a",
+       "2": "b",
+       "3": "c"
+      },
+      "correctVariant": "1",
+      "autocheck": false
+     }
+    ],
+    "autocheck": false
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/task001.mp3",
+       "oga": "../snippet/media/task001.ogg",
+       "wav": "../snippet/media/task001.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "2",
+      "size": "5",
+      "arrange": "vertical",
+      "variant": {
+       "1": "b",
+       "2": "a",
+       "3": "c"
+      },
+      "autocheck": false
+     }
+    ],
+    "autocheck": false
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/task001.mp3",
+       "oga": "../snippet/media/task001.ogg",
+       "wav": "../snippet/media/task001.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "3",
+      "size": "5",
+      "arrange": "vertical",
+      "variant": {
+       "1": "c",
+       "2": "b",
+       "3": "a"
+      },
+      "autocheck": false
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

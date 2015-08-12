@@ -605,9 +605,25 @@ entutor.editors.radio = function (parent, value) {
     this.value.precondition = this.value.precondition || 'none';
     this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
 
+    this.value.correctVariant = this.value.correctVariant || '';
+
+
     this.value.size = this.value.size || '5';
     this.value.arrange = this.value.arrange || 'vertical';
 
+    this.newkey=function(){
+        var k=0;
+        do{
+            k++;
+            var unique=true;
+            for (var key in this.value.variant) {
+                if(key==k){
+                    unique=false;
+                }
+            }
+        }while(!unique);
+        return k;
+    };
 };
 
 entutor.editors.radio.prototype.draw = function () {
@@ -641,7 +657,7 @@ entutor.editors.radio.prototype.draw = function () {
     this.addLink = $('<a class="editor-options-link" href="javascript:void(\'+variant\')">+variant</a>');
     this.toolbar.prepend(this.addLink);
     this.addLink.click(function () {
-        self.addVariant('','');
+        self.addVariant(self.newkey(),'');
         $(document).trigger("editor:updated");
     });
 
@@ -659,20 +675,20 @@ entutor.editors.radio.prototype.draw = function () {
 
     this.addVariant=function(key,value){
         var self=this;
-        var label=$('<span class="label" data-id="' + k + '"></class>');
+        this.variant.push({key:key, value:value});
+        var label=$('<span class="label" data-id="' + key + '"></class>');
         this.variantContainer.append(label);
         
-        var radio=$('<input type="radio" name="task' + this.id + 'radio" value="' + k + '" data-id="' + k + '">');
+        var radio=$('<input type="radio" name="task' + this.id + 'radio" value="' + key + '" data-id="' + key + '">');
         radio.click(function(){
-            this.value.correctVariant=$(this).attr('value');
+            self.value.correctVariant=$(this).attr('value');
             $(document).trigger('editor:updated')
         });
         label.append(radio);
-        if(this.value.correctVariant==radio.attr('value')){
+        if(this.value.correctVariant===radio.attr('value')){
             radio.prop('checked',true);
         }
         
-        this.variant.push({key:key, value:value});
         
         var keyinput=$('<input type="text" size="2" value="' + key + '">');
         label.append(keyinput);
@@ -973,7 +989,7 @@ entutor.editors.sound = function (parent, value) {
     this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
 
     this.value.media = this.value.media || {};
-    this.value.media.title=this.value.media.title || 'title';
+    this.value.media.title=this.value.media.title || '';
     this.value.media.mp3=this.value.media.mp3 || 'mp3 file URL';
     this.value.media.oga=this.value.media.oga || 'oga file URL';
     this.value.media.wav=this.value.media.wav || 'mp3 file URL';
@@ -999,7 +1015,7 @@ entutor.editors.sound.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    // this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
 
     // add text field

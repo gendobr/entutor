@@ -62,6 +62,7 @@ entutor.task = function (options) {
 
     $(document).unbind('audioapi:activated');
 
+    this.type='task';
 
     var self = this;
 
@@ -402,7 +403,7 @@ entutor.inputs.card = function (parent, options) {
                 }
                 //console.log(key,'beforeCorrect',allPreviousPassed);
                 
-                var childIsVisible=self.children[key].domElement.is(':visible');
+                var childIsVisible=self.children[key].isVisible();
                 if (allPreviousPassed) {
                     if(!childIsVisible){
                         //console.log(self.children[key].id,"self.children[key].show();");
@@ -511,21 +512,29 @@ entutor.inputs.card.prototype.getMaxScore = function () {
 
 entutor.inputs.card.prototype.hide = function () {
     this.domElement.hide();
+    for (var key = 0; key < this.children.length; key++) {
+        this.children[key].hide();
+    }
+};
+
+entutor.inputs.card.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.card.prototype.show = function () {
+    if(this.result.passed && this.hideOnCorrect){
+        return;
+    }
     this.domElement.show();
+    for (var key = 0; key < this.children.length; key++) {
+        this.children[key].show();
+    }
 };
 
 entutor.inputs.card.prototype.start = function(){
     for (var key = 0; key < this.children.length; key++) {
         this.children[key].start();
     }
-    //    if(this.onstart){
-    //        for(var j=0; j<this.onstart.length; j++){
-    //            this.onstart[j]();
-    //        }
-    //    }
 };
 
 entutor.inputs.card.prototype.notify = function (stack) {
@@ -663,13 +672,17 @@ entutor.inputs.html.prototype.show = function () {
     }
 };
 
+entutor.inputs.html.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+};
+
 entutor.inputs.html.prototype.start = function () {
 
     if( isNaN(this.duration) ){
         this.result.passed=true;
         this.notify([]);
     }else{
-        if(this.domElement.is(':visible')){
+        if(this.isVisible()){
             var self=this;
             setTimeout(function(){
                 //console.log('html ', self.id,' set to passed');
@@ -694,19 +707,6 @@ entutor.inputs.html.prototype.start = function () {
             };
         }
     }
-    //    if(this.domElement.is(':visible')){
-//else{
-//            // hide after this.duration msec
-//            var self=this;
-//            setTimeout(function(){
-//                self.result.passed=true;
-//                self.notify([]);
-//                if(self.hideOnCorrect){
-//                    self.hide();
-//                }
-//            },this.duration);
-//        }
-//    }
 };
 
 entutor.inputs.html.prototype.notify = function (stack) {
@@ -872,6 +872,10 @@ entutor.inputs.text.prototype.getMaxScore = function () {
 
 entutor.inputs.text.prototype.hide = function () {
     this.domElement.hide();
+};
+
+entutor.inputs.text.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.text.prototype.show = function () {
@@ -1052,6 +1056,10 @@ entutor.inputs.radio.prototype.show = function () {
     this.domElement.show();
 };
 
+entutor.inputs.radio.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+};
+
 entutor.inputs.radio.prototype.start = function () {
     //    if(this.onstart){
     //        for(var j=0; j<this.onstart.length; j++){
@@ -1222,6 +1230,10 @@ entutor.inputs.checkbox.prototype.show = function () {
     this.domElement.show();
 };
 
+entutor.inputs.checkbox.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+};
+
 entutor.inputs.checkbox.prototype.start = function () {
     //    if(this.onstart){
     //        for(var j=0; j<this.onstart.length; j++){
@@ -1287,7 +1299,8 @@ entutor.inputs.sound = function (parent, options) {
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
     this.maxScore = 1;
-    this.passed=false;
+    // this.passed=false;
+    this.passed=true;
 
     this.media = options.media || {};
     this.labels = options.labels || {};
@@ -1343,6 +1356,7 @@ entutor.inputs.sound.prototype.draw = function () {
         btn.attr('value', self.labels.paused);
         if (self.player.data().jPlayer.status.paused) {
             self.player.jPlayer("pauseOthers");
+            $('.sound_button').attr('value', self.labels.paused);
             self.player.jPlayer("play");
             btn.attr('value', self.labels.playing);
         } else {
@@ -1369,17 +1383,19 @@ entutor.inputs.sound.prototype.getMaxScore = function () {
 entutor.inputs.sound.prototype.hide = function () {
     this.domElement.hide();
     this.player.jPlayer("pause");
-    this.btn.attr('value', this.labels.paused);
-    
+    $('.sound_button').attr('value', this.labels.paused);
 };
 
 entutor.inputs.sound.prototype.show = function () {
     this.domElement.show();
-    if(this.autostart){
-        this.player.jPlayer("pauseOthers");
-        this.player.jPlayer("play");
-        this.btn.attr('value', this.labels.playing);
+    if(this.onShow){
+        this.onShow();
+        this.onShow = false;
     }
+};
+
+entutor.inputs.sound.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.sound.prototype.start = function () {
@@ -1388,10 +1404,20 @@ entutor.inputs.sound.prototype.start = function () {
     this.player.jPlayer({
         ready: function () {
             $(this).jPlayer("setMedia", self.media);
-            if(self.autostart && self.domElement.is(':visible')){
-                self.player.jPlayer("pauseOthers");
-                self.player.jPlayer("play");
-                self.btn.attr('value', self.labels.playing);
+            if(self.autostart){
+                if(self.isVisible()){
+                    self.player.jPlayer("pauseOthers");
+                    $('.sound_button').attr('value', self.labels.paused);
+                    self.player.jPlayer("play");
+                    self.btn.attr('value', self.labels.playing);            
+                }else{
+                    self.onShow=function(){
+                        self.player.jPlayer("pauseOthers");
+                        $('.sound_button').attr('value', self.labels.paused);
+                        self.player.jPlayer("play");
+                        self.btn.attr('value', self.labels.playing);            
+                    };
+                }
             }
         },
         swfPath: this.swfPath,
@@ -1405,21 +1431,16 @@ entutor.inputs.sound.prototype.start = function () {
         volume: 1,
         toggleDuration: true,
         ended: function () {
-            self.passed=true;
-            self.notify([]);
             self.btn.attr('value', self.labels.paused);
-            if(self.hideOnCorrect){
-                self.hide();
-            }
+            //            self.passed=true;
+            //            self.notify([]);
+            //            if(self.hideOnCorrect){
+            //                self.hide();
+            //            }
         }
     });
 
 
-    if(this.autostart && this.domElement.is(':visible')){
-        this.player.jPlayer("pauseOthers");
-        this.player.jPlayer("play");
-        this.btn.attr('value', this.labels.playing);
-    }
 };
 
 entutor.inputs.sound.prototype.notify = function (stack) {
@@ -1493,7 +1514,8 @@ entutor.inputs.video = function (parent, options) {
     this.supplied = this.options.supplied || "webmv, ogv, m4v";
     this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.maxScore = 1;
-    this.passed=false;
+    //this.passed=false;
+    this.passed=true;
     this.autostart=this.options.autostart||false;
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
@@ -1623,23 +1645,32 @@ entutor.inputs.video.prototype.hide = function () {
 
 entutor.inputs.video.prototype.show = function () {
     this.domElement.show();
-    if(this.autostart){
-        this.player.jPlayer("pauseOthers");
-        this.player.jPlayer("play");
-        this.btn.attr('value', this.labels.playing);
+    if(this.onShow){
+        this.onShow();
+        this.onShow = false;
     }
+};
+
+entutor.inputs.video.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.video.prototype.start = function () {
     var self=this;
-    //var player=$('#jquery_jplayer_' + self.id);
+
     this.player.jPlayer({
         ready: function () { 
             $(this).jPlayer("setMedia", self.media);
-            if(self.autostart && self.domElement.is(':visible')){
-                self.player.jPlayer("pauseOthers");
-                self.player.jPlayer("play");
-                self.btn.attr('value', self.labels.playing);
+            if(self.autostart){
+                if(self.isVisible()){
+                    self.player.jPlayer("pauseOthers");
+                    self.player.jPlayer("play");         
+                }else{
+                    self.onShow=function(){
+                        self.player.jPlayer("pauseOthers");
+                        self.player.jPlayer("play");           
+                    }
+                }
             }
         },
         swfPath: this.swfPath,
@@ -1655,20 +1686,15 @@ entutor.inputs.video.prototype.start = function () {
         volume:1,
         timeupdate: self.timeupdate,
         ended:function(){ 
-            self.passed=true; 
-            self.notify([]);
-            if(self.hideOnCorrect){
-                self.hide();
-            }
+            //            self.passed=true; 
+            //            self.notify([]);
+            //            if(self.hideOnCorrect){
+            //                self.hide();
+            //            }
         }
         
     });
 
-    if(this.autostart && this.domElement.is(':visible')){
-        this.player.jPlayer("pauseOthers");
-        this.player.jPlayer("play");
-        this.btn.attr('value', this.labels.playing);
-    }
 
 };
 
@@ -1762,6 +1788,7 @@ entutor.inputs.counter.prototype.draw = function () {
                 $(ui.helper).attr('data-top', ui.position.top);
                 $(ui.helper).attr('data-left', ui.position.left);
             }
+            self.counter.css("z-index",1000);
         },
         stop: function (event, ui) {
 
@@ -1785,16 +1812,19 @@ entutor.inputs.counter.prototype.draw = function () {
             }
             if (j === false) {
                 // revert
-                self.counter.animate(
-                        {left: self.counter.attr('data-left') + 'px', top: self.counter.attr('data-top') + 'px'},
-                "slow",
-                        "swing",
-                        function () {
-                            for (var i in entutor.dropzones) {
-                                entutor.dropzones[i].removeChild(self);
-                            }
-                        }
-                );
+                self.counterplace.append(self.counter);
+                self.counter.css({left: self.counter.attr('data-left') +'px',top: self.counter.attr('data-top')+'px'});
+                entutor.dropzones[i].removeChild(self);
+                //self.counter.animate(
+                //        {left: self.counter.attr('data-left') + 'px', top: self.counter.attr('data-top') + 'px'},
+                //        "slow",
+                //        "swing",
+                //        function () {
+                //            for (var i in entutor.dropzones) {
+                //                entutor.dropzones[i].removeChild(self);
+                //            }
+                //        }
+                //);
             } else {
                 for (var i in entutor.dropzones) {
                     if (i === j) {
@@ -1804,6 +1834,7 @@ entutor.inputs.counter.prototype.draw = function () {
                     }
                 }
             }
+            self.counter.css("z-index",1);
         }
     });
 
@@ -1878,11 +1909,13 @@ entutor.inputs.counter.prototype.show = function () {
 };
 
 entutor.inputs.counter.prototype.start = function () {
-    //    if(this.onstart){
-    //        for(var j=0; j<this.onstart.length; j++){
-    //            this.onstart[j]();
-    //        }
-    //    }
+    var w=this.counterplace.width();
+    var h=this.counterplace.height();
+    this.counterplace.css({width:w+'px', height:h+'px'});
+};
+
+entutor.inputs.counter.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.counter.prototype.notify = function (stack) {
@@ -2072,14 +2105,29 @@ entutor.inputs.dropzone.prototype.show = function () {
     this.dropzone.show();
 };
 
+entutor.inputs.dropzone.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+};
+
 entutor.inputs.dropzone.prototype.overlap = function (left, top, dLeft, dTop) {
+    // console.log("counter ",left, top, dLeft, dTop);
     var offset = this.dropzone.offset();
-    var width = this.dropzone.width();
-    var height = this.dropzone.height();
+    
+    var width = this.dropzone.width()
+            + parseInt(this.dropzone.css('padding-left'))
+            + parseInt(this.dropzone.css('padding-right'));
+    var height = this.dropzone.height()
+            + parseInt(this.dropzone.css('padding-top'))
+            + parseInt(this.dropzone.css('padding-bottom'));
+    
+    
+    // console.log("dropzone "+this.id,offset.left, offset.top, width, height);
+
     var notContains = (left >= offset.left + width)
             || (left + dLeft <= offset.left)
             || (top >= offset.top + height)
             || (top + dTop <= offset.top);
+    // console.log("notContains ",notContains);
     if (notContains) {
         return 0;
     }
@@ -2094,15 +2142,25 @@ entutor.inputs.dropzone.prototype.overlap = function (left, top, dLeft, dTop) {
 
 entutor.inputs.dropzone.prototype.setChild = function (child) {
     if (this.child && this.child.id !== child.id) {
-        this.child.counter.animate(
-           {left: this.child.counter.attr('data-left') + 'px', top: this.child.counter.attr('data-top') + 'px'},
-           "slow",
-           "swing"
-        );
+        
+        this.child.counterplace.append(this.child.counter);
+        this.child.counter.css({left: this.child.counter.attr('data-left') +'px',top: this.child.counter.attr('data-top')+'px'});
+        this.value = '';
+        this.child = false;
+        
+        //this.child.counter.animate(
+        //   {left: this.child.counter.attr('data-left') + 'px', top: this.child.counter.attr('data-top') + 'px'},
+        //   "slow",
+        //   "swing"
+        //);
     }
     this.child = child;
-    var offset = this.dropzone.offset();
-    this.child.counter.offset({top: offset.top + 1, left: offset.left + 1});
+    //    var offset = this.dropzone.offset();
+    //    this.child.counter.offset({top: offset.top + 1, left: offset.left + 1});
+    
+    this.dropzone.append(this.child.counter);
+    this.child.counter.css({left:( - parseInt(this.dropzone.css('padding-left')) ) +'px',top: (-parseInt(this.dropzone.css('padding-top')))+'px'});
+
     this.value = this.child.counter.attr('data-value');
     this.notify([]);
 };
@@ -2115,11 +2173,6 @@ entutor.inputs.dropzone.prototype.removeChild = function (child) {
 };
 
 entutor.inputs.dropzone.prototype.start = function () {
-    //    if(this.onstart){
-    //        for(var j=0; j<this.onstart.length; j++){
-    //            this.onstart[j]();
-    //        }
-    //    }
 };
 
 entutor.inputs.dropzone.prototype.notify = function (stack) {
@@ -2305,12 +2358,12 @@ entutor.inputs.playlist.prototype.show = function () {
     this.domElement.show();
 };
 
+entutor.inputs.playlist.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+};
+
 entutor.inputs.playlist.prototype.start = function () {
-    //    if(this.onstart){
-    //        for(var j=0; j<this.onstart.length; j++){
-    //            this.onstart[j]();
-    //        }
-    //    }
+
     var self=this;
     $('#jquery_jplayer_' + self.id).jPlayer({
         ready: function () {  },
@@ -2426,7 +2479,7 @@ entutor.inputs.slideshow = function (parent, options) {
     this.result={
         status: entutor.task.status.received,
         score: 1,
-        passed: false,
+        passed: true,
         maxScore: 1
     };
     // entutor.jplayers[this.id] = this;
@@ -2540,16 +2593,33 @@ entutor.inputs.slideshow.prototype.hide = function () {
 
 entutor.inputs.slideshow.prototype.show = function () {
     this.domElement.show();
-    if(this.autostart){
-        this.player.jPlayer("pauseOthers");
-        this.player.jPlayer("play");
+    if(this.onShow){
+        this.onShow();
+        this.onShow = false;
     }
+};
+
+entutor.inputs.slideshow.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.slideshow.prototype.start = function () {
     var self=this;
     this.player.jPlayer({
-        ready: function () { $(this).jPlayer("setMedia", self.media); },
+        ready: function () { 
+            $(this).jPlayer("setMedia", self.media);
+            if(self.autostart){
+                if(self.isVisible()){
+                    self.player.jPlayer("pauseOthers");
+                    self.player.jPlayer("play");         
+                }else{
+                    self.onShow=function(){
+                        self.player.jPlayer("pauseOthers");
+                        self.player.jPlayer("play");         
+                    };
+                }
+            }
+        },
         swfPath: self.swfPath,
         supplied: self.supplied,
         cssSelectorAncestor: '#jp_container_' + self.id,
@@ -2566,19 +2636,15 @@ entutor.inputs.slideshow.prototype.start = function () {
         volume:1,
         timeupdate: self.timeupdate,
         ended:function(){
-            self.result.passed=true;
-            console.log("self.notify([]);");
-            self.notify([]);
-            if(self.hideOnCorrect){
-                self.hide();
-            }
+                //            self.result.passed=true;
+                //            // console.log("self.notify([]);");
+                //            self.notify([]);
+                //            if(self.hideOnCorrect){
+                //                self.hide();
+                //            }
         }
     });
     
-    if(this.autostart && this.domElement.is(':visible')){
-        this.player.jPlayer("pauseOthers");
-        this.player.jPlayer("play");
-    }
 };
 
 entutor.inputs.slideshow.prototype.notify = function (stack) {
@@ -3373,15 +3439,14 @@ entutor.flashrecorder.prototype.show = function () {
     }
 };
 
+entutor.flashrecorder.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+};
+
 entutor.flashrecorder.prototype.start = function () {
-    if(this.autostart && this.domElement.is(':visible')){
+    if(this.autostart && this.isVisible()){
         entutor.recorderApp.startRecording($('button[data-id="'+this.id+'"]'));
     }
-    //    if(this.onstart){
-    //        for(var j=0; j<this.onstart.length; j++){
-    //            this.onstart[j]();
-    //        }
-    //    }
 };
 
 entutor.flashrecorder.prototype.notify = function (stack) {
@@ -3907,9 +3972,13 @@ entutor.html5recorder.prototype.show=function(){
     }
 };
 
+entutor.html5recorder.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+};
+
 entutor.html5recorder.prototype.start = function () {
     var self=this;
-    if(this.autostart && this.domElement.is(':visible')){
+    if(this.autostart && this.isVisible()){
         if(entutor.html5audioapi.audioRecorder){
            this.btnStart.trigger('click');
         }else{
@@ -3918,11 +3987,6 @@ entutor.html5recorder.prototype.start = function () {
             });
         }
     }
-    //    if(this.onstart){
-    //        for(var j=0; j<this.onstart.length; j++){
-    //            this.onstart[j]();
-    //        }
-    //    }
 };
 
 entutor.html5recorder.prototype.notify = function (stack) {
