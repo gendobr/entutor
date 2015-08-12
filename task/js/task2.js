@@ -1828,7 +1828,7 @@ entutor.inputs.counter.prototype.draw = function () {
             } else {
                 for (var i in entutor.dropzones) {
                     if (i === j) {
-                        entutor.dropzones[j].setChild(self);
+                        entutor.dropzones[j].addChild(self);
                     } else {
                         entutor.dropzones[i].removeChild(self);
                     }
@@ -1978,10 +1978,24 @@ entutor.inputs.dropzone = function (parent, options) {
     if (typeof (this.pattern) === 'string') {
         this.pattern = new RegExp('^ *' + this.pattern + ' *$');
     }
-    this.child = null;
     this.offset = null;
-    this.customtest = this.options.customtest || false;
-    this.value = false;
+    
+    this.customtest = false;
+    if(typeof(this.options.test)==="function"){
+        this.customtest = this.options.test;
+    } else if(typeof(this.options.test)==="string"){
+        switch(this.options.test){
+            case "testSequence": this.customtest=this.testSequence; break;
+            case "testSet": this.customtest=this.testSet; break;
+        }
+    }
+    if(this.customtest===false){
+        this.customtest=this.testSet;
+    }
+
+    this.multiple = this.options.multiple || false;
+    this.child = [];
+    this.value = [];
     this.autocheck=this.options.autocheck||false;
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
@@ -2005,8 +2019,30 @@ entutor.inputs.dropzone.prototype.removeFeedback = function () {
     this.dropzone.removeClass('task-dropzone-correct').removeClass('task-dropzone-error');
 };
 
+entutor.inputs.dropzone.prototype.testSequence=function(){
+    var isCorrect=true;
+    var result = {
+            status: entutor.task.status.received,
+            score: (isCorrect ? this.maxScore : 0),
+            passed: isCorrect,
+            maxScore: this.maxScore
+    };
+    return result;
+};
+
+entutor.inputs.dropzone.prototype.testSet=function(){
+    var isCorrect=true;
+    var result = {
+            status: entutor.task.status.received,
+            score: (isCorrect ? this.maxScore : 0),
+            passed: isCorrect,
+            maxScore: this.maxScore
+    };
+    return result;
+};
+
 entutor.inputs.dropzone.prototype.test = function () {
-    if (this.value === false) {
+    if (this.value.length === 0) {
         this.result = {
             status: entutor.task.status.received,
             score: 0,
@@ -2015,14 +2051,6 @@ entutor.inputs.dropzone.prototype.test = function () {
         };
     } else if (this.customtest) {
         this.result = this.customtest(this.value);
-    } else if (this.pattern) {
-        var isCorrect = this.pattern.test(this.value);
-        this.result = {
-            status: entutor.task.status.received,
-            score: (isCorrect ? this.maxScore : 0),
-            passed: isCorrect,
-            maxScore: this.maxScore
-        };
     } else {
         this.result = {
             status: entutor.task.status.received,
@@ -2071,7 +2099,7 @@ entutor.inputs.dropzone.prototype.draw = function () {
 
     var self = this;
 
-    this.dropzone = $('<span id="task' + this.id + 'dropzone" class="task-dropzone" style="width:' + (this.options.size || '4') + 'em;"></span>');
+    this.dropzone = $('<span id="task' + this.id + 'dropzone" class="task-dropzone" style="min-width:' + (this.options.size || '4') + 'em;"></span>');
 
     if (this.precondition === 'beforeCorrect') {
         this.hide();
@@ -2140,35 +2168,49 @@ entutor.inputs.dropzone.prototype.overlap = function (left, top, dLeft, dTop) {
     return (xMax - xMin) * (yMax - yMin);
 };
 
-entutor.inputs.dropzone.prototype.setChild = function (child) {
-    if (this.child && this.child.id !== child.id) {
-        
-        this.child.counterplace.append(this.child.counter);
-        this.child.counter.css({left: this.child.counter.attr('data-left') +'px',top: this.child.counter.attr('data-top')+'px'});
-        this.value = '';
-        this.child = false;
-        
-        //this.child.counter.animate(
-        //   {left: this.child.counter.attr('data-left') + 'px', top: this.child.counter.attr('data-top') + 'px'},
-        //   "slow",
-        //   "swing"
-        //);
-    }
-    this.child = child;
-    //    var offset = this.dropzone.offset();
-    //    this.child.counter.offset({top: offset.top + 1, left: offset.left + 1});
+entutor.inputs.dropzone.prototype.addChild = function (child) {
     
-    this.dropzone.append(this.child.counter);
-    this.child.counter.css({left:( - parseInt(this.dropzone.css('padding-left')) ) +'px',top: (-parseInt(this.dropzone.css('padding-top')))+'px'});
+    // do not add the same child again
+    for(var i=0; i<this.child.length; i++){
+        if(this.child[i].id === child.id){
+            return;
+        }
+    }
 
-    this.value = this.child.counter.attr('data-value');
+    // 
+    if(!this.multiple && this.child.length>0) {
+        for(var i=0; i<this.child.length; i++){
+            this.child[i].counterplace.append(this.child[i].counter);
+            this.child[i].counter.css({
+                left: this.child[i].counter.attr('data-left') +'px',
+                top: this.child[i].counter.attr('data-top')+'px'
+            });
+        }
+        this.value = [];
+        this.child = [];
+    }
+    
+    this.child.push(child);
+    
+    this.dropzone.append(child.counter);
+    child.counter.css({
+        left:( - parseInt(this.dropzone.css('padding-left')) ) +'px',
+        top: (-parseInt(this.dropzone.css('padding-top')))+'px'
+    });
+
+    this.value.push( child.counter.attr('data-value') );
+    
+    console.log(this.value, this.child);
     this.notify([]);
 };
 
 entutor.inputs.dropzone.prototype.removeChild = function (child) {
-    if (this.child && this.child.id === child.id) {
-        this.value = '';
-        this.child = false;
+   for(var i=0; i<this.child.length; i++){
+        if(this.child[i].id === child.id){
+            this.value.splice(i,1);
+            this.child.splice(i,1);
+            return;
+        }
     }
 };
 
