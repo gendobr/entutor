@@ -36,9 +36,14 @@
                         <option value="../snippet/002v.json">2в</option>
                         <!-- <option value="../snippet/003.json">3</option> -->
                         <option value="../snippet/004.json">4</option>
-                        
+                        <option value="../snippet/005.json">5</option>
+                        <option value="../snippet/006.json">6</option>
                         <option value="../snippet/007.json">7</option>
                         <option value="../snippet/008.json">8</option>
+                        <option value="../snippet/009.json">9</option>
+                        <option value="../snippet/009a.json">9a</option>
+                        <option value="../snippet/009b.json">9б</option>
+                        <option value="../snippet/010.json">10</option>
                     </select>
                 </div>
                 <h3>Editor</h3>
@@ -105,7 +110,7 @@
             $('#snippet').change(function(){ 
                 var s=$('#snippet').val();
                 if(s.length>0){
-                    entutor.loadEditor(s,'#taskEditor');
+                    entutor.loadEditor(s+'?t='+Math.random(),'#taskEditor');
                     var a=document.getElementById('download');
                     a.href = "javascript:void('download')";
                 }

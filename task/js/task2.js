@@ -1335,7 +1335,7 @@ entutor.inputs.sound.prototype.draw = function () {
     html += '		</div>';
     html += '	</div>';
     html += '</div>';
-    html += '<span id="sound_' + this.id + '" class="task-sound"></span>';
+    html += '<span id="sound_' + this.id + '" class="task-sound-button"></span>';
 
     this.domElement = $('<span id="task' + this.id + '" class="task-sound ' + this.classes + '"></span>');
     this.domElement.append($(html));
@@ -1782,7 +1782,7 @@ entutor.inputs.counter.prototype.draw = function () {
     }
     this.counter.draggable({
         containment: 'document',
-        // revert: true,
+        //revert: true,
         start: function (event, ui) {
             if (!$(ui.helper).attr('data-top')) {
                 $(ui.helper).attr('data-top', ui.position.top);
@@ -1840,17 +1840,24 @@ entutor.inputs.counter.prototype.draw = function () {
 
     // only for touchscreens
     this.counter.click(function(){
-        if(entutor.currentCounter && entutor.currentCounter.id===self.id){
-            entutor.currentCounter.counter.removeClass('task-counter-active');
-            entutor.currentCounter=false;
-        }else{
-            if(entutor.currentCounter){
+        if(entutor.currentCounter){
+            if(entutor.currentCounter.id===self.id){
+                entutor.currentCounter.counter.removeClass('task-counter-active');
+                entutor.currentCounter=false;                
+                
+            }else{
                 entutor.currentCounter.counter.removeClass('task-counter-active');
                 entutor.currentCounter=false;
+
+                entutor.currentCounter=self;
+                entutor.currentCounter.counter.addClass('task-counter-active');
+                if (!entutor.currentCounter.counter.attr('data-top')) {
+                    var position = entutor.currentCounter.counter.position();
+                    entutor.currentCounter.counter.attr('data-top',  position.top);
+                    entutor.currentCounter.counter.attr('data-left', position.left);
+                }
             }
-
-
-
+        }else{
             entutor.currentCounter=self;
             entutor.currentCounter.counter.addClass('task-counter-active');
             if (!entutor.currentCounter.counter.attr('data-top')) {
@@ -1858,7 +1865,7 @@ entutor.inputs.counter.prototype.draw = function () {
                 entutor.currentCounter.counter.attr('data-top',  position.top);
                 entutor.currentCounter.counter.attr('data-left', position.left);
             }        
-        }
+        }        
     });
     this.counterplace.append(this.counter);
 
@@ -1869,17 +1876,14 @@ entutor.inputs.counter.prototype.draw = function () {
         }
         if(entutor.currentCounter){
             entutor.currentCounter.counter.removeClass('task-counter-active');
-            entutor.currentCounter.counter.animate(
-                {left: entutor.currentCounter.counter.attr('data-left') + 'px', top: entutor.currentCounter.counter.attr('data-top') + 'px'},
-                "slow",
-                "swing",
-                function () {
-                    for (var i in entutor.dropzones) {
-                        entutor.dropzones[i].removeChild(entutor.currentCounter);
-                    }
-                    entutor.currentCounter=false;
-                }
-            );
+            for (var i in entutor.dropzones) {
+                entutor.dropzones[i].removeChild(entutor.currentCounter);
+            }
+            entutor.currentCounter.counterplace.append(entutor.currentCounter.counter);
+            entutor.currentCounter.counter.css({left: entutor.currentCounter.counter.attr('data-left') +'px',top: entutor.currentCounter.counter.attr('data-top')+'px'});
+            
+            entutor.currentCounter=false;
+
         }
     });
 
@@ -1974,10 +1978,17 @@ entutor.inputs.dropzone = function (parent, options) {
     this.precondition = this.options.precondition || 'none';
     this.maxScore = (typeof (this.options.maxScore) !== 'undefined') ? this.options.maxScore : 1;
     this.result = null;
-    this.pattern = this.options.pattern || null;
-    if (typeof (this.pattern) === 'string') {
-        this.pattern = new RegExp('^ *' + this.pattern + ' *$');
+    
+    this.options.pattern = this.options.pattern || '';
+    var pattern = this.options.pattern.split("\n");
+    this.pattern=[];
+    for(var i=0; i<pattern.length; ++i){
+        if(pattern[i].length > 0 ){
+            //this.pattern.push( new RegExp('^ *' + ( pattern[i].replace('/ +/',' +') ) + ' *$') );
+            this.pattern.push( new RegExp('^' + pattern[i] + '$') );
+        }
     }
+    
     this.offset = null;
     
     this.customtest = false;
@@ -2019,25 +2030,63 @@ entutor.inputs.dropzone.prototype.removeFeedback = function () {
     this.dropzone.removeClass('task-dropzone-correct').removeClass('task-dropzone-error');
 };
 
-entutor.inputs.dropzone.prototype.testSequence=function(){
-    var isCorrect=true;
+entutor.inputs.dropzone.prototype.testSequence=function(value){
+
     var result = {
-            status: entutor.task.status.received,
-            score: (isCorrect ? this.maxScore : 0),
-            passed: isCorrect,
-            maxScore: this.maxScore
+        status: entutor.task.status.received,
+        score: 0,
+        passed: false,
+        maxScore: this.maxScore,
+        subresult:[]
     };
+    
+    for(var iP=0; iP<this.pattern.length; ++iP){
+        if(typeof(value[iP])==='undefined'){
+            result.subresult[iP]=false;
+        }else{
+            result.subresult[iP]=this.pattern[iP].test(value[iP]);
+        }
+    }
+
+    var isCorrect=result.subresult[0];
+    for(var iP=1; iP<this.pattern.length; ++iP){
+        isCorrect = (result.subresult[iP] && isCorrect);
+    }
+    
+    result.score= (isCorrect ? this.maxScore : 0);
+    result.passed=isCorrect;
+    
     return result;
 };
 
-entutor.inputs.dropzone.prototype.testSet=function(){
-    var isCorrect=true;
+entutor.inputs.dropzone.prototype.testSet=function(value){
+
     var result = {
-            status: entutor.task.status.received,
-            score: (isCorrect ? this.maxScore : 0),
-            passed: isCorrect,
-            maxScore: this.maxScore
+        status: entutor.task.status.received,
+        score: 0,
+        passed: false,
+        maxScore: this.maxScore,
+        subresult:[]
     };
+    
+    for(var iP=0; iP<this.pattern.length; ++iP){
+        result.subresult[iP]=false;
+        for(var iV=0; iV<value.length; iV++){
+            if(this.pattern[iP].test(value[iV])){
+                result.subresult[iP]=true;
+                break;
+            }
+        }
+    }
+
+    var isCorrect=result.subresult[0];
+    for(var iP=1; iP<this.pattern.length; ++iP){
+        isCorrect = (result.subresult[iP] && isCorrect);
+    }
+    
+    result.score= (isCorrect ? this.maxScore : 0);
+    result.passed=isCorrect;
+    
     return result;
 };
 
@@ -2080,14 +2129,19 @@ entutor.inputs.dropzone.prototype.test = function () {
     }
 
     if (this.options.ejectCounterOnError && this.result.passed !== true) {
-        if (this.child && this.child.counter) {
-            this.child.counter.animate(
-                    {left: this.child.counter.attr('data-left') + 'px', top: this.child.counter.attr('data-top') + 'px'},
-                    "slow",
-                    "swing"
-            );
+
+        for(var iV=this.value.length-1; iV>=0; --iV){
+            var isCorrect=false;
+            for(var iP=0; iP<this.pattern.length; ++iP){
+                isCorrect = (this.pattern[iP].test(this.value[iV]) || isCorrect );
+            }
+            if(!isCorrect){
+                // revert
+                this.child[iV].counterplace.append(this.child[iV].counter);
+                this.child[iV].counter.css({left: this.child[iV].counter.attr('data-left') +'px',top: this.child[iV].counter.attr('data-top')+'px'});
+                this.removeChild(this.child[iV]);
+            }
         }
-        this.removeChild(this.child);
     }
     this.previousValue=this.value;
     if(this.parent && this.parent.testFinishedCallback){
@@ -2106,9 +2160,9 @@ entutor.inputs.dropzone.prototype.draw = function () {
     }
 
     // only for touchscreens
-    this.dropzone.click(function(){
-        if(entutor.currentCounter){
-            self.setChild(entutor.currentCounter);
+    this.dropzone.click(function(e){
+        if(entutor.currentCounter && e.target===this){
+            self.addChild(entutor.currentCounter);
             entutor.currentCounter.counter.removeClass('task-counter-active');
             entutor.currentCounter=false;
         }
@@ -2193,14 +2247,15 @@ entutor.inputs.dropzone.prototype.addChild = function (child) {
     this.child.push(child);
     
     this.dropzone.append(child.counter);
-    child.counter.css({
-        left:( - parseInt(this.dropzone.css('padding-left')) ) +'px',
-        top: (-parseInt(this.dropzone.css('padding-top')))+'px'
-    });
+    //    child.counter.css({
+    //        left:( - parseInt(this.dropzone.css('padding-left')) ) +'px',
+    //        top: (-parseInt(this.dropzone.css('padding-top')))+'px'
+    //    });
+    child.counter.css({left:'0px',top: '0px'});
 
     this.value.push( child.counter.attr('data-value') );
     
-    console.log(this.value, this.child);
+    // console.log(this.value, this.child);
     this.notify([]);
 };
 
@@ -2209,6 +2264,7 @@ entutor.inputs.dropzone.prototype.removeChild = function (child) {
         if(this.child[i].id === child.id){
             this.value.splice(i,1);
             this.child.splice(i,1);
+            this.notify([]);
             return;
         }
     }
@@ -2541,7 +2597,7 @@ entutor.inputs.slideshow.prototype.draw = function () {
 
     var html = "";
 
-    html+='<div id="taskPresentationText'+this.id+'" class="taskPresentationText"></div>';
+    html+='<div id="taskPresentationText'+this.id+'" class="taskPresentationText"></div><div></div>';
     html+='<div id="jp_container_'+this.id+'" class="jp-audio" role="application" aria-label="media player">';
     html+='     <div id="jquery_jplayer_'+this.id+'" class="jp-jplayer"></div>';
     html+='	<div class="jp-type-single">';

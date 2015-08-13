@@ -1,4 +1,5 @@
 {
+    "id":"017",
     "inputs":{
         "type":"card",
         "arrange":"horizontal",
@@ -26,9 +27,10 @@
             { 
                 "type":"dropzone",
                 "size":"8",
-                "pattern":"val1",
+                "pattern":"val1\nval2",
                 "ejectCounterOnError":true,
-                "multiple":true
+                "multiple":true,
+                "autocheck":true
             }
         ]
     }

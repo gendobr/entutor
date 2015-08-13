@@ -1,6 +1,6 @@
 {
  "presentation": {
-  "innerHtml": ""
+  "innerHtml": "Сценарий (тип 10)\n<br>\n1. На экране появляется образец выполнения задания: карточка с активным курсором. \n   Диктор произносит букву, например, Aa [eɪ]. С помощью анимационного эффекта \n   в строке ввода появляются прописная и строчная буквы Аа.\n<br>\n2. На экране появляются 8 карточек, которые становятся активными по очереди. \n<br>\n3. Диктор произносит буквы, а студент вводит каждую пару букв \n  (прописную и строчную) в активную карточку.\n<br>\n4. После ввода каждой пары букв осуществляется проверка.\n<br>\n5. Если пара букв введена правильно, то карточка загорается зеленым. \n   Активной становится следующая карточка, и диктор произносит следующую букву.\n<br>\n6. Если пара букв введена неправильно, то карточка загорается оранжевым. \n   Введенные буквы исчезают, и диктор произносит эту же букву еще раз.\n<br>\n7. «Правильный ответ» становится активным после второй неудачной попытки. \n   При нажатии на кнопку «Правильный ответ» карточки заполняются правильными \n   буквами, которые исчезают через 2 секунды. Студенту необходимо выполнить задание повторно. \n<br>\n8. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n<br>\n\n"
  },
  "inputs": {
   "type": "card",
@@ -8,7 +8,7 @@
    {
     "type": "card",
     "classes": "",
-    "arrange": "vertical",
+    "arrange": "horizontal",
     "taskPassScore": 1,
     "precondition": "none",
     "customtest": "",
@@ -35,7 +35,7 @@
       "precondition": "none",
       "hideOnCorrect": true,
       "duration": "4",
-      "innerHtml": "<input type=text size=2>"
+      "innerHtml": "<input type=text size=2 disabled=true>"
      },
      {
       "type": "html",
@@ -43,7 +43,7 @@
       "precondition": "beforeCorrect",
       "hideOnCorrect": true,
       "duration": "1",
-      "innerHtml": "<input type=text size=2 value=\"A\">"
+      "innerHtml": "<input type=text size=2 value=\"A\" disabled=true>"
      },
      {
       "type": "html",
@@ -51,7 +51,82 @@
       "precondition": "beforeCorrect",
       "hideOnCorrect": true,
       "duration": "2",
-      "innerHtml": "<input type=text size=2 value=\"Aa\">"
+      "innerHtml": "<input type=text size=2 value=\"Aa\" disabled=true>"
+     }
+    ],
+    "autocheck": true
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-02.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-02.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-02.wav"
+      }
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "Aa",
+      "value": "",
+      "size": "5",
+      "hint": "Aa"
+     }
+    ],
+    "autocheck": true
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "Aa",
+      "value": "",
+      "size": "5",
+      "hint": "Aa",
+      "autocheck": true
      }
     ]
    }

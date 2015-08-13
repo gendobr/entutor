@@ -703,7 +703,9 @@ entutor.editors.radio.prototype.draw = function () {
             }
         });
 
-        var valueinput=$('<input type="text" size="17" value="' + value + '">');
+        //var valueinput=$('<input type="text" size="17" value="' + value + '">');
+        var valueinput=$('<textarea rows="3"></textarea>');
+        valueinput.val(value);
         label.append(valueinput);
         valueinput.change(function(ev){
             var newValue=$(ev.target).val();
@@ -907,9 +909,17 @@ entutor.editors.dropzone = function (parent, value) {
 
     this.value.classes = this.value.classes || '';
     this.value.precondition = this.value.precondition || 'none';
-    this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
+    this.value.test = this.value.test || 'testSet';
+    
+    
+    
+    this.value.hideOnCorrect = this.value.hideOnCorrect ? true :false;
+    this.value.ejectCounterOnError = this.value.ejectCounterOnError ? true :false;
 
-    this.value.pattern = this.value.pattern || 'type correct answer here';
+
+
+
+    this.value.pattern = this.value.pattern || 'type correct answers here';
     this.value.ejectCounterOnError = typeof(this.value.ejectCounterOnError)!=='undefined' ? this.value.ejectCounterOnError : false;
     this.value.size = this.value.size || '5';
 };
@@ -931,17 +941,22 @@ entutor.editors.dropzone.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.string(this.value, 'pattern', 'Correct value*',function(value){self.input.val(value);}));
+    this.optionBlock.append(entutor.components.text(this.value, 'pattern', 'Correct values<br>(one per string)',function(value){self.input.val(value);}));
+    this.optionBlock.append(entutor.components.select(this.value, 'test', 'Test rule', {'testSet': 'testSet', 'testSequence': 'testSequence'} /*, callback */));
     this.optionBlock.append(entutor.components.string(this.value, 'value', 'Initial value'));
     this.optionBlock.append(entutor.components.string(this.value, 'size', 'Width',function(value){self.input.attr('size',value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'multiple', 'Accept multiple counters'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'ejectCounterOnError', 'Eject counter on error'));
+
+
 
     // add text field
-    this.input = $("<input type=text class=\"editor-html-content\" size=\""+this.value.size+"\" disabled=\"true\">");
+    this.input = $("<textarea class=\"editor-html-content\" disabled=\"true\">");
     this.container.append(this.input);
     this.input.val(this.value.pattern);
     this.input.change(function () { self.value.pattern= self.input.val();   $(document).trigger("editor:updated");  });

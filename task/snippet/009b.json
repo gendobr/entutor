@@ -1,0 +1,88 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 9б)\n<br>\n1.\tВ верхней части экрана предложение с пропуском, \n        на месте которого пустая ячейка. В нижней части экрана 2 карточки с формами глагола. \n\n<br>\n2.\tСтуденту необходимо подтянуть карточку с выбранной формой глагола в пустую ячейку \n        и нажать кнопку «Проверить», которая становится активной, когда ячейка заполнена.\n\n<br>\n3.\tЕсли форма глагола выбрана правильно, то ячейка загорается зеленым цветом, \n        если неправильно – то ячейка загорается оранжевым и форма глагола исчезает из ячейки.\n\n<br>\n4.\tПосле первой неудачной попытки кнопка «Правильный ответ» становится активной. \n        Она показывает правильно заполненную карточку в течение 2 секунд. \n        После этого вставленный знак исчезает. После этого студент должен заполнить эту карточку еще раз.\n\n<br>\n5.\tПосле окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».   \n<br>\n\n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "Степ та воля —"
+     },
+     {
+      "type": "dropzone",
+      "classes": "",
+      "precondition": "none",
+      "test": "testSet",
+      "hideOnCorrect": false,
+      "ejectCounterOnError": true,
+      "pattern": "козацька",
+      "size": "5"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "доля."
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "козацька",
+      "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "12",
+      "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "23",
+      "value": ""
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

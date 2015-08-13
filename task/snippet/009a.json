@@ -1,0 +1,217 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 9а)<br>\n1. На экране появляется образец выполнения задания: карточка с изображением \n   прописной буквы «А». Рядом пустое место с активным курсором. \n   С помощью анимационного эффекта пробел заполняется строчной буквой «а». \n   Далее с помощью анимационного эффекта перетаскивания карточка заполняется \n   соответствующим знаком транскрипции «[æ]», расположенным в нижней части экрана.\n<br>\n2. На экране появляются карточки: на каждой из них изображена одна из изученных \n   букв (прописная или строчная). На месте пропуска активный курсор для ввода. \n   В нижней части экрана изображены транскрипционные знаки.\n<br>\n3. Студенту необходимо сформировать карточки путем ввода букв (строчных или прописных) \n   и перетаскивания соответствующих им знаков транскрипции из нижней части экрана.\n<br>\n4. Когда карточки сформированы, программа проверяет соответствие букв и транскрипционных знаков. Соответствующие буквы и транскрипционные знаки в карточках становятся зелеными.\n<br>\n5. Если студент допустил ошибку, то карточка (карточки) загорается (загораются) оранжевым. Неправильно введенные буквы исчезают, а знаки транскрипции возвращаются в нижнюю часть экрана. Снова появляется активный курсор для ввода.\n<br>\n6. После двух неудачных попыток кнопка «Правильный ответ» становится активной. «Правильный ответ» показывает правильно заполненную карточку в течение 2 секунд. После этого вставленные буквы исчезают, транскрипционные знаки возвращаются в нижнюю часть экрана. Студент выполняет задание еще раз.\n<br>\n7. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "a",
+      "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "b",
+      "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "c",
+      "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "d",
+      "value": ""
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "A"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "a",
+      "value": "",
+      "size": "5",
+      "resetOnError": true
+     },
+     {
+      "type": "dropzone",
+      "classes": "",
+      "precondition": "none",
+      "test": "testSet",
+      "hideOnCorrect": false,
+      "ejectCounterOnError": true,
+      "pattern": "a",
+      "size": "5"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "B"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "b",
+      "value": "",
+      "size": "5",
+      "resetOnError": true
+     },
+     {
+      "type": "dropzone",
+      "classes": "",
+      "precondition": "none",
+      "test": "testSet",
+      "hideOnCorrect": false,
+      "ejectCounterOnError": true,
+      "pattern": "b",
+      "size": "5"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "C"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "c",
+      "value": "",
+      "size": "5",
+      "resetOnError": true
+     },
+     {
+      "type": "dropzone",
+      "classes": "",
+      "precondition": "none",
+      "test": "testSet",
+      "hideOnCorrect": false,
+      "ejectCounterOnError": true,
+      "pattern": "c",
+      "size": "5"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "D"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "d",
+      "value": "",
+      "size": "5",
+      "resetOnError": true
+     },
+     {
+      "type": "dropzone",
+      "classes": "",
+      "precondition": "none",
+      "test": "testSet",
+      "hideOnCorrect": false,
+      "ejectCounterOnError": true,
+      "pattern": "d",
+      "size": "5"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}
