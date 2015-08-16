@@ -1,0 +1,114 @@
+{
+ "presentation": {
+  "innerHtml": ""
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "slovo1, slovo2, slovo3, slovo4, slovo5"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "slovo1, slovo2, slovo3",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": "0.6",
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "slovo6 slovo7 slovo8 slovo9 slovo10"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "slovo6 slovo7 slovo8",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": "0.6",
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "slovo11 slovo12 slovo13 slovo14"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "slovo11 slovo12 slovo13",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": "0.6",
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": false
+ }
+}

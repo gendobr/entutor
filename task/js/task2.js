@@ -19,6 +19,8 @@ entutor.recorders={};
 entutor.currentCounter = false;
 
 entutor.debug = true;
+entutor.verboseTest = false;
+entutor.verbosePrecondition = false;
 
 
 
@@ -384,6 +386,9 @@ entutor.inputs.card = function (parent, options) {
 
 
             
+            if(entutor.verboseTest){
+                console.log('verboseTest',self.id, self.type, self.result.passed);
+            }
             if(self.parent && self.parent.testFinishedCallback){
                 self.parent.testFinishedCallback(self.id, self.result);
             }
@@ -392,8 +397,6 @@ entutor.inputs.card = function (parent, options) {
         // apply child pre-conditions
         for (var key = 0; key < self.children.length; key++) {
             if (self.children[key].precondition === 'beforeCorrect') {
-                
-                // console.log(self.children[key].id);
 
                 var allPreviousPassed = true;
                 for (var i = 0; i < key; i++) {
@@ -401,17 +404,23 @@ entutor.inputs.card = function (parent, options) {
                         allPreviousPassed = false;
                     }
                 }
-                //console.log(key,'beforeCorrect',allPreviousPassed);
+                if(entutor.verbosePrecondition){
+                    console.log('verbosePrecondition',self.children[key].id, self.children[key].type, 'beforeCorrect',allPreviousPassed);
+                }
                 
                 var childIsVisible=self.children[key].isVisible();
                 if (allPreviousPassed) {
                     if(!childIsVisible){
-                        //console.log(self.children[key].id,"self.children[key].show();");
+                        if(entutor.verbosePrecondition){
+                            console.log('verbosePrecondition',self.children[key].id,"self.children[key].show();");
+                        }
                         self.children[key].show();
                     }
                 } else {
                     if(childIsVisible){
-                        //console.log(self.children[key].id, "self.children[key].hide();");
+                        if(entutor.verbosePrecondition){
+                            console.log('verbosePrecondition',self.children[key].id, "self.children[key].hide();");
+                        }
                         self.children[key].hide();
                     }
                 }
@@ -522,7 +531,7 @@ entutor.inputs.card.prototype.isVisible = function(){
 };
 
 entutor.inputs.card.prototype.show = function () {
-    if(this.result.passed && this.hideOnCorrect){
+    if(this.result.passed===true && this.hideOnCorrect){
         return;
     }
     this.domElement.show();
@@ -635,6 +644,9 @@ entutor.inputs.html = function (parent, options) {
 };
 
 entutor.inputs.html.prototype.test = function () {
+    if(entutor.verboseTest){
+        console.log('verboseTest',this.id, this.type, this.result.passed);
+    }
     if(this.parent && this.parent.testFinishedCallback){
         this.parent.testFinishedCallback(this.id, this.result);
     }
@@ -663,7 +675,7 @@ entutor.inputs.html.prototype.hide = function () {
 };
 
 entutor.inputs.html.prototype.show = function () {
-    if(this.result.passed && this.hideOnCorrect){
+    if(this.result.passed===true && this.hideOnCorrect){
         return;
     }
     this.domElement.show();
@@ -836,6 +848,9 @@ entutor.inputs.text.prototype.test = function () {
     }
     
     this.previousValue=this.value;
+    if(entutor.verboseTest){
+        console.log('verboseTest',this.id, this.type, this.result.passed);
+    }
     if(this.parent && this.parent.testFinishedCallback){
         this.parent.testFinishedCallback(this.id, this.result);
     }
@@ -1008,6 +1023,9 @@ entutor.inputs.radio.prototype.test = function () {
         }
     }
     this.previousValue=this.value;
+    if(entutor.verboseTest){
+        console.log('verboseTest',this.id, this.type, this.result.passed);
+    }
     if(this.parent && this.parent.testFinishedCallback){
         this.parent.testFinishedCallback(this.id, this.result);
     }
@@ -1187,6 +1205,9 @@ entutor.inputs.checkbox.prototype.test = function () {
         }
     }
     this.previousValue=this.value;
+    if(entutor.verboseTest){
+        console.log('verboseTest',this.id, this.type, this.result.passed);
+    }
     if(this.parent && this.parent.testFinishedCallback){
         this.parent.testFinishedCallback(this.id, this.result);
     }
@@ -1317,6 +1338,9 @@ entutor.inputs.sound.prototype.test = function (testFinishedCallback) {
         passed: this.passed,
         maxScore: 0
     };
+    if(entutor.verboseTest){
+        console.log('verboseTest',this.id, this.type, this.result.passed);
+    }
     if(this.parent && this.parent.testFinishedCallback){
         this.parent.testFinishedCallback(this.id, this.result);
     }
@@ -1563,6 +1587,9 @@ entutor.inputs.video.prototype.test = function (testFinishedCallback) {
         passed: this.passed,
         maxScore: this.maxScore
     };
+    if(entutor.verboseTest){
+        console.log('verboseTest',this.id, this.type, this.result.passed);
+    }
     if(this.parent && this.parent.testFinishedCallback){
         this.parent.testFinishedCallback(this.id, this.result);
     }
@@ -1765,6 +1792,9 @@ entutor.inputs.counter.prototype.test = function (testFinishedCallback) {
         passed: true,
         maxScore: 0
     };
+    if(entutor.verboseTest){
+        console.log('verboseTest',this.id, this.type, this.result.passed);
+    }
     if(this.parent && this.parent.testFinishedCallback){
         this.parent.testFinishedCallback(this.id, this.result);
     }
@@ -2144,6 +2174,9 @@ entutor.inputs.dropzone.prototype.test = function () {
         }
     }
     this.previousValue=this.value;
+    if(entutor.verboseTest){
+        console.log('verboseTest',this.id, this.type, this.result.passed);
+    }
     if(this.parent && this.parent.testFinishedCallback){
         this.parent.testFinishedCallback(this.id, this.result);
     }
@@ -2372,6 +2405,9 @@ entutor.inputs.playlist.prototype.test = function (testFinishedCallback) {
         passed: true,
         maxScore: 0
     };
+    if(entutor.verboseTest){
+        console.log('verboseTest',this.id, this.type, this.result.passed);
+    }
     if(this.parent && this.parent.testFinishedCallback){
         this.parent.testFinishedCallback(this.id, this.result);
     }
@@ -2585,6 +2621,9 @@ entutor.inputs.slideshow = function (parent, options) {
 
 entutor.inputs.slideshow.prototype.test = function () {
 
+    if(entutor.verboseTest){
+        console.log('verboseTest',this.id, this.type, this.result.passed);
+    }
     if(this.parent && this.parent.testFinishedCallback){
         this.parent.testFinishedCallback(this.id, this.result);
     }
@@ -3402,6 +3441,9 @@ entutor.flashrecorder.prototype.test = function () {
 
     // don't post empty value
     if(!this.value){
+        if(entutor.verboseTest){
+            console.log('verboseTest',this.id, this.type, this.result.passed);
+        }
         if(this.parent && this.parent.testFinishedCallback){
             this.parent.testFinishedCallback(this.id, this.result);
         }
@@ -3410,6 +3452,9 @@ entutor.flashrecorder.prototype.test = function () {
 
     // don't post the same sound again
     if( this.result && this.result.details ){
+        if(entutor.verboseTest){
+            console.log('verboseTest',this.id, this.type, this.result.passed);
+        }
         if(this.parent && this.parent.testFinishedCallback){
             this.parent.testFinishedCallback(this.id, this.result);
         }
@@ -3489,6 +3534,9 @@ entutor.flashrecorder.prototype.test = function () {
             }
         }
 
+        if(entutor.verboseTest){
+            console.log('verboseTest',self.id, self.type, self.result.passed);
+        }
         if(self.parent && self.parent.testFinishedCallback){
             self.parent.testFinishedCallback(self.id, self.result);
         }
@@ -3854,9 +3902,14 @@ entutor.html5recorder.prototype.draw = function () {
         this.wordsDom.append(this.feedback[words[i]]);
     }    
      
+    
+    var interfaceBlock=$('<span class="task-audio-interface"></span>');
+    this.domElement.append(interfaceBlock);
+     
+    
     // audio indicator
     this.indicator=$('<canvas id="canvas-' + this.id + '" width="'+this.indicatorWidth+'" class="task-audio-indicator" height="'+this.indicatorHeight+'"></canvas>');
-    this.domElement.append(this.indicator);
+    interfaceBlock.append(this.indicator);
     this.indicator.hide();
 
     // button to start recording
@@ -3893,7 +3946,7 @@ entutor.html5recorder.prototype.draw = function () {
     });
 
 
-    this.domElement.append(this.btnStart);
+    interfaceBlock.append(this.btnStart);
 
     // button to stop recording
     this.btnStop=$('<input  type="button" data-audio-id="' + this.id + '" class="task-audio-stop-record">');
@@ -3914,12 +3967,12 @@ entutor.html5recorder.prototype.draw = function () {
         }
     });
     this.btnStop.hide();
-    this.domElement.append(this.btnStop);
+    interfaceBlock.append(this.btnStop);
     
     
     // draw countdown timer
     this.countDown=$('<span class="audio-countdown">'+this.duration+'</span>');
-    this.domElement.append(this.countDown);
+    interfaceBlock.append(this.countDown);
     this.countDown.hide();
         
     this.configElement=$('<span class="audio-config" id="config-' + this.id + '" data-string="" data-audio-id="' + this.id + '"></span>');
@@ -3942,6 +3995,9 @@ entutor.html5recorder.prototype.test = function () {
     //console.log("html5recorder.test:",this.id);
     // don't post empty value
     if(!this.value){
+        if(entutor.verboseTest){
+            console.log('verboseTest',this.id, this.type, this.result.passed);
+        }
         if(this.parent && this.parent.testFinishedCallback){
             this.parent.testFinishedCallback(this.id, this.result);
         }
@@ -3951,6 +4007,9 @@ entutor.html5recorder.prototype.test = function () {
     //console.log("html5recorder.test.value is set:");
     // don't post the same sound again
     if( this.result && this.result.details ){
+        if(entutor.verboseTest){
+            console.log('verboseTest',this.id, this.type, this.result.passed);
+        }
         if(this.parent && this.parent.testFinishedCallback){
             this.parent.testFinishedCallback(this.id, this.result);
         }
@@ -4042,6 +4101,9 @@ entutor.html5recorder.prototype.test = function () {
                     self.feedback[w].removeClass('task-audio-word-correct').addClass('task-audio-word-error');
                 }
             }
+        }
+        if(entutor.verboseTest){
+            console.log('verboseTest',self.id, self.type, self.result.passed);
         }
         if(self.parent && self.parent.testFinishedCallback){
             self.parent.testFinishedCallback(self.id, self.result);

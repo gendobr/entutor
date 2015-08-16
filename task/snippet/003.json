@@ -1,0 +1,167 @@
+{
+ "presentation": {
+  "innerHtml": ""
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "4"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "3"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "2"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "1"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": false,
+      "duration": "1",
+      "innerHtml": "0"
+     }
+    ],
+    "autocheck": true
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "a"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "a",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": "0.6",
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ],
+    "autocheck": false
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "b"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "b",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": "0.6",
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "c"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "c",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": "0.6",
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

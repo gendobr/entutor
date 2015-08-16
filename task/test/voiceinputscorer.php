@@ -26,10 +26,10 @@ $reply['access_allowed'] = (  $until<time() && $received_token==$control_token);
 //$reply['access_token_ok'] = (  $received_token==$control_token );
 $reply['audioId']= $_REQUEST['audioId'];
 $reply['text']= $_REQUEST['text'];
-$reply['score']= 0.6 + rand(0,100) * 0.001;
+$reply['score']= 0.7 + rand(0,100) * 0.001;
 $reply['wordScores']=[];
 $subscores=explode(' ',$reply['text']);
 foreach($subscores as $word){
-    $reply['wordScores'][$word]= 0.6 + rand(0,100) * 0.001;
+    $reply['wordScores'][$word]= 0.7 + rand(0,100) * 0.001;
 }
 echo json_encode($reply);

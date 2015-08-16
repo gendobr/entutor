@@ -450,7 +450,7 @@
     background-position:center center;
     display:inline-block;
     vertical-align: middle;
-    width: 30px;
+    width: 90px;
     height: 30px;
 }
 
@@ -545,7 +545,7 @@
 .task-radiobuttons,
 .task-checkbox-label,
 .task-sound,
-.task-video,
+
 .task-playlist,
 .task-slideshow,
 .task-recorder,
@@ -553,6 +553,20 @@
     display:block;
     padding: 10px 1%;
     width: 98%;    
+}
+
+
+.task-video{
+    position:relative;
+    display: inline-block;    
+}
+
+.task-audio-interface{
+    position:relative;
+    display: inline-block;
+    width:96px;
+    vertical-align:middle;
+    white-space:nowrap;
 }
 
 .jp-audio{
@@ -574,4 +588,8 @@
 .nomargin{
     margin:0px;
     padding:0px;
+}
+
+.nowords .task-audio-words{
+    display:none;
 }

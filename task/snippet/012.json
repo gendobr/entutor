@@ -1,0 +1,97 @@
+{
+ "presentation": {
+  "innerHtml": ""
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "video",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "m4v,ogv,webmv",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "hi",
+       "m4v": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.mp4",
+       "ogv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.ogv",
+       "wav": "http://localhost/entutor-js/task/test/webmv%20file%20URL",
+       "webmv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm"
+      },
+      "subtitles": []
+     },
+     {
+      "type": "recorder",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "hi",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "video",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "m4v,ogv,webmv",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "hello",
+       "m4v": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.mp4",
+       "ogv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.ogv",
+       "wav": "http://localhost/entutor-js/task/test/webmv%20file%20URL",
+       "webmv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm"
+      },
+      "subtitles": []
+     },
+     {
+      "type": "recorder",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "hello",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}
