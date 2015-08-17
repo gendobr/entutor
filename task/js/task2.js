@@ -489,6 +489,11 @@ entutor.inputs.card.prototype.test = function () {
 
 entutor.inputs.card.prototype.draw = function () {
     this.domElement = $('<span id="task' + this.id + '" class="task-card  task-card-' + this.arrange + ' ' + this.classes + '"></span>');
+
+    if (this.precondition === 'beforeCorrect') {
+        this.domElement.hide();
+    }
+
     for (var key = 0; key < this.children.length; key++) {
         var block = $('<span class="task-card-element"></span>');
         this.domElement.append(block);
