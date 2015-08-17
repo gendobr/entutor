@@ -20,7 +20,9 @@ entutor.currentCounter = false;
 
 entutor.debug = true;
 entutor.verboseTest = false;
-entutor.verbosePrecondition = false;
+entutor.verbosePrecondition = true;
+
+entutor.hideDelay=2000;
 
 
 
@@ -280,8 +282,6 @@ entutor.inputs.card = function (parent, options) {
         passed: false,
         maxScore: 0
     };
-    
-    
 
     this.testFinishedCallback = function (id, result) {
         //console.log('card:',self.id, ' received from ',id, result);
@@ -376,7 +376,7 @@ entutor.inputs.card = function (parent, options) {
                     if (self.result.passed === true) {
                         self.showSuccess();
                         if(self.hideOnCorrect){
-                            self.hide();
+                            self.hide(entutor.hideDelay);
                         }
                     } else if (self.result.passed === false) {
                         self.showError();
@@ -405,21 +405,21 @@ entutor.inputs.card = function (parent, options) {
                     }
                 }
                 if(entutor.verbosePrecondition){
-                    console.log('verbosePrecondition',self.children[key].id, self.children[key].type, 'beforeCorrect',allPreviousPassed);
+                    console.log('verbosePrecondition',new Date(),self.children[key].id, self.children[key].type, 'beforeCorrect',allPreviousPassed);
                 }
                 
                 var childIsVisible=self.children[key].isVisible();
                 if (allPreviousPassed) {
                     if(!childIsVisible){
                         if(entutor.verbosePrecondition){
-                            console.log('verbosePrecondition',self.children[key].id,"self.children[key].show();");
+                            console.log('verbosePrecondition',new Date(),self.children[key].id,"self.children[key].show();");
                         }
                         self.children[key].show();
                     }
                 } else {
                     if(childIsVisible){
                         if(entutor.verbosePrecondition){
-                            console.log('verbosePrecondition',self.children[key].id, "self.children[key].hide();");
+                            console.log('verbosePrecondition',new Date(),self.children[key].id, "self.children[key].hide();");
                         }
                         self.children[key].hide();
                     }
@@ -430,7 +430,7 @@ entutor.inputs.card = function (parent, options) {
         }
     };
 
-    
+    this.hideDelayed=function(){ self.hide(); };
     
     var childMaxScoreSum = 0;
     for (var key = 0; key < this.options.children.length; key++) {
@@ -488,7 +488,7 @@ entutor.inputs.card.prototype.test = function () {
 };
 
 entutor.inputs.card.prototype.draw = function () {
-    this.domElement = $('<span id="task' + this.id + '" class="task-card  task-card-' + this.arrange + ' ' + this.classes + '"></span>');
+    this.domElement = $('<span id="task' + this.id + '" class="task-card transition task-card-' + this.arrange + ' ' + this.classes + '"></span>');
 
     if (this.precondition === 'beforeCorrect') {
         this.domElement.hide();
@@ -524,10 +524,14 @@ entutor.inputs.card.prototype.getMaxScore = function () {
     return maxScore;
 };
 
-entutor.inputs.card.prototype.hide = function () {
-    this.domElement.hide();
-    for (var key = 0; key < this.children.length; key++) {
-        this.children[key].hide();
+entutor.inputs.card.prototype.hide = function (delay) {
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.hideDelayed,entutor.hideDelay);
+    }else{
+        this.domElement.hide();
+        for (var key = 0; key < this.children.length; key++) {
+            this.children[key].hide();
+        }        
     }
 };
 
@@ -542,7 +546,7 @@ entutor.inputs.card.prototype.show = function () {
     this.domElement.show();
     for (var key = 0; key < this.children.length; key++) {
         this.children[key].show();
-    }
+    }        
 };
 
 entutor.inputs.card.prototype.start = function(){
@@ -561,53 +565,54 @@ entutor.inputs.card.prototype.notify = function (stack) {
     }
 };
 
-entutor.inputs.card.prototype.customtestSets = function (sets) {
-    return function (arrayOfChildComponents) {
 
-        // console.log(arrayOfChildComponents);
-        var map = [];
-        for (var s = 0; s < sets.length; s++) {
-            map[s] = 1;
-        }
-        for (var ch = 0; ch < arrayOfChildComponents.length; ch++) {
-            for (var s = 0; s < sets.length; s++) {
-                var vals = arrayOfChildComponents[ch].getValue();
-                var patt = sets[s];
-                // console.log(ch,vals,s,patt);
-                if (vals.length === patt.length) {
-                    var sum = 0;
-                    for (var v = 0; v < vals.length; v++) {
-                        for (var p = 0; p < patt.length; p++) {
-                            if (patt[p].test(vals[v])) {
-                                sum++;
-                            }
-                        }
-                    }
-                    if (sum === patt.length) {
-                        map[s] = 0;
-                        break;
-                    }
-                }
-            }
-        }
-        var sum = 0;
-        for (var s = 0; s < sets.length; s++) {
-            sum += map[s];
-        }
-
-        var result = {
-            status: entutor.task.status.received,
-            score: (sum === 0 ? this.maxScore : 0),
-            subresults: [],
-            passed: (sum === 0),
-            maxScore: 1
-        };
-        // console.log(result);
-        return result;
-    };
-};
-
-
+/**
+//entutor.inputs.card.prototype.customtestSets = function (sets) {
+//    return function (arrayOfChildComponents) {
+//
+//        // console.log(arrayOfChildComponents);
+//        var map = [];
+//        for (var s = 0; s < sets.length; s++) {
+//            map[s] = 1;
+//        }
+//        for (var ch = 0; ch < arrayOfChildComponents.length; ch++) {
+//            for (var s = 0; s < sets.length; s++) {
+//                var vals = arrayOfChildComponents[ch].getValue();
+//                var patt = sets[s];
+//                // console.log(ch,vals,s,patt);
+//                if (vals.length === patt.length) {
+//                    var sum = 0;
+//                    for (var v = 0; v < vals.length; v++) {
+//                        for (var p = 0; p < patt.length; p++) {
+//                            if (patt[p].test(vals[v])) {
+//                                sum++;
+//                            }
+//                        }
+//                    }
+//                    if (sum === patt.length) {
+//                        map[s] = 0;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        var sum = 0;
+//        for (var s = 0; s < sets.length; s++) {
+//            sum += map[s];
+//        }
+//
+//        var result = {
+//            status: entutor.task.status.received,
+//            score: (sum === 0 ? this.maxScore : 0),
+//            subresults: [],
+//            passed: (sum === 0),
+//            maxScore: 1
+//        };
+//        // console.log(result);
+//        return result;
+//    };
+//};
+//*/
 
 // =============================================================================
 //
@@ -623,6 +628,8 @@ entutor.inputs.card.prototype.customtestSets = function (sets) {
 //        precondition:'none|beforeCorrect'
 //    }
 entutor.inputs.html = function (parent, options) {
+    var self = this;
+
     this.type = 'html';
     this.parent = parent;
     this.options = options || {};
@@ -636,7 +643,8 @@ entutor.inputs.html = function (parent, options) {
     if(!isNaN(this.duration) && this.duration>0){
         this.duration = Math.round(1000 * this.duration);
     }
-    
+
+    this.hideDelayed=function(){ self.hide(); };
     
     this.result={
         status: entutor.task.status.received,
@@ -673,10 +681,12 @@ entutor.inputs.html.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-entutor.inputs.html.prototype.hide = function () {
-    // entutor.print_call_stack();
-    // console.log("entutor.inputs.html.prototype.hide");
-    this.domElement.hide();
+entutor.inputs.html.prototype.hide = function (delay) {
+    //if(delay && parseInt(delay)>0){
+    //    setTimeout(this.hideDelayed,entutor.hideDelay);
+    //}else{
+        this.domElement.hide();
+    //}
 };
 
 entutor.inputs.html.prototype.show = function () {
@@ -706,7 +716,7 @@ entutor.inputs.html.prototype.start = function () {
                 self.result.passed=true;
                 self.notify([]);
                 if(self.hideOnCorrect){
-                    self.hide();
+                    self.hide(entutor.hideDelay);
                 }
             },this.duration);
         }else{
@@ -718,7 +728,7 @@ entutor.inputs.html.prototype.start = function () {
                     self.result.passed=true;
                     self.notify([]);
                     if(self.hideOnCorrect){
-                        self.hide();
+                        self.hide(entutor.hideDelay);
                     }
                 },this.duration);
             };
@@ -761,6 +771,9 @@ entutor.inputs.html.prototype.notify = function (stack) {
 //    }
 // 
 entutor.inputs.text = function (parent, options) {
+
+    var self = this;
+     
     this.parent = parent;
     this.type = 'text';
     this.options = options || {};
@@ -783,6 +796,8 @@ entutor.inputs.text = function (parent, options) {
     this.previousValue=this.options.value;
     this.countFailures=0;
     this.hint=this.options.hint||'';
+
+    this.hideDelayed=function(){ self.hide(); };
 
     this.value = false;
 };
@@ -836,7 +851,7 @@ entutor.inputs.text.prototype.test = function () {
         if (this.result.passed === true) {
             this.showSuccess();
             if(this.hideOnCorrect){
-                this.hide();
+                this.hide(entutor.hideDelay);
             }
         } else if (this.result.passed === false) {
             this.showError();
@@ -872,7 +887,7 @@ entutor.inputs.text.prototype.draw = function () {
         this.textField.attr('value', this.options.value);
         // this.value = this.options.value;
     }
-    this.domElement = $('<span id="task' + this.id + '" class="task-text ' + this.classes + '"></span>');
+    this.domElement = $('<span id="task' + this.id + '" class="task-text transition ' + this.classes + '"></span>');
     this.domElement.append(this.textField);
 
     if (this.precondition === 'beforeCorrect') {
@@ -890,8 +905,12 @@ entutor.inputs.text.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-entutor.inputs.text.prototype.hide = function () {
-    this.domElement.hide();
+entutor.inputs.text.prototype.hide = function (delay) {
+    if (delay && parseInt(delay) > 0) {
+        setTimeout(this.hideDelayed, entutor.hideDelay);
+    } else {
+        this.domElement.hide();
+    }
 };
 
 entutor.inputs.text.prototype.isVisible = function(){
@@ -953,6 +972,7 @@ entutor.inputs.text.prototype.showHint = function () {
 //     }
 // 
 entutor.inputs.radio = function (parent, options) {
+    var self = this;
     this.parent = parent;
     this.type = 'radio';
     this.options = options || {};
@@ -966,6 +986,8 @@ entutor.inputs.radio = function (parent, options) {
     this.arrange = this.options.arrange || 'horizontal';
     this.autocheck=this.options.autocheck||false;
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
+
+    this.hideDelayed=function(){ self.hide(); };
 
     this.countFailures=0;
     this.hint=this.options.hint||'';
@@ -1013,7 +1035,7 @@ entutor.inputs.radio.prototype.test = function () {
         if (this.result.passed === true) {
             this.showSuccess();
             if(this.hideOnCorrect){
-                this.hide();
+                this.hide(entutor.hideDelay);
             }
         } else if (this.result.passed === false) {
             this.showError();
@@ -1037,7 +1059,7 @@ entutor.inputs.radio.prototype.test = function () {
 };
 
 entutor.inputs.radio.prototype.draw = function () {
-    this.domElement = $('<span id="task' + this.id + '" class="task-radiobuttons ' + this.classes + ' ' + this.arrange + '"></span>');
+    this.domElement = $('<span id="task' + this.id + '" class="task-radiobuttons transition ' + this.classes + ' ' + this.arrange + '"></span>');
     var self = this;
     var onchange = function (el) {
         var btn = $(el.target);
@@ -1071,8 +1093,12 @@ entutor.inputs.radio.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-entutor.inputs.radio.prototype.hide = function () {
-    this.domElement.hide();
+entutor.inputs.radio.prototype.hide = function (delay) {
+    if (delay && parseInt(delay) > 0) {
+        setTimeout(this.hideDelayed, entutor.hideDelay);
+    } else {
+        this.domElement.hide();
+    }
 };
 
 entutor.inputs.radio.prototype.show = function () {
@@ -1124,6 +1150,7 @@ entutor.inputs.radio.prototype.showHint = function () {
 //     }
 // 
 entutor.inputs.checkbox = function (parent, options) {
+    var self = this;
     this.parent = parent;
     this.type = 'checkbox';
     this.options = options || {};
@@ -1140,7 +1167,9 @@ entutor.inputs.checkbox = function (parent, options) {
     this.value = false;
     this.autocheck=this.options.autocheck||false;
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
-    
+
+    this.hideDelayed=function(){ self.hide(); };
+
     this.countFailures=0;
     this.hint=this.options.hint||'';
 
@@ -1194,7 +1223,7 @@ entutor.inputs.checkbox.prototype.test = function () {
         if (this.result.passed === true) {
             this.showSuccess();
             if(this.hideOnCorrect){
-                this.hide();
+                this.hide(entutor.hideDelay);
             }
         } else if (this.result.passed === false) {
             this.showError();
@@ -1226,7 +1255,7 @@ entutor.inputs.checkbox.prototype.draw = function () {
         self.value = checkbox.prop('checked') ? 'checked' : 'unchecked';
         self.notify([]);
     });
-    this.domElement = $('<label id="task' + this.id + '" class="task-checkbox-label ' + this.classes + '"></label>');
+    this.domElement = $('<label id="task' + this.id + '" class="task-checkbox-label transition ' + this.classes + '"></label>');
     this.domElement.append(this.checkbox);
     if (this.options.label) {
         this.domElement.append($('<span class="task-checkbox-label-text">' + this.options.label + '</span>'));
@@ -1248,8 +1277,12 @@ entutor.inputs.checkbox.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-entutor.inputs.checkbox.prototype.hide = function () {
-    this.domElement.hide();
+entutor.inputs.checkbox.prototype.hide = function (delay) {
+    if (delay && parseInt(delay) > 0) {
+        setTimeout(this.hideDelayed, entutor.hideDelay);
+    } else {
+        this.domElement.hide();
+    }
 };
 
 entutor.inputs.checkbox.prototype.show = function () {
@@ -1313,6 +1346,9 @@ entutor.inputs.checkbox.prototype.showHint = function () {
 //    precondition:'none|beforeCorrect'
 //    }
 entutor.inputs.sound = function (parent, options) {
+    
+    var self = this;
+    
     this.type = 'sound';
     this.parent = parent;
     this.options = options || {};
@@ -1333,6 +1369,8 @@ entutor.inputs.sound = function (parent, options) {
     this.labels.playing = this.labels.playing || '||';
     this.labels.paused = this.labels.paused || '>';
     
+    this.hideDelayed=function(){ self.hide(); };
+
     // entutor.jplayers[this.id] = this;
 };
 
@@ -1366,7 +1404,7 @@ entutor.inputs.sound.prototype.draw = function () {
     html += '</div>';
     html += '<span id="sound_' + this.id + '" class="task-sound-button"></span>';
 
-    this.domElement = $('<span id="task' + this.id + '" class="task-sound ' + this.classes + '"></span>');
+    this.domElement = $('<span id="task' + this.id + '" class="task-sound transition ' + this.classes + '"></span>');
     this.domElement.append($(html));
 
 
@@ -1409,10 +1447,14 @@ entutor.inputs.sound.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-entutor.inputs.sound.prototype.hide = function () {
-    this.domElement.hide();
-    this.player.jPlayer("pause");
-    $('.sound_button').attr('value', this.labels.paused);
+entutor.inputs.sound.prototype.hide = function (delay) {
+    if (delay && parseInt(delay) > 0) {
+        setTimeout(this.hideDelayed, entutor.hideDelay);
+    } else {
+        this.domElement.hide();
+        this.player.jPlayer("pause");
+        $('.sound_button').attr('value', this.labels.paused);
+    }
 };
 
 entutor.inputs.sound.prototype.show = function () {
@@ -1583,6 +1625,8 @@ entutor.inputs.video = function (parent, options) {
     this.labels.paused = this.labels.paused || '>';
     this.media = options.media || {};
     // entutor.jplayers[this.id] = this;
+    
+    this.hideDelayed=function(){ self.hide(); };
 };
 
 entutor.inputs.video.prototype.test = function (testFinishedCallback) {
@@ -1644,7 +1688,7 @@ entutor.inputs.video.prototype.draw = function () {
     html += '</div>';
     html += '<div id="jp_subtitles_' + this.id + '" class="jp-subtitles"></div>';
 
-    this.domElement = $('<span id="task' + this.id + '" class="task-video ' + this.classes + '"></span>');
+    this.domElement = $('<span id="task' + this.id + '" class="task-video transition ' + this.classes + '"></span>');
     this.domElement.append($(html));
 
     this.player = this.domElement.find("#jquery_jplayer_" + this.id);
@@ -1670,9 +1714,13 @@ entutor.inputs.video.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-entutor.inputs.video.prototype.hide = function () {
-    this.domElement.hide();
-    this.player.jPlayer("pause");
+entutor.inputs.video.prototype.hide = function (delay) {
+    if (delay && parseInt(delay) > 0) {
+        setTimeout(this.hideDelayed, entutor.hideDelay);
+    } else {
+        this.domElement.hide();
+        this.player.jPlayer("pause");
+    }
 };
 
 entutor.inputs.video.prototype.show = function () {
@@ -1781,6 +1829,7 @@ entutor.inputs.video.prototype.notify = function (stack) {
 // 
 
 entutor.inputs.counter = function (parent, options) {
+    var self = this;
     this.parent = parent;
     this.type = 'counter';
     this.options = options || {};
@@ -1788,6 +1837,8 @@ entutor.inputs.counter = function (parent, options) {
     this.classes = this.options.classes || '';
     this.precondition = this.options.precondition || 'none';
     this.value = this.options.value || '';
+    
+    this.hideDelayed=function(){ self.hide(); };
 };
 
 entutor.inputs.counter.prototype.test = function (testFinishedCallback) {
@@ -1808,8 +1859,8 @@ entutor.inputs.counter.prototype.test = function (testFinishedCallback) {
 entutor.inputs.counter.prototype.draw = function () {
     var self = this;
 
-    this.counterplace = $('<span id="task' + this.id + 'counterplace"  data-id="' + this.id + '" class="task-counterplace ' + this.classes + '"></span>');
-    this.counter = $('<span id="task' + this.id + 'counter" data-id="' + this.id + '" class="task-counter ' + this.classes + '">' + this.options.innerHtml + '</span>');
+    this.counterplace = $('<span id="task' + this.id + 'counterplace"  data-id="' + this.id + '" class="task-counterplace transition ' + this.classes + '"></span>');
+    this.counter = $('<span id="task' + this.id + 'counter" data-id="' + this.id + '" class="task-counter transition ' + this.classes + '">' + this.options.innerHtml + '</span>');
     if (this.value) {
         this.counter.attr('data-value', this.value);
     } else {
@@ -1937,9 +1988,14 @@ entutor.inputs.counter.prototype.getMaxScore = function () {
     return 0;
 };
 
-entutor.inputs.counter.prototype.hide = function () {
-    this.counterplace.hide();
-    this.counter.hide();
+entutor.inputs.counter.prototype.hide = function (delay) {
+    if (delay && parseInt(delay) > 0) {
+        setTimeout(this.hideDelayed, entutor.hideDelay);
+    } else {
+        this.counterplace.hide();
+        this.counter.hide();
+    }
+
 };
 
 entutor.inputs.counter.prototype.show = function () {
@@ -2004,6 +2060,7 @@ entutor.inputs.counter.prototype.notify = function (stack) {
 // 
 
 entutor.inputs.dropzone = function (parent, options) {
+    var self = this;
     // console.log(options);
     this.parent = parent;
     this.type = 'dropzone';
@@ -2047,6 +2104,8 @@ entutor.inputs.dropzone = function (parent, options) {
 
     this.countFailures=0;
     this.hint=this.options.hint||'';
+
+    this.hideDelayed=function(){ self.hide(); };
 
     //this.id
     entutor.dropzones[this.id] = this;
@@ -2149,7 +2208,7 @@ entutor.inputs.dropzone.prototype.test = function () {
         if (this.result.passed === true) {
             this.showSuccess();
             if(this.hideOnCorrect){
-                this.hide();
+                this.hide(entutor.hideDelay);
             }
         } else if (this.result.passed === false) {
             this.showError();
@@ -2191,7 +2250,7 @@ entutor.inputs.dropzone.prototype.draw = function () {
 
     var self = this;
 
-    this.dropzone = $('<span id="task' + this.id + 'dropzone" class="task-dropzone" style="min-width:' + (this.options.size || '4') + 'em;"></span>');
+    this.dropzone = $('<span id="task' + this.id + 'dropzone" class="task-dropzone transition" style="min-width:' + (this.options.size || '4') + 'em;"></span>');
 
     if (this.precondition === 'beforeCorrect') {
         this.hide();
@@ -2217,8 +2276,12 @@ entutor.inputs.dropzone.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-entutor.inputs.dropzone.prototype.hide = function () {
-    this.dropzone.hide();
+entutor.inputs.dropzone.prototype.hide = function (delay) {
+    if (delay && parseInt(delay) > 0) {
+        setTimeout(this.hideDelayed, entutor.hideDelay);
+    } else {
+        this.dropzone.hide();
+    }
 };
 
 entutor.inputs.dropzone.prototype.show = function () {
@@ -2381,6 +2444,7 @@ entutor.inputs.dropzone.prototype.showHint = function () {
 //    ];
 //    }
 entutor.inputs.playlist = function (parent, options) {
+    var self = this;
     this.type = 'playlist';
     this.parent = parent;
     this.options = options || {};
@@ -2397,6 +2461,8 @@ entutor.inputs.playlist = function (parent, options) {
     this.media = options.media || {};
 
     this.playlist = this.options.playlist || [];
+
+    this.hideDelayed=function(){ self.hide(); };
 
     this.currenttrack = false;
     // console.log(this);
@@ -2423,7 +2489,7 @@ entutor.inputs.playlist.prototype.draw = function () {
     // console.log(this.playlist);
     var self = this;
 
-    this.domElement = $('<span id="task' + this.id + '" class="task-playlist ' + this.classes + '"></span>');
+    this.domElement = $('<span id="task' + this.id + '" class="task-playlist transition ' + this.classes + '"></span>');
 
     var html = "";
 
@@ -2489,8 +2555,12 @@ entutor.inputs.playlist.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-entutor.inputs.playlist.prototype.hide = function () {
-    this.domElement.hide();
+entutor.inputs.playlist.prototype.hide = function (delay) {
+    if (delay && parseInt(delay) > 0) {
+        setTimeout(this.hideDelayed, entutor.hideDelay);
+    } else {
+        this.domElement.hide();
+    }
 };
 
 entutor.inputs.playlist.prototype.show = function () {
@@ -2595,6 +2665,7 @@ entutor.inputs.playlist.prototype.notify = function (stack) {
 //    ];
 //    }
 entutor.inputs.slideshow = function (parent, options) {
+    var self = this;
     this.type = 'slideshow';
     this.parent = parent;
     this.options = options || {};
@@ -2621,6 +2692,7 @@ entutor.inputs.slideshow = function (parent, options) {
         passed: true,
         maxScore: 1
     };
+    this.hideDelayed=function(){ self.hide(); };
     // entutor.jplayers[this.id] = this;
 };
 
@@ -2637,7 +2709,7 @@ entutor.inputs.slideshow.prototype.test = function () {
 entutor.inputs.slideshow.prototype.draw = function () {
     var self = this;
 
-    this.domElement = $('<span id="task' + this.id + '" class="task-slideshow ' + this.classes + '"></span>');
+    this.domElement = $('<span id="task' + this.id + '" class="task-slideshow transition ' + this.classes + '"></span>');
 
     var html = "";
 
@@ -2729,8 +2801,12 @@ entutor.inputs.slideshow.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-entutor.inputs.slideshow.prototype.hide = function () {
-    this.domElement.hide();
+entutor.inputs.slideshow.prototype.hide = function (delay) {
+    if (delay && parseInt(delay) > 0) {
+        setTimeout(this.hideDelayed, entutor.hideDelay);
+    } else {
+        this.domElement.hide();
+    }
 };
 
 entutor.inputs.slideshow.prototype.show = function () {
@@ -3396,6 +3472,7 @@ entutor.recorderApp.initFlashRecorder=function(options){
 //     }
 // 
 entutor.flashrecorder = function (parent, options) {
+    var self = this;
     // console.log(options);
     this.parent = parent;
     this.type = 'recorder';
@@ -3423,6 +3500,8 @@ entutor.flashrecorder = function (parent, options) {
 
     this.countFailures=0;
     this.hint=this.options.hint||'';
+
+    this.hideDelayed=function(){ self.hide(); };
 
     //this.id
     entutor.recorders[this.id] = this;
@@ -3514,7 +3593,7 @@ entutor.flashrecorder.prototype.test = function () {
             if (self.result.passed === true) {
                 self.showSuccess();
                 if(self.hideOnCorrect){
-                    self.hide();
+                    self.hide(entutor.hideDelay);
                 }
             } else if (self.result.passed === false) {
                 self.showError();
@@ -3553,7 +3632,7 @@ entutor.flashrecorder.prototype.draw = function () {
 
     var self = this;
 
-    this.domElement = $('<span id="task' + this.id + 'recorder" class="task-recorder" style="width:' + (this.options.size || '4') + 'em;"></span>');
+    this.domElement = $('<span id="task' + this.id + 'recorder" class="task-recorder transition" style="width:' + (this.options.size || '4') + 'em;"></span>');
 
     if (this.precondition === 'beforeCorrect') {
         this.hide();
@@ -3579,8 +3658,12 @@ entutor.flashrecorder.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-entutor.flashrecorder.prototype.hide = function () {
-    this.domElement.hide();
+entutor.flashrecorder.prototype.hide = function (delay) {
+    if (delay && parseInt(delay) > 0) {
+        setTimeout(this.hideDelayed, entutor.hideDelay);
+    } else {
+        this.domElement.hide();
+    }
 };
 
 entutor.flashrecorder.prototype.show = function () {
@@ -3840,6 +3923,7 @@ entutor.html5audioapi.initAudioApi = function (options) {
 
 
 entutor.html5recorder = function (parent, options) {
+    var self = this;
     this.parent = parent;
     this.type = 'recorder';
     this.options = options || {};
@@ -3874,6 +3958,7 @@ entutor.html5recorder = function (parent, options) {
     this.countFailures=0;
     this.hint=this.options.hint||'';
 
+    this.hideDelayed=function(){ self.hide(); };
 };
 
 entutor.html5recorder.prototype.showSuccess = function () {
@@ -3892,7 +3977,7 @@ entutor.html5recorder.prototype.draw = function () {
     
     var self=this;
 
-    this.domElement = $('<span id="task' + this.id + '" class="task-audio ' + this.classes + '"></span>');
+    this.domElement = $('<span id="task' + this.id + '" class="task-audio transition ' + this.classes + '"></span>');
 
     // words to show
     this.wordsDom = $('<span id="taskwords' + this.id + '" class="task-audio-words"></span>');
@@ -4072,7 +4157,7 @@ entutor.html5recorder.prototype.test = function () {
             if (self.result.passed === true) {
                 self.showSuccess();
                 if(self.hideOnCorrect){
-                    self.hide();
+                    self.hide(entutor.hideDelay);
                 }
             } else if (self.result.passed === false) {
                 self.showError();
@@ -4126,11 +4211,15 @@ entutor.html5recorder.prototype.getMaxScore = function () {
     return this.maxScore;
 };
 
-entutor.html5recorder.prototype.hide=function(){
-    this.domElement.hide();
+entutor.html5recorder.prototype.hide = function(delay){
+    if (delay && parseInt(delay) > 0) {
+        setTimeout(this.hideDelayed, entutor.hideDelay);
+    } else {
+        this.domElement.hide();
+    }
 };
 
-entutor.html5recorder.prototype.show=function(){
+entutor.html5recorder.prototype.show = function(){
     this.domElement.show();
     if(entutor.html5audioapi.audioRecorder && this.autostart){
         this.btnStart.trigger('click');

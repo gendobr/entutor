@@ -6,57 +6,44 @@
   "type": "card",
   "children": [
    {
-    "type": "card",
+    "type": "html",
     "classes": "",
-    "arrange": "vertical",
-    "taskPassScore": 1,
     "precondition": "none",
-    "customtest": "",
-    "maxScore": 1,
     "hideOnCorrect": true,
-    "children": [
-     {
-      "type": "html",
-      "classes": "",
-      "precondition": "none",
-      "hideOnCorrect": true,
-      "duration": "1",
-      "innerHtml": "4"
-     },
-     {
-      "type": "html",
-      "classes": "",
-      "precondition": "beforeCorrect",
-      "hideOnCorrect": true,
-      "duration": "1",
-      "innerHtml": "3"
-     },
-     {
-      "type": "html",
-      "classes": "",
-      "precondition": "beforeCorrect",
-      "hideOnCorrect": true,
-      "duration": "1",
-      "innerHtml": "2"
-     },
-     {
-      "type": "html",
-      "classes": "",
-      "precondition": "beforeCorrect",
-      "hideOnCorrect": true,
-      "duration": "1",
-      "innerHtml": "1"
-     },
-     {
-      "type": "html",
-      "classes": "",
-      "precondition": "beforeCorrect",
-      "hideOnCorrect": false,
-      "duration": "1",
-      "innerHtml": "0"
-     }
-    ],
-    "autocheck": true
+    "duration": "1",
+    "innerHtml": "4"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "3"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "2"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "1"
+   },
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "beforeCorrect",
+    "hideOnCorrect": true,
+    "duration": "1",
+    "innerHtml": "0"
    },
    {
     "type": "card",
@@ -89,7 +76,7 @@
       "soundScrorerURL": "./voiceinputscorer.php"
      }
     ],
-    "autocheck": false
+    "autocheck": true
    },
    {
     "type": "card",
@@ -121,7 +108,8 @@
       "taskPassScore": "0.6",
       "soundScrorerURL": "./voiceinputscorer.php"
      }
-    ]
+    ],
+    "autocheck": true
    },
    {
     "type": "card",
@@ -153,7 +141,8 @@
       "taskPassScore": "0.6",
       "soundScrorerURL": "./voiceinputscorer.php"
      }
-    ]
+    ],
+    "autocheck": true
    }
   ],
   "classes": "",
@@ -162,6 +151,7 @@
   "precondition": "none",
   "customtest": "",
   "maxScore": 1,
-  "hideOnCorrect": false
+  "hideOnCorrect": false,
+  "autocheck": true
  }
 }

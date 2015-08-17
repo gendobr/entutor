@@ -539,7 +539,7 @@
     background-color:rgba(255,255,255,0.5);
 }
 
-.task-card,
+/* .task-card,*/
 /* .task-html, */
 /* .task-text, */
 .task-radiobuttons,
@@ -555,7 +555,7 @@
     width: 98%;    
 }
 
-
+.task-card,
 .task-video{
     position:relative;
     display: inline-block;    
@@ -592,4 +592,19 @@
 
 .nowords .task-audio-words{
     display:none;
+}
+
+
+.transition{
+    -webkit-transition: width 1s ease-out 1.5s,  height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
+    -moz-transition: width 1s ease-out 1.5s, height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
+    -o-transition: width 1s ease-out 1.5s, height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
+    transition: width 1s ease-out 1.5s , height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
+}
+.hideAnimated{
+    width:0px;
+    height:0px;
+    padding:0px;
+    overflow:hidden;
+
 }
