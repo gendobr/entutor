@@ -1,0 +1,171 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 24)\n<br>1. На экране появляется формулировка задания и таймер обратного отсчета. (3-2-1-0)\n<br>2. На экране появляется сетка 3x3, в которую вписаны буквы и транскрипционные знаки.\n<br>3. Воспроизведение начинается автоматически вместе с появлением первой сетки.\n<br>4. Диктор произносит букву или звук. Студент находит в сетке соответствующую букву или транскрипционный знак и нажимает на него.\n<br>5. Если буква или транскрипционный знак выбраны правильно, то ячейка загорается зеленым, и на экране появляется следующая сетка.\n<br>6. Если буква или транскрипционный знак выбраны неправильно, то ячейка загорается оранжевым, и диктор произносит букву или звук еще раз.\n<br>7. После трех неудачных попыток становится активной кнопка «Правильный ответ». Она подсвечивает зеленым ячейку с правильной буквой или транскрипционным знаком в течение 2 секунд. Студент выполняет задание еще раз.\n<br>8. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее»."
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "5"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "4"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "3"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "2"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "1"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "0"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "radio",
+      "classes": "t3x3",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "flow",
+      "variant": {
+       "1": "[ʌ]",
+       "2": "D",
+       "3": "C",
+       "4": "W",
+       "5": "[ks]",
+       "6": "E",
+       "7": "[r]",
+       "8": "f",
+       "9": "v"
+      }
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/task002-01.mp3",
+       "oga": "../snippet/media/task002-01.ogg",
+       "wav": "../snippet/media/task002-01.wav"
+      }
+     }
+    ],
+    "autocheck": false
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "radio",
+      "classes": "t3x3",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "flow",
+      "variant": {
+       "1": "h",
+       "2": "[ɒ]",
+       "3": "[ks]",
+       "4": "S",
+       "5": "m",
+       "6": "g",
+       "7": "Y",
+       "8": "[w]",
+       "9": "R"
+      }
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": " ",
+       "mp3": "../snippet/media/task002-02.mp3",
+       "oga": "../snippet/media/task002-02.ogg",
+       "wav": "../snippet/media/task002-02.wav"
+      }
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "presentation": {
+  "innerHtml": ""
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "4"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "3"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "2"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "1"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "0"
+     }
+    ],
+    "autocheck": true
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

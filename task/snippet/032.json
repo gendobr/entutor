@@ -1,0 +1,117 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 32)\n<br>1. В левой части экрана появляется предложение со словосочетанием на русском языке, а в правой части экрана на месте словосочетанием на русском языке – активная строка ввода.\n<br>2. Студент переводит это словосочетание на английский язык и печатает его в активной строке.\n<br>3. Когда в левой части экрана всё предложение будет на русском языке, в правой части экрана будет активная строка ввода.\n<br>4. Если словосочетание / предложение переведено правильно, то предложение загорается зелёным и исчезает с экрана. Появляется следующее предложение. Если словосочетание / предложение переведено неправильно, то предложение загорается оранжевым, и студент должен выполнить задание ещё раз.\n<br>5. После двух неудачных попыток кнопка «Правильный ответ» становится активной. При нажатии на кнопку в активной строке ввода появляется словосочетание / предложение на 2 секунды. Потом оно исчезает, и строка ввода становится активной.\n<br>6. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». "
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "I see a rat. The rat is <b>в большой клетке</b>."
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "I see a rat. The rat is "
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "in a big cage",
+        "value": "",
+        "size": 15,
+        "hint": "in a big cage"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "I see a rabbit. The rabbit <b>возле маленькой кошки</b>.\n"
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "I see a rabbit. The rabbit\n"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "at a little cat",
+        "value": "",
+        "size": 15,
+        "hint": "at a little cat"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

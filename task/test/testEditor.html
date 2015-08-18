@@ -29,6 +29,7 @@
                     <select id="snippet">
                         <option value=""></option>
                         <option value="../snippet/000.json">Empty task</option>
+                        <option value="../snippet/countdown.json">Countdown</option>
                         <option value="../snippet/001.json">1</option>
                         <option value="../snippet/002.json">2</option>
                         <option value="../snippet/002a.json">2a</option>
@@ -46,7 +47,19 @@
                         <option value="../snippet/010.json">10</option>
                         <option value="../snippet/011.json">11</option>
                         <option value="../snippet/012.json">12</option>
+                        <option value="../snippet/012a.json">12a</option>
+                        <option value="../snippet/016.json">16</option>
+                        <option value="../snippet/018.json">18</option>
+                        
+                        <option value="../snippet/020a.json">20a</option>
+
+                        <option value="../snippet/024.json">24</option>
+                        <option value="../snippet/029.json">29</option>
+                        <option value="../snippet/030a.json">30a</option>
+                        
+                        <option value="../snippet/032.json">32</option>
                     </select>
+                    <input type="file" id="openTest">
                 </div>
                 <h3>Editor</h3>
             </span></div>
@@ -118,7 +131,15 @@
                 }
                 $('#snippet').val('');
             });
-            
+            $('#openTest').change(function(event){
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    entutor.currentEditor = new entutor.editor(JSON.parse(e.target.result));
+                    $('#taskEditor').empty().append(entutor.currentEditor.draw());
+                    $(document).trigger("editor:updated");
+                }
+                reader.readAsText(event.target.files[0]);
+            });
         });
             
         </script>

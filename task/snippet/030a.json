@@ -1,0 +1,151 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 30а)\n<br>1. На экране появляется формулировка задания и таймер обратного отсчета. (3-2-1-0)\n<br>2. В верхней части экрана появляется ячейка с активным курсором. Слева от ячейки – неактивная кнопка «В». Справа – «Готово».\n<br>3. Диктор озвучивает предложение, и кнопка «В» становится активной. Кнопка «В» дает возможность прослушать данное предложение неограниченное количество раз.\n<br>4. Студент впечатывает предложения и нажимает кнопку «Готово».\n<br>5. Если предложения напечатаны правильно, то ячейка загорается зеленым, и появляется ячейка для следующих предложений.\n<br>6. Если предложение напечатано неправильно, то ячейка загорается оранжевым на 2 секунды и все, что впечатал студент, исчезает. Студент выполняет задание еще раз.\n<br>7. После двух неудачных попыток кнопка «Правильный ответ» становится активной. При нажатии на кнопку в строке появляется предложение, которое исчезает через 2 секунды. Студент выполняет задание еще раз.\n<br>8. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». "
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "5"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "4"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "3"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "2"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "1"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "0"
+     }
+    ],
+    "autocheck": true
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/task002-01.mp3",
+       "oga": "../snippet/media/task002-01.ogg",
+       "wav": "../snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "I have got eight black rabbits in a bad cage.",
+      "value": "",
+      "size": 50,
+      "hint": "I have got eight black rabbits in a bad cage."
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/task002-02.mp3",
+       "oga": "../snippet/media/task002-02.ogg",
+       "wav": "../snippet/media/task002-02.wav"
+      }
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": false,
+      "pattern": "I see a nice flat. The flat is big.",
+      "value": "",
+      "size": 50,
+      "hint": "I see a nice flat. The flat is big."
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

@@ -61,23 +61,23 @@
 				<h2 class="zadanie">Курс "Бла-бла-бла-бла-бла"</h2>
 
 				<ul class="pagination pagination-sm">
-					<li><a href="javascript:void(entutor.show('json/001.json','#taskContainer'))" >001</a></li>
-					<li><a href="javascript:void(entutor.show('json/002.json','#taskContainer'))">002</a></li>
-					<li><a href="javascript:void(entutor.show('json/003.json','#taskContainer'))">003</a></li>
-					<li><a href="javascript:void(entutor.show('json/004.json','#taskContainer'))">004</a></li>
-					<li><a href="javascript:void(entutor.show('json/005.json','#taskContainer'))">005</a></li>
-					<li><a href="javascript:void(entutor.show('json/006.json','#taskContainer'))">006</a></li>
-					<li><a href="javascript:void(entutor.show('json/007.json','#taskContainer'))">007</a></li>
-					<li><a href="javascript:void(entutor.show('json/008.json','#taskContainer'))">008</a></li>
-					<li><a href="javascript:void(entutor.show('json/009.json','#taskContainer'))">009</a></li>
-					<li><a href="javascript:void(entutor.show('json/010.json','#taskContainer'))">010</a></li>
-					<li><a href="javascript:void(entutor.show('json/011.json','#taskContainer'))">011</a></li>
-					<li><a href="javascript:void(entutor.show('json/012.json','#taskContainer'))">012</a></li>
-					<li><a href="javascript:void(entutor.show('json/013.json','#taskContainer'))">013</a></li>
-					<li><a href="javascript:void(entutor.show('json/014.json','#taskContainer'))">014</a></li>
-					<li><a href="javascript:void(entutor.show('json/015.json','#taskContainer'))">015</a></li>
-					<li class="poslednjaa"><a href="javascript:void(entutor.show('json/016.json','#taskContainer'))">016</a></li>
-					<li class="disabled"><a href="javascript:void(entutor.show('json/017.json','#taskContainer'))">017</a></li>
+					<li><a href="javascript:void(entutor.load('json/001.json','#taskContainer'))" >001</a></li>
+					<li><a href="javascript:void(entutor.load('json/002.json','#taskContainer'))">002</a></li>
+					<li><a href="javascript:void(entutor.load('json/003.json','#taskContainer'))">003</a></li>
+					<li><a href="javascript:void(entutor.load('json/004.json','#taskContainer'))">004</a></li>
+					<li><a href="javascript:void(entutor.load('json/005.json','#taskContainer'))">005</a></li>
+					<li><a href="javascript:void(entutor.load('json/006.json','#taskContainer'))">006</a></li>
+					<li><a href="javascript:void(entutor.load('json/007.json','#taskContainer'))">007</a></li>
+					<li><a href="javascript:void(entutor.load('json/008.json','#taskContainer'))">008</a></li>
+					<li><a href="javascript:void(entutor.load('json/009.json','#taskContainer'))">009</a></li>
+					<li><a href="javascript:void(entutor.load('json/010.json','#taskContainer'))">010</a></li>
+					<li><a href="javascript:void(entutor.load('json/011.json','#taskContainer'))">011</a></li>
+					<li><a href="javascript:void(entutor.load('json/012.json','#taskContainer'))">012</a></li>
+					<li><a href="javascript:void(entutor.load('json/013.json','#taskContainer'))">013</a></li>
+					<li><a href="javascript:void(entutor.load('json/014.json','#taskContainer'))">014</a></li>
+					<li><a href="javascript:void(entutor.load('json/015.json','#taskContainer'))">015</a></li>
+					<li class="poslednjaa"><a href="javascript:void(entutor.load('json/016.json','#taskContainer'))">016</a></li>
+					<li class="disabled"><a href="javascript:void(entutor.load('json/017.json','#taskContainer'))">017</a></li>
 					<li class="disabled"><a href="">018</a></li>
 					<li class="disabled"><a href="">019</a></li>
 					<li class="disabled"><a href="">020</a></li>
@@ -151,7 +151,7 @@
             }
 
             if(window.location.hash){
-                entutor.show('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
+                entutor.load('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
             }
         });
             

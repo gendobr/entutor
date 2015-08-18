@@ -1,0 +1,169 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 20а)\n<br>1.\tВ верхней части экрана предложения с пропуском, на месте которого – активный курсор.\n<br>2.\tСтуденту необходимо впечатать необходимое местоимение и нажать кнопку «Готово».\n<br>3.\tЕсли задание выполнено правильно, то ячейка с местоимением загорается зеленым, и на экране появляются следующие предложения с пустой ячейкой. \n<br>4.\tЕсли задание выполнено неправильно, то ячейка с неправильным местоимением загорается оранжевым, через 2 секунды введенное студентом местоимение исчезает, и снова появляется активный курсор. Задание нужно выполнить повторно.\n<br>5.\tПосле второй неудачной попытки кнопка «Правильный ответ» становится активной. На месте активного курсора появляется нужное местоимение, которое исчезает через 2 секунды. На этом месте снова появляется активный курсор. Студент должен впечатать местоимение еще раз.\n<br>6.\tПосле окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».  "
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "1. I see\n"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "a",
+      "value": "",
+      "size": 3,
+      "hint": "a",
+      "resetOnError": true
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "rabbit."
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "The",
+      "value": "",
+      "size": 3,
+      "hint": "The",
+      "resetOnError": true
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "rabbit is quick.\n"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "The",
+      "value": "",
+      "size": 3,
+      "hint": "The",
+      "resetOnError": true
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "rabbit is in\n"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "the",
+      "value": "",
+      "size": 3,
+      "hint": "the",
+      "resetOnError": true
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "cage."
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "I have got\n"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "a",
+      "value": "",
+      "size": 3,
+      "hint": "a"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "green apple."
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "The",
+      "value": "",
+      "size": 3,
+      "hint": "The"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "apple is nice.\n"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

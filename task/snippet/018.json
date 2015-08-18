@@ -1,0 +1,117 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 18)\n<br>1. В центре экрана появляется картинка. В нижней части экрана (слева и справа появляются карточки с предложениями на английском языке)\n<br>2. Студент выбирает карточку с предложением, которое соответствует картинке, и нажимает на нее.\n<br>3. Если карточка выбрана правильно, то она загорается зелёным, и появляется следующая картинка с двумя карточками.\n<br>4. Если карточка выбрана неправильно, то она загорается оранжевым, и студент должен повторить попытку.\n<br>5. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».   "
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image1.jpg\">"
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "Correct answer 1",
+       "2": "Wrong answer 1"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image2.jpg\">"
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "Correct answer 2",
+       "2": "Wrong answer 2"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image3.jpg\">"
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "Correct answer 3",
+       "2": "Wrong answer 3"
+      }
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

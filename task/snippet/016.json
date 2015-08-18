@@ -1,0 +1,120 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 16)\n<br>1. В центре экрана появляется карточка со словом. \n<br>2. В нижней части экрана – три карточки с вариантами перевода на русский язык.\n<br>3. Студент кликает на один из вариантов перевода.\n<br>4. Если перевод выбран правильно, то карточка загорается зелёным, и появляется следующее слово с вариантами перевода.\n<br>5. Если перевод выбран неправильно, то карточка загорается оранжевым. Студенту нужно повторить попытку.\n<br>6. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». "
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "Слово на иностранном языке"
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "Правильный перевод",
+       "2": "Неправильный перевод",
+       "3": "Неправильный перевод"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "Слово №2 на иностранном языке"
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "Правильный перевод",
+       "2": "Неправильный перевод",
+       "3": "Неправильный перевод"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "Слово №3 на иностранном языке"
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "Правильный перевод",
+       "2": "Неправильный перевод",
+       "3": "Неправильный перевод"
+      }
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

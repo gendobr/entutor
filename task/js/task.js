@@ -2090,3 +2090,53 @@ tutor.inputs.video.prototype.show=function(){
     this.domElement.show();
 };
 
+
+
+
+/**
+//entutor.inputs.card.prototype.customtestSets = function (sets) {
+//    return function (arrayOfChildComponents) {
+//
+//        // console.log(arrayOfChildComponents);
+//        var map = [];
+//        for (var s = 0; s < sets.length; s++) {
+//            map[s] = 1;
+//        }
+//        for (var ch = 0; ch < arrayOfChildComponents.length; ch++) {
+//            for (var s = 0; s < sets.length; s++) {
+//                var vals = arrayOfChildComponents[ch].getValue();
+//                var patt = sets[s];
+//                // console.log(ch,vals,s,patt);
+//                if (vals.length === patt.length) {
+//                    var sum = 0;
+//                    for (var v = 0; v < vals.length; v++) {
+//                        for (var p = 0; p < patt.length; p++) {
+//                            if (patt[p].test(vals[v])) {
+//                                sum++;
+//                            }
+//                        }
+//                    }
+//                    if (sum === patt.length) {
+//                        map[s] = 0;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        var sum = 0;
+//        for (var s = 0; s < sets.length; s++) {
+//            sum += map[s];
+//        }
+//
+//        var result = {
+//            status: entutor.task.status.received,
+//            score: (sum === 0 ? this.maxScore : 0),
+//            subresults: [],
+//            passed: (sum === 0),
+//            maxScore: 1
+//        };
+//        // console.log(result);
+//        return result;
+//    };
+//};
+//*/

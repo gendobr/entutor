@@ -1,0 +1,483 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 29)\n<br>1. В нижней части экрана 4 карточки со словами.\n<br>2. В верхней части экрана – ячейка, поделенная на 4/7 секций, и над ней написано предложение. Студент перетягивает только четыре карточки и размещает их в соответствующем порядке. У студента должна быть возможность менять местами карточки внутри ячейки. Одна карточка всегда остается лишней и находится внизу экрана. \n<br>3. После того, как студент расставил карточки в ячейке, он нажимает кнопку «Проверить».\n<br>4. Если предложение собрано правильно, то все слова в ячейке загораются зелёным и исчезают из ячейки. В нижней части экрана появляется следующий набор карточек.\n<br>5. Если предложение собрано неправильно, то те слова, которые выбраны правильно и поставлены на соответствующее место, загораются зеленым и остаются на месте. Те слова, которые стоят не на соответствующем месте или выбраны неправильно, загораются оранжевым на 2 секунды и возвращаются в нижнюю часть экрана на прежнее место. Студент выполняет задание ещё раз.\n<br>6. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "1. I see a rabbit."
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": true,
+        "pattern": "the",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": true,
+        "pattern": "rabbit",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": true,
+        "pattern": "is",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": true,
+        "pattern": "in",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": true,
+        "pattern": "a",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": true,
+        "pattern": "big",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": true,
+        "pattern": "cage",
+        "size": "5"
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "is",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "the",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "in",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "rabbit",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "cage",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "a",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "big",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "an",
+        "value": ""
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "2. I see a rat."
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": false,
+        "pattern": "the",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": false,
+        "pattern": "rat",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": false,
+        "pattern": "is",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": false,
+        "pattern": "quick",
+        "size": "5"
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "a",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "quick",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "the",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "is",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "an",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "rat",
+        "value": ""
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "3. I see a desk."
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": false,
+        "pattern": "the",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": false,
+        "pattern": "desk",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": false,
+        "pattern": "is",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": false,
+        "pattern": "in",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": false,
+        "pattern": "a",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": false,
+        "pattern": "little",
+        "size": "5"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": false,
+        "pattern": "flat",
+        "size": "5"
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "little",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "a",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "is",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "desk",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "flat",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "the",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "in",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "an",
+        "value": ""
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

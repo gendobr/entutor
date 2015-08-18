@@ -16,13 +16,17 @@ entutor.loadEditor = function (jsonURL, containerSelector) {
         type: 'GET', // define the type of HTTP verb we want to use (POST for our form)
         url: jsonURL, // the url where we want to POST
         dataType: 'json', // what type of data do we expect back from the server
-        encode: true
+        encode: true,
+        error: function( jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+        }
     }).done(function (json) {
         entutor.currentEditor = new entutor.editor(json);
         $(containerSelector).empty().append(entutor.currentEditor.draw());
-        window.location.hash = json.id;
+        // window.location.hash = json.id;
     });
 };
+
 
 entutor.editor = function (value) {
 

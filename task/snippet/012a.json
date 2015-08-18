@@ -1,6 +1,6 @@
 {
  "presentation": {
-  "innerHtml": ""
+  "innerHtml": "Сценарий (тип 12а)<br>\n<br>1. Видеозапись: парень в офисе возле шкафа произносит фразу Hello! Начинает мигать кнопка «З».\n<br>2. Студент нажимает кнопку «З», озвучивает свой ответ Hello! и нажимает кнопку «Готово».\n<br>3. Если студент выполнил задание правильно, то появляется следующий видеофрагмент: тот же парень говорит I’m Ken. Начинает мигать кнопка «З».\n<br>4. Студент нажимает кнопку «З», называет свое имя и нажимает кнопку «Готово».\n<br>5. Автоматически запускается следующее видео.\n<br>6. Если студент выполнил задание неправильно, то на 2 секунды появляется надпись «Неправильно!» оранжевого цвета. Фрагмент воспроизводится еще раз автоматически, и студент выполняет данное задание еще раз.\n<br>7. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n"
  },
  "inputs": {
   "type": "card",
@@ -23,7 +23,7 @@
       "supplied": "m4v,ogv,webmv",
       "hideOnCorrect": false,
       "media": {
-       "title": "hi",
+       "title": "title",
        "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
        "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
        "webmv": "../snippet/media/EddiethebeagleDumbo.webm"
@@ -32,17 +32,18 @@
      },
      {
       "type": "recorder",
-      "classes": "",
+      "classes": "nowords",
       "precondition": "none",
       "autostart": false,
       "autocheck": false,
-      "text": "hi",
+      "text": "Hello",
       "hideOnCorrect": false,
       "duration": 30,
       "taskPassScore": 0.7,
       "soundScrorerURL": "./voiceinputscorer.php"
      }
-    ]
+    ],
+    "autocheck": true
    },
    {
     "type": "card",
@@ -62,7 +63,7 @@
       "supplied": "m4v,ogv,webmv",
       "hideOnCorrect": false,
       "media": {
-       "title": "hello",
+       "title": "title",
        "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
        "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
        "webmv": "../snippet/media/EddiethebeagleDumbo.webm"
@@ -71,17 +72,18 @@
      },
      {
       "type": "recorder",
-      "classes": "",
+      "classes": "nowords",
       "precondition": "none",
       "autostart": false,
       "autocheck": false,
-      "text": "hello",
+      "text": "I'm *",
       "hideOnCorrect": false,
       "duration": 30,
       "taskPassScore": 0.7,
       "soundScrorerURL": "./voiceinputscorer.php"
      }
-    ]
+    ],
+    "autocheck": true
    }
   ],
   "classes": "",
@@ -90,6 +92,7 @@
   "precondition": "none",
   "customtest": "",
   "maxScore": 1,
-  "hideOnCorrect": false
+  "hideOnCorrect": false,
+  "autocheck": true
  }
 }

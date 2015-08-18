@@ -20,9 +20,10 @@ entutor.currentCounter = false;
 
 entutor.debug = true;
 entutor.verboseTest = false;
-entutor.verbosePrecondition = true;
+entutor.verbosePrecondition = false;
 
 entutor.hideDelay=2000;
+entutor.showDelay=2005;
 
 
 
@@ -32,7 +33,7 @@ entutor.hideDelay=2000;
 
 
 // =============================================================================
-entutor.show = function (jsonURL, containerSelector) {
+entutor.load = function (jsonURL, containerSelector) {
     // process the form
     entutor.currentCounter = false;
     entutor.containerSelector=containerSelector;
@@ -111,7 +112,6 @@ entutor.task = function (options) {
     
 };
 
-
 entutor.task.prototype.template =
         '<span id="task{{id}}" class="task-container">'
         + '<span id="task{{id}}tip" class="task-tip"><!-- task.tip --></span>'
@@ -124,19 +124,16 @@ entutor.task.prototype.template =
         + '</span>'
         + '</span>';
 
-
 entutor.task.prototype.text = {
     testbutton: 'Проверить',
     nextbutton: 'Далее',
     restartbutton: 'Начать задание заново'
 };
 
-
 entutor.task.status = {
     received: 'received',
     waiting: 'waiting'
 };
-
 
 entutor.task.prototype.draw = function () {
 
@@ -180,14 +177,11 @@ entutor.task.prototype.draw = function () {
     return this.domElement;
 };
 
-
 entutor.task.prototype.start = function(){
     // console.log("this.inputs.start()");
     this.inputs.start();
 };
 
-
-// выполняется, если элемент изменился
 entutor.task.prototype.notify = function (stack) {
     // re-test if autocheck is true
     if(this.autocheck){
@@ -195,7 +189,6 @@ entutor.task.prototype.notify = function (stack) {
     }
     $(document).trigger("task:changed");
 };
-
 
 entutor.print_call_stack = function() {
   var stack = new Error().stack;
@@ -214,7 +207,6 @@ entutor.testPresentation = function (parent, options) {
     this.options = options || {};
     // console.log(this);
 };
-
 
 entutor.testPresentation.prototype.draw = function () {
     if (this.options.innerHtml) {
@@ -285,7 +277,7 @@ entutor.inputs.card = function (parent, options) {
 
     this.testFinishedCallback = function (id, result) {
         //console.log('card:',self.id, ' received from ',id, result);
-        //console.log('card:',self.id, ' received from ',id, result.passed);
+        // console.log('card:',self.id, ' received from ',id, result.passed);
 
         // save subresult
         if (result) {
@@ -350,7 +342,7 @@ entutor.inputs.card = function (parent, options) {
         }
 
         if (allTestsReceived) {
-
+            // console.log('card.allTestsReceived:',self.id);
             if (self.customtest) {
                 self.result = self.customtest(self.children);
             } else if (passed === 'undefined') {
@@ -392,45 +384,15 @@ entutor.inputs.card = function (parent, options) {
             if(self.parent && self.parent.testFinishedCallback){
                 self.parent.testFinishedCallback(self.id, self.result);
             }
+
+            self.showChildren();
         }
         
-        // apply child pre-conditions
-        for (var key = 0; key < self.children.length; key++) {
-            if (self.children[key].precondition === 'beforeCorrect') {
 
-                var allPreviousPassed = true;
-                for (var i = 0; i < key; i++) {
-                    if (typeof(self.children[i].result) === 'undefined' || self.children[i].result.passed === false || self.children[i].result.passed === 'undefined') {
-                        allPreviousPassed = false;
-                    }
-                }
-                if(entutor.verbosePrecondition){
-                    console.log('verbosePrecondition',new Date(),self.children[key].id, self.children[key].type, 'beforeCorrect',allPreviousPassed);
-                }
-                
-                var childIsVisible=self.children[key].isVisible();
-                if (allPreviousPassed) {
-                    if(!childIsVisible){
-                        if(entutor.verbosePrecondition){
-                            console.log('verbosePrecondition',new Date(),self.children[key].id,"self.children[key].show();");
-                        }
-                        self.children[key].show();
-                    }
-                } else {
-                    if(childIsVisible){
-                        if(entutor.verbosePrecondition){
-                            console.log('verbosePrecondition',new Date(),self.children[key].id, "self.children[key].hide();");
-                        }
-                        self.children[key].hide();
-                    }
-                }
-            } else {
-                self.children[key].show();
-            }
-        }
     };
 
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
     
     var childMaxScoreSum = 0;
     for (var key = 0; key < this.options.children.length; key++) {
@@ -467,12 +429,27 @@ entutor.inputs.card.prototype.removeFeedback = function () {
 
 entutor.inputs.card.prototype.test = function () {
     // var self = this;
-    // console.log('card.test:',self.id);
+    // console.log('card.test:',this.id);
     // clear previous score
     this.result.status = entutor.task.status.waiting;
     this.result.score = null;
     this.result.passed = 'undefined';
     this.result.maxScore = this.getMaxScore();
+    
+    
+    if(this.children.length===0){
+        this.result.status = entutor.task.status.received;
+        this.result.passed = true;
+        if(entutor.verboseTest){
+            console.log('verboseTest',this.id, this.type, this.result.passed);
+        }
+        if(this.parent && this.parent.testFinishedCallback){
+            this.parent.testFinishedCallback(this.id, this.result);
+        }
+        return;
+    }
+    
+    
     for (var key in this.result.subresults) {
         with (this.result.subresults[key]) {
             status = entutor.task.status.waiting;
@@ -539,14 +516,59 @@ entutor.inputs.card.prototype.isVisible = function(){
     return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
 };
 
-entutor.inputs.card.prototype.show = function () {
+entutor.inputs.card.prototype.show = function (delay) {
     if(this.result.passed===true && this.hideOnCorrect){
         return;
     }
-    this.domElement.show();
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.domElement.show();
+        this.showChildren();
+    }
+};
+
+entutor.inputs.card.prototype.showChildren = function () {
+    // console.log(this.id + ' showChildren ');
+    // apply child pre-conditions
     for (var key = 0; key < this.children.length; key++) {
-        this.children[key].show();
-    }        
+        if (this.children[key].precondition === 'beforeCorrect') {
+
+            var allPreviousPassed = true;
+            for (var i = 0; i < key; i++) {
+                if (typeof(this.children[i].result) === 'undefined' || this.children[i].result.passed === false || this.children[i].result.passed === 'undefined') {
+                    allPreviousPassed = false;
+                }
+            }
+            if(entutor.verbosePrecondition){
+                var noe=(new Date()).toString();
+                console.log('verbosePrecondition',noe,this.children[key].id, this.children[key].type, 'beforeCorrect',allPreviousPassed);
+            }
+
+            var childIsVisible=this.children[key].isVisible();
+            if (allPreviousPassed) {
+                if(!childIsVisible){
+                    if(entutor.verbosePrecondition){
+                        var noe=(new Date()).toString();
+                        console.log('verbosePrecondition',noe,this.children[key].id, this.children[key].type, 'beforeCorrect',allPreviousPassed);
+                        console.log('verbosePrecondition',noe,this.children[key].id,"this.children[key].show();");
+                    }
+                    this.children[key].show(entutor.showDelay);
+                }
+            } else {
+                if(childIsVisible){
+                    if(entutor.verbosePrecondition){
+                        var noe=(new Date()).toString();
+                        console.log('verbosePrecondition',noe,this.children[key].id, this.children[key].type, 'beforeCorrect',allPreviousPassed);
+                        console.log('verbosePrecondition',noe,this.children[key].id, "this.children[key].hide();");
+                    }
+                    this.children[key].hide(entutor.hideDelay);
+                }
+            }
+        } else {
+            this.children[key].show(entutor.showDelay);
+        }
+    }
 };
 
 entutor.inputs.card.prototype.start = function(){
@@ -560,59 +582,14 @@ entutor.inputs.card.prototype.notify = function (stack) {
         this.test();
     }
     if(this.parent){
+        // console.log("this.parent.notify(stack) "+this.id);
         stack.push(this.id);
         this.parent.notify(stack);
     }
 };
 
 
-/**
-//entutor.inputs.card.prototype.customtestSets = function (sets) {
-//    return function (arrayOfChildComponents) {
-//
-//        // console.log(arrayOfChildComponents);
-//        var map = [];
-//        for (var s = 0; s < sets.length; s++) {
-//            map[s] = 1;
-//        }
-//        for (var ch = 0; ch < arrayOfChildComponents.length; ch++) {
-//            for (var s = 0; s < sets.length; s++) {
-//                var vals = arrayOfChildComponents[ch].getValue();
-//                var patt = sets[s];
-//                // console.log(ch,vals,s,patt);
-//                if (vals.length === patt.length) {
-//                    var sum = 0;
-//                    for (var v = 0; v < vals.length; v++) {
-//                        for (var p = 0; p < patt.length; p++) {
-//                            if (patt[p].test(vals[v])) {
-//                                sum++;
-//                            }
-//                        }
-//                    }
-//                    if (sum === patt.length) {
-//                        map[s] = 0;
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//        var sum = 0;
-//        for (var s = 0; s < sets.length; s++) {
-//            sum += map[s];
-//        }
-//
-//        var result = {
-//            status: entutor.task.status.received,
-//            score: (sum === 0 ? this.maxScore : 0),
-//            subresults: [],
-//            passed: (sum === 0),
-//            maxScore: 1
-//        };
-//        // console.log(result);
-//        return result;
-//    };
-//};
-//*/
+
 
 // =============================================================================
 //
@@ -645,6 +622,7 @@ entutor.inputs.html = function (parent, options) {
     }
 
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
     
     this.result={
         status: entutor.task.status.received,
@@ -689,13 +667,16 @@ entutor.inputs.html.prototype.hide = function (delay) {
     //}
 };
 
-entutor.inputs.html.prototype.show = function () {
+entutor.inputs.html.prototype.show = function (delay) {
     if(this.result.passed===true && this.hideOnCorrect){
         return;
     }
-    this.domElement.show();
-    if(this.onShow){
-        this.onShow();
+    if(!this.isVisible()){
+        this.domElement.show();
+        if(this.onShow){
+            // console.log('html 3 ', this.id,' onShow ');
+            this.onShow();
+        }
     }
 };
 
@@ -704,33 +685,31 @@ entutor.inputs.html.prototype.isVisible = function(){
 };
 
 entutor.inputs.html.prototype.start = function () {
-
+    var self=this;
     if( isNaN(this.duration) ){
         this.result.passed=true;
         this.notify([]);
     }else{
         if(this.isVisible()){
-            var self=this;
             setTimeout(function(){
-                //console.log('html ', self.id,' set to passed');
+                // console.log('html 1 ', self.id,' set to passed after '+self.duration);
                 self.result.passed=true;
                 self.notify([]);
                 if(self.hideOnCorrect){
                     self.hide(entutor.hideDelay);
                 }
-            },this.duration);
+            },self.duration);
         }else{
-            var self=this;
-            this.onShow=function(){
+            self.onShow=function(){
                 self.onShow=false;
                 setTimeout(function(){
-                    //console.log('html ', self.id,' set to passed');
+                    // console.log('html 2 ', self.id,' set to passed after '+self.duration);
                     self.result.passed=true;
                     self.notify([]);
                     if(self.hideOnCorrect){
                         self.hide(entutor.hideDelay);
                     }
-                },this.duration);
+                },self.duration);
             };
         }
     }
@@ -785,7 +764,8 @@ entutor.inputs.text = function (parent, options) {
     this.result = null;
     this.pattern = this.options.pattern || null;
     if (typeof (this.pattern) === 'string') {
-        this.pattern = new RegExp('^ *' + this.pattern + ' *$');
+        this.pattern = new RegExp('^ *' + this.pattern.trim().replace(/ +/g,' +') + ' *$');
+        //console.log(this.pattern);
     }
     this.customtest = this.options.customtest || false;
     this.autocheck=this.options.autocheck||false;
@@ -798,6 +778,7 @@ entutor.inputs.text = function (parent, options) {
     this.hint=this.options.hint||'';
 
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
 
     this.value = false;
 };
@@ -917,8 +898,12 @@ entutor.inputs.text.prototype.isVisible = function(){
     return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
 };
 
-entutor.inputs.text.prototype.show = function () {
-    this.domElement.show();
+entutor.inputs.text.prototype.show = function (delay) {
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.domElement.show();
+    }
 };
 
 entutor.inputs.text.prototype.start = function () {
@@ -988,6 +973,7 @@ entutor.inputs.radio = function (parent, options) {
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
 
     this.countFailures=0;
     this.hint=this.options.hint||'';
@@ -1101,8 +1087,12 @@ entutor.inputs.radio.prototype.hide = function (delay) {
     }
 };
 
-entutor.inputs.radio.prototype.show = function () {
-    this.domElement.show();
+entutor.inputs.radio.prototype.show = function (delay) {
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.domElement.show();
+    }
 };
 
 entutor.inputs.radio.prototype.isVisible = function(){
@@ -1169,6 +1159,7 @@ entutor.inputs.checkbox = function (parent, options) {
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
 
     this.countFailures=0;
     this.hint=this.options.hint||'';
@@ -1285,8 +1276,12 @@ entutor.inputs.checkbox.prototype.hide = function (delay) {
     }
 };
 
-entutor.inputs.checkbox.prototype.show = function () {
-    this.domElement.show();
+entutor.inputs.checkbox.prototype.show = function (delay) {
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.domElement.show();
+    }
 };
 
 entutor.inputs.checkbox.prototype.isVisible = function(){
@@ -1370,6 +1365,7 @@ entutor.inputs.sound = function (parent, options) {
     this.labels.paused = this.labels.paused || '>';
     
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
 
     // entutor.jplayers[this.id] = this;
 };
@@ -1457,11 +1453,15 @@ entutor.inputs.sound.prototype.hide = function (delay) {
     }
 };
 
-entutor.inputs.sound.prototype.show = function () {
-    this.domElement.show();
-    if(this.onShow){
-        this.onShow();
-        this.onShow = false;
+entutor.inputs.sound.prototype.show = function (delay) {
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.domElement.show();
+        if(this.onShow){
+            this.onShow();
+            this.onShow = false;
+        }
     }
 };
 
@@ -1503,11 +1503,11 @@ entutor.inputs.sound.prototype.start = function () {
         toggleDuration: true,
         ended: function () {
             self.btn.attr('value', self.labels.paused);
-            //            self.passed=true;
-            //            self.notify([]);
-            //            if(self.hideOnCorrect){
-            //                self.hide();
-            //            }
+            self.passed=true;
+            self.notify([]);
+            if(self.hideOnCorrect){
+                self.hide();
+            }
         }
     });
 
@@ -1627,6 +1627,7 @@ entutor.inputs.video = function (parent, options) {
     // entutor.jplayers[this.id] = this;
     
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
 };
 
 entutor.inputs.video.prototype.test = function (testFinishedCallback) {
@@ -1694,6 +1695,9 @@ entutor.inputs.video.prototype.draw = function () {
     this.player = this.domElement.find("#jquery_jplayer_" + this.id);
 
     this.subtitleDom = this.domElement.find("#jp_subtitles_" + this.id);
+    if(this.subtitles.length===0){
+        this.subtitleDom.hide();
+    }
 
     if (this.options.size) {
         this.player.jPlayer("option", "size", this.options.size);
@@ -1723,11 +1727,15 @@ entutor.inputs.video.prototype.hide = function (delay) {
     }
 };
 
-entutor.inputs.video.prototype.show = function () {
-    this.domElement.show();
-    if(this.onShow){
-        this.onShow();
-        this.onShow = false;
+entutor.inputs.video.prototype.show = function (delay) {
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.domElement.show();
+        if(this.onShow){
+            this.onShow();
+            this.onShow = false;
+        }
     }
 };
 
@@ -1766,11 +1774,11 @@ entutor.inputs.video.prototype.start = function () {
         volume:1,
         timeupdate: self.timeupdate,
         ended:function(){ 
-            //            self.passed=true; 
-            //            self.notify([]);
-            //            if(self.hideOnCorrect){
-            //                self.hide();
-            //            }
+            self.passed=true; 
+            self.notify([]);
+            if(self.hideOnCorrect){
+                self.hide();
+            }
         }
         
     });
@@ -1839,6 +1847,7 @@ entutor.inputs.counter = function (parent, options) {
     this.value = this.options.value || '';
     
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
 };
 
 entutor.inputs.counter.prototype.test = function (testFinishedCallback) {
@@ -1866,6 +1875,8 @@ entutor.inputs.counter.prototype.draw = function () {
     } else {
         this.counter.attr('data-value', this.counter.text());
     }
+
+    
     this.counter.draggable({
         containment: 'document',
         //revert: true,
@@ -1873,6 +1884,11 @@ entutor.inputs.counter.prototype.draw = function () {
             if (!$(ui.helper).attr('data-top')) {
                 $(ui.helper).attr('data-top', ui.position.top);
                 $(ui.helper).attr('data-left', ui.position.left);
+            }
+            if(!self.width){
+                self.width=self.counterplace.width();
+                self.height=self.counterplace.height();                
+                self.counterplace.css({width:self.width+'px', height:self.height+'px'});
             }
             self.counter.css("z-index",1000);
         },
@@ -1950,8 +1966,14 @@ entutor.inputs.counter.prototype.draw = function () {
                 var position = entutor.currentCounter.counter.position();
                 entutor.currentCounter.counter.attr('data-top',  position.top);
                 entutor.currentCounter.counter.attr('data-left', position.left);
-            }        
+            }
+            if(!self.width){
+                self.width=self.counterplace.width();
+                self.height=self.counterplace.height();                
+                self.counterplace.css({width:self.width+'px', height:self.height+'px'});
+            }
         }        
+        
     });
     this.counterplace.append(this.counter);
 
@@ -1998,15 +2020,21 @@ entutor.inputs.counter.prototype.hide = function (delay) {
 
 };
 
-entutor.inputs.counter.prototype.show = function () {
-    this.counterplace.show();
-    this.counter.show();
+entutor.inputs.counter.prototype.show = function (delay) {
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.counterplace.show();
+        this.counter.show();
+    }
 };
 
 entutor.inputs.counter.prototype.start = function () {
-    var w=this.counterplace.width();
-    var h=this.counterplace.height();
-    this.counterplace.css({width:w+'px', height:h+'px'});
+    //var w=this.counterplace.width();
+    //var h=this.counterplace.height();
+    //var w=this.counter.width();
+    //var h=this.counter.height();
+    //this.counterplace.css({width:w+'px', height:h+'px'});
 };
 
 entutor.inputs.counter.prototype.isVisible = function(){
@@ -2106,6 +2134,7 @@ entutor.inputs.dropzone = function (parent, options) {
     this.hint=this.options.hint||'';
 
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
 
     //this.id
     entutor.dropzones[this.id] = this;
@@ -2284,8 +2313,12 @@ entutor.inputs.dropzone.prototype.hide = function (delay) {
     }
 };
 
-entutor.inputs.dropzone.prototype.show = function () {
-    this.dropzone.show();
+entutor.inputs.dropzone.prototype.show = function (delay) {
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.dropzone.show();
+    }
 };
 
 entutor.inputs.dropzone.prototype.isVisible = function(){
@@ -2463,6 +2496,7 @@ entutor.inputs.playlist = function (parent, options) {
     this.playlist = this.options.playlist || [];
 
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
 
     this.currenttrack = false;
     // console.log(this);
@@ -2563,8 +2597,12 @@ entutor.inputs.playlist.prototype.hide = function (delay) {
     }
 };
 
-entutor.inputs.playlist.prototype.show = function () {
-    this.domElement.show();
+entutor.inputs.playlist.prototype.show = function (delay) {
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.domElement.show();
+    }
 };
 
 entutor.inputs.playlist.prototype.isVisible = function(){
@@ -2693,6 +2731,7 @@ entutor.inputs.slideshow = function (parent, options) {
         maxScore: 1
     };
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
     // entutor.jplayers[this.id] = this;
 };
 
@@ -2809,11 +2848,15 @@ entutor.inputs.slideshow.prototype.hide = function (delay) {
     }
 };
 
-entutor.inputs.slideshow.prototype.show = function () {
-    this.domElement.show();
-    if(this.onShow){
-        this.onShow();
-        this.onShow = false;
+entutor.inputs.slideshow.prototype.show = function (delay) {
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.domElement.show();
+        if(this.onShow){
+            this.onShow();
+            this.onShow = false;
+        }
     }
 };
 
@@ -2854,12 +2897,12 @@ entutor.inputs.slideshow.prototype.start = function () {
         volume:1,
         timeupdate: self.timeupdate,
         ended:function(){
-                //            self.result.passed=true;
-                //            // console.log("self.notify([]);");
-                //            self.notify([]);
-                //            if(self.hideOnCorrect){
-                //                self.hide();
-                //            }
+                self.result.passed=true;
+                // console.log("self.notify([]);");
+                self.notify([]);
+                if(self.hideOnCorrect){
+                   self.hide();
+                }
         }
     });
     
@@ -3502,6 +3545,7 @@ entutor.flashrecorder = function (parent, options) {
     this.hint=this.options.hint||'';
 
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
 
     //this.id
     entutor.recorders[this.id] = this;
@@ -3666,10 +3710,14 @@ entutor.flashrecorder.prototype.hide = function (delay) {
     }
 };
 
-entutor.flashrecorder.prototype.show = function () {
-    this.domElement.show();
-    if(this.autostart){
-        entutor.recorderApp.startRecording($('button[data-id="'+this.id+'"]'));
+entutor.flashrecorder.prototype.show = function (delay) {
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.domElement.show();
+        if(this.autostart){
+            entutor.recorderApp.startRecording($('button[data-id="'+this.id+'"]'));
+        }
     }
 };
 
@@ -3959,6 +4007,7 @@ entutor.html5recorder = function (parent, options) {
     this.hint=this.options.hint||'';
 
     this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
 };
 
 entutor.html5recorder.prototype.showSuccess = function () {
@@ -4219,10 +4268,14 @@ entutor.html5recorder.prototype.hide = function(delay){
     }
 };
 
-entutor.html5recorder.prototype.show = function(){
-    this.domElement.show();
-    if(entutor.html5audioapi.audioRecorder && this.autostart){
-        this.btnStart.trigger('click');
+entutor.html5recorder.prototype.show = function(delay){
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.domElement.show();
+        if(entutor.html5audioapi.audioRecorder && this.autostart){
+            this.btnStart.trigger('click');
+        }
     }
 };
 
