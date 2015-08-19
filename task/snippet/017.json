@@ -1,0 +1,231 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 17)\n<br>1. На экране появляется формулировка задания и таймер обратного отсчета. (3-2-1-0)\n<br>2. На экране одновременно появляются слово и надпись «Запись» синего цвета. Через 1 секунду вместе с увеличением в размере первой буквы в слове автоматически начинается запись, и надпись «Запись» начинает мигать.\n<br>3. Студент озвучивает каждую увеличенную в размере букву в микрофон. Время распознавания каждой буквы – 2 секунды.\n<br>4. В случае правильного озвучивания буквы, буква остается увеличенной в размере и окрашивается в зеленый цвет. \n<br>5. Работа с каждой буквой этого слова происходит по данной схеме.\n<br>6. Конечный результат: все буквы слова увеличены в размере и окрашены в зеленый цвет.\n<br>7. В случае неправильного озвучивания буквы студентом, она окрашивается в оранжевый цвет и возвращает свой первоначальный размер на 1 секунду, потом снова увеличивается в размере. В этот момент начинает мигать надпись «Запись» синего цвета, и автоматически начинается запись. \n<br>8. После двух неудачных попыток кнопка «Правильный ответ» становится активной.\n<br>9. Нажатие на кнопку «Правильный ответ» блокирует запись, и диктор произносит правильный вариант. Сразу после этого начинает мигать надпись «Запись» синего цвета и автоматически начинается запись. Студент повторяет букву, и буква окрашивается в зеленый цвет.\n<br>10. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».\n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<span class=\"big\"><span class=\"blink\">r</span></span>at"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "3"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "2"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "1"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "0"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "beforeCorrect",
+      "autostart": true,
+      "autocheck": false,
+      "text": "[a:]",
+      "hideOnCorrect": false,
+      "duration": "5",
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<span class=\"big\"><span class=\"correct\">r</span><span class=\"blink\">a</span></span>t"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "3"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "2"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "1"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "0"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "beforeCorrect",
+      "autostart": true,
+      "autocheck": false,
+      "text": "[eɪ]",
+      "hideOnCorrect": false,
+      "duration": "5",
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<span class=\"big\"><span class=\"correct\">ra</span><span class=\"blink\">t</span></span>"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "3"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "2"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "1"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "hideOnCorrect": true,
+      "duration": "1",
+      "innerHtml": "0"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "beforeCorrect",
+      "autostart": true,
+      "autocheck": false,
+      "text": "[ti:]",
+      "hideOnCorrect": false,
+      "duration": "5",
+      "taskPassScore": 0.7,
+      "hint": "ti:",
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<span class=\"big\"><span class=\"correct\">rat</span></span>"
+     }
+    ]
+   }
+  ],
+  "classes": "height-s",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

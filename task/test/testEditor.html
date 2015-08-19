@@ -49,6 +49,7 @@
                         <option value="../snippet/012.json">12</option>
                         <option value="../snippet/012a.json">12a</option>
                         <option value="../snippet/016.json">16</option>
+                        <option value="../snippet/017.json">17</option>
                         <option value="../snippet/018.json">18</option>
                         
                         <option value="../snippet/020a.json">20a</option>
@@ -117,9 +118,9 @@
             
             $('#previewButton').click(function(){
                 entutor.json=entutor.currentEditor.getValue();
-                var task = new entutor.task(entutor.json);
-                $("#taskContainer").empty().append(task.draw());
-                task.start();
+                entutor.currentTask = new entutor.task(entutor.json);
+                $("#taskContainer").empty().append(entutor.currentTask.draw());
+                entutor.currentTask.start();
             });
             
             $('#snippet').change(function(){ 

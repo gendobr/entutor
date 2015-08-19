@@ -22,8 +22,8 @@ entutor.debug = true;
 entutor.verboseTest = false;
 entutor.verbosePrecondition = false;
 
-entutor.hideDelay=2000;
-entutor.showDelay=2005;
+entutor.hideDelay=1000;
+entutor.showDelay=1005;
 
 
 
@@ -48,10 +48,10 @@ entutor.load = function (jsonURL, containerSelector) {
         encode: true
     }).done(function (json) {
         entutor.json=json;
-        var task = new entutor.task(entutor.json);
-        $(entutor.containerSelector).empty().append(task.draw());
-        task.start();
-        window.location.hash = json.id;
+        entutor.currentTask = new entutor.task(entutor.json);
+        $(entutor.containerSelector).empty().append(entutor.currentTask.draw());
+        entutor.currentTask.start();
+        // window.location.hash = json.id;
     });
 };
 
@@ -385,7 +385,10 @@ entutor.inputs.card = function (parent, options) {
                 self.parent.testFinishedCallback(self.id, self.result);
             }
 
-            self.showChildren();
+            // showChildren() only if current card is visible
+            if(self.isVisible()){
+               self.showChildren();
+            }
         }
         
 
@@ -540,10 +543,10 @@ entutor.inputs.card.prototype.showChildren = function () {
                     allPreviousPassed = false;
                 }
             }
-            if(entutor.verbosePrecondition){
-                var noe=(new Date()).toString();
-                console.log('verbosePrecondition',noe,this.children[key].id, this.children[key].type, 'beforeCorrect',allPreviousPassed);
-            }
+            //if(entutor.verbosePrecondition){
+            //    var noe=(new Date()).toString();
+            //    console.log('verbosePrecondition',noe,this.children[key].id, this.children[key].type, 'beforeCorrect',allPreviousPassed);
+            //}
 
             var childIsVisible=this.children[key].isVisible();
             if (allPreviousPassed) {
@@ -3848,7 +3851,9 @@ entutor.html5audioapi.initAudioApi = function (options) {
 
     entutor.html5audioapi.startRecording=function (recorder) {
         
-        entutor.html5audioapi.stopRecording(recorder);
+        if(entutor.html5audioapi.currentRecorder){
+           entutor.html5audioapi.stopRecording(entutor.html5audioapi.currentRecorder);
+        }
         
         entutor.html5audioapi.currentRecorder = recorder;
         // entutor.html5audioapi.audioGain.gain.value = 1.0;
@@ -3864,17 +3869,16 @@ entutor.html5audioapi.initAudioApi = function (options) {
     entutor.html5audioapi.stopRecording=function (recorder) {
         // entutor.html5audioapi.audioGain.gain.value = 0.0;
         // console.log("stop recording");
-        entutor.html5audioapi.clearCurrentFrame();
-        
-        entutor.html5audioapi.audioRecorder.stop();
-        entutor.html5audioapi.audioRecorder.getBuffers( function ( buffers ) {
-            entutor.html5audioapi.audioRecorder.exportWAV( function ( blob ) {
-                if(entutor.html5audioapi.currentRecorder){
-                    entutor.html5audioapi.currentRecorder.onRecordFinished(blob);
-                }
-                entutor.html5audioapi.currentRecorder=recorder;
-            });
-        } );                
+        if(recorder){
+            entutor.html5audioapi.clearCurrentFrame();
+
+            entutor.html5audioapi.audioRecorder.stop();
+            entutor.html5audioapi.audioRecorder.getBuffers( function ( buffers ) {
+                entutor.html5audioapi.audioRecorder.exportWAV( function ( blob ) {
+                    recorder.onRecordFinished(blob);
+                });
+            });                
+        }
     };
 
 
@@ -4055,7 +4059,13 @@ entutor.html5recorder.prototype.draw = function () {
     this.btnStart=$('<input  type="button" data-audio-id="' + this.id + '" class="task-audio-start-record">');
 
     this.btnStart.click(function(ev){
-        // console.log(" this.btnStart.click ",self.btnStart);
+        //console.log(" this.btnStart.click ",(new Date()).toString(),self.id);
+        if(entutor.html5audioapi.currentRecorder && entutor.html5audioapi.currentRecorder.id===this.id){
+            return;
+        }
+        if(entutor.html5audioapi.currentRecorder && entutor.html5audioapi.currentRecorder.id!==this.id){
+            entutor.html5audioapi.currentRecorder.btnStop.trigger('click');
+        }
         self.btnStart.hide();
         self.btnStop.show();
         self.indicator.show();
@@ -4067,10 +4077,6 @@ entutor.html5recorder.prototype.draw = function () {
             maxScore: this.maxScore
         };
         
-        if(entutor.html5audioapi.currentRecorder){
-            entutor.html5audioapi.currentRecorder.btnStart.show();
-            entutor.html5audioapi.currentRecorder.btnStop.hide();
-        }
         entutor.html5audioapi.startRecording(self);
         self.stopTimeout = setTimeout(function(){self.btnStop.trigger('click');},self.duration*1000);
         self.countDownTimeout = setInterval(function(){
@@ -4090,19 +4096,23 @@ entutor.html5recorder.prototype.draw = function () {
     // button to stop recording
     this.btnStop=$('<input  type="button" data-audio-id="' + this.id + '" class="task-audio-stop-record">');
     this.btnStop.click(function(ev){
-        //console.log(" this.btnStop.click ",self.btnStop);
+        //console.log(" this.btnStop.click ",(new Date()).toString(),self.btnStop);
         self.btnStart.show();
         self.btnStop.hide();
         self.countDown.hide();
         self.indicator.hide();
 
-        entutor.html5audioapi.stopRecording(null);
+        entutor.html5audioapi.stopRecording(self);
         if(self.stopTimeout){
             clearTimeout(self.stopTimeout);
             self.stopTimeout=false;
         }
         if(self.countDownTimeout){
-            clearInterval(self.countDownTimeout);        
+            clearInterval(self.countDownTimeout);
+            self.countDownTimeout=null;
+        }
+        if(entutor.html5audioapi.currentRecorder){
+            entutor.html5audioapi.currentRecorder=false;
         }
     });
     this.btnStop.hide();
@@ -4273,8 +4283,9 @@ entutor.html5recorder.prototype.show = function(delay){
         setTimeout(this.showDelayed,entutor.showDelay);
     }else{
         this.domElement.show();
-        if(entutor.html5audioapi.audioRecorder && this.autostart){
-            this.btnStart.trigger('click');
+        if(this.onStart){
+            this.onStart();
+            this.onStart=false;
         }
     }
 };
@@ -4284,20 +4295,40 @@ entutor.html5recorder.prototype.isVisible = function(){
 };
 
 entutor.html5recorder.prototype.start = function () {
-    var self=this;
-    if(this.autostart && this.isVisible()){
+    if(this.autostart){
+        var self=this;
         if(entutor.html5audioapi.audioRecorder){
-           this.btnStart.trigger('click');
+            if(this.isVisible()){
+                // console.log(self.id,'1');
+                this.btnStart.trigger('click');
+            }else{
+                // console.log(self.id,'2');
+                this.onStart=function(){
+                    // console.log(self.id,'2-1');
+                    self.btnStart.trigger('click');
+                };
+            }
         }else{
+            // console.log(self.id,'3');
             $(document).bind('audioapi:activated',function(){
-                self.btnStart.trigger('click');
+
+                if(self.isVisible()){
+                    // console.log(self.id,'3-1');
+                    self.btnStart.trigger('click');
+                }else{
+                    // console.log(self.id,'3-2');
+                    self.onStart=function(){
+                        //console.log(self.id,'3-2-1');
+                        self.btnStart.trigger('click');
+                    };
+                }
             });
         }
     }
 };
 
 entutor.html5recorder.prototype.notify = function (stack) {
-    if(this.options.autocheck){
+    if(this.autocheck){
         this.test();
     }
     if(this.parent){
@@ -4308,14 +4339,16 @@ entutor.html5recorder.prototype.notify = function (stack) {
 
 entutor.html5recorder.prototype.onRecordFinished = function(blob){
     var self=this;
-    
+    // console.log('onRecordFinished ',(new Date()).toString(), this.id);
     // encode as base64
     var reader = new window.FileReader();
     var prefix="data:audio/wav;base64,";
     reader.readAsDataURL(blob); 
     reader.onloadend = function() {
         self.value= reader.result.substr(prefix.length);                
+        self.notify([]);
     };
+
     // clear result
     this.result = {
         status: entutor.task.status.waiting,
@@ -4325,7 +4358,6 @@ entutor.html5recorder.prototype.onRecordFinished = function(blob){
         details: false
     };
 
-    this.notify([]);
 };
 
 entutor.html5recorder.prototype.showHint = function () {

@@ -372,16 +372,6 @@
     border:1px solid #89c122;
 }
 
-.taskPresentationText .frame{
-    text-align:center;
-    font-size:150%;
-    padding-top:70px;
-}
-
-.taskPresentationText .frame2{
-    text-align:center;
-    font-size:150%;
-}
 
 /******************************************************************************/
 .recorder-level{
@@ -573,6 +563,22 @@
     display: inline-block;
 }
 
+.nomargin{
+    margin:0px;
+    padding:0px;
+}
+
+
+.transition{
+    -webkit-transition: width 1s ease-out 1.5s,  height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
+    -moz-transition: width 1s ease-out 1.5s, height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
+    -o-transition: width 1s ease-out 1.5s, height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
+    transition: width 1s ease-out 1.5s , height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
+}
+
+/* классы для оформления заданий */
+
+/* моргающий фон для привлечения внимания */
 .blink{
     -webkit-animation-name: counter-active;
     -webkit-animation-duration: 0.6s;
@@ -585,34 +591,74 @@
     animation-direction: alternate;    
 }
 
-.nomargin{
-    margin:0px;
-    padding:0px;
-}
 
+/* не показывать слова в элементе recorder */
 .nowords .task-audio-words{
     display:none;
 }
 
-
-.transition{
-    -webkit-transition: width 1s ease-out 1.5s,  height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
-    -moz-transition: width 1s ease-out 1.5s, height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
-    -o-transition: width 1s ease-out 1.5s, height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
-    transition: width 1s ease-out 1.5s , height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
-}
-.hideAnimated{
-    width:0px;
-    height:0px;
-    padding:0px;
-    overflow:hidden;
-
+/* размеры символов */
+.big{
+    font-size:150%;
 }
 
+.giant{
+    font-size:300%;
+}
 
+/* пометка для правильного текста */
+.correct{
+    color:#007700;
+}
+
+/*
+  radiobuttons
+  для размещения вариантов ответа в строки по 3 шт 
+  надо поставить дополнительный класс t3x3
+  и размещение flow
+*/
 .task-radiobuttons.t3x3.flow .task-radio-label{
     display:inline-block;
     width:32%;
     text-align:center;
     font-size:150%;
+}
+
+
+/*
+  Для текста в элементе slideshow
+  Мало текста и большое поле сверху
+ */
+.taskPresentationText .frame{
+    text-align:center;
+    font-size:150%;
+    padding-top:70px;
+}
+
+/*
+  Для текста в элементе slideshow
+  Много текста и маленькое поле сверху
+ */
+.taskPresentationText .frame2{
+    text-align:center;
+    font-size:150%;
+}
+
+/* 
+ * разные высоты для карточек
+ */
+.task-card.height-xs{
+    min-height:100pt;
+}
+.task-card.height-s{
+    min-height:200pt;
+}
+.task-card.height-m{
+    min-height:400pt;
+}
+.task-card.height-l{
+    min-height:500pt;
+}
+.task-card.height-xl{
+    min-height:600pt;
 }
