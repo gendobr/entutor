@@ -1,0 +1,48 @@
+{
+ "presentation": {
+  "innerHtml": ""
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "slideshow",
+    "classes": "height-s",
+    "precondition": "none",
+    "supplied": "mp3,oga,wav",
+    "hideOnCorrect": false,
+    "autostart": false,
+    "media": {
+     "title": "title",
+     "mp3": "http://localhost/entutor-js/task/snippet/media/task001.mp3",
+     "oga": "http://localhost/entutor-js/task/snippet/media/task001.ogg",
+     "wav": "http://localhost/entutor-js/task/snippet/media/task001.wav"
+    },
+    "slides": [
+     {
+      "html": "<div class=\"frame2\"><img src=\"../snippet/media/image1.jpg\"></div>",
+      "from": "0",
+      "to": "4"
+     },
+     {
+      "html": "<div class=\"frame2\"><img src=\"../snippet/media/image1.jpg\"><br>Slovo 1</div>",
+      "from": "4",
+      "to": "8"
+     },
+     {
+      "html": "<div class=\"frame2\"><img src=\"../snippet/media/image1.jpg\"><br>Slovo 1<div class=\"blink\">Повторите</div></div>",
+      "from": "8",
+      "to": "14"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

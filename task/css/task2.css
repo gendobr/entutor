@@ -72,13 +72,13 @@
     display:inline-block;
     position:relative;
     width:100%;
-    // padding:5px;
+    /* padding:5px; */
 }
 
 .task-card-vertical > .task-card-element{
     display:block;
     position:relative;
-    width:100%;
+    /* width:100%; */
 }
 
 .task-card-horizontal  > .task-card-element{
@@ -576,6 +576,11 @@
     transition: width 1s ease-out 1.5s , height 1s ease-out 1.5s,  padding 1s ease-out 1.5s;
 }
 
+
+.task-sound{
+    white-space:nowrap;
+}
+
 /* классы для оформления заданий */
 
 /* моргающий фон для привлечения внимания */
@@ -661,4 +666,34 @@
 }
 .task-card.height-xl{
     min-height:600pt;
+}
+
+.task-slideshow.height-xs .taskPresentationText{
+    height:150pt;
+}
+.task-slideshow.height-s .taskPresentationText{
+    height:200pt;
+}
+.task-slideshow.height-m .taskPresentationText{
+    height:250pt;
+}
+.task-slideshow.height-l .taskPresentationText{
+    height:300pt;
+}
+.task-slideshow.height-xl .taskPresentationText{
+    height:350pt;
+}
+
+
+.aggregate-and.task-card-error{
+    background-color:#cf5700;
+}
+.aggregate-and .task-radio-error,
+.aggregate-and .task-radio-correct
+{
+    background:none;
+}
+
+.aggregate-and.task-card-correct{
+    background-color:#89c122;
 }

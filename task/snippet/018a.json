@@ -1,0 +1,78 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 18а)\n<br>1. В верхней части экрана появляется картинка. В нижней части экрана слева – \n   фраза I have got (она не активна). Под картинкой экран поделен на две части \n   с тремя карточками в каждой из этих частей.\n<br>2. Студент выбирает по одной карточке из каждого столбика, чтобы получилось \n   предложение, соответствующее картинке.\n<br>3. Если карточки выбраны правильно, то они загораются зелёным, и появляется следующая картинка с набором карточек.\n<br>4. Если карточки выбраны неправильно, то они загораются оранжевым на 2 секунды. Студент выполняет задание еще раз.\n<br>5. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».  \n<br>\n<br>html, картинки, последовательный выбор нескольких из множества\n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image1.jpg\">"
+     },
+     {
+      "type": "card",
+      "classes": "aggregate-and",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "radio",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "correctVariant": "1",
+        "size": "5",
+        "arrange": "vertical",
+        "variant": {
+         "1": "variant1",
+         "2": "variant2",
+         "3": "variant3"
+        }
+       },
+       {
+        "type": "radio",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "correctVariant": "3",
+        "size": "5",
+        "arrange": "vertical",
+        "variant": {
+         "1": "variant3",
+         "2": "variant2",
+         "3": "variant1"
+        }
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}
