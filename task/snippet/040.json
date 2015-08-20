@@ -1,0 +1,26 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 40??)\n<br>1. На экране появляется текст.\n<br>2. Студент читает данный текст. \n<br>3. Через 30 секунд становится активной кнопка «Далее»\n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "none",
+    "hideOnCorrect": false,
+    "duration": "4",
+    "innerHtml": " This tutorial will take you through the steps of setting up and configuring a simple mail server (SMTP, POP3, IMAP) on Debian/Linux. The instructions will be given for Debian, but they can be adapted quite simply to other distributions such as Ubuntu and other Debian-based OSes; you could even pretty much follow the same steps if you're running Red-Hat based systems such as CentOS or Fedora. I can promise you that this is as easy as it gets, provided you have correctly verified and validated the pre-requisites step.\n"
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

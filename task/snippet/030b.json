@@ -8,7 +8,7 @@
    {
     "type": "card",
     "classes": "",
-    "arrange": "horizontal",
+    "arrange": "vertical",
     "taskPassScore": 1,
     "precondition": "none",
     "customtest": "",
@@ -16,43 +16,87 @@
     "hideOnCorrect": true,
     "children": [
      {
-      "type": "html",
+      "type": "card",
       "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
       "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
       "hideOnCorrect": false,
-      "duration": 0,
-      "innerHtml": "1"
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "1"
+       },
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": true,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+         "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+         "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+        }
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "a big apple",
+        "value": "",
+        "size": 15,
+        "hint": "a big apple"
+       }
+      ]
      },
      {
-      "type": "sound",
+      "type": "card",
       "classes": "",
-      "precondition": "none",
-      "autostart": true,
-      "supplied": "mp3,oga,wav",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "beforeCorrect",
+      "customtest": "",
+      "maxScore": 1,
       "hideOnCorrect": false,
-      "media": {
-       "title": "",
-       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
-       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
-       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
-      }
-     },
-     {
-      "type": "text",
-      "classes": "",
-      "precondition": "none",
-      "hideOnCorrect": false,
-      "pattern": "a big apple",
-      "value": "",
-      "size": 15,
-      "hint": "a big apple"
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "Поставьте данное предложение в отрицательную форму и озвучьте его"
+       },
+       {
+        "type": "recorder",
+        "classes": "nowords",
+        "precondition": "none",
+        "autostart": false,
+        "autocheck": false,
+        "text": "small apple",
+        "hideOnCorrect": false,
+        "duration": 30,
+        "taskPassScore": 0.7,
+        "soundScrorerURL": "./voiceinputscorer.php"
+       }
+      ]
      }
     ]
    },
    {
     "type": "card",
     "classes": "",
-    "arrange": "horizontal",
+    "arrange": "vertical",
     "taskPassScore": 1,
     "precondition": "beforeCorrect",
     "customtest": "",
@@ -60,43 +104,88 @@
     "hideOnCorrect": true,
     "children": [
      {
-      "type": "html",
+      "type": "card",
       "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
       "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
       "hideOnCorrect": false,
-      "duration": 0,
-      "innerHtml": "2."
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "2."
+       },
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": true,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+         "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+         "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+        }
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "a watch is fast",
+        "value": "",
+        "size": 15,
+        "hint": "a watch is fast"
+       }
+      ]
      },
      {
-      "type": "sound",
+      "type": "card",
       "classes": "",
-      "precondition": "none",
-      "autostart": true,
-      "supplied": "mp3,oga,wav",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "beforeCorrect",
+      "customtest": "",
+      "maxScore": 1,
       "hideOnCorrect": false,
-      "media": {
-       "title": "",
-       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
-       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
-       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
-      }
-     },
-     {
-      "type": "text",
-      "classes": "",
-      "precondition": "none",
-      "hideOnCorrect": false,
-      "pattern": "a watch is fast",
-      "value": "",
-      "size": 15,
-      "hint": "a watch is fast"
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "Поставьте данное предложение в отрицательную форму и озвучьте его"
+       },
+       {
+        "type": "recorder",
+        "classes": "nowords",
+        "precondition": "none",
+        "autostart": false,
+        "autocheck": false,
+        "text": "a watch is slow",
+        "hideOnCorrect": false,
+        "duration": 30,
+        "taskPassScore": 0.7,
+        "soundScrorerURL": "./voiceinputscorer.php"
+       }
+      ],
+      "autocheck": false
      }
     ]
    },
    {
     "type": "card",
     "classes": "",
-    "arrange": "horizontal",
+    "arrange": "vertical",
     "taskPassScore": 1,
     "precondition": "beforeCorrect",
     "customtest": "",
@@ -104,36 +193,80 @@
     "hideOnCorrect": false,
     "children": [
      {
-      "type": "html",
+      "type": "card",
       "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
       "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
       "hideOnCorrect": false,
-      "duration": 0,
-      "innerHtml": "3."
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "3."
+       },
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": true,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+         "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+         "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+        }
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "night watch",
+        "value": "",
+        "size": 15,
+        "hint": "night watch"
+       }
+      ]
      },
      {
-      "type": "sound",
+      "type": "card",
       "classes": "",
-      "precondition": "none",
-      "autostart": true,
-      "supplied": "mp3,oga,wav",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "beforeCorrect",
+      "customtest": "",
+      "maxScore": 1,
       "hideOnCorrect": false,
-      "media": {
-       "title": "",
-       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
-       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
-       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
-      }
-     },
-     {
-      "type": "text",
-      "classes": "",
-      "precondition": "none",
-      "hideOnCorrect": false,
-      "pattern": "night watch",
-      "value": "",
-      "size": 15,
-      "hint": "night watch"
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "Поставьте данное предложение в отрицательную форму и озвучьте его"
+       },
+       {
+        "type": "recorder",
+        "classes": "",
+        "precondition": "none",
+        "autostart": false,
+        "autocheck": false,
+        "text": "day watch",
+        "hideOnCorrect": false,
+        "duration": 30,
+        "taskPassScore": 0.7,
+        "soundScrorerURL": "./voiceinputscorer.php"
+       }
+      ]
      }
     ]
    }

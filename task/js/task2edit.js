@@ -319,7 +319,7 @@ entutor.editors.card.prototype.draw = function () {
     this.optionBlock.append(entutor.components.select(this.value, 'arrange', 'Arrange subelements', {'horizontal': 'horizontal', 'vertical': 'vertical','flow':'flow'} , function(value){self.childContainer.removeClass('flow').removeClass('vertical').removeClass('horizontal').addClass(value);}));
     this.optionBlock.append(entutor.components.string(this.value, 'taskPassScore', 'Task Pass Score'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    this.optionBlock.append(entutor.components.text(this.value, 'customtest', 'Custom test function' /*, callback */));
+    // this.optionBlock.append(entutor.components.text(this.value, 'customtest', 'Custom test function' /*, callback */));
     this.optionBlock.append(entutor.components.string(this.value, 'maxScore', 'Max Score'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));

@@ -1,0 +1,65 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 35)\n<br>1. На экране появляется видеоролик, который проигрывается после нажатия кнопки «В».  Все фразы даются c субтитрами.\n<br>2. После окончания проигрывания Видео становится активной кнопка «Далее».\n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "video",
+    "classes": "",
+    "precondition": "none",
+    "autostart": false,
+    "supplied": "m4v,ogv,webmv",
+    "hideOnCorrect": false,
+    "media": {
+     "title": "",
+     "m4v": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.mp4",
+     "ogv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.ogv",
+     "wav": "http://localhost/entutor-js/task/test/webmv%20file%20URL",
+     "webmv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm"
+    },
+    "subtitles": [
+     {
+      "html": "One",
+      "from": "0",
+      "to": "2"
+     },
+     {
+      "html": "Two",
+      "from": "2",
+      "to": "4"
+     },
+     {
+      "html": "Three",
+      "from": "4",
+      "to": "6"
+     },
+     {
+      "html": "Four",
+      "from": "6",
+      "to": "8"
+     },
+     {
+      "html": "Five",
+      "from": "8",
+      "to": "10"
+     },
+     {
+      "html": "Six",
+      "from": "10",
+      "to": "12"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

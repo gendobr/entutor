@@ -767,8 +767,7 @@ entutor.inputs.text = function (parent, options) {
     this.result = null;
     this.pattern = this.options.pattern || null;
     if (typeof (this.pattern) === 'string') {
-        this.pattern = new RegExp('^ *' + this.pattern.trim().replace(/ +/g,' +') + ' *$');
-        //console.log(this.pattern);
+        this.pattern = this.createRegExp(this.pattern);
     }
     this.customtest = this.options.customtest || false;
     this.autocheck=this.options.autocheck||false;
@@ -784,6 +783,16 @@ entutor.inputs.text = function (parent, options) {
     this.showDelayed=function(){ self.show(); };
 
     this.value = false;
+};
+
+entutor.inputs.text.prototype.createRegExp = function (str) {
+    var tmp1, tmp2;
+    tmp1=str.trim();
+    tmp2=tmp1.replace(/ +/g,' +');
+    tmp1=tmp2.replace(/\\\?/," *\\?");
+    //console.log('tmp1='+tmp1);
+    var tmp2=new RegExp('^ *' + tmp1 + ' *$')
+    return tmp2;
 };
 
 entutor.inputs.text.prototype.showSuccess = function () {
@@ -822,7 +831,7 @@ entutor.inputs.text.prototype.test = function () {
         };
     } else {
         //console.log("undefined");
-        this.result = this.result = {
+        this.result = {
             status: entutor.task.status.received,
             score: 0,
             passed: 'undefined',
@@ -831,7 +840,7 @@ entutor.inputs.text.prototype.test = function () {
     }
 
     this.removeFeedback();
-    if (this.result && this.result.maxScore > 0) {
+    if (this.result) {
         if (this.result.passed === true) {
             this.showSuccess();
             if(this.hideOnCorrect){
@@ -902,6 +911,9 @@ entutor.inputs.text.prototype.isVisible = function(){
 };
 
 entutor.inputs.text.prototype.show = function (delay) {
+    if(this.result.passed===true && this.hideOnCorrect){
+        return;
+    }
     if(delay && parseInt(delay)>0){
         setTimeout(this.showDelayed,entutor.showDelay);
     }else{

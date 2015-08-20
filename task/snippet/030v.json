@@ -1,0 +1,162 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 30в)\n<br>1. В левой части экрана появляется набор слов на русском языке.\n<br>2. В правой части экрана – слово на русском языке для составления ответа.\n<br>3. Ниже на экране две активные строки ввода и кнопка «Готово».\n<br>4. В первой строке ввода студент печатает вопрос, а во второй – ответ и нажимает кнопку «Готово».\n<br>5. Если предложения составлены правильно, то они загораются зелёным и исчезают \n   с экрана. Появляется следующее набор слов на русском языке.\n<br>6. Если предложения составлены неправильно, то они загораются оранжевым, \n   и строка становится чистой. Студент выполняет задание ещё раз.\n<br>7. После двух неудачных попыток кнопка «Правильный ответ» становится активной, \n   и при нажатии на нее в строке ввода появляется правильное предложение \n   на 3 секунды и исчезает. Строка ввода становится активной, и студент выполняет задание еще раз.\n<br>8. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "Что это?"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "What is it\\?",
+        "value": "",
+        "size": 20,
+        "hint": "What is it?"
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "Яблоко"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "It is an apple.",
+        "value": "",
+        "size": 20,
+        "hint": "It is an apple."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "Какого цвета яблоко?"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "Which color has the apple\\?",
+        "value": "",
+        "size": 20,
+        "hint": "Which color has the apple?"
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "Зелёный"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "The apple is green.",
+        "value": "",
+        "size": 20,
+        "hint": "The apple is green."
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}
