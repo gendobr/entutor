@@ -1,0 +1,169 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 22а)\n<br>1. В центре экрана появляется строка ввода, где студент должен напечатать слова. \n   Строка ввода рассчитана на введение не более 8 знаков. \n   Слева от строки на одном уровне написано It is. Справа на этом же уровне – картинка.\n<br>2. Под активным полем – кнопка «Готово», которую студент нажимает после ввода слова.\n<br>3. Если слово напечатано правильно, то оно окрашивается в зелёный цвет.\n<br>4. Если слово напечатано неправильно, то оно окрашивается в оранжевый цвет, и слово исчезает. Задание следует выполнить повторно.\n<br>5. После второй неудачной попытки кнопка «Правильный ответ» становится активной. На месте активного курсора появляется нужное слово, которое исчезает через 2 секунды. На этом месте снова появляется активный курсор. Студент должен выполнить задание еще раз.\n<br>6. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image4.jpg\">"
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "It is"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "photo",
+        "value": "",
+        "size": "5",
+        "maxlength": null,
+        "hint": "photo"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image2.jpg\">"
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "It is"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "image",
+        "value": "",
+        "size": "5",
+        "hint": "image"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image5.jpg\">"
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "It is"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "picture",
+        "value": "",
+        "size": "5",
+        "hint": "picture"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "classes": "height-m",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

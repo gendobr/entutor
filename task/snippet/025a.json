@@ -1,0 +1,138 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 25а)\n<br>1. На экране появляется формулировка задания и таймер обратного отсчета. (3-2-1-0)\n<br>2. Диктор озвучивает первый вопрос. В правой части экрана автоматически \n   появляются три варианта ответов на этот вопрос.\n<br>3. Студент нажимает на соответствующий вариант ответа.\n<br>4. Если ответ выбран правильно, то он загорается зелёным цветом. Диктор озвучивает \n   следующий вопрос, и на экране появляются три варианта ответов на этот вопрос.\n<br>5. Если ответ выбран неправильно, то он загорается оранжевым. Диктор озвучивает \n   тот же вопрос. Студент выполняет задание ещё раз.\n<br>6. После второй неудачной попытки становится активной кнопка «Правильный ответ». \n   При ее нажатии соответствующий вариант ответа загорается зеленым на 2 секунды. \n   Диктор озвучивает вопрос еще раз, студент выбирает правильный ответ.\n<br>7. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "vertical",
+      "variant": {
+       "1": "correct answer",
+       "2": "wrong answer",
+       "3": "mistake"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "2",
+      "size": "5",
+      "arrange": "vertical",
+      "variant": {
+       "1": "wrong answer",
+       "2": "correct answer",
+       "3": "mistake"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "3",
+      "size": "5",
+      "arrange": "vertical",
+      "variant": {
+       "1": "mistake",
+       "2": "wrong answer",
+       "3": "correct answer"
+      }
+     }
+    ]
+   }
+  ],
+  "classes": "height-xs",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

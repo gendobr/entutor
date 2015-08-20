@@ -1,0 +1,150 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 30б)\n<br>1. На экране появляется формулировка задания и таймер обратного отсчета. (3-2-1-0)\n<br>2. В верхней части экрана появляется активная строка для ввода. Слева от строки – неактивная кнопка «В». Справа – «Готово».\n<br>3. Диктор озвучивает предложение, и кнопка «В» становится активной.\n<br>4. Студент впечатывает предложение в строке ввода и нажимает кнопку «Готово».\n<br>5. Если предложение напечатано неправильно, то оно загорается оранжевым на 2 секунды и исчезает. Студент впечатывает предложение еще раз.\n<br>6. После второй неудачной попытки кнопка «Правильный ответ» становится активной, при нажатии на которую в строке появляется предложение, которое исчезает через 2 секунды. Студент выполняет задание еще раз.\n<br>7. Если предложение напечатано правильно, то оно загорается зеленым, и под данной строкой ввода появляется следующая формулировка: «Поставьте данное предложение в отрицательную форму и озвучьте его». При этом кнопки «В» и «Готово» возле строки ввода становятся неактивными.\n<br>8. Под формулировкой появляются кнопки «З» и «Готово». Начинает мигать кнопка «З». Студент озвучивает предложение в отрицательной форме и нажимает кнопку «Готово».\n<br>9. Если ответ дан правильно, то в верхней части экрана появляется активная строка, и диктор произносит следующее предложение.\n<br>10. Если предложение озвучено неправильно, то на экране появляется надпись «Неправильно» оранжевого цвета на 2 секунды. Начинает мигать кнопка «З», и студент произносит предложение еще раз.\n<br>11. После двух неудачных попыток кнопка «Правильный ответ» становится активной. При нажатии на кнопку диктор произносит предложение в отрицательной форме. Начинает мигать кнопка «З», и студент повторяет предложение.\n<br>12. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "1"
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "a big apple",
+      "value": "",
+      "size": 15,
+      "hint": "a big apple"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "2."
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "a watch is fast",
+      "value": "",
+      "size": 15,
+      "hint": "a watch is fast"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "3."
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "night watch",
+      "value": "",
+      "size": 15,
+      "hint": "night watch"
+     }
+    ]
+   }
+  ],
+  "classes": "height-xxs",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

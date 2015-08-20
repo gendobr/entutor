@@ -1,0 +1,144 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 25)\n<br>1. В левой части экрана автоматически появляется видео, в правой части экрана – \n   3 варианта реплик для ответа с кнопкой «В» возле каждого варианта.\n<br>2. Студент выбирает правильный ответ. Если ответ выбран правильно, \n   фраза загорается зелёным цветом, и запускается следующее видео с вариантами реплик для ответа. \n<br>3. Если ответ выбран неправильно, реплика загорается оранжевым цветом на 2 секунды, \n   и студент выполняет задание ещё раз (видео повторно не воспроизводится).\n<br>4. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». "
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "video",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "m4v,ogv,webmv",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "title",
+       "m4v": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.mp4",
+       "ogv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.ogv",
+       "wav": "http://localhost/entutor-js/task/test/webmv%20file%20URL",
+       "webmv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm"
+      },
+      "subtitles": []
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "vertical",
+      "variant": {
+       "1": "correct answer",
+       "2": "wrong answer",
+       "3": "mistake"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "video",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "m4v,ogv,webmv",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "title",
+       "m4v": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.mp4",
+       "ogv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.ogv",
+       "wav": "http://localhost/entutor-js/task/test/webmv%20file%20URL",
+       "webmv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm"
+      },
+      "subtitles": []
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "2",
+      "size": "5",
+      "arrange": "vertical",
+      "variant": {
+       "1": "wrong answer",
+       "2": "correct answer",
+       "3": "mistake"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "video",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "m4v,ogv,webmv",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "title",
+       "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
+       "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
+       "wav": "webmv file URL",
+       "webmv": "../snippet/media/EddiethebeagleDumbo.webm"
+      },
+      "subtitles": []
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "3",
+      "size": "5",
+      "arrange": "vertical",
+      "variant": {
+       "1": "mistake",
+       "2": "wrong answer",
+       "3": "correct answer"
+      }
+     }
+    ]
+   }
+  ],
+  "classes": "height-l",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

@@ -40,7 +40,7 @@
 .task-html {
   display: inline-block;
   margin-top: 12px;
-  margin-right:1em;
+  /* margin-right:1em; */
 }
 
 
@@ -78,7 +78,10 @@
 .task-card-vertical > .task-card-element{
     display:block;
     position:relative;
-    /* width:100%; */
+    display: block;
+    padding: 0;
+    position: relative;
+    width:100%;
 }
 
 .task-card-horizontal  > .task-card-element{
@@ -543,7 +546,6 @@
     width: 98%;    
 }
 .task-radiobuttons,
-.task-card,
 .task-video,
 .task-audio{
     position:relative;
@@ -652,48 +654,30 @@
 /* 
  * разные высоты для карточек
  */
-.task-card.height-xs{
-    min-height:100pt;
-}
-.task-card.height-s{
-    min-height:200pt;
-}
-.task-card.height-m{
-    min-height:400pt;
-}
-.task-card.height-l{
-    min-height:500pt;
-}
-.task-card.height-xl{
-    min-height:600pt;
-}
-
-.task-slideshow.height-xs .taskPresentationText{
-    height:150pt;
-}
-.task-slideshow.height-s .taskPresentationText{
-    height:200pt;
-}
-.task-slideshow.height-m .taskPresentationText{
-    height:250pt;
-}
-.task-slideshow.height-l .taskPresentationText{
-    height:300pt;
-}
-.task-slideshow.height-xl .taskPresentationText{
-    height:350pt;
-}
+.task-card.height-xxs{ min-height:100pt; }
+.task-card.height-xs{  min-height:150pt; }
+.task-card.height-s{   min-height:200pt; }
+.task-card.height-m{   min-height:250pt; }
+.task-card.height-l{   min-height:300pt; }
+.task-card.height-xl{  min-height:350pt; }
+.task-card.height-xxl{ min-height:400pt; }
 
 
-.aggregate-and.task-card-error{
-    background-color:#cf5700;
-}
-.aggregate-and .task-radio-error,
-.aggregate-and .task-radio-correct
-{
-    background:none;
-}
+.task-slideshow.height-xxs .taskPresentationText{ height:150pt; }
+.task-slideshow.height-xs .taskPresentationText{  height:200pt; }
+.task-slideshow.height-s .taskPresentationText{   height:250pt; }
+.task-slideshow.height-m .taskPresentationText{   height:300pt; }
+.task-slideshow.height-l .taskPresentationText{   height:350pt; }
+.task-slideshow.height-xl .taskPresentationText{  height:400pt; }
+.task-slideshow.height-xxl .taskPresentationText{ height:450pt; }
 
-.aggregate-and.task-card-correct{
-    background-color:#89c122;
+
+.aggregate-and.task-card-error{  background-color:#cf5700; }
+.aggregate-and .task-radio-error, .aggregate-and .task-radio-correct {  background:none; }
+.aggregate-and.task-card-correct{ background-color:#89c122; }
+
+
+/* без горизонтальных отступов */
+.tight .task-html{
+    margin-right:0px;
 }

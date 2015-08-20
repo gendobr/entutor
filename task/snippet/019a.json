@@ -1,0 +1,98 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 19а)\n<br>1. На экране появляется два звука на активных кнопках. Диктор произносит первое слово. \n   Студент нажимает на кнопку со звуком, который содержится в данном слове.\n<br>2. Если кнопка выбрана правильно, то она загорается зеленым, и диктор произносит следующее слово.\n<br>3. Если кнопка выбрана неправильно, то она загорается оранжевым, диктор повторяет то же слово. Студент повторяет задание еще раз.\n<br>4. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».   \n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "a",
+       "2": "b",
+       "3": "c"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-02.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-02.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-02.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "d",
+       "2": "e",
+       "3": "f"
+      }
+     }
+    ]
+   }
+  ],
+  "classes": "height-xs",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

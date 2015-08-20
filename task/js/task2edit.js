@@ -344,9 +344,45 @@ entutor.editors.card.prototype.draw = function () {
         });
     }
 
+    self.addChild=function(type){
+        if (typeof (entutor.editors[type]) === 'function') {
+            var constructor = entutor.editors[type];
+            var childObject = new constructor(self, {type:type});
+            self.children.push(childObject);
+
+            var i=self.children.length-1;
+            var childDomElement = self.children[i].draw();
+            self.childContainer.append(childDomElement);
+
+            self.children[i].delLink=$('<a class="editor-options-link" href="javascript:void(\'del\')" data-i=\"'+i+'\">&times;</a>');
+            self.children[i].delLink.click(function(ev){
+                var trg=$(ev.target);
+                var j=trg.attr('data-i');
+                self.children[j].container.remove();
+                self.children.splice(j,1);
+                for (var i = 0; i < self.children.length; i++) {
+                    self.children[i].delLink.attr('data-i',i);
+                    self.children[i].upLink.attr('data-i',i);
+                    self.children[i].downLink.attr('data-i',i);
+                }
+                $(document).trigger("editor:updated");
+            });
+            self.children[i].toolbar.prepend(self.children[i].delLink);
+
+            self.children[i].upLink=$('<a class="editor-options-link" href="javascript:void(\'up\')" data-i=\"'+i+'\">&Wedge;</a>');
+            self.children[i].upLink.click(self.getUpMover);
+            self.children[i].toolbar.prepend(self.children[i].upLink);
+
+            self.children[i].downLink=$('<a class="editor-options-link" href="javascript:void(\'down\')" data-i=\"'+i+'\">&Vee;</a>');
+            self.children[i].downLink.click(self.getDownMover);
+            self.children[i].toolbar.prepend(self.children[i].downLink);
+
+            $(document).trigger("editor:updated");
+        }
+    };
 
 
-    var delChild=function(ev){
+    this.delChild=function(ev){
         var trg=$(ev.target);
         var j=trg.attr('data-i');
         self.children[j].container.remove();
@@ -359,7 +395,7 @@ entutor.editors.card.prototype.draw = function () {
         $(document).trigger("editor:updated");
     };
     
-    var getUpMover=function(ev){
+    this.getUpMover=function(ev){
         var tgt=$(ev.target);
         var i=parseInt(tgt.attr('data-i'));
         if(i>0){
@@ -376,7 +412,7 @@ entutor.editors.card.prototype.draw = function () {
             $(document).trigger("editor:updated");
         }
     };
-    var getDownMover=function(ev){
+    this.getDownMover=function(ev){
         var tgt=$(ev.target);
         var i=parseInt(tgt.attr('data-i'));
         if( i < ( self.children.length - 1 )  ){
@@ -403,47 +439,7 @@ entutor.editors.card.prototype.draw = function () {
         this.childContainer.append(childDomElement);
 
         this.children[i].delLink=$('<a class="editor-options-link" href="javascript:void(\'del\')" data-i=\"'+i+'\">&times;</a>');
-        this.children[i].delLink.click(delChild);
-        this.children[i].toolbar.prepend(this.children[i].delLink);
-
-        this.children[i].upLink=$('<a class="editor-options-link" href="javascript:void(\'up\')" data-i=\"'+i+'\">&Wedge;</a>');
-        this.children[i].upLink.click(getUpMover);
-        this.children[i].toolbar.prepend(this.children[i].upLink);
-
-        this.children[i].downLink=$('<a class="editor-options-link" href="javascript:void(\'down\')" data-i=\"'+i+'\">&Vee;</a>');
-        this.children[i].downLink.click(getDownMover);
-        this.children[i].toolbar.prepend(this.children[i].downLink);
-    }
-    this.container.append(this.childContainer);
-
-    return this.container;
-};
-
-entutor.editors.card.prototype.addChild=function(type){
-    
-    var self=this;
-    if (typeof (entutor.editors[type]) === 'function') {
-        var constructor = entutor.editors[type];
-        var childObject = new constructor(this, {type:type});
-        this.children.push(childObject);
-        
-        var i=this.children.length-1;
-        var childDomElement = this.children[i].draw();
-        this.childContainer.append(childDomElement);
-
-        this.children[i].delLink=$('<a class="editor-options-link" href="javascript:void(\'del\')" data-i=\"'+i+'\">&times;</a>');
-        this.children[i].delLink.click(function(ev){
-            var trg=$(ev.target);
-            var j=trg.attr('data-i');
-            self.children[j].container.remove();
-            self.children.splice(j,1);
-            for (var i = 0; i < self.children.length; i++) {
-                self.children[i].delLink.attr('data-i',i);
-                self.children[i].upLink.attr('data-i',i);
-                self.children[i].downLink.attr('data-i',i);
-            }
-            $(document).trigger("editor:updated");
-        });
+        this.children[i].delLink.click(this.delChild);
         this.children[i].toolbar.prepend(this.children[i].delLink);
 
         this.children[i].upLink=$('<a class="editor-options-link" href="javascript:void(\'up\')" data-i=\"'+i+'\">&Wedge;</a>');
@@ -453,10 +449,12 @@ entutor.editors.card.prototype.addChild=function(type){
         this.children[i].downLink=$('<a class="editor-options-link" href="javascript:void(\'down\')" data-i=\"'+i+'\">&Vee;</a>');
         this.children[i].downLink.click(this.getDownMover);
         this.children[i].toolbar.prepend(this.children[i].downLink);
-        
-        $(document).trigger("editor:updated");
     }
+    this.container.append(this.childContainer);
+
+    return this.container;
 };
+
 
 entutor.editors.card.prototype.getValue = function () {
     for (var i = 0; i < this.children.length; i++) {
@@ -682,7 +680,13 @@ entutor.editors.radio.prototype.draw = function () {
         this.variant.push({key:key, value:value});
         var label=$('<span class="label" data-id="' + key + '"></class>');
         this.variantContainer.append(label);
-        
+
+        var delRowLink=$('<a class="delete-link" href="javascript:void(\'del'+key+'\')">&times;</a>');
+        delRowLink.click(function(){
+            self.delVariant(key);
+        });
+        label.append(delRowLink);
+      
         var radio=$('<input type="radio" name="task' + this.id + 'radio" value="' + key + '" data-id="' + key + '">');
         radio.click(function(){
             self.value.correctVariant=$(this).attr('value');
@@ -722,11 +726,6 @@ entutor.editors.radio.prototype.draw = function () {
             }
         });
         
-        var delRowLink=$('<a class="delete-link" href="javascript:void(\'del'+key+'\')">&times;</a>');
-        delRowLink.click(function(){
-            self.delVariant(key);
-        });
-        label.append(delRowLink);
     };
 
     this.variant=[];

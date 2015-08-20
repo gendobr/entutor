@@ -1,0 +1,192 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 20)\n<br>1. В левой части экрана картинка, в правой – слово с пропущенной буквой, на месте которой – активный курсор ввода.\n<br>2. Студенту необходимо впечатать пропущенную букву и нажать кнопку «Готово»..\n<br>3. Если задание выполнено правильно, то слово загорается зеленым, и на экране появляется следующая картинка и  слово с пропущенной буквой. \n<br>4. Если задание выполнено неправильно, то слово загорается оранжевым, через 2 секунды введенная студентом буква исчезает, и снова появляется активный курсор. Задание нужно выполнить повторно.\n<br>5. После второй неудачной попытки кнопка «Правильный ответ» становится активной. На месте активного курсора появляется нужная буква, которая исчезает через 2 секунды. На этом месте снова появляется активный курсор. Студент должен заполнить эту карточку еще раз.\n<br>6. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». "
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image1.jpg\">"
+     },
+     {
+      "type": "card",
+      "classes": "tight",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "упражн"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "е",
+        "value": "",
+        "size": 2,
+        "hint": "е"
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "ниe"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image2.jpg\">"
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "прост"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "р",
+        "value": "",
+        "size": 2,
+        "hint": "р"
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "анства"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image3.jpg\">"
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "эле"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "м",
+        "value": "",
+        "size": 2,
+        "hint": "м"
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "енты"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

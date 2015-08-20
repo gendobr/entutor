@@ -1,0 +1,126 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 22а для аудирования)\n<br>1.\tВ верхней части экрана кнопка «В», при нажатии на которую диктор читает текст. Нажатие на кнопку «В» во время прослушивания текста работает как пауза. Студент может слушать текст неограниченное количество раз\n<br>2.\tПод кнопкой в центре экрана начало предложения со строкой ввода, в которой студент должен напечатать подходящее слово по тексту. Строка ввода рассчитана на введение 12 знаков. \n<br>3.\tПод активным полем – кнопка «Готово», которую студент нажимает после ввода слова.\n<br>4.\tЕсли слова напечатаны правильно, то они окрашиваются в зелёный цвет.\n<br>5.\tЕсли слова напечатаны неправильно, то они окрашиваются в оранжевый цвет, и ответ исчезает. Задание следует выполнить повторно.\n<br>6.\tПосле второй неудачной попытки кнопка «Правильный ответ» становится активной. На месте активного курсора появляется необходимая форма прилагательного, которая исчезает через 2 секунды. На этом месте снова появляется активный курсор. Студент должен выполнить задание еще раз.\n<br>7.\tПосле окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».\n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "material",
+      "value": "",
+      "size": 15,
+      "hint": "material"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-02.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-02.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-02.wav"
+      }
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "fact",
+      "value": "",
+      "size": 15,
+      "hint": "fact"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "watch",
+      "value": "",
+      "size": 15,
+      "hint": "watch"
+     }
+    ]
+   }
+  ],
+  "classes": "height-xs",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

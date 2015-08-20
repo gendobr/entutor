@@ -1,0 +1,108 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 22)\n<br>1. Слева на экране появляется слово в транскрипции.\n<br>2. Справа на экране активное поле, где студент должен напечатать слово. Под активным полем – кнопка «Готово», которую студент нажимает после ввода слова.\n<br>3. Если слово напечатано правильно, то оно окрашивается в зелёный цвет.\n<br>4. Если слово напечатано неправильно, то оно окрашивается в оранжевый цвет, и слово исчезает. Задание следует выполнить повторно.\n<br>5. После второй неудачной попытки кнопка «Правильный ответ» становится активной. На месте активного курсора появляется нужное слово, которое исчезает через 2 секунды. На этом месте снова появляется активный курсор. Студент должен выполнить задание еще раз.\n<br>6. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n<br>"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "[məˈtɪ(ə)rɪəl] &nbsp;"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "material",
+      "value": "",
+      "size": 15,
+      "hint": "material"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "[fækt]  &nbsp;"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "fact",
+      "value": "",
+      "size": 15,
+      "hint": "fact"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "[wɒtʃ]  &nbsp;"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "watch",
+      "value": "",
+      "size": 15,
+      "hint": "watch"
+     }
+    ]
+   }
+  ],
+  "classes": "height-xs",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

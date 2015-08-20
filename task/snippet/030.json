@@ -1,0 +1,108 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 30)\n<br>1. В левой части экрана появляется словосочетание: большое яблоко.\n<br>2. В правой части экрана – активная строка ввода и кнопка «Готово».\n<br>3. Студент переводит словосочетание на английский язык и печатает его в строке ввода и нажимает кнопку «Готово».\n<br>4. Если перевод правильный, словосочетание загорается зелёным и исчезает с экрана. Появляется следующее словосочетание на русском языке.\n<br>5. Если перевод неправильный, то словосочетание загорается оранжевым, и строка становится чистой. Студент выполняет задание ещё раз.\n<br>6. После двух неудачных попыток кнопка «Правильный ответ» становится активной, и при нажатии на нее в строке ввода появляется правильное словосочетание на 3 секунды и исчезает. Строка ввода становится активной, и студент выполняет заданиееще раз.\n<br>7. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "большое яблоко &nbsp;"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "a big apple",
+      "value": "",
+      "size": 15,
+      "hint": "a big apple"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "часы спешат &nbsp;"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "a watch is fast",
+      "value": "",
+      "size": 15,
+      "hint": "a watch is fast"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "ночное дежурство &nbsp;"
+     },
+     {
+      "type": "text",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "pattern": "night watch",
+      "value": "",
+      "size": 15,
+      "hint": "night watch"
+     }
+    ]
+   }
+  ],
+  "classes": "height-xxs",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}
