@@ -4378,3 +4378,288 @@ entutor.html5recorder.prototype.showHint = function () {
         this.domElement.tooltip( "open" );
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =============================================================================
+//
+//    options={
+//        type:'sequence',
+//        classes:''
+//        precondition:'none|beforeCorrect'
+//        maxScore:''
+//        autocheck: true|false
+//        hideOnCorrect: true|false
+//        arrange : horizontal|vertical
+//        value:'yyy',
+//        size:5,
+//        resetOnError:true|false
+//        hint:'some string'
+//        items:[
+//           <some JSON like card child>
+//           <some JSON like card child>
+//           <some JSON like card child>
+//        ]
+//    }
+// 
+entutor.inputs.sequence = function (parent, options) {
+
+    var self = this;
+     
+    // save attributes
+    this.parent = parent;
+    this.type = 'sequence';
+    this.options = options || {};
+    this.id = this.parent.id + '_' + (this.options.id || (++entutor.guid));
+    this.classes = this.options.classes || '';
+    this.precondition = this.options.precondition || 'none';
+    this.maxScore = (typeof (this.options.maxScore) !== 'undefined') ? this.options.maxScore : 1;
+    this.autocheck=this.options.autocheck||false;
+    this.resetOnError=this.options.resetOnError||false;
+    this.hideOnCorrect = this.options.hideOnCorrect? true : false;
+    this.arrange = this.options.arrange || 'vertical';
+
+    this.items=this.options.items || [];
+    for(var i=0; i<this.items.length; i++){
+        this.items[i]={key:i, value:this.items[i]};
+    }
+    
+
+    // pre-calculate attributes
+    this.result = {
+        status: entutor.task.status.waiting,
+        score: 0,
+        passed: 'undefined',
+        maxScore: this.maxScore
+    };
+
+    this.value = this.options.value || this.randomizedItemKeys(this.items);
+
+    this.previousValue='';
+    this.countFailures=0;
+    this.hint=this.options.hint||'';
+
+    this.hideDelayed=function(){ self.hide(); };
+    this.showDelayed=function(){ self.show(); };
+
+};
+
+entutor.inputs.sequence.prototype.randomizedItemKeys = function(o){
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    var value=[];
+    for(var k=0; k<o.length; k++){
+        value.push(o[k].key);
+    }
+    return value;
+};
+
+entutor.inputs.sequence.prototype.showSuccess = function () {
+    this.domElement.removeClass('task-sequence-error').addClass('task-sequence-correct');
+};
+
+entutor.inputs.sequence.prototype.showError = function () {
+    this.domElement.removeClass('task-sequence-correct').addClass('task-sequence-error');
+};
+
+entutor.inputs.sequence.prototype.removeFeedback = function () {
+    this.domElement.removeClass('task-sequence-correct').removeClass('task-sequence-error');
+};
+
+entutor.inputs.sequence.prototype.getValue = function () {
+    return this.value;
+};
+
+entutor.inputs.sequence.prototype.getMaxScore = function () {
+    return this.maxScore;
+};
+
+entutor.inputs.sequence.prototype.showHint = function () {
+    if(this.hint){
+        this.domElement.tooltip({ content: this.hint, items:'#task' + this.id + 'text' });        
+        this.domElement.tooltip( "open" );
+    }
+};
+
+entutor.inputs.sequence.prototype.hide = function (delay) {
+    if (delay && parseInt(delay) > 0) {
+        setTimeout(this.hideDelayed, entutor.hideDelay);
+    } else {
+        this.domElement.hide();
+        for(var it=0; it<this.items.length; it++){
+            this.items[it].obj.hide();
+        }
+    }
+};
+
+entutor.inputs.sequence.prototype.isVisible = function(){
+    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+};
+
+entutor.inputs.sequence.prototype.notify = function (stack) {
+    if(this.autocheck){
+        this.test();
+    }
+    if(this.parent){
+        stack.push(this.id);
+        this.parent.notify(stack);
+    }
+};
+
+entutor.inputs.sequence.prototype.show = function (delay) {
+    if(this.result.passed===true && this.hideOnCorrect){
+        return;
+    }
+    if(delay && parseInt(delay)>0){
+        setTimeout(this.showDelayed,entutor.showDelay);
+    }else{
+        this.domElement.show();
+        for(var it=0; it<this.items.length; it++){
+            this.items[it].obj.show();
+        }
+    }
+};
+
+entutor.inputs.sequence.prototype.test = function () {
+    var isCorect=true;
+    for(var i=0; i < this.items.length; i++){
+        if(this.items[i].key!==this.value[i]){
+            isCorect=false;
+            break;
+        }
+    }
+    
+    this.result.status= entutor.task.status.received;
+    this.result.score = (isCorect ? this.maxScore :0 );
+    this.result.passed = isCorect;
+
+
+    var currentValue=this.value.join();
+
+    this.removeFeedback();
+    if (this.result.passed === true) {
+        this.showSuccess();
+        if(this.hideOnCorrect){
+            this.hide(entutor.hideDelay);
+        }
+    } else if (this.result.passed === false) {
+        this.showError();
+        if(this.previousValue!==currentValue){
+            this.countFailures++;
+        }
+        if(this.countFailures>1){
+            this.showHint();
+        }
+        if(this.resetOnError){
+            this.textField.val('');
+        }
+    }
+    
+    this.previousValue=currentValue;
+    if(entutor.verboseTest){
+        console.log('verboseTest',this.id, this.type, this.result.passed);
+    }
+    if(this.parent && this.parent.testFinishedCallback){
+        this.parent.testFinishedCallback(this.id, this.result);
+    }
+};
+
+entutor.inputs.sequence.prototype.draw = function () {
+
+
+    var self=this;
+    this.setValue=function( ){
+            self.values=[];
+            this.domElement.children().each(function(i,el){
+                self.values.push($(el).attr('data-value'));
+            });
+            self.notify([]);
+    };
+
+    this.moveUp=function(ev){
+        var btn=$(ev.target);
+        var row=btn.parents('.task-sequence-item').first();
+        var prev=row.prev();
+        if(prev) prev.before(row);
+        this.setValue();
+    };
+
+    this.moveDown=function(ev){
+        var btn=$(ev.target);
+        var row=btn.parents('.task-sequence-item').first();
+        var next=row.next();
+        if(next) next.after(row);
+        this.setValue();
+    };
+
+    this.domElement = $('<span id="task' + this.id + '" class="task-'+this.type+' '+this.arrange+' transition ' + this.classes + '"></span>');
+    
+    var item=null;
+
+    for(var iv=0; iv<this.value.length; iv++){
+        for(var it=0; it<this.items.length; it++){
+            if(this.items[it].key===this.value[iv]){
+                item=$("<span class=\"task-sequence-item\"></span>");
+                item.attr('data-value',this.value[iv]);
+
+                var btnUp=$('<input type=button class="task-sequence-btn-up">');
+                // btnUp.attr('value',(this.arrange==='vertical'?'&Lambda;':'&lt;'));
+                btnUp.click(this.moveUp);
+                
+                var btnDown=$('<input type=button class="task-sequence-btn-down">');
+                //btnDown.attr('value',(this.arrange==='vertical'?'&Lambda;':'&lt;'));
+                btnDown.click(this.moveDown);
+
+                var child = this.items[it].value;
+                if ( ! ( typeof(child)==='object' && typeof(child.type)==='string' && typeof(entutor.inputs[child.type]) === 'function' ) ){
+                    child = this.items[it].value={
+                                "type": "html",
+                                "classes": "",
+                                "precondition": "none",
+                                "hideOnCorrect": false,
+                                "duration": "none",
+                                "innerHtml": child+''
+                               };
+                }
+                var constructor = entutor.inputs[child.type];
+                var childObject = new constructor(this, child);
+                this.items[it].obj= childObject;
+                item.append(this.items[it].obj.draw());
+                this.domElement.append(item);
+                break;
+            }
+        }
+    }
+
+    if (this.precondition === 'beforeCorrect') {
+        this.hide();
+    }
+
+    return this.domElement;
+};
+
+entutor.inputs.sequence.prototype.start = function () {
+    this.domElement.sortable({
+        axis: (this.arrange==='vertical'?'y':'x'),
+        update:this.setValue
+    });
+};
+
+

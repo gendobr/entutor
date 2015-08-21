@@ -327,7 +327,7 @@ entutor.editors.card.prototype.draw = function () {
 
 
 
-    this.addLink = $('<a class="editor-options-link" href="javascript:void(\'add\')">+child</a>');
+    this.addLink = $('<a class="editor-options-link" href="javascript:void(\'+\')">+</a>');
     this.toolbar.prepend(this.addLink);
     this.addLink.click(function () {
         self.addChildBlock.toggle();
@@ -656,7 +656,7 @@ entutor.editors.radio.prototype.draw = function () {
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
-    this.addLink = $('<a class="editor-options-link" href="javascript:void(\'+variant\')">+variant</a>');
+    this.addLink = $('<a class="editor-options-link" href="javascript:void(\'+variant\')">+</a>');
     this.toolbar.prepend(this.addLink);
     this.addLink.click(function () {
         self.addVariant(self.newkey(),'');
@@ -1841,5 +1841,155 @@ entutor.editors.recorder.prototype.getValue = function () {
 
 
 
+
+
+
+
+
+
+
+// =============================================================================
+entutor.editors.sequence = function (parent, value) {
+    this.type = 'sequence';
+    this.parent = parent;
+    this.value = value || {};
+
+    this.id = this.parent.id + '_' + (this.value.id || (++entutor.guid));
+
+    this.value.classes = this.value.classes || '';
+    this.value.precondition = this.value.precondition || 'none';
+    this.maxScore = 1;
+    this.value.autocheck = this.value.autocheck? true :false;
+    this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
+    this.value.arrange = this.value.arrange || 'vertical';
+    this.value.value = this.value.value || null;
+    this.value.hint = this.value.hint || '';
+    this.value.items =  this.value.items || [];
+    this.value.itemEditors = [];
+};
+
+entutor.editors.sequence.prototype.draw = function () {
+    // console.log('entutor.editors.card.prototype.draw ' + this.id);
+    var self = this;
+    this.container = $("<div class=\"editor-element-container " + this.type + "\"></div>");
+    this.toolbar = $('<div class="editor-toolbar">' + this.type + ' #' + this.id + '</div>');
+    this.container.append(this.toolbar);
+
+    this.optionsLink = $('<a class="editor-options-link" href="javascript:void(\'options\')">&Congruent;</a>');
+    this.toolbar.prepend(this.optionsLink);
+    this.optionsLink.click(function () { self.optionBlock.toggle(); });
+
+    this.optionBlock = $("<div class=\"editor-element-options\"></div>");
+    this.optionBlock.hide();
+    this.container.append(this.optionBlock);
+
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    this.optionBlock.append(entutor.components.select(this.value, 'arrange', 'Arrange subelements', {'horizontal': 'horizontal', 'vertical': 'vertical','flow':'flow'} , function(value){self.variantContainer.removeClass('flow').removeClass('vertical').removeClass('horizontal').addClass(value);}));
+    this.optionBlock.append(entutor.components.string(this.value, 'value', 'Hint'));
+    this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
+
+    this.addChildBlock = $("<div class=\"editor-element-options\"></div>");
+    this.addChildBlock.hide();
+    this.container.append(this.addChildBlock);
+    for(var ctp in entutor.editors){
+        var lnk=$('<a href="javascript:void(\'add_'+ctp+'\')" class="addChildLink" data-type="'+ctp+'">'+ctp+'</a>');
+        this.addChildBlock.append(lnk);
+        lnk.click(function(){  self.addItem($(this).attr('data-type'));  });
+    }
+    
+    this.addLink = $('<a class="editor-options-link" href="javascript:void(\'+\')">+</a>');
+    this.toolbar.prepend(this.addLink);
+    this.addLink.click(function () {  self.this.addChildBlock.toggle(); });
+
+
+    this.addItem=function(type, value){
+        var self=this;
+        //this.value.items.push();
+    };
+    //
+    //    this.delVariant=function(key){
+    //        for(var i=0; i<self.variant.length; i++){
+    //            if( self.variant[i].key === key ){
+    //               self.variantContainer.find('.label[data-id="'+key+'"]').remove();
+    //               self.variant.splice(i,1); 
+    //               $(document).trigger("editor:updated");
+    //               return;
+    //            }
+    //        }
+    //    };
+    //
+    //    this.addVariant=function(key,value){
+    //        var self=this;
+    //        this.variant.push({key:key, value:value});
+    //        var label=$('<span class="label" data-id="' + key + '"></class>');
+    //        this.variantContainer.append(label);
+    //
+    //        var delRowLink=$('<a class="delete-link" href="javascript:void(\'del'+key+'\')">&times;</a>');
+    //        delRowLink.click(function(){
+    //            self.delVariant(key);
+    //        });
+    //        label.append(delRowLink);
+    //      
+    //        var radio=$('<input type="radio" name="task' + this.id + 'radio" value="' + key + '" data-id="' + key + '">');
+    //        radio.click(function(){
+    //            self.value.correctVariant=$(this).attr('value');
+    //            $(document).trigger('editor:updated')
+    //        });
+    //        label.append(radio);
+    //        if(this.value.correctVariant===radio.attr('value')){
+    //            radio.prop('checked',true);
+    //        }
+    //        
+    //        
+    //        var keyinput=$('<input type="text" size="2" value="' + key + '">');
+    //        label.append(keyinput);
+    //        keyinput.change(function(ev){
+    //            var newKey=$(ev.target).val();
+    //            for(var i=0; i<self.variant.length; i++){
+    //                if( self.variant[i].key === key ){
+    //                   self.variant[i].key=newKey; 
+    //                   $(document).trigger('editor:updated')
+    //                   return;
+    //                }
+    //            }
+    //        });
+    //
+    //        //var valueinput=$('<input type="text" size="17" value="' + value + '">');
+    //        var valueinput=$('<textarea rows="3"></textarea>');
+    //        valueinput.val(value);
+    //        label.append(valueinput);
+    //        valueinput.change(function(ev){
+    //            var newValue=$(ev.target).val();
+    //            for(var i=0; i<self.variant.length; i++){
+    //                if( self.variant[i].key === key ){
+    //                   self.variant[i].value=newValue; 
+    //                   $(document).trigger('editor:updated')
+    //                   return;
+    //                }
+    //            }
+    //        });
+    //        
+    //    };
+    //
+    //    this.variant=[];
+    //    this.variantContainer=$('<span class="editor-radio-variants ' + this.value.arrange + '"></span>');
+    //    for (var k in this.value.variant) {
+    //        this.addVariant(k, this.value.variant[k]);
+    //    }
+    //    this.container.append(this.variantContainer);
+
+    return this.container;
+};
+
+entutor.editors.sequence.prototype.getValue = function () {
+    this.value.variant={};
+    for(var i=0; i<this.variant.length; i++){
+        this.value.variant[this.variant[i].key]=this.variant[i].value;
+    }
+    return this.value;
+};
 
 
