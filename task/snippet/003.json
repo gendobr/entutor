@@ -72,8 +72,7 @@
       "text": "a",
       "hideOnCorrect": false,
       "duration": 30,
-      "taskPassScore": "0.6",
-      "soundScrorerURL": "./voiceinputscorer.php"
+      "taskPassScore": "0.6"
      }
     ],
     "autocheck": true
@@ -105,8 +104,7 @@
       "text": "b",
       "hideOnCorrect": false,
       "duration": 30,
-      "taskPassScore": "0.6",
-      "soundScrorerURL": "./voiceinputscorer.php"
+      "taskPassScore": "0.6"
      }
     ],
     "autocheck": true
@@ -138,8 +136,7 @@
       "text": "c",
       "hideOnCorrect": false,
       "duration": 30,
-      "taskPassScore": "0.6",
-      "soundScrorerURL": "./voiceinputscorer.php"
+      "taskPassScore": "0.6"
      }
     ],
     "autocheck": true

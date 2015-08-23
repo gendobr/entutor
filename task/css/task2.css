@@ -679,3 +679,54 @@
 .tight .task-html{
     margin-right:0px;
 }
+
+
+
+.task-sequence{
+    display:inline-block;
+    text-align:left;
+}
+.task-sequence-correct{ background-color:#89c122;}
+.task-sequence-error{background-color:#cf5700;}
+.task-sequence.vertical .task-sequence-item{
+    display:block;
+}
+
+.task-sequence-item{
+    clear:both;
+}
+.task-sequence.horizontal{
+    white-space:nowrap;
+}
+.task-sequence.horizontal .task-sequence-item{
+    display:inline-block;
+    white-space:normal;
+    margin-right:10px;
+}
+.task-sequence-btn-down{
+    background-repeat:no-repeat;
+    background-position:center center;
+    margin-right:5px;
+    float:left;
+}
+.task-sequence-btn-up{
+    background-repeat:no-repeat;
+    background-position:center center;
+    margin-right:5px;
+    float:left;
+}
+.task-sequence.vertical .task-sequence-btn-down{
+    background-image:url(../img/icon-down.png);
+}
+.task-sequence.vertical .task-sequence-btn-up{
+    background-image:url(../img/icon-up.png);
+}
+.task-sequence.horizontal .task-sequence-btn-down{
+    background-image:url(../img/icon-right.png);
+}
+.task-sequence.horizontal .task-sequence-btn-up{
+    background-image:url(../img/icon-left.png);
+}
+.task-sequence .task-html{
+    margin-top:0px;
+}

@@ -1865,7 +1865,31 @@ entutor.editors.sequence = function (parent, value) {
     this.value.value = this.value.value || null;
     this.value.hint = this.value.hint || '';
     this.value.items =  this.value.items || [];
-    this.value.itemEditors = [];
+    
+    // create child elements
+    this.itemEditors = [];
+    for (var key = 0; key < this.value.items.length; key++) {
+        
+        var child = this.value.items[key];
+        if ( ! ( typeof(child)==='object' 
+                 && typeof(child.type)==='string' 
+                 && typeof(entutor.inputs[child.type]) === 'function' ) ){
+            child = {
+                        "type": "html",
+                        "classes": "",
+                        "precondition": "none",
+                        "hideOnCorrect": false,
+                        "duration": "none",
+                        "innerHtml": child+''
+                    };
+        }
+        if (typeof (entutor.editors[child.type]) === 'function') {
+            var constructor = entutor.editors[child.type];
+            var childObject = new constructor(this, child);
+            this.itemEditors.push(childObject);
+        }
+    }
+
 };
 
 entutor.editors.sequence.prototype.draw = function () {
@@ -1887,8 +1911,8 @@ entutor.editors.sequence.prototype.draw = function () {
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
-    this.optionBlock.append(entutor.components.select(this.value, 'arrange', 'Arrange subelements', {'horizontal': 'horizontal', 'vertical': 'vertical','flow':'flow'} , function(value){self.variantContainer.removeClass('flow').removeClass('vertical').removeClass('horizontal').addClass(value);}));
-    this.optionBlock.append(entutor.components.string(this.value, 'value', 'Hint'));
+    this.optionBlock.append(entutor.components.select(this.value, 'arrange', 'Arrange subelements', {'horizontal': 'horizontal', 'vertical': 'vertical'} , function(value){self.childContainer.removeClass('vertical').removeClass('horizontal').addClass(value);}));
+    this.optionBlock.append(entutor.components.string(this.value, 'value', 'Initial seqence'));
     this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
 
     this.addChildBlock = $("<div class=\"editor-element-options\"></div>");
@@ -1897,97 +1921,99 @@ entutor.editors.sequence.prototype.draw = function () {
     for(var ctp in entutor.editors){
         var lnk=$('<a href="javascript:void(\'add_'+ctp+'\')" class="addChildLink" data-type="'+ctp+'">'+ctp+'</a>');
         this.addChildBlock.append(lnk);
-        lnk.click(function(){  self.addItem($(this).attr('data-type'));  });
+        lnk.click(function(){
+            var type=$(this).attr('data-type');
+            var constructor = entutor.editors[type];
+            var childObject = new constructor(self, {type:type});
+            
+            self.itemEditors.push(childObject);
+            var itemDomElement = self.addItem(self.itemEditors.length-1, childObject);
+            childObject.itemDomElement=itemDomElement;
+            self.childContainer.append(itemDomElement);
+        });
     }
     
     this.addLink = $('<a class="editor-options-link" href="javascript:void(\'+\')">+</a>');
     this.toolbar.prepend(this.addLink);
-    this.addLink.click(function () {  self.this.addChildBlock.toggle(); });
+    this.addLink.click(function () {  self.addChildBlock.toggle(); });
 
 
-    this.addItem=function(type, value){
-        var self=this;
-        //this.value.items.push();
+    var deleteItem=function(event){
+        var key=$(event.target).attr('data-key');
+        self.itemEditors[key]=null;
+        var parent=$(this).parents('.sequence-item').first();
+        parent.remove();
     };
-    //
-    //    this.delVariant=function(key){
-    //        for(var i=0; i<self.variant.length; i++){
-    //            if( self.variant[i].key === key ){
-    //               self.variantContainer.find('.label[data-id="'+key+'"]').remove();
-    //               self.variant.splice(i,1); 
-    //               $(document).trigger("editor:updated");
-    //               return;
-    //            }
-    //        }
-    //    };
-    //
-    //    this.addVariant=function(key,value){
-    //        var self=this;
-    //        this.variant.push({key:key, value:value});
-    //        var label=$('<span class="label" data-id="' + key + '"></class>');
-    //        this.variantContainer.append(label);
-    //
-    //        var delRowLink=$('<a class="delete-link" href="javascript:void(\'del'+key+'\')">&times;</a>');
-    //        delRowLink.click(function(){
-    //            self.delVariant(key);
-    //        });
-    //        label.append(delRowLink);
-    //      
-    //        var radio=$('<input type="radio" name="task' + this.id + 'radio" value="' + key + '" data-id="' + key + '">');
-    //        radio.click(function(){
-    //            self.value.correctVariant=$(this).attr('value');
-    //            $(document).trigger('editor:updated')
-    //        });
-    //        label.append(radio);
-    //        if(this.value.correctVariant===radio.attr('value')){
-    //            radio.prop('checked',true);
-    //        }
-    //        
-    //        
-    //        var keyinput=$('<input type="text" size="2" value="' + key + '">');
-    //        label.append(keyinput);
-    //        keyinput.change(function(ev){
-    //            var newKey=$(ev.target).val();
-    //            for(var i=0; i<self.variant.length; i++){
-    //                if( self.variant[i].key === key ){
-    //                   self.variant[i].key=newKey; 
-    //                   $(document).trigger('editor:updated')
-    //                   return;
-    //                }
-    //            }
-    //        });
-    //
-    //        //var valueinput=$('<input type="text" size="17" value="' + value + '">');
-    //        var valueinput=$('<textarea rows="3"></textarea>');
-    //        valueinput.val(value);
-    //        label.append(valueinput);
-    //        valueinput.change(function(ev){
-    //            var newValue=$(ev.target).val();
-    //            for(var i=0; i<self.variant.length; i++){
-    //                if( self.variant[i].key === key ){
-    //                   self.variant[i].value=newValue; 
-    //                   $(document).trigger('editor:updated')
-    //                   return;
-    //                }
-    //            }
-    //        });
-    //        
-    //    };
-    //
-    //    this.variant=[];
-    //    this.variantContainer=$('<span class="editor-radio-variants ' + this.value.arrange + '"></span>');
-    //    for (var k in this.value.variant) {
-    //        this.addVariant(k, this.value.variant[k]);
-    //    }
-    //    this.container.append(this.variantContainer);
+    
+    var moveup=function(event){
+        var key=parseInt($(event.target).attr('data-key'));
+        // console.log('moveup', key);
+        if(key>0){
+            var prev=self.itemEditors[key].itemDomElement.prev();
+            prev.before(self.itemEditors[key].itemDomElement);
+            var tmp=self.itemEditors[key];
+            self.itemEditors[key]=self.itemEditors[key-1];
+            self.itemEditors[key-1]=tmp;
+            self.itemEditors[key-1].itemDomElement.find('a[data-key]').attr('data-key',key-1);
+            self.itemEditors[key].itemDomElement.find('a[data-key]').attr('data-key',key);
+        }
+    };
+    
+    var movedown=function(event){
+        var key=parseInt($(event.target).attr('data-key'));
+        // console.log('movedown', key);
+        if(key<self.itemEditors.length-1){
+            var next=self.itemEditors[key].itemDomElement.next();
+            next.after(self.itemEditors[key].itemDomElement);
+            var tmp=self.itemEditors[key];
+            self.itemEditors[key]=self.itemEditors[key+1];
+            self.itemEditors[key+1]=tmp;
+            self.itemEditors[key].itemDomElement.find('a[data-key]').attr('data-key',key);
+            self.itemEditors[key+1].itemDomElement.find('a[data-key]').attr('data-key',key+1);
+        }
+    };
+    
+    this.addItem=function(key, obj){
+        var itemDomElement=$("<div class=\"editor-element-container sequence-item\"></div>");
+
+        var itemToolbar=$('<div class="editor-toolbar">sequence item</div>');
+        itemDomElement.append(itemToolbar);
+
+        var deleteItemLink=$('<a href="javascript:void(\'del\')" data-key=\"'+key+'\" class=\"editor-options-link\">&times;</a>');
+        deleteItemLink.click(deleteItem);
+        itemToolbar.append(deleteItemLink);
+        
+        var moveupLink=$('<a href="javascript:void(\'moveup\')" data-key=\"'+key+'\" class=\"editor-options-link\">&Lambda;</a>');
+        moveupLink.click(moveup);
+        itemToolbar.append(moveupLink);
+        
+        var movedownLink=$('<a href="javascript:void(\'movedown\')" data-key=\"'+key+'\" class=\"editor-options-link\">V</a>');
+        movedownLink.click(movedown);
+        itemToolbar.append(movedownLink);
+        
+        itemDomElement.append(obj.draw());
+        
+        return itemDomElement;
+    };
+    
+    this.childContainer=$("<div class=\"editor-card-children\"></div>");
+    this.childContainer.addClass(this.value.arrange);
+    this.container.append(this.childContainer);
+    for(var key = 0; key < this.itemEditors.length; key++) {
+        var itemDomElement = this.addItem(key, this.itemEditors[key]);
+        this.itemEditors[key].itemDomElement=itemDomElement;
+        this.childContainer.append(itemDomElement);
+    }
 
     return this.container;
 };
 
 entutor.editors.sequence.prototype.getValue = function () {
-    this.value.variant={};
-    for(var i=0; i<this.variant.length; i++){
-        this.value.variant[this.variant[i].key]=this.variant[i].value;
+    this.value.items=[];
+    for(var i=0; i<this.itemEditors.length; i++){
+        if(this.itemEditors[i]){
+            this.value.items.push(this.itemEditors[i].getValue());
+        }
     }
     return this.value;
 };

@@ -1,0 +1,77 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 26)\n<br>1. В верхней части экрана расположены 7 видеофрагментов диалога «Знакомство» с \n   титрами. При нажатии на каждый фрагмент он воспроизводится (неограниченное количество раз). \n<br>2. В нижней части экрана расположены пронумерованные ячейки для перетаскивания \n   видеофрагментов.\n<br>3. Студент собирает диалог в логической последовательности, перетаскивая данные \n   видеофрагменты в нижнюю часть экрана.\n<br>4. Собрав все реплики, студент нажимает кнопку «Проверить». Фрагменты, которые \n   заняли своё место, загораются зелёным и сохраняются. Фрагменты, расположенные \n   нелогично, загораются оранжевым и возвращаются в верхнюю часть экрана.\n<br>5. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».\n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "sequence",
+    "classes": "",
+    "precondition": "none",
+    "autocheck": false,
+    "hideOnCorrect": false,
+    "arrange": "vertical",
+    "value": null,
+    "hint": "",
+    "items": [
+     {
+      "type": "video",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "m4v,ogv,webmv",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "title",
+       "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
+       "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
+       "wav": "../snippet/media/EddiethebeagleDumbo.webm",
+       "webmv": "../snippet/media/EddiethebeagleDumbo.webm"
+      },
+      "subtitles": []
+     },
+     {
+      "type": "video",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "m4v,ogv,webmv",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "title",
+       "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
+       "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
+       "wav": "../snippet/media/EddiethebeagleDumbo.webm",
+       "webmv": "../snippet/media/EddiethebeagleDumbo.webm"
+      },
+      "subtitles": []
+     },
+     {
+      "type": "video",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "supplied": "m4v,ogv,webmv",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "title",
+       "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
+       "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
+       "wav": "../snippet/media/EddiethebeagleDumbo.webm",
+       "webmv": "../snippet/media/EddiethebeagleDumbo.webm"
+      },
+      "subtitles": []
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

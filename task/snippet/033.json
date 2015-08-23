@@ -1,0 +1,77 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 33)\n<br>1. В центре экрана 1 ячейка, разделенная на 6 секций. В каждой секции –слово. У студента должна быть возможность перетаскивать секции внутри ячейки. \n<br>2. Студенту нужно расположить слова в ячейке в правильном порядке и нажать кнопку «Проверить».\n<br>3. Если предложение собрано правильно, то все 6 секций загораются зелёным и исчезают из ячейки. И секции заполняются словами из следующего предложения.\n<br>4. Если предложение собрано неправильно, то секции, стоящие не на своем месте, загораются оранжевым на 2 секунды. Студент выполняет задание ещё раз.\n<br>5. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "sequence",
+    "classes": "",
+    "precondition": "none",
+    "autocheck": false,
+    "hideOnCorrect": false,
+    "arrange": "horizontal",
+    "value": "3,2,5,4,0,1",
+    "hint": "",
+    "items": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "1"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "2"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "3"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "4"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "5"
+     },
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "6"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

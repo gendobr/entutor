@@ -1,0 +1,126 @@
+{
+ "presentation": {
+  "innerHtml": "\nСценарий (тип 29а)\n<br>1. В нижней части экрана 5 карточек со словами.\n<br>2. В верхней части экрана ячейка, в которую студент перетягивает карточки \n   и размещает их в соответствующем порядке. У студента должна быть возможность \n   менять местами карточки внутри ячейки. \n<br>3. После того, как студент расставил карточки в ячейке, он нажимает кнопку «Проверить».\n<br>4. Если предложение собрано правильно, то все пять карточек в ячейке загораются \n   зелёным и исчезают из ячейки. В нижней части экрана появляется следующий набор карточек.\n<br>5. Если предложение собрано неправильно, то те слова, которые выбраны правильно \n   и поставлены на соответствующее место, загораются зеленым и остаются на месте.\n   Те слова, которые стоят не на соответствующем месте, загораются оранжевым на \n   2 секунды и возвращаются в нижнюю часть экрана на прежнее место. \n   Студент выполняет задание ещё раз.\n<br>6. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "1",
+      "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "2",
+      "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "3",
+      "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "4",
+      "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "5",
+      "value": ""
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "dropzone",
+      "classes": "",
+      "precondition": "none",
+      "test": "testSet",
+      "hideOnCorrect": false,
+      "ejectCounterOnError": false,
+      "pattern": "1",
+      "size": "5"
+     },
+     {
+      "type": "dropzone",
+      "classes": "",
+      "precondition": "none",
+      "test": "testSet",
+      "hideOnCorrect": false,
+      "ejectCounterOnError": false,
+      "pattern": "2",
+      "size": "5"
+     },
+     {
+      "type": "dropzone",
+      "classes": "",
+      "precondition": "none",
+      "test": "testSet",
+      "hideOnCorrect": false,
+      "ejectCounterOnError": false,
+      "pattern": "3",
+      "size": "5"
+     },
+     {
+      "type": "dropzone",
+      "classes": "",
+      "precondition": "none",
+      "test": "testSet",
+      "hideOnCorrect": false,
+      "ejectCounterOnError": false,
+      "pattern": "4",
+      "size": "5"
+     },
+     {
+      "type": "dropzone",
+      "classes": "",
+      "precondition": "none",
+      "test": "testSet",
+      "hideOnCorrect": false,
+      "ejectCounterOnError": false,
+      "pattern": "5",
+      "size": "5"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

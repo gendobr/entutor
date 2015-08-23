@@ -4421,9 +4421,7 @@ entutor.html5recorder.prototype.showHint = function () {
 //    }
 // 
 entutor.inputs.sequence = function (parent, options) {
-
     var self = this;
-     
     // save attributes
     this.parent = parent;
     this.type = 'sequence';
@@ -4451,7 +4449,15 @@ entutor.inputs.sequence = function (parent, options) {
         maxScore: this.maxScore
     };
 
-    this.value = this.options.value || this.randomizedItemKeys(this.items);
+    if(this.options.value){
+        this.value = this.options.value.split(/,/);
+        for(var k=0; k<this.value.length; k++){
+            this.value[k]=parseInt(this.value[k]);
+        }
+    }else{
+        this.value = this.randomizedItemKeys(this.items);
+    }
+    
 
     this.previousValue='';
     this.countFailures=0;
@@ -4466,7 +4472,7 @@ entutor.inputs.sequence.prototype.randomizedItemKeys = function(o){
     for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
     var value=[];
     for(var k=0; k<o.length; k++){
-        value.push(o[k].key);
+        value.push(parseInt(o[k].key));
     }
     return value;
 };
@@ -4545,6 +4551,7 @@ entutor.inputs.sequence.prototype.test = function () {
             break;
         }
     }
+    // console.log(this.value,this.items);
     
     this.result.status= entutor.task.status.received;
     this.result.score = (isCorect ? this.maxScore :0 );
@@ -4567,9 +4574,6 @@ entutor.inputs.sequence.prototype.test = function () {
         if(this.countFailures>1){
             this.showHint();
         }
-        if(this.resetOnError){
-            this.textField.val('');
-        }
     }
     
     this.previousValue=currentValue;
@@ -4582,14 +4586,14 @@ entutor.inputs.sequence.prototype.test = function () {
 };
 
 entutor.inputs.sequence.prototype.draw = function () {
-
-
+    // console.log('entutor.inputs.sequence.prototype.draw');
     var self=this;
     this.setValue=function( ){
-            self.values=[];
-            this.domElement.children().each(function(i,el){
-                self.values.push($(el).attr('data-value'));
+            self.value=[];
+            self.domElement.children().each(function(i,el){
+                self.value.push(parseInt($(el).attr('data-value')));
             });
+            // console.log(self.value);
             self.notify([]);
     };
 
@@ -4598,7 +4602,7 @@ entutor.inputs.sequence.prototype.draw = function () {
         var row=btn.parents('.task-sequence-item').first();
         var prev=row.prev();
         if(prev) prev.before(row);
-        this.setValue();
+        self.setValue();
     };
 
     this.moveDown=function(ev){
@@ -4606,7 +4610,7 @@ entutor.inputs.sequence.prototype.draw = function () {
         var row=btn.parents('.task-sequence-item').first();
         var next=row.next();
         if(next) next.after(row);
-        this.setValue();
+        self.setValue();
     };
 
     this.domElement = $('<span id="task' + this.id + '" class="task-'+this.type+' '+this.arrange+' transition ' + this.classes + '"></span>');
@@ -4617,15 +4621,18 @@ entutor.inputs.sequence.prototype.draw = function () {
         for(var it=0; it<this.items.length; it++){
             if(this.items[it].key===this.value[iv]){
                 item=$("<span class=\"task-sequence-item\"></span>");
+                // console.log(item);
                 item.attr('data-value',this.value[iv]);
 
                 var btnUp=$('<input type=button class="task-sequence-btn-up">');
                 // btnUp.attr('value',(this.arrange==='vertical'?'&Lambda;':'&lt;'));
                 btnUp.click(this.moveUp);
+                item.append(btnUp);
                 
                 var btnDown=$('<input type=button class="task-sequence-btn-down">');
                 //btnDown.attr('value',(this.arrange==='vertical'?'&Lambda;':'&lt;'));
                 btnDown.click(this.moveDown);
+                item.append(btnDown);
 
                 var child = this.items[it].value;
                 if ( ! ( typeof(child)==='object' && typeof(child.type)==='string' && typeof(entutor.inputs[child.type]) === 'function' ) ){
@@ -4660,6 +4667,9 @@ entutor.inputs.sequence.prototype.start = function () {
         axis: (this.arrange==='vertical'?'y':'x'),
         update:this.setValue
     });
+    for(var it=0; it<this.items.length; it++){
+        this.items[it].obj.start();
+    }
 };
 
 
