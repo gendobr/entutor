@@ -1,0 +1,198 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 14)\n<br>1. Запускается видеопример: две девушки встречаются на улице. \n   Одна из них произносит: “Hi, I’m Nan”. В правой части экрана появляется имя Pat. \n   Вторая девушка произносит: “Hi, I’m Pat”.\n<br>2. По окончании видеопримера автоматически появляется первая часть первого \n   видеоролика. По произнесению актером фразы начинает мигать кнопка «Запись», \n   и видео задерживается на 5 секунд. В правой части экрана появляется имя. \n   Студент записывает свой ответ и нажимает кнопку «Готово».\n<br>3. Нажатие кнопки «Готово» автоматически запускает воспроизведение второй части \n   первого видеоролика.\n<br>4. Запускается первая часть второго видеоролика. Далее работа с каждым \n   видеороликом по шагам пунктов 2 и 3 данного сценария.\n<br>5. После окончания выполнения упражнения становится активной кнопка «Далее». \n<br>"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": true,
+      "children": [
+       {
+        "type": "video",
+        "classes": "",
+        "precondition": "none",
+        "autostart": true,
+        "supplied": "m4v,ogv,webmv",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "title",
+         "m4v": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.mp4",
+         "ogv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.ogv",
+         "wav": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm",
+         "webmv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm"
+        },
+        "subtitles": [],
+        "completeViewRequired": true
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "beforeCorrect",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "<div class=\"big\">Pat</div>\n<div class=\"big blink\">Запись</div>"
+         },
+         {
+          "type": "recorder",
+          "classes": "nowords",
+          "precondition": "none",
+          "autostart": true,
+          "autocheck": false,
+          "text": "Hi! I'm Pat.",
+          "hideOnCorrect": false,
+          "duration": 30,
+          "taskPassScore": 0.7,
+          "soundScrorerURL": "./voiceinputscorer.php"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "video",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "autostart": true,
+      "supplied": "m4v,ogv,webmv",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "title2",
+       "m4v": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.mp4",
+       "ogv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.ogv",
+       "wav": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm",
+       "webmv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm"
+      },
+      "subtitles": [],
+      "completeViewRequired": false
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": true,
+      "children": [
+       {
+        "type": "video",
+        "classes": "",
+        "precondition": "none",
+        "autostart": true,
+        "supplied": "m4v,ogv,webmv",
+        "hideOnCorrect": false,
+        "completeViewRequired": true,
+        "media": {
+         "title": "title",
+         "m4v": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.mp4",
+         "ogv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.ogv",
+         "wav": "http://localhost/entutor-js/task/test/webmv%20file%20URL",
+         "webmv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm"
+        },
+        "subtitles": []
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "beforeCorrect",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "<div class=\"big\">Lin</div>\n<div class=\"big blink\">Запись</div>"
+         },
+         {
+          "type": "recorder",
+          "classes": "nowords",
+          "precondition": "none",
+          "autostart": true,
+          "autocheck": false,
+          "text": "Hello! I'm Lin.",
+          "hideOnCorrect": false,
+          "duration": 30,
+          "taskPassScore": 0.7,
+          "soundScrorerURL": "./voiceinputscorer.php"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "video",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "autostart": true,
+      "supplied": "m4v,ogv,webmv",
+      "hideOnCorrect": false,
+      "completeViewRequired": false,
+      "media": {
+       "title": "title",
+       "m4v": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.mp4",
+       "ogv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.ogv",
+       "wav": "http://localhost/entutor-js/task/test/webmv%20file%20URL",
+       "webmv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm"
+      },
+      "subtitles": []
+     }
+    ]
+   }
+  ],
+  "classes": "height-xl",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

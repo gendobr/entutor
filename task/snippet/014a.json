@@ -1,0 +1,159 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 14а)\n\n<br>1. На экране появляется образец: в левой части экрана картинка с цифрой на ней. \n   Под картинкой неактивная кнопка «В». Диктор произносит: “I have got 32 apples” \n   и кнопка «В» становится активной. Кнопка «В» дает возможность прослушать \n   слова диктора неограниченное количество раз. В правой части экрана появляется \n   еще одна картинка с цифрой на ней и другой голос диктора произносит “I have \n   got eighteen cages”. Фраза, произнесенная вторым диктором, дублируется титрами \n   под второй картинкой. Под картинкой кнопка «З» и «Готово». Образец задерживается \n   на экране на 2 секунды после произнения фразы вторым диктором.\n<br>2. После образца на экране появляется первый набор картинок, и диктор \n   произносит первую фразу. После этого под второй картинкой начинает мигать \n   кнопка «З». Студент нажимает на кнопку «З», произносит предложение, \n   составленное с помощью второй картинки и цифры на ней и нажимет «Готово». \n<br>3. Если студент выполнил задание правильно, то появляется следующий набор картинок. \n<br>4. Если студент выполнил задание неправильно, то на 2 секунды появляется надпись \n   «Неправильно!» оранжевого цвета. Начинает мигать кнопка «З» \n   и студент выполняет данное задание еще раз.\n<br>5. «Правильный ответ» становится активным после второй неудачной попытки.\n<br>6. Нажатие «Правильный ответ» в течение 2 сек показывает титрами под второй \n   картинкой предложение, которое должен произнести студент. Начинает мигать \n   кнопка «З», и студент озвучивает правильный ответ.\n<br>7. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».  \n<br>"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image7.jpg\">"
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "completeViewRequired": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "sound1",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image8.jpg\">"
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "completeViewRequired": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-02.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-02.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-02.wav"
+      }
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "sound2",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image9.jpg\">"
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "completeViewRequired": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "sound3",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     }
+    ]
+   }
+  ],
+  "classes": "height-xl",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

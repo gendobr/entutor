@@ -1003,6 +1003,7 @@ entutor.editors.sound = function (parent, value) {
     this.value.classes = this.value.classes || '';
     this.value.precondition = this.value.precondition || 'none';
     this.value.autostart = this.value.autostart || false;
+    this.value.completeViewRequired = this.value.completeViewRequired || false;
     this.value.supplied = this.value.supplied || "mp3,oga,wav";
     this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
 
@@ -1033,6 +1034,7 @@ entutor.editors.sound.prototype.draw = function () {
     this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'completeViewRequired', 'Require Complete View'));
     // this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
 
 
@@ -1095,6 +1097,9 @@ entutor.editors.video = function (parent, value) {
     this.value.autostart = this.value.autostart || false;
     this.value.supplied = this.value.supplied || "m4v,ogv,webmv";
     this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
+    this.value.completeViewRequired = this.value.completeViewRequired? true :false;
+
+
 
     this.value.media = this.value.media || {};
     this.value.media.title=this.value.media.title || 'title';
@@ -1125,6 +1130,7 @@ entutor.editors.video.prototype.draw = function () {
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'completeViewRequired', 'Require Complete View'));
 
 
     // add text field

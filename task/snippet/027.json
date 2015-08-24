@@ -1,0 +1,522 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 27)\n<br>1. На экране появляются картинки (одна из них активна, остальные закрыты \n   полупрозрачным серым фоном).\n<br>2. В нижней части экрана – слова на английском языке (все активны).\n<br>3. Студенту необходимо подтянуть соответствующее слово к активной картинке.\n<br>4. Если картинка выбрана правильно, то она загорается зеленым. Появляется новая \n   комбинация данных картинок. Диктор произносит следующее слово.\n<br>5. Если картинка выбрана неправильно, то она загорается оранжевым, комбинация \n   картинок не меняется, диктор произносит то же слово. \n   Студент выполняет задание еще раз.\n<br>6. После второй неудачной попытки становится активной кнопка «Правильный ответ». \n   При ее нажатии соответствующая картинка загорается зеленым на 2 секунды. \n   Диктор произносит слово еще раз, студент выбирает правильную картинку.\n<br>7. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n<br>"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "card",
+      "classes": "t3x3",
+      "arrange": "flow",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "<img src=\"../snippet/media/image1.jpg\">"
+         },
+         {
+          "type": "dropzone",
+          "classes": "",
+          "precondition": "none",
+          "test": "testSet",
+          "hideOnCorrect": false,
+          "ejectCounterOnError": false,
+          "pattern": "word1",
+          "size": "5"
+         }
+        ]
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "<img src=\"../snippet/media/image2.jpg\">"
+         }
+        ]
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "<img src=\"../snippet/media/image3.jpg\">"
+         }
+        ]
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "<img src=\"../snippet/media/image4.jpg\">"
+         }
+        ]
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "<img src=\"../snippet/media/image5.jpg\">"
+         }
+        ]
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "<img src=\"../snippet/media/image6.jpg\">"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word1",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word2",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word3",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word4",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word5",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word6",
+        "value": ""
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "card",
+      "classes": "t3x3",
+      "arrange": "flow",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "<img src=\"../snippet/media/image1.jpg\">"
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "<img src=\"../snippet/media/image2.jpg\">"
+         },
+         {
+          "type": "dropzone",
+          "classes": "",
+          "precondition": "none",
+          "test": "testSet",
+          "hideOnCorrect": false,
+          "ejectCounterOnError": false,
+          "pattern": "word2",
+          "size": "5"
+         }
+        ]
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "<img src=\"../snippet/media/image3.jpg\">"
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "<img src=\"../snippet/media/image4.jpg\">"
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "<img src=\"../snippet/media/image5.jpg\">"
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "<img src=\"../snippet/media/image6.jpg\">"
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word1",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word2",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word3",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word4",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word5",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word6",
+        "value": ""
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "card",
+      "classes": "t3x3",
+      "arrange": "flow",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "<img src=\"../snippet/media/image1.jpg\">"
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "<img src=\"../snippet/media/image2.jpg\">"
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "<img src=\"../snippet/media/image3.jpg\">"
+         },
+         {
+          "type": "dropzone",
+          "classes": "",
+          "precondition": "none",
+          "test": "testSet",
+          "hideOnCorrect": false,
+          "ejectCounterOnError": false,
+          "pattern": "word3",
+          "size": "5"
+         }
+        ]
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "<img src=\"../snippet/media/image4.jpg\">"
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "<img src=\"../snippet/media/image5.jpg\">"
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "<img src=\"../snippet/media/image6.jpg\">"
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word1",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word2",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word3",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word4",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word5",
+        "value": ""
+       },
+       {
+        "type": "counter",
+        "classes": "",
+        "precondition": "none",
+        "innerHtml": "word6",
+        "value": ""
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

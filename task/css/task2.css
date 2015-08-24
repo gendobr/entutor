@@ -630,6 +630,12 @@
 }
 
 
+.task-card-flow.t3x3 > .task-card-element{
+    display:inline-block;
+    width:32%;
+    text-align:center;
+}
+
 /*
   Для текста в элементе slideshow
   Мало текста и большое поле сверху

@@ -1367,12 +1367,16 @@ entutor.inputs.sound = function (parent, options) {
     this.precondition = this.options.precondition || 'none';
     this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.supplied = this.options.supplied || "mp3,oga,wav";
-    this.autostart=this.options.autostart||false;
+    this.autostart=this.options.autostart?true:false;
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
+    this.completeViewRequired = this.options.completeViewRequired? true :false;
+    if(this.completeViewRequired){
+        this.passed=false;
+    }else{
+        this.passed=true;
+    }
 
     this.maxScore = 1;
-    // this.passed=false;
-    this.passed=true;
 
     this.media = options.media || {};
     this.labels = options.labels || {};
@@ -1601,9 +1605,17 @@ entutor.inputs.video = function (parent, options) {
     this.swfPath = this.options.swfPath || entutor.config.swfPath;
     this.maxScore = 1;
     //this.passed=false;
-    this.passed=true;
     this.autostart=this.options.autostart||false;
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
+    this.completeViewRequired = this.options.completeViewRequired? true :false;
+
+    if(this.completeViewRequired){
+        this.passed=false;
+    }else{
+        this.passed=true;
+    }
+    
+
 
     this.subtitles = this.options.subtitles || [];
     
