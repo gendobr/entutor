@@ -1,0 +1,162 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип ???)\n<br>1.  Запускается пример. В левой части экрана появляется предложение, \n    в котором нужно раскрыть скобки: “The skirt (to be) purple?” Начинает \n    мигать кнопка «З». С помощью анимационного эффекта происходит нажатие кнопки. \n    Диктор произносит: “Is the skirt purple?” С помощью анимационного эффекта \n    происходит нажатие кнопки «Готово». После этого в правой части экрана появляется \n    картинка, соответствующая заданному вопросу. Диктор произносит: “Yes, it is”.\n<br>2.  По окончании примера автоматически появляется первое предложение. Кнопка «З»\n    начинает мигать. Студент записывает вопрос и нажимает кнопку «Готово». \n    Если вопрос задан правильно, то в правой части экрана появляется картинка, \n    и диктор озвучивает ответ на вопрос. После этого на экране появляется \n    следующее предложение.\n<br>3.  Если вопрос задан неправильно, то на 2 секунды появляется надпись \n   «Неправильно!» оранжевого цвета. Картинка не повляется, и начинает снова \n    мигать кнопка «З». После двух неудачных попыток голос за кадром произносит \n    правильный вопрос. Сразу же в правой части экрана появляется картинка, \n    и диктор отвечает на вопрос. После этого в левой части экрана появляется \n    следующее предложение.\n<br>4.  После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n<br>"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "animationFrame": true,
+      "innerHtml": "The skirt (to be) purple?"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "Is the skirt purple?",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "autostart": true,
+      "completeViewRequired": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "animationFrame": true,
+      "innerHtml": "Text 2"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "title",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "autostart": true,
+      "completeViewRequired": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "animationFrame": true,
+      "innerHtml": "Text 3"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "title",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "autostart": true,
+      "completeViewRequired": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     }
+    ]
+   }
+  ],
+  "classes": "height-xxs",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

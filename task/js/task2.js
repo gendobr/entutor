@@ -620,6 +620,14 @@ entutor.inputs.html = function (parent, options) {
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
     this.duration = parseFloat(this.options.duration || 'none');
+    
+    if(typeof(this.options.animationFrame)==='undefined'){
+        this.animationFrame = true;
+    }else{
+        this.animationFrame = this.options.animationFrame? true : false;
+    }
+    
+    
     if(!isNaN(this.duration) && this.duration>0){
         this.duration = Math.round(1000 * this.duration);
     }
@@ -663,11 +671,11 @@ entutor.inputs.html.prototype.getMaxScore = function () {
 };
 
 entutor.inputs.html.prototype.hide = function (delay) {
-    //if(delay && parseInt(delay)>0){
-    //    setTimeout(this.hideDelayed,entutor.hideDelay);
-    //}else{
+    if(!this.animationFrame && delay && parseInt(delay)>0){
+        setTimeout(this.hideDelayed,entutor.hideDelay);
+    }else{
         this.domElement.hide();
-    //}
+    }
 };
 
 entutor.inputs.html.prototype.show = function (delay) {
@@ -790,8 +798,10 @@ entutor.inputs.text.prototype.createRegExp = function (str) {
     tmp1=str.trim();
     tmp2=tmp1.replace(/ +/g,' +');
     tmp1=tmp2.replace(/\\\?/," *\\?");
+    tmp2=tmp1.replace(/\\\./," *\\.");
+    tmp1=tmp2.replace(/!/," *!");
     //console.log('tmp1='+tmp1);
-    var tmp2=new RegExp('^ *' + tmp1 + ' *$')
+    var tmp2=new RegExp('^ *' + tmp1 + ' *$');
     return tmp2;
 };
 

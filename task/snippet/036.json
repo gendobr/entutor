@@ -1,0 +1,402 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (тип 36)\n<br>1. На экране появляется образец выполнения задания: в левой части экрана \n   появляется картинка, под которой написано предложение The cherries are black. \n   В правой части экрана даются начальные слова следующих предложений \n   The cherries и  They. С помощью анимационного эффекта по порядку \n   появляются слова с предложений: The cherries are not black. They are red, \n   соответствующие изображению на картинке. Когда предложения полностью появились \n   на экране, текст держится на экране 2 секунды, и начинает мигать кнопка «З». \n   Диктор озвучивает данный текст. После слов диктора появляется следующая картинка.\n<br>2. Начинает мигать кнопка «З». Студент нажимает «З», озвучивает предложения \n   и нажимает «Готово». \n<br>3. Если предложения озвучены неправильно, то слова в правой части экрана загораются \n   оранжевым на 2 секунды. Студент выполняет задание еще раз. \n<br>4. После второй неудачной попытки кнопка «Правильный ответ» становится активной. \n   В правой части экрана появляются правильные утверждения, которые исчезают \n   через 2 секунды. Студент выполняет задание еще раз.\n<br>5. Если предложения озвучены правильно, то картинка загорается зеленым на 2 секунды, \n   и на экране появляется следующая картинка.\n<br>6. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».   \n<br>"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image1.jpg\">\n<div class=big>The cherries are black.</div>",
+      "animationFrame": true
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "horizontal",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "The cherries ",
+          "animationFrame": true
+         },
+         {
+          "type": "text",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "pattern": "are not black\\.",
+          "value": "",
+          "size": 15,
+          "hint": "are not black."
+         }
+        ]
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "horizontal",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "They ",
+          "animationFrame": true
+         },
+         {
+          "type": "text",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "pattern": "are red\\.",
+          "value": "",
+          "size": 15,
+          "hint": "are red."
+         }
+        ]
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "beforeCorrect",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "Озвучьте правильные ответы",
+          "animationFrame": true
+         },
+         {
+          "type": "recorder",
+          "classes": "nowords",
+          "precondition": "none",
+          "autostart": false,
+          "autocheck": false,
+          "text": "The cherries are not black. They are red.",
+          "hideOnCorrect": false,
+          "duration": 30,
+          "taskPassScore": 0.7,
+          "soundScrorerURL": "./voiceinputscorer.php"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<img src=\"../snippet/media/image2.jpg\">\n<div class=big>The spoon is in the cage.</div>",
+      "animationFrame": true
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "horizontal",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "The spoon",
+          "animationFrame": true
+         },
+         {
+          "type": "text",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "pattern": "is not in the cage\\.",
+          "value": "",
+          "size": 15,
+          "hint": "is not in the cage."
+         }
+        ]
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "horizontal",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "It",
+          "animationFrame": true
+         },
+         {
+          "type": "text",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "pattern": "is in the plate\\.",
+          "value": "",
+          "size": 15,
+          "hint": "is in the plate."
+         }
+        ]
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "beforeCorrect",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "innerHtml": "Озвучьте правильные ответы",
+          "animationFrame": true
+         },
+         {
+          "type": "recorder",
+          "classes": "nowords",
+          "precondition": "none",
+          "autostart": false,
+          "autocheck": false,
+          "text": "The spoon is not in the cage. It is in the plate.",
+          "hideOnCorrect": false,
+          "duration": 30,
+          "taskPassScore": 0.7,
+          "soundScrorerURL": "./voiceinputscorer.php"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "animationFrame": true,
+      "innerHtml": "<img src=\"../snippet/media/image3.jpg\">\n<div class=big>The man has got a cap.</div>"
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "horizontal",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "animationFrame": true,
+          "innerHtml": "The man"
+         },
+         {
+          "type": "text",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "pattern": " has not got a cap\\.",
+          "value": "",
+          "size": 15,
+          "hint": " has not got a cap."
+         }
+        ]
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "horizontal",
+        "taskPassScore": 1,
+        "precondition": "none",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "animationFrame": true,
+          "innerHtml": "He"
+         },
+         {
+          "type": "text",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "pattern": "has got a scarf\\.",
+          "value": "",
+          "size": 15,
+          "hint": "has got a scarf."
+         }
+        ]
+       },
+       {
+        "type": "card",
+        "classes": "",
+        "arrange": "vertical",
+        "taskPassScore": 1,
+        "precondition": "beforeCorrect",
+        "customtest": "",
+        "maxScore": 1,
+        "hideOnCorrect": false,
+        "children": [
+         {
+          "type": "html",
+          "classes": "",
+          "precondition": "none",
+          "hideOnCorrect": false,
+          "duration": 0,
+          "animationFrame": true,
+          "innerHtml": "Озвучьте правильные ответы"
+         },
+         {
+          "type": "recorder",
+          "classes": "nowords",
+          "precondition": "none",
+          "autostart": false,
+          "autocheck": false,
+          "text": "The man has not got a cap. He has got a scarf.",
+          "hideOnCorrect": false,
+          "duration": 30,
+          "taskPassScore": 0.7,
+          "soundScrorerURL": "./voiceinputscorer.php"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

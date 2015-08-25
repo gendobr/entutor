@@ -1,0 +1,162 @@
+{
+ "presentation": {
+  "innerHtml": "Сценарий (+тип 39)\n<br>1. Запускается пример. На экране появляется картинка, к которой нужно поставить вопрос: “What colour is the vest?” Начинает мигать кнопка «З». С помощью анимационного эффекта происходит нажатие кнопки. Диктор произносит: “What colour is the vest?” С помощью анимационного эффекта происходит нажатие кнопки «Готово». После этого диктор произносит ответ: “It is blue”.\n<br>2. По окончании примера автоматически появляется первая картинка. Кнопка «З» начинает мигать. Студент записывает вопрос и нажимает кнопку «Готово». Если вопрос задан правильно, то диктор озвучивает ответ на вопрос. После этого на экране появляется следующая картинка.\n<br>3. Если вопрос задан неправильно, то на 2 секунды появляется надпись «Неправильно!» оранжевого цвета. Картинка не повляется, и начинает снова мигать кнопка «З». После двух неудачных попыток голос за кадром произносит правильный вопрос. Сразу же диктор отвечает на вопрос. После этого в правой части экрана появляется следующая картинка.\n<br>4. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». "
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "animationFrame": true,
+      "innerHtml": "<img src=\"../snippet/media/image1.jpg\">"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "What colour is the vest?",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "autostart": true,
+      "completeViewRequired": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "animationFrame": true,
+      "innerHtml": "<img src=\"../snippet/media/image2.jpg\">"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "What colour are the plums?|What colour are these plums?",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "autostart": true,
+      "completeViewRequired": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "animationFrame": true,
+      "innerHtml": "<img src=\"../snippet/media/image3.jpg\">"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "What colour is the room?|What colour is this room?",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7,
+      "soundScrorerURL": "./voiceinputscorer.php"
+     },
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "beforeCorrect",
+      "autostart": true,
+      "completeViewRequired": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
+       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
+       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+      }
+     }
+    ]
+   }
+  ],
+  "classes": "height-m",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

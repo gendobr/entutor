@@ -481,7 +481,11 @@ entutor.editors.html = function (parent, value) {
     this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
     this.value.duration = this.value.duration || 0;
     
-    
+    if(typeof(this.value.animationFrame)==='undefined'){
+        this.value.animationFrame = true;
+    }else{
+        this.value.animationFrame = this.value.animationFrame? true : false;
+    }
     this.maxScore = 1;
 };
 
@@ -506,6 +510,7 @@ entutor.editors.html.prototype.draw = function () {
     this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
     this.optionBlock.append(entutor.components.string(this.value, 'duration', 'Duration, seconds'));
     this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'animationFrame', 'Animation Frame'));
 
 
     
