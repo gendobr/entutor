@@ -1,6 +1,6 @@
 {
  "presentation": {
-  "innerHtml": ""
+  "innerHtml": " Сценарий (тип 12)\n<br>    1. Видеозапись (например, девушка на улице произносит фразу Hi!). Начинает мигать кнопка «З».\n<br>    2. Студент нажимает кнопку «З», озвучивает услышанную фразу и нажимает кнопку «Готово».\n<br>    3. Если студент выполнил задание правильно, то появляется следующая видеозапись.\n<br>    4. Если студент выполнил задание неправильно, то на 2 секунды появляется надпись \n       «Неправильно!» оранжевого цвета. Ролик воспроизводится еще раз автоматически, \n       и студент выполняет данное задание еще раз.\n<br>    5. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n<br>"
  },
  "inputs": {
   "type": "card",
@@ -26,9 +26,11 @@
        "title": "hi",
        "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
        "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
-       "webmv": "../snippet/media/EddiethebeagleDumbo.webm"
+       "webmv": "../snippet/media/EddiethebeagleDumbo.webm",
+       "wav": "../snippet/media/EddiethebeagleDumbo.webm"
       },
-      "subtitles": []
+      "subtitles": [],
+      "completeViewRequired": false
      },
      {
       "type": "recorder",
@@ -65,9 +67,11 @@
        "title": "hello",
        "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
        "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
-       "webmv": "../snippet/media/EddiethebeagleDumbo.webm"
+       "webmv": "../snippet/media/EddiethebeagleDumbo.webm",
+       "wav": "../snippet/media/EddiethebeagleDumbo.webm"
       },
-      "subtitles": []
+      "subtitles": [],
+      "completeViewRequired": false
      },
      {
       "type": "recorder",
@@ -84,12 +88,13 @@
     ]
    }
   ],
-  "classes": "",
+  "classes": "height-l",
   "arrange": "vertical",
   "taskPassScore": 1,
   "precondition": "none",
   "customtest": "",
   "maxScore": 1,
-  "hideOnCorrect": false
+  "hideOnCorrect": false,
+  "autocheck": true
  }
 }

@@ -1,6 +1,6 @@
 {
  "presentation": {
-  "innerHtml": ""
+  "innerHtml": "    Сценарий (тип 15)\n<br>    1. В левой части экрана появляется картинка.\n<br>    2. Диктор произносит: a bed, в это же время в правой части экрана появляется: a bed – кровать.\n<br>    3. Начинает мигать кнопка «Повторите». Студент повторяет за диктором. Время задержки – 2 секунды.\n<br>    4. Есть возможность прослушать слово еще раз, нажав на кнопку «В».\n<br>    5. Студент нажимает на кнопку «Следующий», и появляется следующая картинка.\n<br>    6. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n"
  },
  "inputs": {
   "type": "card",
@@ -14,9 +14,9 @@
     "autostart": false,
     "media": {
      "title": "title",
-     "mp3": "http://localhost/entutor-js/task/snippet/media/task001.mp3",
-     "oga": "http://localhost/entutor-js/task/snippet/media/task001.ogg",
-     "wav": "http://localhost/entutor-js/task/snippet/media/task001.wav"
+     "mp3": "../snippet/media/task001.mp3",
+     "oga": "../snippet/media/task001.ogg",
+     "wav": "../snippet/media/task001.wav"
     },
     "slides": [
      {

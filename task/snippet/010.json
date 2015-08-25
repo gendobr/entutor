@@ -27,7 +27,8 @@
        "mp3": "../snippet/media/task002-01.mp3",
        "oga": "../snippet/media/task002-01.ogg",
        "wav": "../snippet/media/task002-01.wav"
-      }
+      },
+      "completeViewRequired": false
      },
      {
       "type": "html",
@@ -78,7 +79,8 @@
        "mp3": "../snippet/media/task002-02.mp3",
        "oga": "../snippet/media/task002-02.ogg",
        "wav": "../snippet/media/task002-02.wav"
-      }
+      },
+      "completeViewRequired": false
      },
      {
       "type": "text",
@@ -115,7 +117,8 @@
        "mp3": "../snippet/media/task002-01.mp3",
        "oga": "../snippet/media/task002-01.ogg",
        "wav": "../snippet/media/task002-01.wav"
-      }
+      },
+      "completeViewRequired": false
      },
      {
       "type": "text",
@@ -131,12 +134,13 @@
     ]
    }
   ],
-  "classes": "",
+  "classes": "height-xxs",
   "arrange": "vertical",
   "taskPassScore": 1,
   "precondition": "none",
   "customtest": "",
   "maxScore": 1,
-  "hideOnCorrect": false
+  "hideOnCorrect": false,
+  "autocheck": true
  }
 }

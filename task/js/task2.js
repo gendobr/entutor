@@ -983,7 +983,18 @@ entutor.inputs.radio = function (parent, options) {
     this.precondition = this.options.precondition || 'none';
     this.value = false;
     this.result = null;
-    this.arrange = this.options.arrange || 'horizontal';
+    
+    switch(this.options.arrange){
+        case 'horizontal':
+            this.arrange = 'horizontal';
+            break;
+        case 'flow':
+            this.arrange = 'flow';
+            break;
+        default:
+            this.arrange = 'vertical';
+            break;
+    }
     this.autocheck=this.options.autocheck||false;
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 

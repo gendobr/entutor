@@ -628,6 +628,9 @@
     text-align:center;
     font-size:150%;
 }
+.task-radiobuttons.t3x3.flow img{
+    max-width:100%;
+}
 
 
 .task-card-flow.t3x3 > .task-card-element{
@@ -635,7 +638,9 @@
     width:32%;
     text-align:center;
 }
-
+.task-card-flow.t3x3 img{
+    max-width:100%;
+}
 /*
   Для текста в элементе slideshow
   Мало текста и большое поле сверху

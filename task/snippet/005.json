@@ -1,189 +1,189 @@
 {
-    "presentation": {
-        "innerHtml": ""
-    },
-    "inputs": {
-        "type": "card",
-        "children": [
-            {
-                "type": "card",
-                "classes": "",
-                "arrange": "horizontal",
-                "taskPassScore": 1,
-                "precondition": "none",
-                "customtest": "",
-                "maxScore": 1,
-                "hideOnCorrect": false,
-                "children": [
-                    {
-                        "type": "card",
-                        "classes": "",
-                        "arrange": "horizontal",
-                        "taskPassScore": 1,
-                        "precondition": "none",
-                        "customtest": "",
-                        "maxScore": 1,
-                        "hideOnCorrect": false,
-                        "children": [
-                            {
-                                "type": "html",
-                                "classes": "",
-                                "precondition": "none",
-                                "hideOnCorrect": false,
-                                "duration": 0,
-                                "innerHtml": "A"
-                            },
-                            {
-                                "type": "dropzone",
-                                "classes": "",
-                                "precondition": "none",
-                                "test": "testSet",
-                                "hideOnCorrect": false,
-                                "ejectCounterOnError": true,
-                                "pattern": "a",
-                                "size": "3"
-                            }
-                        ]
-                    },
-                    {
-                        "type": "card",
-                        "classes": "",
-                        "arrange": "horizontal",
-                        "taskPassScore": 1,
-                        "precondition": "none",
-                        "customtest": "",
-                        "maxScore": 1,
-                        "hideOnCorrect": false,
-                        "children": [
-                            {
-                                "type": "html",
-                                "classes": "",
-                                "precondition": "none",
-                                "hideOnCorrect": false,
-                                "duration": 0,
-                                "innerHtml": "B"
-                            },
-                            {
-                                "type": "dropzone",
-                                "classes": "",
-                                "precondition": "none",
-                                "test": "testSet",
-                                "hideOnCorrect": false,
-                                "ejectCounterOnError": true,
-                                "pattern": "b",
-                                "size": "3"
-                            }
-                        ]
-                    },
-                    {
-                        "type": "card",
-                        "classes": "",
-                        "arrange": "horizontal",
-                        "taskPassScore": 1,
-                        "precondition": "none",
-                        "customtest": "",
-                        "maxScore": 1,
-                        "hideOnCorrect": false,
-                        "children": [
-                            {
-                                "type": "html",
-                                "classes": "",
-                                "precondition": "none",
-                                "hideOnCorrect": false,
-                                "duration": 0,
-                                "innerHtml": "C"
-                            },
-                            {
-                                "type": "dropzone",
-                                "classes": "",
-                                "precondition": "none",
-                                "test": "testSet",
-                                "hideOnCorrect": false,
-                                "ejectCounterOnError": true,
-                                "pattern": "c",
-                                "size": "3"
-                            }
-                        ]
-                    },
-                    {
-                        "type": "card",
-                        "classes": "",
-                        "arrange": "horizontal",
-                        "taskPassScore": 1,
-                        "precondition": "none",
-                        "customtest": "",
-                        "maxScore": 1,
-                        "hideOnCorrect": false,
-                        "children": [
-                            {
-                                "type": "html",
-                                "classes": "",
-                                "precondition": "none",
-                                "hideOnCorrect": false,
-                                "duration": 0,
-                                "innerHtml": "D"
-                            },
-                            {
-                                "type": "dropzone",
-                                "classes": "",
-                                "precondition": "none",
-                                "test": "testSet",
-                                "hideOnCorrect": false,
-                                "ejectCounterOnError": true,
-                                "pattern": "d",
-                                "size": "3"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "type": "card",
-                "classes": "",
-                "arrange": "horizontal",
-                "taskPassScore": 1,
-                "precondition": "none",
-                "customtest": "",
-                "maxScore": 1,
-                "hideOnCorrect": false,
-                "children": [
-                    {
-                        "type": "counter",
-                        "classes": "",
-                        "precondition": "none",
-                        "innerHtml": "d",
-                        "value": ""
-                    },
-                    {
-                        "type": "counter",
-                        "classes": "",
-                        "precondition": "none",
-                        "innerHtml": "a",
-                        "value": ""
-                    },
-                    {
-                        "type": "counter",
-                        "classes": "",
-                        "precondition": "none",
-                        "innerHtml": "b",
-                        "value": ""
-                    },
-                    {
-                        "type": "counter",
-                        "classes": "",
-                        "precondition": "none",
-                        "innerHtml": "c",
-                        "value": ""
-                    }
-                ]
-            }
-        ],
+ "presentation": {
+  "innerHtml": "    Сценарий (тип 5)\n<br>    1. На экране появляется образец выполнения задания: пустая карточка, которая с \n       помощью анимационного эффекта перетаскивания последовательно заполняется прописной, \n       строчной буквами и соответствующим знаком транскрипции, расположенными в нижней части экрана.\n<br>    2. Студенту необходимо перетаскиванием знаков из нижней части экрана сформировать карточку. \n       При этом программа автоматически выставляет ???? знаки в правильной последовательности: \n       прописная, строчная буквы, знак транскрипции.\n<br>    3. Когда карточка сформирована, студент нажимает кнопку «Проверить». \n       Программа проверяет соответствие букв и транскрипционных знаков.\n<br>    4. Если карточка заполнена правильно, то она загорается зеленым.\n<br>    5. Если карточка заполнена неправильно, то она загорается оранжевым, и буквы и \n       транскрипционные знаки возвращаются на свое место в нижнюю часть экрана.\n<br>    6. После первой неудачной попытки становится активной кнопка «Правильный ответ». \n       Она показывает правильно заполненные карточки в течение 2 секунд. \n       Студент выполняет задание еще раз.\n<br>    7. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее».\n\n"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
         "classes": "",
-        "arrange": "vertical",
-        "taskPassScore": 1,
         "precondition": "none",
-        "customtest": "",
-        "maxScore": 1,
-        "hideOnCorrect": false
-    }
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "A"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": true,
+        "pattern": "a",
+        "size": "3"
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "B"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": true,
+        "pattern": "b",
+        "size": "3"
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "C"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": true,
+        "pattern": "c",
+        "size": "3"
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "D"
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "ejectCounterOnError": true,
+        "pattern": "d",
+        "size": "3"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "d",
+      "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "a",
+      "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "b",
+      "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "c",
+      "value": ""
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
 }

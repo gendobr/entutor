@@ -1,35 +1,55 @@
 {
-    "presentation":{"innerHtml":""},
-    "inputs":{
-        "type":"card",
-        "children":[
-            {
-                "type":"video",
-                "classes":"",
-                "precondition":"none",
-                "autostart":false,
-                "supplied":"m4v,ogv,webmv",
-                "hideOnCorrect":false,
-                "media":{
-                    "title":"title",
-                    "m4v":"../snippet/media/EddiethebeagleDumbo.mp4",
-                    "ogv":"../snippet/media/EddiethebeagleDumbo.ogv",
-                    "webmv":"../snippet/media/EddiethebeagleDumbo.webm"
-                },
-                "subtitles":[
-                    {"html":"subtitle 0-3","from":"0","to":"3"},
-                    {"html":"subtitle 3-6","from":"3","to":"6"},
-                    {"html":"subtitle 6-9","from":"6","to":"9"},
-                    {"html":"subtitle 9-13","from":"9","to":"13"}
-                ]
-            }
-        ],
-        "classes":"",
-        "arrange":"vertical",
-        "taskPassScore":1,
-        "precondition":"none",
-        "customtest":"",
-        "maxScore":1,
-        "hideOnCorrect":false
-    }
+ "presentation": {
+  "innerHtml": "Сценарий (тип 2)\n<br>Видео:\n<br>    1. Появляется видео лица человека, который произносит [eɪ]. Одновременно на экране \n       появляется изображение буквы «Aa» и надпись «Повторите» синего цвета. \n       После озвучивания буквы задержка видео на 2 секунды, во время которой мигает \n       надпись «Повторите», и студент повторяет букву.\n<br>    2. Появляется видео лица человека, который произносит [æ]. Одновременно на экране \n       появляется изображение транскрипционного знака «[æ]» и надпись «Повторите» синего цвета. \n       После озвучивания звука задержка видео на 2 секунды, во время которой мигает надпись \n       «Повторите», и студент повторяет звук.\n<br>    3. После окончания выполнения упражнения становится активной кнопка «Далее». \n<br>    Кнопки «В1» и «В2» активны постоянно."
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "video",
+    "classes": "",
+    "precondition": "none",
+    "autostart": false,
+    "supplied": "m4v,ogv,webmv",
+    "hideOnCorrect": false,
+    "media": {
+     "title": "title",
+     "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
+     "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
+     "webmv": "../snippet/media/EddiethebeagleDumbo.webm",
+     "wav": "../snippet/media/EddiethebeagleDumbo.webm"
+    },
+    "subtitles": [
+     {
+      "html": "subtitle 0-3",
+      "from": "0",
+      "to": "3"
+     },
+     {
+      "html": "subtitle 3-6",
+      "from": "3",
+      "to": "6"
+     },
+     {
+      "html": "subtitle 6-9",
+      "from": "6",
+      "to": "9"
+     },
+     {
+      "html": "subtitle 9-13",
+      "from": "9",
+      "to": "13"
+     }
+    ],
+    "completeViewRequired": false
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
 }

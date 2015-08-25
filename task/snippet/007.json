@@ -1,6 +1,6 @@
 {
  "presentation": {
-  "innerHtml": ""
+  "innerHtml": "    Сценарий (тип 7)\n<br>    1. «В» кнопка для воспроизведения аудиозаписи.\n<br>    2. Диктор называет звук, а студент выбирает букву из предложенных в 6 карточках.\n<br>    3. Если карточка выбрана правильно, она становится зеленой, и на экране появляется \n       следующий набор карточек. Кнопка «В» становится активной.\n<br>    4. Каждая неправильно выбранная карточка становится неактивной.\n<br>    5. После окончания выполнения упражнения становятся активными кнопки «Повторить» и «Далее». \n<br>"
  },
  "inputs": {
   "type": "card",
@@ -13,7 +13,7 @@
     "precondition": "none",
     "customtest": "",
     "maxScore": 1,
-    "hideOnCorrect": false,
+    "hideOnCorrect": true,
     "children": [
      {
       "type": "sound",
@@ -27,7 +27,8 @@
        "mp3": "../snippet/media/task001.mp3",
        "oga": "../snippet/media/task001.ogg",
        "wav": "../snippet/media/task001.wav"
-      }
+      },
+      "completeViewRequired": false
      },
      {
       "type": "radio",
@@ -35,7 +36,7 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "size": "5",
-      "arrange": "vertical",
+      "arrange": "horizontal",
       "variant": {
        "1": "a",
        "2": "b",
@@ -58,7 +59,7 @@
     "precondition": "beforeCorrect",
     "customtest": "",
     "maxScore": 1,
-    "hideOnCorrect": false,
+    "hideOnCorrect": true,
     "children": [
      {
       "type": "sound",
@@ -72,7 +73,8 @@
        "mp3": "../snippet/media/task001.mp3",
        "oga": "../snippet/media/task001.ogg",
        "wav": "../snippet/media/task001.wav"
-      }
+      },
+      "completeViewRequired": false
      },
      {
       "type": "radio",
@@ -81,7 +83,7 @@
       "hideOnCorrect": false,
       "correctVariant": "2",
       "size": "5",
-      "arrange": "vertical",
+      "arrange": "horizontal",
       "variant": {
        "1": "b",
        "2": "a",
@@ -117,7 +119,8 @@
        "mp3": "../snippet/media/task001.mp3",
        "oga": "../snippet/media/task001.ogg",
        "wav": "../snippet/media/task001.wav"
-      }
+      },
+      "completeViewRequired": false
      },
      {
       "type": "radio",
@@ -126,7 +129,7 @@
       "hideOnCorrect": false,
       "correctVariant": "3",
       "size": "5",
-      "arrange": "vertical",
+      "arrange": "horizontal",
       "variant": {
        "1": "c",
        "2": "b",
@@ -140,7 +143,7 @@
     ]
    }
   ],
-  "classes": "",
+  "classes": "height-xxs",
   "arrange": "vertical",
   "taskPassScore": 1,
   "precondition": "none",

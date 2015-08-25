@@ -49,7 +49,8 @@
         "pattern": "е",
         "value": "",
         "size": 2,
-        "hint": "е"
+        "hint": "е",
+        "resetOnError": true
        },
        {
         "type": "html",
@@ -107,7 +108,8 @@
         "pattern": "р",
         "value": "",
         "size": 2,
-        "hint": "р"
+        "hint": "р",
+        "resetOnError": true
        },
        {
         "type": "html",
@@ -165,7 +167,8 @@
         "pattern": "м",
         "value": "",
         "size": 2,
-        "hint": "м"
+        "hint": "м",
+        "resetOnError": true
        },
        {
         "type": "html",
@@ -180,7 +183,7 @@
     ]
    }
   ],
-  "classes": "",
+  "classes": "height-m",
   "arrange": "vertical",
   "taskPassScore": 1,
   "precondition": "none",

@@ -13,7 +13,7 @@
     "precondition": "none",
     "customtest": "",
     "maxScore": 1,
-    "hideOnCorrect": false,
+    "hideOnCorrect": true,
     "children": [
      {
       "type": "sound",
@@ -27,7 +27,8 @@
        "mp3": "../snippet/media/task001.mp3",
        "oga": "../snippet/media/task001.ogg",
        "wav": "../snippet/media/task001.wav"
-      }
+      },
+      "completeViewRequired": false
      },
      {
       "type": "radio",
@@ -55,7 +56,7 @@
     "precondition": "beforeCorrect",
     "customtest": "",
     "maxScore": 1,
-    "hideOnCorrect": false,
+    "hideOnCorrect": true,
     "children": [
      {
       "type": "sound",
@@ -69,7 +70,8 @@
        "mp3": "../snippet/media/task001.mp3",
        "oga": "../snippet/media/task001.ogg",
        "wav": "../snippet/media/task001.wav"
-      }
+      },
+      "completeViewRequired": false
      },
      {
       "type": "radio",
@@ -111,7 +113,8 @@
        "mp3": "../snippet/media/task001.mp3",
        "oga": "../snippet/media/task001.ogg",
        "wav": "../snippet/media/task001.wav"
-      }
+      },
+      "completeViewRequired": false
      },
      {
       "type": "radio",
