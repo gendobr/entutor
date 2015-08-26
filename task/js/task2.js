@@ -26,13 +26,19 @@ entutor.hideDelay=1000;
 entutor.showDelay=1005;
 
 
-
+entutor.i18n={
+    //testbutton: 'Проверить',
+    testbutton: 'Готово',
+    nextbutton: 'Далее',
+    restartbutton: 'Начать задание заново'
+};
 
 
 
 
 
 // =============================================================================
+//TODO: onLoad callback
 entutor.load = function (jsonURL, containerSelector) {
     // process the form
     entutor.currentCounter = false;
@@ -124,11 +130,6 @@ entutor.task.prototype.template =
         + '</span>'
         + '</span>';
 
-entutor.task.prototype.text = {
-    testbutton: 'Проверить',
-    nextbutton: 'Далее',
-    restartbutton: 'Начать задание заново'
-};
 
 entutor.task.status = {
     received: 'received',
@@ -140,7 +141,7 @@ entutor.task.prototype.draw = function () {
     var self = this;
     var context = {
         id: this.id,
-        text: this.text
+        text: entutor.i18n
     };
     this.domElement = $(Mark.up(this.template, context));
 
@@ -178,12 +179,10 @@ entutor.task.prototype.draw = function () {
 };
 
 entutor.task.prototype.start = function(){
-    // console.log("this.inputs.start()");
     this.inputs.start();
 };
 
 entutor.task.prototype.notify = function (stack) {
-    // re-test if autocheck is true
     if(this.autocheck){
         this.inputs.test();
     }
@@ -205,7 +204,6 @@ entutor.print_call_stack = function() {
 entutor.testPresentation = function (parent, options) {
     this.parent = parent;
     this.options = options || {};
-    // console.log(this);
 };
 
 entutor.testPresentation.prototype.draw = function () {
@@ -222,6 +220,15 @@ entutor.testPresentation.prototype.draw = function () {
 
 
 
+// =============================================================================
+entutor.utils={};
+entutor.utils.parseTime = function(timestring){
+    var seconds=parseFloat(timestring.replace(/,/,'.'));
+    if(!isNaN(seconds)){
+        return seconds;
+    }
+    var tmp=timestring.trim().split(/:/);
+};
 
 // =============================================================================
 /** card, container for other inputs
