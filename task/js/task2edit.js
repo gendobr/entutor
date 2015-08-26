@@ -71,7 +71,7 @@ entutor.editor.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', entutor.i18n['Autocheck']));
     
     this.container.append(this.presentation.draw());
     this.container.append(this.inputs.draw());
@@ -86,6 +86,75 @@ entutor.editor.prototype.getValue = function () {
 
 
 
+// =============================================================================
+entutor.i18n={
+    'Presentation':'Presentation',
+    'CSS classes':'CSS classes',
+    'Arrange subelements':'Arrange subelements',
+    'Hint':'Hint',
+    'Precondition':'Precondition',
+    'Autocheck':'Autocheck',
+    'Task Pass Score':'Task Pass Score',
+    'Max Score':'Max Score',
+    'Hide if Correct':'Hide if Correct',
+    'horizontal':'horizontal',
+    'vertical':'vertical',
+    'flow':'flow',
+    'Duration, seconds':'Duration, seconds',
+    'Animation Frame':'Animation Frame',
+    'type correct answer here':'type correct answer here',
+    'Correct value*':'Correct value*',
+    'Initial value':'Initial value',
+    'Correct values<br>(one per string)':'Correct values<br>(one per string)',
+    'Test rule':'Test rule',
+    'Width':'Width',
+    'Accept multiple counters':'Accept multiple counters',
+    'Eject counter on error':'Eject counter on error',
+    'Autostart':'Autostart',
+    'Require Complete View':'Require Complete View',
+    'WEBMV file URL':'WEBMV file URL',
+    'OGV file URL':'OGV file URL',
+    'M4V file URL':'M4V file URL',
+    'Subtitle':'Subtitle',
+    'Sound title':'Sound title',
+    'MP3 file URL':'MP3 file URL',
+    'OGA file URL':'OGA file URL',
+    'WAV file URL':'WAV file URL',
+    'Slide':'Slide',
+    'From time':'From time',
+    'To time':'To time',
+    'Min score to pass (0 ... 1)':'Min score to pass (0 ... 1)',
+    'beforeCorrect':'beforeCorrect',
+    'Maximal length':'Maximal length',
+    'Reset if Error':'Reset if Error',
+    'type checkbox label here':'type checkbox label here',
+    'type visible text here':'type visible text here',
+    'Value provided to dropzone':'Value provided to dropzone',
+    'testSet':'testSet',
+    'testSequence':'testSequence',
+    'mp3 file URL':'mp3 file URL',
+    'oga file URL':'oga file URL',
+    'wav file URL':'wav file URL',
+    'm4v file URL':'m4v file URL',
+    'ogv file URL':'ogv file URL',
+    'webmv file URL':'webmv file URL',
+    'Video title':'Video title',
+    'Initial seqence':'Initial seqence',
+    'card':'card',
+    'html':'html',
+    'text':'text',
+    'radio':'radio',
+    'checkbox':'checkbox',
+    'counter':'counter',
+    'dropzone':'dropzone',
+    'sound':'sound',
+    'video':'video',
+    'playlist':'playlist',
+    'slideshow':'slideshow',
+    'recorder':'recorder',
+    'sequence':'sequence'
+};
+
 
 // =============================================================================
 entutor.presentationeditor = function (parent, value) {
@@ -96,7 +165,7 @@ entutor.presentationeditor = function (parent, value) {
 entutor.presentationeditor.prototype.draw = function () {
     var self = this;
     this.container = $("<div class=\"editor-element-container presentation\"></div>");
-    this.container.append('<div class="editor-toolbar">Presentation</div>');
+    this.container.append('<div class="editor-toolbar">'+entutor.i18n['Presentation']+'</div>');
     this.textarea = $("<textarea class=\"editor-presentation-textarea\"></textarea>");
     this.textarea.val(this.value);
     this.container.append(this.textarea);
@@ -119,7 +188,8 @@ entutor.components = {};
 entutor.components.string = function (value, attr, labelText, callback) {
     var container = $("<div class=\"editor-component-container string\"></div>");
 
-    var label = $("<span class=\"editor-component-label string\">" + labelText + "</span>");
+    var label = $("<span class=\"editor-component-label string\"></span>");
+    label.html(labelText);
     container.append(label);
 
     var input = $("<input class=\"editor-component-input string\" type=text>");
@@ -137,7 +207,8 @@ entutor.components.string = function (value, attr, labelText, callback) {
 entutor.components.float = function (value, attr, labelText, callback) {
     var container = $("<div class=\"editor-component-container number\"></div>");
 
-    var label = $("<span class=\"editor-component-label number\">" + labelText + "</span>");
+    var label = $("<span class=\"editor-component-label number\"></span>");
+    label.html(labelText);
     container.append(label);
 
     var input = $("<input class=\"editor-component-input number\" type=text>");
@@ -155,7 +226,8 @@ entutor.components.float = function (value, attr, labelText, callback) {
 entutor.components.integer = function (value, attr, labelText, callback) {
     var container = $("<div class=\"editor-component-container number\"></div>");
 
-    var label = $("<span class=\"editor-component-label number\">" + labelText + "</span>");
+    var label = $("<span class=\"editor-component-label number\"></span>");
+    label.html(labelText);
     container.append(label);
 
     var input = $("<input class=\"editor-component-input number\" type=text>");
@@ -173,7 +245,8 @@ entutor.components.integer = function (value, attr, labelText, callback) {
 entutor.components.select = function (value, attr, labelText, options, callback) {
     var container = $("<div class=\"editor-component-container string\"></div>");
 
-    var label = $("<span class=\"editor-component-label string\">" + labelText + "</span>");
+    var label = $("<span class=\"editor-component-label string\"></span>");
+    label.html(labelText);
     container.append(label);
 
     var input = $("<select class=\"editor-component-input select\"></select>");
@@ -195,8 +268,10 @@ entutor.components.text = function (value, attr, labelText, callback) {
 
     var container = $("<div class=\"editor-component-container string\"></div>");
 
-    var label = $("<span class=\"editor-component-label string\">" + labelText + "</span>");
+    var label = $("<span class=\"editor-component-label string\"></span>");
+    label.html(labelText);
     container.append(label);
+
 
     var input = $("<textarea class=\"editor-component-input text\"></textarea>");
     container.append(input);
@@ -213,9 +288,10 @@ entutor.components.checkbox = function (value, attr, labelText, callback) {
     var container = $("<div class=\"editor-component-container checkbox\"></div>");
 
     var input = $("<input class=\"editor-component-input checkbox\" type=\"checkbox\">");
-    container.append(input);
     
-    var label = $("<span class=\"editor-component-label checkbox\">" + labelText + "</span>");
+    var label = $("<span class=\"editor-component-label checkbox\"></span>");
+    label.append(input);
+    label.append(labelText);
     container.append(label);
 
     input.prop( "checked", value[attr] );
@@ -314,15 +390,13 @@ entutor.editors.card.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-
-    this.optionBlock.append(entutor.components.select(this.value, 'arrange', 'Arrange subelements', {'horizontal': 'horizontal', 'vertical': 'vertical','flow':'flow'} , function(value){self.childContainer.removeClass('flow').removeClass('vertical').removeClass('horizontal').addClass(value);}));
-    this.optionBlock.append(entutor.components.string(this.value, 'taskPassScore', 'Task Pass Score'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    // this.optionBlock.append(entutor.components.text(this.value, 'customtest', 'Custom test function' /*, callback */));
-    this.optionBlock.append(entutor.components.string(this.value, 'maxScore', 'Max Score'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.select(this.value, 'arrange', entutor.i18n['Arrange subelements'], {'horizontal': entutor.i18n['horizontal'], 'vertical': entutor.i18n['vertical'],'flow':entutor.i18n['flow']} , function(value){self.childContainer.removeClass('flow').removeClass('vertical').removeClass('horizontal').addClass(value);}));
+    this.optionBlock.append(entutor.components.string(this.value, 'taskPassScore', entutor.i18n['Task Pass Score']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
+    this.optionBlock.append(entutor.components.string(this.value, 'maxScore', entutor.i18n['Max Score']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', entutor.i18n['Autocheck']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', entutor.i18n['Hide if Correct']));
 
 
 
@@ -336,7 +410,7 @@ entutor.editors.card.prototype.draw = function () {
     this.addChildBlock.hide();
     this.container.append(this.addChildBlock);
     for(var ctp in entutor.editors){
-        var lnk=$('<a href="javascript:void(\'add_'+ctp+'\')" class="addChildLink" data-type="'+ctp+'">'+ctp+'</a>');
+        var lnk=$('<a href="javascript:void(\'add_'+ctp+'\')" class="addChildLink" data-type="'+ctp+'">'+entutor.i18n[ctp]+'</a>');
         this.addChildBlock.append(lnk);
         lnk.click(function(){
             var ctp=$(this).attr('data-type');
@@ -455,7 +529,6 @@ entutor.editors.card.prototype.draw = function () {
     return this.container;
 };
 
-
 entutor.editors.card.prototype.getValue = function () {
     for (var i = 0; i < this.children.length; i++) {
         this.value.children[i] = this.children[i].getValue();
@@ -506,11 +579,11 @@ entutor.editors.html.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    this.optionBlock.append(entutor.components.string(this.value, 'duration', 'Duration, seconds'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'animationFrame', 'Animation Frame'));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
+    this.optionBlock.append(entutor.components.string(this.value, 'duration', entutor.i18n['Duration, seconds']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', entutor.i18n['Hide if Correct']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'animationFrame', entutor.i18n['Animation Frame']));
 
 
     
@@ -542,7 +615,7 @@ entutor.editors.text = function (parent, value) {
     this.value.classes = this.value.classes || '';
     this.value.precondition = this.value.precondition || 'none';
     this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
-    this.value.pattern = this.value.pattern || 'type correct answer here';
+    this.value.pattern = this.value.pattern || entutor.i18n['type correct answer here'];
     this.value.value = this.value.value || '';
     this.value.size = this.value.size || '5';
 };
@@ -564,19 +637,19 @@ entutor.editors.text.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.string(this.value, 'pattern', 'Correct value*',function(value){self.input.val(value);}));
-    this.optionBlock.append(entutor.components.string(this.value, 'value', 'Initial value'));
-    this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
-    this.optionBlock.append(entutor.components.integer(this.value, 'maxlength', 'Maximal length'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'resetOnError', 'Reset if Error'));
+    this.optionBlock.append(entutor.components.string(this.value, 'pattern', entutor.i18n['Correct value*'],function(value){self.input.val(value);}));
+    this.optionBlock.append(entutor.components.string(this.value, 'value', entutor.i18n['Initial value']));
+    this.optionBlock.append(entutor.components.string(this.value, 'hint', entutor.i18n['Hint']));
+    this.optionBlock.append(entutor.components.integer(this.value, 'maxlength', entutor.i18n['Maximal length']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', entutor.i18n['Autocheck']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', entutor.i18n['Hide if Correct']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'resetOnError', entutor.i18n['Reset if Error']));
     
     
     
-    this.optionBlock.append(entutor.components.integer(this.value, 'size', 'Width',function(value){self.input.attr('size',value);}));
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
+    this.optionBlock.append(entutor.components.integer(this.value, 'size', entutor.i18n['Width'],function(value){self.input.attr('size',value);}));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
 
     // add text field
     this.input = $("<input type=text class=\"editor-html-content\" size=\""+this.value.size+"\" disabled=\"true\">");
@@ -654,12 +727,12 @@ entutor.editors.radio.prototype.draw = function () {
 
     this.value.arrange = this.value.arrange || 'vertical';
 
-    this.optionBlock.append(entutor.components.select(this.value, 'arrange', 'Arrange subelements', {'horizontal': 'horizontal', 'vertical': 'vertical','flow':'flow'} , function(value){self.variantContainer.removeClass('flow').removeClass('vertical').removeClass('horizontal').addClass(value);}));
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-    this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    this.optionBlock.append(entutor.components.select(this.value, 'arrange', entutor.i18n['Arrange subelements'], {'horizontal': entutor.i18n['horizontal'], 'vertical': entutor.i18n['vertical'],'flow':entutor.i18n['flow']} , function(value){self.variantContainer.removeClass('flow').removeClass('vertical').removeClass('horizontal').addClass(value);}));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.string(this.value, 'hint', entutor.i18n['Hint']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', entutor.i18n['Autocheck']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', entutor.i18n['Hide if Correct']));
 
     this.addLink = $('<a class="editor-options-link" href="javascript:void(\'+variant\')">+</a>');
     this.toolbar.prepend(this.addLink);
@@ -782,7 +855,7 @@ entutor.editors.checkbox = function (parent, value) {
     this.value.precondition = this.value.precondition || 'none';
     this.value.hideOnCorrect = this.value.hideOnCorrect? true :false;
 
-    this.value.label = this.value.label || 'type checkbox label here';
+    this.value.label = this.value.label || entutor.i18n['type checkbox label here'];
     this.value.correctVariant = this.value.correctVariant || true;
 
 };
@@ -804,11 +877,11 @@ entutor.editors.checkbox.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
+    this.optionBlock.append(entutor.components.string(this.value, 'hint', entutor.i18n['Hint']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', entutor.i18n['Autocheck']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', entutor.i18n['Hide if Correct']));
 
     // add checkbox field with label
     this.checkbox = $("<input type=checkbox>");
@@ -853,7 +926,7 @@ entutor.editors.counter = function (parent, value) {
     this.value.classes = this.value.classes || '';
     this.value.precondition = this.value.precondition || 'none';
 
-    this.value.innerHtml = this.value.innerHtml || 'type visible text here';
+    this.value.innerHtml = this.value.innerHtml || entutor.i18n['type visible text here'];
     this.value.value = this.value.value || '';
 
 };
@@ -875,11 +948,10 @@ entutor.editors.counter.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.string(this.value, 'value', 'Value provided to dropzone'));
-
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
+    this.optionBlock.append(entutor.components.string(this.value, 'value', entutor.i18n['Value provided to dropzone']));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', entutor.i18n['Autocheck']));
 
     // add checkbox field with label
     this.input = $("<input type=text class=\"editor-counter-html\">");
@@ -949,17 +1021,17 @@ entutor.editors.dropzone.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.text(this.value, 'pattern', 'Correct values<br>(one per string)',function(value){self.input.val(value);}));
-    this.optionBlock.append(entutor.components.select(this.value, 'test', 'Test rule', {'testSet': 'testSet', 'testSequence': 'testSequence'} /*, callback */));
-    this.optionBlock.append(entutor.components.string(this.value, 'value', 'Initial value'));
-    this.optionBlock.append(entutor.components.string(this.value, 'size', 'Width',function(value){self.input.attr('size',value);}));
-    this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'multiple', 'Accept multiple counters'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'ejectCounterOnError', 'Eject counter on error'));
+    this.optionBlock.append(entutor.components.text(this.value, 'pattern', entutor.i18n['Correct values<br>(one per string)'],function(value){self.input.val(value);}));
+    this.optionBlock.append(entutor.components.select(this.value, 'test', entutor.i18n['Test rule'], {'testSet': entutor.i18n['testSet'], 'testSequence': entutor.i18n['testSequence']} /*, callback */));
+    this.optionBlock.append(entutor.components.string(this.value, 'value', entutor.i18n['Initial value']));
+    this.optionBlock.append(entutor.components.string(this.value, 'size', entutor.i18n['Width'],function(value){self.input.attr('size',value);}));
+    this.optionBlock.append(entutor.components.string(this.value, 'hint', entutor.i18n['Hint']));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', entutor.i18n['Autocheck']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'multiple', entutor.i18n['Accept multiple counters']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', entutor.i18n['Hide if Correct']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'ejectCounterOnError', entutor.i18n['Eject counter on error']));
 
 
 
@@ -1014,9 +1086,9 @@ entutor.editors.sound = function (parent, value) {
 
     this.value.media = this.value.media || {};
     this.value.media.title=this.value.media.title || '';
-    this.value.media.mp3=this.value.media.mp3 || 'mp3 file URL';
-    this.value.media.oga=this.value.media.oga || 'oga file URL';
-    this.value.media.wav=this.value.media.wav || 'mp3 file URL';
+    this.value.media.mp3=this.value.media.mp3 || entutor.i18n['mp3 file URL'];
+    this.value.media.oga=this.value.media.oga || entutor.i18n['oga file URL'];
+    this.value.media.wav=this.value.media.wav || entutor.i18n['wav file URL'];
     
     
 };
@@ -1036,33 +1108,33 @@ entutor.editors.sound.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'completeViewRequired', 'Require Complete View'));
-    // this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', entutor.i18n['Autostart']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'completeViewRequired', entutor.i18n['Require Complete View']));
+    // this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', entutor.i18n['Hide if Correct']));
 
 
     // add text field
-    this.container.append("<div>Sound title</div>");
+    this.container.append("<div>"+entutor.i18n['Sound title']+"</div>");
     this.mediaTitleInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaTitleInput);
     this.mediaTitleInput.val(this.value.media.title);
     this.mediaTitleInput.change(function () { self.value.media.title= self.mediaTitleInput.val();   $(document).trigger("editor:updated");  });
 
-    this.container.append("<div>MP3 file URL</div>");
+    this.container.append("<div>"+entutor.i18n['MP3 file URL']+"</div>");
     this.mediaMP3Input = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaMP3Input);
     this.mediaMP3Input.val(this.value.media.mp3);
     this.mediaMP3Input.change(function () { self.value.media.mp3= self.mediaMP3Input.val();   $(document).trigger("editor:updated");  });
 
-    this.container.append("<div>OGA file URL</div>");
+    this.container.append("<div>"+entutor.i18n['OGA file URL']+"</div>");
     this.mediaOGAInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaOGAInput);
     this.mediaOGAInput.val(this.value.media.oga);
     this.mediaOGAInput.change(function () { self.value.media.oga= self.mediaOGAInput.val();   $(document).trigger("editor:updated");  });
 
-    this.container.append("<div>WAV file URL</div>");
+    this.container.append("<div>"+entutor.i18n['WAV file URL']+"</div>");
     this.mediaWAVInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaWAVInput);
     this.mediaWAVInput.val(this.value.media.wav);
@@ -1107,10 +1179,10 @@ entutor.editors.video = function (parent, value) {
 
 
     this.value.media = this.value.media || {};
-    this.value.media.title=this.value.media.title || 'title';
-    this.value.media.m4v=this.value.media.m4v || 'm4v file URL';
-    this.value.media.ogv=this.value.media.ogv || 'ogv file URL';
-    this.value.media.wav=this.value.media.webmv || 'webmv file URL';
+    this.value.media.title=this.value.media.title || '';
+    this.value.media.m4v=this.value.media.m4v || entutor.i18n['m4v file URL'];
+    this.value.media.ogv=this.value.media.ogv || entutor.i18n['ogv file URL'];
+    this.value.media.wav=this.value.media.webmv || entutor.i18n['webmv file URL'];
     
     this.value.subtitles = this.value.subtitles || [];
     
@@ -1131,33 +1203,33 @@ entutor.editors.video.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'completeViewRequired', 'Require Complete View'));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', entutor.i18n['Autostart']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', entutor.i18n['Hide if Correct']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'completeViewRequired', entutor.i18n['Require Complete View']));
 
 
     // add text field
-    this.container.append("<div class=\"label\">Video title</div>");
-    this.mediaTitleInput = $("<input type=text class=\"editor-html-content\">");
-    this.container.append(this.mediaTitleInput);
-    this.mediaTitleInput.val(this.value.media.title);
-    this.mediaTitleInput.change(function () { self.value.media.title= self.mediaTitleInput.val();   $(document).trigger("editor:updated");  });
+    //this.container.append("<div class=\"label\">"+entutor.i18n['Video title']+"</div>");
+    //this.mediaTitleInput = $("<input type=text class=\"editor-html-content\">");
+    //this.container.append(this.mediaTitleInput);
+    //this.mediaTitleInput.val(this.value.media.title);
+    //this.mediaTitleInput.change(function () { self.value.media.title= self.mediaTitleInput.val();   $(document).trigger("editor:updated");  });
 
-    this.container.append("<div class=\"label\">WEBMV file URL</div>");
+    this.container.append("<div class=\"label\">"+entutor.i18n['WEBMV file URL']+"</div>");
     this.mediaWEBMVInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaWEBMVInput);
     this.mediaWEBMVInput.val(this.value.media.webmv);
     this.mediaWEBMVInput.change(function () { self.value.media.webmv= self.mediaWEBMVInput.val();   $(document).trigger("editor:updated");  });
 
-    this.container.append("<div class=\"label\">OGV file URL</div>");
+    this.container.append("<div class=\"label\">"+entutor.i18n['OGV file URL']+"</div>");
     this.mediaOGVInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaOGVInput);
     this.mediaOGVInput.val(this.value.media.ogv);
     this.mediaOGVInput.change(function () { self.value.media.ogv= self.mediaOGVInput.val();   $(document).trigger("editor:updated");  });
 
-    this.container.append("<div class=\"label\">M4V file URL</div>");
+    this.container.append("<div class=\"label\">"+entutor.i18n['M4V file URL']+"</div>");
     this.mediaM4VInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaM4VInput);
     this.mediaM4VInput.val(this.value.media.m4v);
@@ -1274,7 +1346,7 @@ entutor.editors.video.prototype.draw = function () {
         subtitleDom.container=$("<div class=\"subtitle-item\" id=\"" + subtitleDom.uid + "\"></div>");
         self.container.append(subtitleDom.container);
         
-        subtitleDom.toolbar=$("<div class=\"toolbar\">Subtitle</div>");
+        subtitleDom.toolbar=$("<div class=\"toolbar\">"+entutor.i18n['Subtitle']+"</div>");
         subtitleDom.container.append(subtitleDom.toolbar);
         
         subtitleDom.deleteSlide=$("<a class='delete-link' data-uid=\"" + subtitleDom.uid + "\">&times;</a>");
@@ -1366,9 +1438,9 @@ entutor.editors.playlist.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    // this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
+    // this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', entutor.i18n['Autostart']));
 
 
     var deletePlaylistItem=function(ev){
@@ -1452,25 +1524,25 @@ entutor.editors.playlist.prototype.draw = function () {
         playlistDomItem.listitemDelete.click(deletePlaylistItem);
         
         
-        playlistDomItem.listitemContainer.append("<div class=\"label\">Sound title</div>");
+        playlistDomItem.listitemContainer.append("<div class=\"label\">"+entutor.i18n['Sound title']+"</div>");
         playlistDomItem.titleInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
         playlistDomItem.listitemContainer.append(playlistDomItem.titleInput);
         playlistDomItem.titleInput.val(playlistItemData.title);
         playlistDomItem.titleInput.change(updatePlaylistItemTitle);
 
-        playlistDomItem.listitemContainer.append("<div class=\"label\">MP3 file URL</div>");
+        playlistDomItem.listitemContainer.append("<div class=\"label\">"+entutor.i18n['MP3 file URL']+"</div>");
         playlistDomItem.mp3Input = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
         playlistDomItem.listitemContainer.append(playlistDomItem.mp3Input);
         playlistDomItem.mp3Input.val(playlistItemData.mp3);
         playlistDomItem.mp3Input.change(updatePlaylistItemMp3);
 
-        playlistDomItem.listitemContainer.append("<div class=\"label\">OGA file URL</div>");
+        playlistDomItem.listitemContainer.append("<div class=\"label\">"+entutor.i18n['OGA file URL']+"</div>");
         playlistDomItem.ogaInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
         playlistDomItem.listitemContainer.append(playlistDomItem.ogaInput);
         playlistDomItem.ogaInput.val(playlistItemData.oga);
         playlistDomItem.ogaInput.change(updatePlaylistItemOga);
 
-        playlistDomItem.listitemContainer.append("<div class=\"label\">WAV file URL</div>");
+        playlistDomItem.listitemContainer.append("<div class=\"label\">"+entutor.i18n['WAV file URL']+"</div>");
         playlistDomItem.wavInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
         playlistDomItem.listitemContainer.append(playlistDomItem.wavInput);
         playlistDomItem.wavInput.val(playlistItemData.wav);
@@ -1502,25 +1574,25 @@ entutor.editors.playlist.prototype.draw = function () {
         playlistDomItem.listitemDelete.click(deletePlaylistItem);
         
         
-        playlistDomItem.listitemContainer.append("<div class=\"label\">Sound title</div>");
+        playlistDomItem.listitemContainer.append("<div class=\"label\">"+entutor.i18n['Sound title']+"</div>");
         playlistDomItem.titleInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
         playlistDomItem.listitemContainer.append(playlistDomItem.titleInput);
         playlistDomItem.titleInput.val(playlistItemData.title);
         playlistDomItem.titleInput.change(updatePlaylistItemTitle);
 
-        playlistDomItem.listitemContainer.append("<div class=\"label\">MP3 file URL</div>");
+        playlistDomItem.listitemContainer.append("<div class=\"label\">"+entutor.i18n['MP3 file URL']+"</div>");
         playlistDomItem.mp3Input = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
         playlistDomItem.listitemContainer.append(playlistDomItem.mp3Input);
         playlistDomItem.mp3Input.val(playlistItemData.mp3);
         playlistDomItem.mp3Input.change(updatePlaylistItemMp3);
 
-        playlistDomItem.listitemContainer.append("<div class=\"label\">OGA file URL</div>");
+        playlistDomItem.listitemContainer.append("<div class=\"label\">"+entutor.i18n['OGA file URL']+"</div>");
         playlistDomItem.ogaInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
         playlistDomItem.listitemContainer.append(playlistDomItem.ogaInput);
         playlistDomItem.ogaInput.val(playlistItemData.oga);
         playlistDomItem.ogaInput.change(updatePlaylistItemOga);
 
-        playlistDomItem.listitemContainer.append("<div class=\"label\">WAV file URL</div>");
+        playlistDomItem.listitemContainer.append("<div class=\"label\">"+entutor.i18n['WAV file URL']+"</div>");
         playlistDomItem.wavInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + playlistDomItem.uid + "\">");
         playlistDomItem.listitemContainer.append(playlistDomItem.wavInput);
         playlistDomItem.wavInput.val(playlistItemData.wav);
@@ -1567,9 +1639,9 @@ entutor.editors.slideshow = function (parent, value) {
 
     this.value.media = this.value.media || {};
     this.value.media.title=this.value.media.title || 'title';
-    this.value.media.mp3=this.value.media.mp3 || 'mp3 file URL';
-    this.value.media.oga=this.value.media.oga || 'oga file URL';
-    this.value.media.wav=this.value.media.wav || 'mp3 file URL';
+    this.value.media.mp3=this.value.media.mp3 || entutor.i18n['mp3 file URL'];
+    this.value.media.oga=this.value.media.oga || entutor.i18n['oga file URL'];
+    this.value.media.wav=this.value.media.wav || entutor.i18n['wav file URL'];
     
 
     this.value.slides = this.value.slides || [];
@@ -1597,33 +1669,33 @@ entutor.editors.slideshow.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', entutor.i18n['Autostart']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', entutor.i18n['Hide if Correct']));
 
 
 
     // add text field
-    this.container.append("<div class=\"label\">Sound title</div>");
+    this.container.append("<div class=\"label\">"+entutor.i18n['Sound title']+"</div>");
     this.mediaTitleInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaTitleInput);
     this.mediaTitleInput.val(this.value.media.title);
     this.mediaTitleInput.change(function () { self.value.media.title= self.mediaTitleInput.val();   $(document).trigger("editor:updated");  });
 
-    this.container.append("<div class=\"label\">MP3 file URL</div>");
+    this.container.append("<div class=\"label\">"+entutor.i18n['MP3 file URL']+"</div>");
     this.mediaMP3Input = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaMP3Input);
     this.mediaMP3Input.val(this.value.media.mp3);
     this.mediaMP3Input.change(function () { self.value.media.mp3= self.mediaMP3Input.val();   $(document).trigger("editor:updated");  });
 
-    this.container.append("<div class=\"label\">OGA file URL</div>");
+    this.container.append("<div class=\"label\">"+entutor.i18n['OGA file URL']+"</div>");
     this.mediaOGAInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaOGAInput);
     this.mediaOGAInput.val(this.value.media.oga);
     this.mediaOGAInput.change(function () { self.value.media.oga= self.mediaOGAInput.val();   $(document).trigger("editor:updated");  });
 
-    this.container.append("<div class=\"label\">WAV file URL</div>");
+    this.container.append("<div class=\"label\">"+entutor.i18n['WAV file URL']+"</div>");
     this.mediaWAVInput = $("<input type=text class=\"editor-html-content\">");
     this.container.append(this.mediaWAVInput);
     this.mediaWAVInput.val(this.value.media.wav);
@@ -1696,7 +1768,7 @@ entutor.editors.slideshow.prototype.draw = function () {
         slideDom.container=$("<div class=\"slide-item\" id=\"" + slideDom.uid + "\"></div>");
         this.container.append(slideDom.container);
         
-        slideDom.toolbar=$("<div class=\"toolbar\">Slide</div>");
+        slideDom.toolbar=$("<div class=\"toolbar\">"+entutor.i18n['Slide']+"</div>");
         slideDom.container.append(slideDom.toolbar);
         
         slideDom.deleteSlide=$("<a class='delete-link' data-uid=\"" + slideDom.uid + "\">&times;</a>");
@@ -1710,14 +1782,14 @@ entutor.editors.slideshow.prototype.draw = function () {
         slideDom.html.val(slideData.html);
         slideDom.html.change(updateSlideHtml);
 
-        lbl=$("<div class=\"label short\">From time</div>");
+        lbl=$("<div class=\"label short\">"+entutor.i18n['From time']+"</div>");
         slideDom.container.append(lbl);
         slideDom.fromInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\">");
         lbl.append(slideDom.fromInput);
         slideDom.fromInput.val(slideData.from);
         slideDom.fromInput.change(updateSlideFrom);
 
-        lbl=$("<div class=\"label short\">To time</div>");
+        lbl=$("<div class=\"label short\">"+entutor.i18n['To time']+"</div>");
         slideDom.container.append(lbl);
         slideDom.toInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\">");
         lbl.append(slideDom.toInput);
@@ -1757,14 +1829,14 @@ entutor.editors.slideshow.prototype.draw = function () {
         slideDom.html.val(slideData.html);
         slideDom.html.change(updateSlideHtml);
 
-        lbl=$("<div class=\"label short\">From time</div>");
+        lbl=$("<div class=\"label short\">"+entutor.i18n['From time']+"</div>");
         slideDom.container.append(lbl);
         slideDom.fromInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\">");
         lbl.append(slideDom.fromInput);
         slideDom.fromInput.val(slideData.from);
         slideDom.fromInput.change(updateSlideFrom);
 
-        lbl=$("<div class=\"label short\">To time</div>");
+        lbl=$("<div class=\"label short\">"+entutor.i18n['To time']+"</div>");
         slideDom.container.append(lbl);
         slideDom.toInput = $("<input type=text class=\"editor-html-content\" data-uid=\"" + slideDom.uid + "\">");
         lbl.append(slideDom.toInput);
@@ -1826,14 +1898,14 @@ entutor.editors.recorder.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', 'Autostart'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
-    this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
-    this.optionBlock.append(entutor.components.string(this.value, 'duration', 'Duration, seconds'));
-    this.optionBlock.append(entutor.components.string(this.value, 'taskPassScore', 'Min score to pass (0 ... 1)'));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autostart', entutor.i18n['Autostart']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', entutor.i18n['Autocheck']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', entutor.i18n['Hide if Correct']));
+    this.optionBlock.append(entutor.components.string(this.value, 'hint', entutor.i18n['Hint']));
+    this.optionBlock.append(entutor.components.string(this.value, 'duration', entutor.i18n['Duration, seconds']));
+    this.optionBlock.append(entutor.components.string(this.value, 'taskPassScore', entutor.i18n['Min score to pass (0 ... 1)']));
 
 
     // add text field
@@ -1918,13 +1990,13 @@ entutor.editors.sequence.prototype.draw = function () {
     this.optionBlock.hide();
     this.container.append(this.optionBlock);
 
-    this.optionBlock.append(entutor.components.string(this.value, 'classes', 'CSS classes'));
-    this.optionBlock.append(entutor.components.select(this.value, 'precondition', 'Precondition', {'none': 'none', 'beforeCorrect': 'beforeCorrect'} /*, callback */));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', 'Autocheck'));
-    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', 'Hide if Correct'));
-    this.optionBlock.append(entutor.components.select(this.value, 'arrange', 'Arrange subelements', {'horizontal': 'horizontal', 'vertical': 'vertical'} , function(value){self.childContainer.removeClass('vertical').removeClass('horizontal').addClass(value);}));
-    this.optionBlock.append(entutor.components.string(this.value, 'value', 'Initial seqence'));
-    this.optionBlock.append(entutor.components.string(this.value, 'hint', 'Hint'));
+    this.optionBlock.append(entutor.components.string(this.value, 'classes', entutor.i18n['CSS classes']));
+    this.optionBlock.append(entutor.components.select(this.value, 'precondition', entutor.i18n['Precondition'], {'none': entutor.i18n['none'], 'beforeCorrect': entutor.i18n['beforeCorrect']} /*, callback */));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'autocheck', entutor.i18n['Autocheck']));
+    this.optionBlock.append(entutor.components.checkbox(this.value, 'hideOnCorrect', entutor.i18n['Hide if Correct']));
+    this.optionBlock.append(entutor.components.select(this.value, 'arrange', entutor.i18n['Arrange subelements'], {'horizontal': entutor.i18n['horizontal'], 'vertical': entutor.i18n['vertical']} , function(value){self.childContainer.removeClass('vertical').removeClass('horizontal').addClass(value);}));
+    this.optionBlock.append(entutor.components.string(this.value, 'value', entutor.i18n['Initial seqence']));
+    this.optionBlock.append(entutor.components.string(this.value, 'hint', entutor.i18n['Hint']));
 
     this.addChildBlock = $("<div class=\"editor-element-options\"></div>");
     this.addChildBlock.hide();
