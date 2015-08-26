@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Гаудеамус: уроки английского он-лайн</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+        <link href="../lib/jplayer/skin/blue.monday/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css" />
+        <link href="../lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+        <link href="../lib/jquery-ui/jquery-ui.theme.min" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="../theme/css/bootstrap-min.css">
+	<link rel="stylesheet" href="../theme/css/font-awesome-min.css">
+	<link rel="stylesheet" href="../theme/css/templatemo_style.css">
+	<link rel="stylesheet" href="../theme/css/user.css">
+        <link href="../css/task2.css" rel="stylesheet" type="text/css" />
+        
+        <script type="application/javascript" src="../lib/jquery-2.1.4.js"></script>
+        <script type="application/javascript" src="../lib/jquery-ui/jquery-ui.min.js"></script>
+        <script type="application/javascript" src="../lib/markup.min.js"></script>
+        <script type="application/javascript" src="../lib/swfobject.js"></script>
+        <script type="text/javascript"        src="../lib/recorder.js"></script>
+        
+        <script type="application/javascript" src="../js/voiceinputRecorder.js"></script>
+        <script type="application/javascript" src="../js/voiceinputRecorderWorker.js"></script>
+
+        <script type="application/javascript" src="../lib/jplayer/jplayer/jquery.jplayer.min.js"></script>
+        <script type="application/javascript" src="../js/task2.js"></script>
+    </head>
+    <body>
+
+
+	<div id="main-sidebar">
+		<div class="logo">
+			<!--<a href="#"><h1>Гаудеамус</h1></a>
+			<span>Уроки английского он-лайн</span>-->
+		</div> <!-- /.logo -->
+
+		<div class="container col-md-12 user">
+			
+		  <a href="services.html">Юзер Юзерович Юзерчук</a>
+		  <a href="services.html"><img src="../theme/ill/user.jpg" class="avatar"></a>
+		  
+		</div>
+
+        <div>
+	        <ul class="main-menu">
+	            <li class="home"><a href="../kursy.html">Главная</a></li>
+	            <li class="about"><a href="../about.html">Гаудеамус</a></li>
+	            <li class="services"><a href="../services.html">Ваши настройки</a></li>
+	            <li class="uroki"><a href="../uroki.html">Ваши уроки</a></li>
+	            <li class="vhod"><a href="../vhod.html">Вход / Регистрация</a></li>
+	        </ul>
+		</div> <!-- /.navigation -->
+
+	</div> <!-- /#main-sidebar -->
+	<div id="main-content">
+
+		<div class="container-fluid">
+			<div id="uroki" class="section-content">
+				<h2 class="zadanie">Курс "Бла-бла-бла-бла-бла"</h2>
+
+				<ul class="pagination pagination-sm">               
+					<li><a href="javascript:void(entutor.load('../../lecture/0001/1_1.json','#taskContainer'))" >1</a></li>
+					<li><a href="javascript:void(entutor.load('../../lecture/0001/1_2.json','#taskContainer'))" >2</a></li>
+				 </ul>
+        <div id="taskContainer" class='taskContainer'></div>
+        
+			</div>
+		</div> 
+		<div class="site-footer">
+			<div class="first-footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="social-footer">
+								<ul>
+									<li><a href="#" class="fa fa-facebook"></a></li>
+									<li><a href="#" class="fa fa-twitter"></a></li>
+									<li><a href="#" class="fa fa-rss"></a></li>
+								</ul>
+							</div> <!-- /.social-footer -->
+						</div> <!-- /.col-md-12 -->
+					</div> <!-- /.row -->
+				</div> <!-- /.container-fluid -->
+			</div> <!-- /.first-footer -->
+			<div class="bottom-footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-6">
+							<p class="copyright">Copyright © 2015 <a href="#">Гаудеамус</a>
+                            </p>
+						</div> <!-- /.col-md-6 -->
+						<div class="col-md-6 credits">
+							<p><!-- Design: <a href="http://www.templatemo.com">templatemo</a> --></p>
+						</div> <!-- /.col-md-6 -->
+					</div> <!-- /.row -->
+				</div> <!-- /.container-fluid -->
+			</div> <!-- /.bottom-footer -->
+		</div> <!-- /.site-footer -->
+        
+	</div> <!-- /#main-content -->
+
+        <script type="application/javascript">
+        $(document).ready(function(){
+            
+            try{
+                entutor.html5audioapi.initAudioApi({
+                    workerPath:'../js/voiceinputRecorderWorker.js',
+                    soundScrorerURL:"./voiceinputscorer.php",
+                    salt : 'kdsjlkajdo695bh'
+                });
+                entutor.inputs.recorder=entutor.html5recorder;
+                console.log("entutor.html5recorder");
+            }catch(ex){
+                // ------------------ flash recorder - begin -------------------
+                entutor.recorderApp.initFlashRecorder({
+                    swfPath : "../../task/lib/jplayer/jplayer",
+                    swf : "../../task/lib/recorder.swf",
+                    receiver : '../../demo/voiceinput2/upload.php',
+                    iconRecord : '../../task/img/record.png',
+                    iconStop : '../../task/img/stop.png',
+                    iconUpload : '../../task/img/upload.png',
+                    salt : 'kdsjlkajdo695bh'
+                });
+                entutor.inputs.recorder=entutor.flashrecorder;
+                console.log("entutor.flashrecorder");
+                // ------------------ flash recorder - end ---------------------
+            }
+
+            if(window.location.hash){
+                entutor.load('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
+            }
+        });
+            
+        </script>
+    </body>
+</html>
