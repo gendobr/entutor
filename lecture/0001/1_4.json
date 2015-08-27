@@ -12,29 +12,29 @@
     "supplied": "mp3,oga,wav",
     "hideOnCorrect": false,
     "media": {
-     "title": "Звук [æ]",
+     "title": "Звук [g]",
      "mp3": "http://localhost/entutor/task/snippet/media/task001.mp3",
      "oga": "http://localhost/entutor/task/snippet/media/task001.ogg",
      "wav": "http://localhost/entutor/task/snippet/media/task001.wav"
     },
     "slides": [
      {
-      "html": "<div class=\"frame\">Буква <br><b>Aa [eɪ]</b></div>",
+      "html": "<div class=\"frame\">Буква <br><b>Gg [ʤi:]</b></div>",
       "from": "1",
       "to": "4"
      },
      {
-      "html": "<div class=\"frame\">звук <br><b>[æ]</b></div>",
+      "html": "<div class=\"frame\">звук <br><b>[g]</b></div>",
       "from": "4",
       "to": "8"
      },
      {
-      "html": "<div class=\"frame\">Letter <br><b>Aa [eɪ]</b></div>",
+      "html": "<div class=\"frame\">Letter <br><b>Gg [ʤi:]</b></div>",
       "from": "8",
       "to": "11"
      },
      {
-      "html": "<div class=\"frame\">sound <br><b>[æ]</b></div>",
+      "html": "<div class=\"frame\">sound <br><b>[g]</b></div>",
       "from": "11",
       "to": "14"
      }

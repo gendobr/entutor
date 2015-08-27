@@ -439,8 +439,8 @@
     display:inline-block;
     vertical-align: middle;    
 }
-.task-audio-start-record{
-    background-image: url('../img/rec.png');
+.task-audio-start-record{background:#89c122;
+    background-image: url('../img/rec0.png');
     background-size:90px 90px;
     background-repeat:no-repeat;
     background-position:center center;
@@ -448,21 +448,30 @@
     vertical-align: middle;
     width: 90px;
     height: 90px;
+	border-radius:50px 50px 50px 50px;	
+    -moz-border-radius:50px 50px 50px 50px;
+    -webkit-border-radius:50px 50px 50px 50px;
+	margin:0 35px 0 30px;
+	box-shadow:3px 3px 11px #9e8d95;
+-moz-box-shadow:3px 3px 11px #9e8d95;
+-webkit-box-shadow:3px 3px 11px #9e8d95;
+
 }
 
 
 /* The animation code */
 @keyframes example {
-    0%   {background-color: red; left:0px; top:0px;}
-    25%  {background-color: yellow; left:200px; top:0px;}
-    50%  {background-color: blue; left:200px; top:200px;}
-    75%  {background-color: green; left:0px; top:200px;}
-    100% {background-color: red; left:0px; top:0px;}
+    0%   {background-color: #89c122; left:0px; top:0px;}
+    25%  {background-color: #4D710D; left:200px; top:0px;}
+    50%  {background-color: #92D61A; left:200px; top:200px;}
+    75%  {background-color: #CDE0AB; left:0px; top:200px;}
+    100% {background-color: #89c122; left:0px; top:0px;}
 }
 
 .task-audio-stop-record{
-    background-image: url('../img/icon-audio-record.png');
-    background-size:16px 16px;
+
+    background-image: url('../img/rec0.png');
+    background-size:90px 90px;
     background-repeat:no-repeat;
     background-position:center center;
     display:inline-block;
@@ -472,6 +481,11 @@
     animation-name: example;
     animation-duration: 4s;
     animation-iteration-count: infinite;
+	 width: 90px;
+    height: 90px;
+	border-radius:50px 50px 50px 50px;	
+    -moz-border-radius:50px 50px 50px 50px;
+    -webkit-border-radius:50px 50px 50px 50px;
 }
 .task-audio-error{
     background-color:#ffaaaa;
