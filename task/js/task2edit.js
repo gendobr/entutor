@@ -88,6 +88,9 @@ entutor.editor.prototype.getValue = function () {
 
 // =============================================================================
 entutor.i18n={
+    'testbutton': 'Готово',
+    'nextbutton': 'Далее',
+    'restartbutton': 'Начать задание заново',
     'Presentation':'Presentation',
     'CSS classes':'CSS classes',
     'Arrange subelements':'Arrange subelements',
@@ -1677,11 +1680,11 @@ entutor.editors.slideshow.prototype.draw = function () {
 
 
     // add text field
-    this.container.append("<div class=\"label\">"+entutor.i18n['Sound title']+"</div>");
-    this.mediaTitleInput = $("<input type=text class=\"editor-html-content\">");
-    this.container.append(this.mediaTitleInput);
-    this.mediaTitleInput.val(this.value.media.title);
-    this.mediaTitleInput.change(function () { self.value.media.title= self.mediaTitleInput.val();   $(document).trigger("editor:updated");  });
+    //    this.container.append("<div class=\"label\">"+entutor.i18n['Sound title']+"</div>");
+    //    this.mediaTitleInput = $("<input type=text class=\"editor-html-content\">");
+    //    this.container.append(this.mediaTitleInput);
+    //    this.mediaTitleInput.val(this.value.media.title);
+    //    this.mediaTitleInput.change(function () { self.value.media.title= self.mediaTitleInput.val();   $(document).trigger("editor:updated");  });
 
     this.container.append("<div class=\"label\">"+entutor.i18n['MP3 file URL']+"</div>");
     this.mediaMP3Input = $("<input type=text class=\"editor-html-content\">");

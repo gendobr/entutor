@@ -1,4 +1,7 @@
 entutor.i18n={
+    'testbutton': 'Готово',
+    'nextbutton': 'Далее',
+    'restartbutton': 'Начать задание заново',
     'Presentation':'Презентация',
     'CSS classes':'Классы CSS',
     'Arrange subelements':'Выстроить подэлементы',
