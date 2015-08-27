@@ -16,14 +16,18 @@
     -moz-border-radius:10px 10px 10px 10px;
     -webkit-border-radius:10px 10px 10px 10px;
     border-radius:10px 10px 10px 10px;
+	font-size:130%;
+	color:#775566;
+	font-weight:bold;
+
 }
 
 .task-inputs{
     display:inline-block;
     text-align:center;
     background-color:#EFEDEE;
-    padding:10px 0;
-    width:100%;
+    padding:10px 1%;
+    width:98%;    
     margin-bottom:10px;
     margin-top:10px;
 
@@ -78,10 +82,9 @@
 .task-card-vertical > .task-card-element{
     display:block;
     position:relative;
-    display: block;
+    display: inline-block;
     padding: 0;
     position: relative;
-    width:100%;
 }
 
 .task-card-horizontal  > .task-card-element{
@@ -437,14 +440,14 @@
     vertical-align: middle;    
 }
 .task-audio-start-record{
-    background-image: url('../img/icon-audio-record.png');
-    background-size:16px 16px;
+    background-image: url('../img/rec.png');
+    background-size:90px 90px;
     background-repeat:no-repeat;
     background-position:center center;
     display:inline-block;
     vertical-align: middle;
     width: 90px;
-    height: 30px;
+    height: 90px;
 }
 
 
@@ -537,11 +540,14 @@
 .task-checkbox-label,
 .task-sound,
 .task-playlist,
-.task-slideshow,
 .task-recorder{
     display:block;
     padding: 10px 1%;
     width: 98%;    
+}
+
+.task-slideshow{
+display:block;
 }
 .task-radiobuttons,
 .task-video,
