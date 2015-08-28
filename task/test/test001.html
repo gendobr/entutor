@@ -26,6 +26,18 @@
 
         <script type="application/javascript" src="../lib/jplayer/jplayer/jquery.jplayer.min.js"></script>
         <script type="application/javascript" src="../js/task2.js"></script>
+        <style type="text/css">
+            .task-audio{
+                overflow: hidden;
+            }
+            .task-audio-interface{
+                width:auto;
+            }
+            .wrapper{
+                display:inline-block;
+                overflow: hidden;
+            }
+        </style>
     </head>
     <body>
 
@@ -179,9 +191,9 @@
                 // ------------------ flash recorder - end ---------------------
             }
 
-            if(window.location.hash){
-                entutor.load('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
-            }
+            //if(window.location.hash){
+            //    entutor.load('json/'+window.location.hash.replace(/^#/,'')+'.json','#taskContainer');
+            //}
         });
             
         </script>

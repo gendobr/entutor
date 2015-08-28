@@ -10,7 +10,7 @@ entutor.i18n={
     'Autocheck':'Автоматическая проверка',
     'Task Pass Score':'Минимальный зачётный балл',
     'Max Score':'Максимальный балл',
-    'Hide if Correct':'Скрыть, если зачтено',
+    'Hide if Correct':'Скрыть после завершения',
     'horizontal':'Горизонтально',
     'vertical':'Вертикально',
     'flow':'Поток',

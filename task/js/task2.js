@@ -22,8 +22,8 @@ entutor.debug = true;
 entutor.verboseTest = false;
 entutor.verbosePrecondition = false;
 
-entutor.hideDelay=1000;
-entutor.showDelay=1005;
+entutor.hideDelay=1200;
+entutor.showDelay=500;
 
 
 entutor.i18n={
@@ -428,7 +428,7 @@ entutor.inputs.card = function (parent, options) {
 
             // showChildren() only if current card is visible
             if(self.isVisible()){
-               self.showChildren();
+               self.showChildren(entutor.showDelay);
             }
         }
         
@@ -509,7 +509,11 @@ entutor.inputs.card.prototype.test = function () {
 };
 
 entutor.inputs.card.prototype.draw = function () {
+    
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+        
     this.domElement = $('<span id="task' + this.id + '" class="task-card transition task-card-' + this.arrange + ' ' + this.classes + '"></span>');
+    this.wrapper.append(this.domElement);
 
     if (this.precondition === 'beforeCorrect') {
         this.domElement.hide();
@@ -526,7 +530,8 @@ entutor.inputs.card.prototype.draw = function () {
     if (this.precondition === 'beforeCorrect') {
         this.hide();
     }
-    return this.domElement;
+    // return this.domElement;
+    return this.wrapper;
 };
 
 entutor.inputs.card.prototype.getValue = function () {
@@ -557,7 +562,7 @@ entutor.inputs.card.prototype.hide = function (delay) {
 };
 
 entutor.inputs.card.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.card.prototype.show = function (delay) {
@@ -565,7 +570,9 @@ entutor.inputs.card.prototype.show = function (delay) {
         return;
     }
     if(delay && parseInt(delay)>0){
-        setTimeout(this.showDelayed,entutor.showDelay);
+        var self=this;
+        //setTimeout(this.showDelayed,entutor.showDelay);
+        this.domElement.show(delay,function(){self.showChildren();});
     }else{
         this.domElement.show();
         this.showChildren();
@@ -696,11 +703,16 @@ entutor.inputs.html.prototype.test = function () {
 };
 
 entutor.inputs.html.prototype.draw = function () {
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    
     this.domElement = $('<span id="task' + this.id + '" class="task-html ' + this.classes + '">' + this.options.innerHtml + '</span>');
+    this.wrapper.append(this.domElement);
+    
     if (this.precondition === 'beforeCorrect') {
         this.hide();
     }
-    return this.domElement;
+    //return this.domElement;
+    return this.wrapper;
 };
 
 entutor.inputs.html.prototype.getValue = function () {
@@ -733,7 +745,7 @@ entutor.inputs.html.prototype.show = function (delay) {
 };
 
 entutor.inputs.html.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.html.prototype.start = function () {
@@ -921,6 +933,9 @@ entutor.inputs.text.prototype.test = function () {
 };
 
 entutor.inputs.text.prototype.draw = function () {
+    
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    
     this.textField = $('<input type="text"  class="form-control" id="task' + this.id + 'text" value="" maxlength="'+this.maxlength+'" size="' + (this.options.size || '') + '">');
     var self = this;
     this.textField.change(function (ev) {
@@ -932,13 +947,15 @@ entutor.inputs.text.prototype.draw = function () {
         // this.value = this.options.value;
     }
     this.domElement = $('<span id="task' + this.id + '" class="task-text transition ' + this.classes + '"></span>');
+    this.wrapper.append(this.domElement);
     this.domElement.append(this.textField);
 
     if (this.precondition === 'beforeCorrect') {
         this.hide();
     }
 
-    return this.domElement;
+    //return this.domElement;
+    return this.wrapper;
 };
 
 entutor.inputs.text.prototype.getValue = function () {
@@ -958,7 +975,7 @@ entutor.inputs.text.prototype.hide = function (delay) {
 };
 
 entutor.inputs.text.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.text.prototype.show = function (delay) {
@@ -1122,7 +1139,12 @@ entutor.inputs.radio.prototype.test = function () {
 };
 
 entutor.inputs.radio.prototype.draw = function () {
+
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+
     this.domElement = $('<span id="task' + this.id + '" class="task-radiobuttons transition ' + this.classes + ' ' + this.arrange + '"></span>');
+    this.wrapper.append(this.domElement);
+
     var self = this;
     var onchange = function (el) {
         var btn = $(el.target);
@@ -1145,7 +1167,8 @@ entutor.inputs.radio.prototype.draw = function () {
         this.hide();
     }
 
-    return  this.domElement;
+    //return  this.domElement;
+    return  this.wrapper;
 };
 
 entutor.inputs.radio.prototype.getValue = function () {
@@ -1173,7 +1196,7 @@ entutor.inputs.radio.prototype.show = function (delay) {
 };
 
 entutor.inputs.radio.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.radio.prototype.start = function () {
@@ -1316,6 +1339,9 @@ entutor.inputs.checkbox.prototype.test = function () {
 };
 
 entutor.inputs.checkbox.prototype.draw = function () {
+    
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+
     this.checkbox = $('<input type="checkbox" id="task' + this.id + 'checkbox" class="task-checkbox">');
     var self = this;
     this.checkbox.change(function (ev) {
@@ -1324,6 +1350,7 @@ entutor.inputs.checkbox.prototype.draw = function () {
         self.notify([]);
     });
     this.domElement = $('<label id="task' + this.id + '" class="task-checkbox-label transition ' + this.classes + '"></label>');
+    this.wrapper.append(this.domElement);
     this.domElement.append(this.checkbox);
     if (this.options.label) {
         this.domElement.append($('<span class="task-checkbox-label-text">' + this.options.label + '</span>'));
@@ -1334,7 +1361,8 @@ entutor.inputs.checkbox.prototype.draw = function () {
         this.hide();
     }
 
-    return this.domElement;
+    // return this.domElement;
+    return this.wrapper;
 };
 
 entutor.inputs.checkbox.prototype.getValue = function () {
@@ -1362,7 +1390,7 @@ entutor.inputs.checkbox.prototype.show = function (delay) {
 };
 
 entutor.inputs.checkbox.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.checkbox.prototype.start = function () {
@@ -1484,6 +1512,8 @@ entutor.inputs.sound.prototype.draw = function () {
     this.domElement = $('<span id="task' + this.id + '" class="task-sound transition ' + this.classes + '"></span>');
     this.domElement.append($(html));
 
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.domElement);
 
     this.player = this.domElement.find("#jquery_jplayer_" + this.id);
     var soundBlock = this.domElement.find('#sound_' + this.id);
@@ -1513,7 +1543,8 @@ entutor.inputs.sound.prototype.draw = function () {
         this.hide();
     }
 
-    return this.domElement;
+    return this.wrapper;
+    // return this.domElement;
 };
 
 entutor.inputs.sound.prototype.getValue = function () {
@@ -1547,7 +1578,7 @@ entutor.inputs.sound.prototype.show = function (delay) {
 };
 
 entutor.inputs.sound.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.sound.prototype.start = function () {
@@ -1799,8 +1830,10 @@ entutor.inputs.video.prototype.draw = function () {
     if (this.precondition === 'beforeCorrect') {
         this.hide();
     }
-
-    return this.domElement;
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.domElement);
+    return this.wrapper;
+    // return this.domElement;
 };
 
 entutor.inputs.video.prototype.getValue = function () {
@@ -1833,7 +1866,7 @@ entutor.inputs.video.prototype.show = function (delay) {
 };
 
 entutor.inputs.video.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.video.prototype.start = function () {
@@ -2092,7 +2125,10 @@ entutor.inputs.counter.prototype.draw = function () {
         this.hide();
     }
 
-    return this.counterplace;
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.counterplace);
+    return this.wrapper;
+    //return this.counterplace;
 };
 
 entutor.inputs.counter.prototype.getValue = function () {
@@ -2131,7 +2167,7 @@ entutor.inputs.counter.prototype.start = function () {
 };
 
 entutor.inputs.counter.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.counter.prototype.notify = function (stack) {
@@ -2387,7 +2423,11 @@ entutor.inputs.dropzone.prototype.draw = function () {
         }
     });
 
-    return this.dropzone;
+    //return this.dropzone;
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.dropzone);
+    return this.wrapper;
+
 };
 
 entutor.inputs.dropzone.prototype.getValue = function () {
@@ -2415,7 +2455,7 @@ entutor.inputs.dropzone.prototype.show = function (delay) {
 };
 
 entutor.inputs.dropzone.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.dropzone.prototype.overlap = function (left, top, dLeft, dTop) {
@@ -2927,7 +2967,10 @@ entutor.inputs.slideshow.prototype.draw = function () {
         this.hide();
     };
 
-    return this.domElement;
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.domElement);
+    return this.wrapper;
+    // return this.domElement;
 };
 
 entutor.inputs.slideshow.prototype.getValue = function () {
@@ -2959,7 +3002,7 @@ entutor.inputs.slideshow.prototype.show = function (delay) {
 };
 
 entutor.inputs.slideshow.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.slideshow.prototype.start = function () {
@@ -3789,7 +3832,10 @@ entutor.flashrecorder.prototype.draw = function () {
 
     this.domElement.append($(html));
 
-    return this.domElement;
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.domElement);
+    return this.wrapper;
+    // return this.domElement;
 };
 
 entutor.flashrecorder.prototype.getValue = function () {
@@ -3820,7 +3866,7 @@ entutor.flashrecorder.prototype.show = function (delay) {
 };
 
 entutor.flashrecorder.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.flashrecorder.prototype.start = function () {
@@ -4105,8 +4151,19 @@ entutor.html5recorder = function (parent, options) {
     this.countFailures=0;
     this.hint=this.options.hint||'';
 
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    this.showLock=false;
+    this.onShowFinished=function(){
+        if(self.onStart){
+            self.onStart();
+            self.onStart=false;
+        }
+        self.showLock=false;
+    };
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+    };
 };
 
 entutor.html5recorder.prototype.showSuccess = function () {
@@ -4125,7 +4182,10 @@ entutor.html5recorder.prototype.draw = function () {
     
     var self=this;
 
-    this.domElement = $('<span id="task' + this.id + '" class="task-audio transition ' + this.classes + '"></span>');
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+
+    this.domElement = $('<span id="task' + this.id + '" class="task-audio ' + this.classes + '"></span>');
+    this.wrapper.append(this.domElement);
 
     // words to show
     this.wordsDom = $('<span id="taskwords' + this.id + '" class="task-audio-words"></span>');
@@ -4230,8 +4290,8 @@ entutor.html5recorder.prototype.draw = function () {
 
 
 
-
-    return this.domElement;
+    return this.wrapper;
+    // return this.domElement;
 };
 
 entutor.html5recorder.prototype.test = function () {
@@ -4367,17 +4427,24 @@ entutor.html5recorder.prototype.getMaxScore = function () {
 
 entutor.html5recorder.prototype.hide = function(delay){
     if (delay && parseInt(delay) > 0) {
-        setTimeout(this.hideDelayed, entutor.hideDelay);
+        this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
     } else {
-        this.domElement.hide();
+        this.wrapper.hide().css({width:'', height:''});
     }
 };
 
 entutor.html5recorder.prototype.show = function(delay){
     if(delay && parseInt(delay)>0){
-        setTimeout(this.showDelayed,entutor.showDelay);
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.showLock=true;
+        }
     }else{
-        this.domElement.show();
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
         if(this.onStart){
             this.onStart();
             this.onStart=false;
@@ -4386,7 +4453,7 @@ entutor.html5recorder.prototype.show = function(delay){
 };
 
 entutor.html5recorder.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.html5recorder.prototype.start = function () {
@@ -4401,6 +4468,7 @@ entutor.html5recorder.prototype.start = function () {
                 this.onStart=function(){
                     // console.log(self.id,'2-1');
                     self.btnStart.trigger('click');
+                    self.onStart=false;
                 };
             }
         }else{
@@ -4415,6 +4483,7 @@ entutor.html5recorder.prototype.start = function () {
                     self.onStart=function(){
                         //console.log(self.id,'3-2-1');
                         self.btnStart.trigger('click');
+                        self.onStart=false;
                     };
                 }
             });
@@ -4546,8 +4615,25 @@ entutor.inputs.sequence = function (parent, options) {
     this.countFailures=0;
     this.hint=this.options.hint||'';
 
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    this.showLock=false;
+    this.onShowFinished=function(){
+        if(self.onStart){
+            self.onStart();
+            self.onStart=false;
+        }
+        for(var it=0; it<self.items.length; it++){
+            self.items[it].obj.show();
+        }
+        self.showLock=false;
+    };
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+        for(var it=0; it<self.items.length; it++){
+            self.items[it].obj.hide();
+        }
+    };
 
 };
 
@@ -4589,9 +4675,9 @@ entutor.inputs.sequence.prototype.showHint = function () {
 
 entutor.inputs.sequence.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
-        setTimeout(this.hideDelayed, entutor.hideDelay);
+        this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
     } else {
-        this.domElement.hide();
+        this.wrapper.hide().css({width:'', height:''});
         for(var it=0; it<this.items.length; it++){
             this.items[it].obj.hide();
         }
@@ -4599,7 +4685,7 @@ entutor.inputs.sequence.prototype.hide = function (delay) {
 };
 
 entutor.inputs.sequence.prototype.isVisible = function(){
-    return this.domElement.is(':visible') && this.domElement.parents( ":hidden" ).length===0;
+    return this.wrapper.is(':visible') && this.wrapper.parents( ":hidden" ).length===0;
 };
 
 entutor.inputs.sequence.prototype.notify = function (stack) {
@@ -4616,14 +4702,23 @@ entutor.inputs.sequence.prototype.show = function (delay) {
     if(this.result.passed===true && this.hideOnCorrect){
         return;
     }
+
     if(delay && parseInt(delay)>0){
-        setTimeout(this.showDelayed,entutor.showDelay);
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.showLock=true;
+        }
     }else{
-        this.domElement.show();
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
         for(var it=0; it<this.items.length; it++){
             this.items[it].obj.show();
         }
-    }
+    } 
+    
 };
 
 entutor.inputs.sequence.prototype.test = function () {
@@ -4696,7 +4791,11 @@ entutor.inputs.sequence.prototype.draw = function () {
         self.setValue();
     };
 
+
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    
     this.domElement = $('<span id="task' + this.id + '" class="task-'+this.type+' '+this.arrange+' transition ' + this.classes + '"></span>');
+    this.wrapper.append(this.domElement);
     
     var item=null;
 
@@ -4742,7 +4841,8 @@ entutor.inputs.sequence.prototype.draw = function () {
         this.hide();
     }
 
-    return this.domElement;
+    //return this.domElement;
+    return this.wrapper;
 };
 
 entutor.inputs.sequence.prototype.start = function () {
