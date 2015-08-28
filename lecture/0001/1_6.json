@@ -58,6 +58,38 @@
     "precondition": "beforeCorrect",
     "customtest": "",
     "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "animationFrame": true,
+      "innerHtml": "<h1>[g]</h1>"
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "g_sound",
+      "hideOnCorrect": false,
+      "duration": "5",
+      "taskPassScore": 0.7
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
     "hideOnCorrect": true,
     "children": [
      {
@@ -132,6 +164,38 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
+      "animationFrame": true,
+      "innerHtml": "<h1>G</h1>"
+     },
+     {
+      "type": "recorder",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "g_big",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
       "innerHtml": "<h1>a</h1>",
       "animationFrame": true
      },
@@ -166,17 +230,17 @@
       "hideOnCorrect": false,
       "duration": 0,
       "animationFrame": true,
-      "innerHtml": "<h1>[æ]</h1>"
+      "innerHtml": "<h1>g</h1>"
      },
      {
       "type": "recorder",
-      "classes": "nowords",
+      "classes": "",
       "precondition": "none",
       "autostart": false,
       "autocheck": false,
-      "text": "a_sound",
+      "text": "g_small",
       "hideOnCorrect": false,
-      "duration": "5",
+      "duration": 30,
       "taskPassScore": 0.7
      }
     ]
