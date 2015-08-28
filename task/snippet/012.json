@@ -34,7 +34,7 @@
      },
      {
       "type": "recorder",
-      "classes": "",
+      "classes": "nowords",
       "precondition": "none",
       "autostart": false,
       "autocheck": false,
@@ -75,7 +75,7 @@
      },
      {
       "type": "recorder",
-      "classes": "",
+      "classes": "nowords",
       "precondition": "none",
       "autostart": false,
       "autocheck": false,

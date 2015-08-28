@@ -38,7 +38,7 @@ entutor.i18n={
     'From time':'От времени',
     'To time':'До времени',
     'Min score to pass (0 ... 1)':'Минимальный счёт для зачёта(0 ... 1)',
-    'beforeCorrect':'Предыдущий блок зачтён',
+    'beforeCorrect':'Предыдущий блок завершен',
     'none':'',
     'Maximal length':'Максимальная длина',
     'Reset if Error':'Очистить при ошибке',

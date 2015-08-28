@@ -11,7 +11,8 @@
     "precondition": "none",
     "hideOnCorrect": true,
     "duration": "1",
-    "innerHtml": "4"
+    "innerHtml": "4",
+    "animationFrame": true
    },
    {
     "type": "html",
@@ -19,7 +20,8 @@
     "precondition": "beforeCorrect",
     "hideOnCorrect": true,
     "duration": "1",
-    "innerHtml": "3"
+    "innerHtml": "3",
+    "animationFrame": true
    },
    {
     "type": "html",
@@ -27,7 +29,8 @@
     "precondition": "beforeCorrect",
     "hideOnCorrect": true,
     "duration": "1",
-    "innerHtml": "2"
+    "innerHtml": "2",
+    "animationFrame": true
    },
    {
     "type": "html",
@@ -35,7 +38,8 @@
     "precondition": "beforeCorrect",
     "hideOnCorrect": true,
     "duration": "1",
-    "innerHtml": "1"
+    "innerHtml": "1",
+    "animationFrame": true
    },
    {
     "type": "html",
@@ -43,7 +47,8 @@
     "precondition": "beforeCorrect",
     "hideOnCorrect": true,
     "duration": "1",
-    "innerHtml": "0"
+    "innerHtml": "0",
+    "animationFrame": true
    },
    {
     "type": "card",
@@ -61,7 +66,8 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
-      "innerHtml": "a"
+      "innerHtml": "a",
+      "animationFrame": true
      },
      {
       "type": "recorder",
@@ -72,7 +78,8 @@
       "text": "a",
       "hideOnCorrect": false,
       "duration": 30,
-      "taskPassScore": "0.6"
+      "taskPassScore": "0.6",
+      "soundScrorerURL": "./voiceinputscorer.php"
      }
     ],
     "autocheck": true
@@ -93,7 +100,8 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
-      "innerHtml": "b"
+      "innerHtml": "b",
+      "animationFrame": true
      },
      {
       "type": "recorder",
@@ -104,7 +112,8 @@
       "text": "b",
       "hideOnCorrect": false,
       "duration": 30,
-      "taskPassScore": "0.6"
+      "taskPassScore": "0.6",
+      "soundScrorerURL": "./voiceinputscorer.php"
      }
     ],
     "autocheck": true
@@ -125,7 +134,8 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
-      "innerHtml": "c"
+      "innerHtml": "c",
+      "animationFrame": true
      },
      {
       "type": "recorder",
@@ -136,13 +146,14 @@
       "text": "c",
       "hideOnCorrect": false,
       "duration": 30,
-      "taskPassScore": "0.6"
+      "taskPassScore": "0.6",
+      "soundScrorerURL": "./voiceinputscorer.php"
      }
     ],
     "autocheck": true
    }
   ],
-  "classes": "",
+  "classes": "height-xs",
   "arrange": "vertical",
   "taskPassScore": 1,
   "precondition": "none",

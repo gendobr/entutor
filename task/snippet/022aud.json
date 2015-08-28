@@ -24,9 +24,9 @@
       "hideOnCorrect": false,
       "media": {
        "title": "",
-       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
-       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
-       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+       "mp3": "../snippet/media/task002-01.mp3",
+       "oga": "../snippet/media/task002-01.ogg",
+       "wav": "../snippet/media/task002-01.wav"
       }
      },
      {
@@ -60,9 +60,9 @@
       "hideOnCorrect": false,
       "media": {
        "title": "",
-       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-02.mp3",
-       "oga": "http://localhost/entutor-js/task/snippet/media/task002-02.ogg",
-       "wav": "http://localhost/entutor-js/task/snippet/media/task002-02.wav"
+       "mp3": "../snippet/media/task002-02.mp3",
+       "oga": "../snippet/media/task002-02.ogg",
+       "wav": "../snippet/media/task002-02.wav"
       }
      },
      {
@@ -96,9 +96,9 @@
       "hideOnCorrect": false,
       "media": {
        "title": "",
-       "mp3": "http://localhost/entutor-js/task/snippet/media/task002-01.mp3",
-       "oga": "http://localhost/entutor-js/task/snippet/media/task002-01.ogg",
-       "wav": "http://localhost/entutor-js/task/snippet/media/task002-01.wav"
+       "mp3": "../snippet/media/task002-01.mp3",
+       "oga": "../snippet/media/task002-01.ogg",
+       "wav": "../snippet/media/task002-01.wav"
       }
      },
      {

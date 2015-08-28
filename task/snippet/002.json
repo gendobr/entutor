@@ -14,31 +14,31 @@
     "hideOnCorrect": false,
     "media": {
      "title": "title",
-     "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
-     "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
-     "webmv": "../snippet/media/EddiethebeagleDumbo.webm",
-     "wav": "../snippet/media/EddiethebeagleDumbo.webm"
+     "m4v": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.mp4",
+     "ogv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.ogv",
+     "webmv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm",
+     "wav": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm"
     },
     "subtitles": [
      {
       "html": "subtitle 0-3",
-      "from": "0",
-      "to": "3"
+      "from": 0,
+      "to": 3
      },
      {
       "html": "subtitle 3-6",
-      "from": "3",
-      "to": "6"
+      "from": 3,
+      "to": 6
      },
      {
       "html": "subtitle 6-9",
-      "from": "6",
-      "to": "9"
+      "from": 6,
+      "to": 9
      },
      {
       "html": "subtitle 9-13",
-      "from": "9",
-      "to": "13"
+      "from": 9,
+      "to": 13
      }
     ],
     "completeViewRequired": false
@@ -50,6 +50,7 @@
   "precondition": "none",
   "customtest": "",
   "maxScore": 1,
-  "hideOnCorrect": false
+  "hideOnCorrect": false,
+  "autocheck": true
  }
 }

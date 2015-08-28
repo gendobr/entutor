@@ -21,7 +21,8 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
-      "innerHtml": "1. I see\n"
+      "innerHtml": "1. I see\n",
+      "animationFrame": true
      },
      {
       "type": "text",
@@ -40,7 +41,8 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
-      "innerHtml": "rabbit."
+      "innerHtml": "rabbit.",
+      "animationFrame": true
      },
      {
       "type": "text",
@@ -59,7 +61,8 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
-      "innerHtml": "rabbit is quick.\n"
+      "innerHtml": "rabbit is quick.\n",
+      "animationFrame": true
      },
      {
       "type": "text",
@@ -78,7 +81,8 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
-      "innerHtml": "rabbit is in\n"
+      "innerHtml": "rabbit is in\n",
+      "animationFrame": true
      },
      {
       "type": "text",
@@ -97,7 +101,8 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
-      "innerHtml": "cage."
+      "innerHtml": "cage.",
+      "animationFrame": true
      }
     ]
    },
@@ -117,7 +122,8 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
-      "innerHtml": "I have got\n"
+      "innerHtml": "I have got\n",
+      "animationFrame": true
      },
      {
       "type": "text",
@@ -135,7 +141,8 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
-      "innerHtml": "green apple."
+      "innerHtml": "green apple.",
+      "animationFrame": true
      },
      {
       "type": "text",
@@ -153,12 +160,13 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
-      "innerHtml": "apple is nice.\n"
+      "innerHtml": "apple is nice.\n",
+      "animationFrame": true
      }
     ]
    }
   ],
-  "classes": "",
+  "classes": "height-xxs",
   "arrange": "vertical",
   "taskPassScore": 1,
   "precondition": "none",

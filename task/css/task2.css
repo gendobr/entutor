@@ -271,7 +271,7 @@
 .task-dropzone{
     display:inline-block;
     border:none;    
-    min-height:40px;
+    min-height:55px;
     border:none;
     font:normal 14px Verdana, Geneva, sans-serif;
     font-style:normal;
@@ -771,4 +771,9 @@ display: block;
     -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+
+.radio, .checkbox{
+    display:inline-block;
 }

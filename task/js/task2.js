@@ -1,14 +1,4 @@
 
-//    
-//    //    this.autocheck=this.options.autocheck||false;
-//    +task      +card        +text        +radio
-//    +checkbox  +dropzone    +recorder
-//    
-//    this.autostart=this.options.autostart||false;
-//    +sound     +video   recorder
-//    
-//  stopOnHide - auto
-
 var entutor = {};
 entutor.guid = 0;
 entutor.config = {};
@@ -265,7 +255,7 @@ entutor.utils.parseTime = function(t){
 };
 
 // =============================================================================
-/** card, container for other inputs
+/* card, container for other inputs
  
     options={
         type:'card',
@@ -435,8 +425,30 @@ entutor.inputs.card = function (parent, options) {
 
     };
 
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    // this.hideDelayed=function(){ self.hide(); };
+    // this.showDelayed=function(){ self.show(); };
+
+    this.showLock=false;
+    this.onShowFinished=function(delay){
+        return function(){
+            if(self.onStart){
+                self.onStart();
+                self.onStart=false;
+            }
+            self.showLock=false;
+            self.wrapper.css({width:'', height:''});
+            self.showChildren(delay);
+        };
+    };
+
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+        for (var key = 0; key < self.children.length; key++) {
+            self.children[key].hide();
+        }
+    };
     
     var childMaxScoreSum = 0;
     for (var key = 0; key < this.options.children.length; key++) {
@@ -510,13 +522,13 @@ entutor.inputs.card.prototype.test = function () {
 
 entutor.inputs.card.prototype.draw = function () {
     
-    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
         
     this.domElement = $('<span id="task' + this.id + '" class="task-card transition task-card-' + this.arrange + ' ' + this.classes + '"></span>');
-    this.wrapper.append(this.domElement);
 
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.domElement);
     if (this.precondition === 'beforeCorrect') {
-        this.domElement.hide();
+        this.wrapper.hide();
     }
 
     for (var key = 0; key < this.children.length; key++) {
@@ -530,7 +542,6 @@ entutor.inputs.card.prototype.draw = function () {
     if (this.precondition === 'beforeCorrect') {
         this.hide();
     }
-    // return this.domElement;
     return this.wrapper;
 };
 
@@ -551,13 +562,17 @@ entutor.inputs.card.prototype.getMaxScore = function () {
 };
 
 entutor.inputs.card.prototype.hide = function (delay) {
-    if(delay && parseInt(delay)>0){
-        setTimeout(this.hideDelayed,entutor.hideDelay);
-    }else{
-        this.domElement.hide();
+    if (delay && parseInt(delay) > 0) {
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
+    } else {
+        this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
         for (var key = 0; key < this.children.length; key++) {
             this.children[key].hide();
-        }        
+        }
     }
 };
 
@@ -570,17 +585,25 @@ entutor.inputs.card.prototype.show = function (delay) {
         return;
     }
     if(delay && parseInt(delay)>0){
-        var self=this;
-        //setTimeout(this.showDelayed,entutor.showDelay);
-        this.domElement.show(delay,function(){self.showChildren();});
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished(delay) );
+            this.showLock=true;
+        }
     }else{
-        this.domElement.show();
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
+        this.showLock=false;
         this.showChildren();
     }
 };
 
-entutor.inputs.card.prototype.showChildren = function () {
+entutor.inputs.card.prototype.showChildren = function (_delay) {
     // console.log(this.id + ' showChildren ');
+    var delay=parseInt(_delay);
+    //console.log(this.id + ' showChildren '+delay);
     // apply child pre-conditions
     for (var key = 0; key < this.children.length; key++) {
         if (this.children[key].precondition === 'beforeCorrect') {
@@ -604,7 +627,11 @@ entutor.inputs.card.prototype.showChildren = function () {
                         console.log('verbosePrecondition',noe,this.children[key].id, this.children[key].type, 'beforeCorrect',allPreviousPassed);
                         console.log('verbosePrecondition',noe,this.children[key].id,"this.children[key].show();");
                     }
-                    this.children[key].show(entutor.showDelay);
+                    if(isNaN(delay)){
+                        this.children[key].show();
+                    }else{
+                        this.children[key].show(delay);
+                    }
                 }
             } else {
                 if(childIsVisible){
@@ -613,11 +640,19 @@ entutor.inputs.card.prototype.showChildren = function () {
                         console.log('verbosePrecondition',noe,this.children[key].id, this.children[key].type, 'beforeCorrect',allPreviousPassed);
                         console.log('verbosePrecondition',noe,this.children[key].id, "this.children[key].hide();");
                     }
-                    this.children[key].hide(entutor.hideDelay);
+                    if(isNaN(delay)){
+                        this.children[key].hide();
+                    }else{
+                        this.children[key].hide(delay);
+                    }
                 }
             }
         } else {
-            this.children[key].show(entutor.showDelay);
+            if(isNaN(delay)){
+                this.children[key].show();
+            }else{
+                this.children[key].show(delay);
+            }
         }
     }
 };
@@ -680,8 +715,22 @@ entutor.inputs.html = function (parent, options) {
         this.duration = Math.round(1000 * this.duration);
     }
 
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    this.showLock=false;
+    this.onShowFinished=function(){
+        self.showLock=false;
+        if(this.onShow){
+            this.onShow();
+            this.onShow=false;
+        }
+        self.wrapper.css({width:'', height:''});
+    };
+
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+    };
+    
     
     this.result={
         status: entutor.task.status.received,
@@ -725,9 +774,13 @@ entutor.inputs.html.prototype.getMaxScore = function () {
 
 entutor.inputs.html.prototype.hide = function (delay) {
     if(!this.animationFrame && delay && parseInt(delay)>0){
-        setTimeout(this.hideDelayed,entutor.hideDelay);
-    }else{
-        this.domElement.hide();
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
+    } else {
+        this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
     }
 };
 
@@ -735,11 +788,24 @@ entutor.inputs.html.prototype.show = function (delay) {
     if(this.result.passed===true && this.hideOnCorrect){
         return;
     }
-    if(!this.isVisible()){
-        this.domElement.show();
+    if(this.isVisible()){
+       return;
+    }
+    if(!this.animationFrame && delay && parseInt(delay)>0){
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.showLock=true;
+        }
+    }else{
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
+        this.showLock=false;
         if(this.onShow){
-            // console.log('html 3 ', this.id,' onShow ');
             this.onShow();
+            this.onShow=false;
         }
     }
 };
@@ -840,8 +906,18 @@ entutor.inputs.text = function (parent, options) {
     this.countFailures=0;
     this.hint=this.options.hint||'';
 
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    this.showLock=false;
+    this.onShowFinished=function(){
+        self.showLock=false;
+        self.wrapper.css({width:'', height:''});
+    };
+
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+    };
+    
 
     this.value = false;
 };
@@ -968,9 +1044,13 @@ entutor.inputs.text.prototype.getMaxScore = function () {
 
 entutor.inputs.text.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
-        setTimeout(this.hideDelayed, entutor.hideDelay);
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
     } else {
-        this.domElement.hide();
+        this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
     }
 };
 
@@ -983,9 +1063,17 @@ entutor.inputs.text.prototype.show = function (delay) {
         return;
     }
     if(delay && parseInt(delay)>0){
-        setTimeout(this.showDelayed,entutor.showDelay);
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.showLock=true;
+        }
     }else{
-        this.domElement.show();
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
+        this.showLock=false;
     }
 };
 
@@ -1066,8 +1154,18 @@ entutor.inputs.radio = function (parent, options) {
     this.autocheck=this.options.autocheck||false;
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    this.showLock=false;
+    this.onShowFinished=function(){
+        self.showLock=false;
+        self.wrapper.css({width:'', height:''});
+    };
+
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+    };
+    
 
     this.countFailures=0;
     this.hint=this.options.hint||'';
@@ -1140,10 +1238,8 @@ entutor.inputs.radio.prototype.test = function () {
 
 entutor.inputs.radio.prototype.draw = function () {
 
-    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
 
     this.domElement = $('<span id="task' + this.id + '" class="task-radiobuttons transition ' + this.classes + ' ' + this.arrange + '"></span>');
-    this.wrapper.append(this.domElement);
 
     var self = this;
     var onchange = function (el) {
@@ -1167,8 +1263,10 @@ entutor.inputs.radio.prototype.draw = function () {
         this.hide();
     }
 
-    //return  this.domElement;
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.domElement);
     return  this.wrapper;
+    //return  this.domElement;
 };
 
 entutor.inputs.radio.prototype.getValue = function () {
@@ -1181,17 +1279,32 @@ entutor.inputs.radio.prototype.getMaxScore = function () {
 
 entutor.inputs.radio.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
-        setTimeout(this.hideDelayed, entutor.hideDelay);
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
     } else {
-        this.domElement.hide();
+        this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
     }
 };
 
 entutor.inputs.radio.prototype.show = function (delay) {
+    if(this.result.passed===true && this.hideOnCorrect){
+        return;
+    }
     if(delay && parseInt(delay)>0){
-        setTimeout(this.showDelayed,entutor.showDelay);
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.showLock=true;
+        }
     }else{
-        this.domElement.show();
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
+        this.showLock=false;
     }
 };
 
@@ -1227,6 +1340,24 @@ entutor.inputs.radio.prototype.showHint = function () {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // =============================================================================
 //
 //    options={
@@ -1258,8 +1389,18 @@ entutor.inputs.checkbox = function (parent, options) {
     this.autocheck=this.options.autocheck||false;
     this.hideOnCorrect = this.options.hideOnCorrect? true : false;
 
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    this.showLock=false;
+    this.onShowFinished=function(){
+        self.showLock=false;
+        self.wrapper.css({width:'', height:''});
+    };
+
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+    };
+    
 
     this.countFailures=0;
     this.hint=this.options.hint||'';
@@ -1340,7 +1481,6 @@ entutor.inputs.checkbox.prototype.test = function () {
 
 entutor.inputs.checkbox.prototype.draw = function () {
     
-    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
 
     this.checkbox = $('<input type="checkbox" id="task' + this.id + 'checkbox" class="task-checkbox">');
     var self = this;
@@ -1350,19 +1490,19 @@ entutor.inputs.checkbox.prototype.draw = function () {
         self.notify([]);
     });
     this.domElement = $('<label id="task' + this.id + '" class="task-checkbox-label transition ' + this.classes + '"></label>');
-    this.wrapper.append(this.domElement);
     this.domElement.append(this.checkbox);
     if (this.options.label) {
         this.domElement.append($('<span class="task-checkbox-label-text">' + this.options.label + '</span>'));
     }
 
 
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.domElement);
     if (this.precondition === 'beforeCorrect') {
         this.hide();
     }
-
-    // return this.domElement;
     return this.wrapper;
+    // return this.domElement;
 };
 
 entutor.inputs.checkbox.prototype.getValue = function () {
@@ -1375,17 +1515,32 @@ entutor.inputs.checkbox.prototype.getMaxScore = function () {
 
 entutor.inputs.checkbox.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
-        setTimeout(this.hideDelayed, entutor.hideDelay);
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
     } else {
-        this.domElement.hide();
+        this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
     }
 };
 
 entutor.inputs.checkbox.prototype.show = function (delay) {
+    if(this.result.passed===true && this.hideOnCorrect){
+        return;
+    }
     if(delay && parseInt(delay)>0){
-        setTimeout(this.showDelayed,entutor.showDelay);
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.showLock=true;
+        }
     }else{
-        this.domElement.show();
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
+        this.showLock=false;
     }
 };
 
@@ -1473,8 +1628,22 @@ entutor.inputs.sound = function (parent, options) {
     this.labels.playing = this.labels.playing || '||';
     this.labels.paused = this.labels.paused || '>';
     
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    this.showLock=false;
+    this.onShowFinished=function(){
+        if(this.onShow){
+            this.onShow();
+            this.onShow = false;
+        }
+        self.showLock=false;
+        self.wrapper.css({width:'', height:''});
+    };
+
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+    };
+    
 
     // entutor.jplayers[this.id] = this;
 };
@@ -1512,8 +1681,6 @@ entutor.inputs.sound.prototype.draw = function () {
     this.domElement = $('<span id="task' + this.id + '" class="task-sound transition ' + this.classes + '"></span>');
     this.domElement.append($(html));
 
-    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
-    this.wrapper.append(this.domElement);
 
     this.player = this.domElement.find("#jquery_jplayer_" + this.id);
     var soundBlock = this.domElement.find('#sound_' + this.id);
@@ -1539,10 +1706,12 @@ entutor.inputs.sound.prototype.draw = function () {
         }
     });
 
+
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.domElement);
     if (this.precondition === 'beforeCorrect') {
         this.hide();
     }
-
     return this.wrapper;
     // return this.domElement;
 };
@@ -1557,19 +1726,34 @@ entutor.inputs.sound.prototype.getMaxScore = function () {
 
 entutor.inputs.sound.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
-        setTimeout(this.hideDelayed, entutor.hideDelay);
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
     } else {
-        this.domElement.hide();
-        this.player.jPlayer("pause");
-        $('.sound_button').attr('value', this.labels.paused);
+        this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
     }
+    this.player.jPlayer("pause");
+    $('.sound_button').attr('value', this.labels.paused);
 };
 
 entutor.inputs.sound.prototype.show = function (delay) {
+    if(this.result.passed===true && this.hideOnCorrect){
+        return;
+    }
     if(delay && parseInt(delay)>0){
-        setTimeout(this.showDelayed,entutor.showDelay);
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.showLock=true;
+        }
     }else{
-        this.domElement.show();
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
+        this.showLock=false;
         if(this.onShow){
             this.onShow();
             this.onShow = false;
@@ -1750,8 +1934,21 @@ entutor.inputs.video = function (parent, options) {
     this.media = options.media || {};
     // entutor.jplayers[this.id] = this;
     
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    this.showLock=false;
+    this.onShowFinished=function(){
+        if(this.onShow){
+            this.onShow();
+            this.onShow = false;
+        }
+        self.showLock=false;
+        self.wrapper.css({width:'', height:''});
+    };
+
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+    };
 };
 
 entutor.inputs.video.prototype.test = function (testFinishedCallback) {
@@ -1827,11 +2024,11 @@ entutor.inputs.video.prototype.draw = function () {
         this.player.jPlayer("option", "size", this.options.size);
     }
 
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.domElement);
     if (this.precondition === 'beforeCorrect') {
         this.hide();
     }
-    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
-    this.wrapper.append(this.domElement);
     return this.wrapper;
     // return this.domElement;
 };
@@ -1845,19 +2042,34 @@ entutor.inputs.video.prototype.getMaxScore = function () {
 };
 
 entutor.inputs.video.prototype.hide = function (delay) {
+    this.player.jPlayer("pause");
     if (delay && parseInt(delay) > 0) {
-        setTimeout(this.hideDelayed, entutor.hideDelay);
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
     } else {
-        this.domElement.hide();
-        this.player.jPlayer("pause");
+        this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
     }
 };
 
 entutor.inputs.video.prototype.show = function (delay) {
+    if(this.result.passed===true && this.hideOnCorrect){
+        return;
+    }
     if(delay && parseInt(delay)>0){
-        setTimeout(this.showDelayed,entutor.showDelay);
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.showLock=true;
+        }
     }else{
-        this.domElement.show();
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
+        this.showLock=false;
         if(this.onShow){
             this.onShow();
             this.onShow = false;
@@ -1883,7 +2095,7 @@ entutor.inputs.video.prototype.start = function () {
                     self.onShow=function(){
                         self.player.jPlayer("pauseOthers");
                         self.player.jPlayer("play");           
-                    }
+                    };
                 }
             }
         },
@@ -1972,8 +2184,17 @@ entutor.inputs.counter = function (parent, options) {
     this.precondition = this.options.precondition || 'none';
     this.value = this.options.value || '';
     
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    this.showLock=false;
+    this.onShowFinished=function(){
+        self.showLock=false;
+        self.wrapper.css({width:'', height:''});
+    };
+
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+    };
 };
 
 entutor.inputs.counter.prototype.test = function (testFinishedCallback) {
@@ -2121,12 +2342,12 @@ entutor.inputs.counter.prototype.draw = function () {
         }
     });
 
-    if (this.precondition === 'beforeCorrect') {
-        this.hide();
-    }
 
     this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
     this.wrapper.append(this.counterplace);
+    if (this.precondition === 'beforeCorrect') {
+        this.hide();
+    }
     return this.wrapper;
     //return this.counterplace;
 };
@@ -2141,29 +2362,34 @@ entutor.inputs.counter.prototype.getMaxScore = function () {
 
 entutor.inputs.counter.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
-        setTimeout(this.hideDelayed, entutor.hideDelay);
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
     } else {
-        this.counterplace.hide();
-        this.counter.hide();
+        this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
     }
-
 };
 
 entutor.inputs.counter.prototype.show = function (delay) {
     if(delay && parseInt(delay)>0){
-        setTimeout(this.showDelayed,entutor.showDelay);
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.showLock=true;
+        }
     }else{
-        this.counterplace.show();
-        this.counter.show();
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
+        this.showLock=false;
     }
+
 };
 
 entutor.inputs.counter.prototype.start = function () {
-    //var w=this.counterplace.width();
-    //var h=this.counterplace.height();
-    //var w=this.counter.width();
-    //var h=this.counter.height();
-    //this.counterplace.css({width:w+'px', height:h+'px'});
 };
 
 entutor.inputs.counter.prototype.isVisible = function(){
@@ -2262,8 +2488,17 @@ entutor.inputs.dropzone = function (parent, options) {
     this.countFailures=0;
     this.hint=this.options.hint||'';
 
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    this.showLock=false;
+    this.onShowFinished=function(){
+        self.showLock=false;
+        self.wrapper.css({width:'', height:''});
+    };
+
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+    };
 
     //this.id
     entutor.dropzones[this.id] = this;
@@ -2320,6 +2555,12 @@ entutor.inputs.dropzone.prototype.testSet=function(value){
         maxScore: this.maxScore,
         subresult:[]
     };
+    
+    if(this.pattern.length!==value.length){
+        result.score= 0;
+        result.passed=false;
+        return result;
+    }
     
     for(var iP=0; iP<this.pattern.length; ++iP){
         result.subresult[iP]=false;
@@ -2408,11 +2649,8 @@ entutor.inputs.dropzone.prototype.draw = function () {
 
     var self = this;
 
-    this.dropzone = $('<span id="task' + this.id + 'dropzone" class="task-dropzone transition" style="min-width:' + (this.options.size || '4') + 'em;"></span>');
+    this.dropzone = $('<span id="task' + this.id + 'dropzone" class="task-dropzone transition" style="min-width:' + (this.options.size || '4') + 'em;">&nbsp</span>');
 
-    if (this.precondition === 'beforeCorrect') {
-        this.hide();
-    }
 
     // only for touchscreens
     this.dropzone.click(function(e){
@@ -2426,6 +2664,9 @@ entutor.inputs.dropzone.prototype.draw = function () {
     //return this.dropzone;
     this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
     this.wrapper.append(this.dropzone);
+    if (this.precondition === 'beforeCorrect') {
+        this.hide();
+    }
     return this.wrapper;
 
 };
@@ -2440,17 +2681,32 @@ entutor.inputs.dropzone.prototype.getMaxScore = function () {
 
 entutor.inputs.dropzone.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
-        setTimeout(this.hideDelayed, entutor.hideDelay);
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
     } else {
-        this.dropzone.hide();
+        this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
     }
 };
 
 entutor.inputs.dropzone.prototype.show = function (delay) {
+    if(this.result.passed===true && this.hideOnCorrect){
+        return;
+    }
     if(delay && parseInt(delay)>0){
-        setTimeout(this.showDelayed,entutor.showDelay);
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.showLock=true;
+        }
     }else{
-        this.dropzone.show();
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
+        this.showLock=false;
     }
 };
 
@@ -2535,6 +2791,7 @@ entutor.inputs.dropzone.prototype.removeChild = function (child) {
             return;
         }
     }
+
 };
 
 entutor.inputs.dropzone.prototype.start = function () {
@@ -2868,8 +3125,21 @@ entutor.inputs.slideshow = function (parent, options) {
         passed: true,
         maxScore: 1
     };
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    this.showLock=false;
+    this.onShowFinished=function(){
+        if(this.onShow){
+            this.onShow();
+            this.onShow = false;
+        }
+        self.showLock=false;
+        self.wrapper.css({width:'', height:''});
+    };
+
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+    };
     // entutor.jplayers[this.id] = this;
 };
 
@@ -2963,12 +3233,12 @@ entutor.inputs.slideshow.prototype.draw = function () {
     };
 
 
-    if (this.precondition === 'beforeCorrect') {
-        this.hide();
-    };
 
     this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
     this.wrapper.append(this.domElement);
+    if (this.precondition === 'beforeCorrect') {
+        this.hide();
+    };
     return this.wrapper;
     // return this.domElement;
 };
@@ -2983,17 +3253,32 @@ entutor.inputs.slideshow.prototype.getMaxScore = function () {
 
 entutor.inputs.slideshow.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
-        setTimeout(this.hideDelayed, entutor.hideDelay);
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
     } else {
-        this.domElement.hide();
+        this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
     }
 };
 
 entutor.inputs.slideshow.prototype.show = function (delay) {
+    if(this.result.passed===true && this.hideOnCorrect){
+        return;
+    }
     if(delay && parseInt(delay)>0){
-        setTimeout(this.showDelayed,entutor.showDelay);
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.showLock=true;
+        }
     }else{
-        this.domElement.show();
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
+        this.showLock=false;
         if(this.onShow){
             this.onShow();
             this.onShow = false;
@@ -3685,8 +3970,21 @@ entutor.flashrecorder = function (parent, options) {
     this.countFailures=0;
     this.hint=this.options.hint||'';
 
-    this.hideDelayed=function(){ self.hide(); };
-    this.showDelayed=function(){ self.show(); };
+    this.showLock=false;
+    this.onShowFinished=function(){
+        if(this.onShow){
+            this.onShow();
+            this.onShow = false;
+        }
+        self.showLock=false;
+        self.wrapper.css({width:'', height:''});
+    };
+
+    this.hideLock=false;
+    this.onHideFinished=function(){
+        self.wrapper.hide().css({width:'', height:''});
+        self.hideLock=false;
+    };
 
     //this.id
     entutor.recorders[this.id] = this;
@@ -3819,10 +4117,6 @@ entutor.flashrecorder.prototype.draw = function () {
 
     this.domElement = $('<span id="task' + this.id + 'recorder" class="task-recorder transition" style="width:' + (this.options.size || '4') + 'em;"></span>');
 
-    if (this.precondition === 'beforeCorrect') {
-        this.hide();
-    }
-
     var html='';
     html+='        <div class="recorder" id="recorder'+this.id+'">';
     html+='            <span class="recorder-level"><span class="recorder-level-indicator"></span></span><!-- ';
@@ -3834,6 +4128,9 @@ entutor.flashrecorder.prototype.draw = function () {
 
     this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
     this.wrapper.append(this.domElement);
+    if (this.precondition === 'beforeCorrect') {
+        this.hide();
+    }
     return this.wrapper;
     // return this.domElement;
 };
@@ -3847,20 +4144,39 @@ entutor.flashrecorder.prototype.getMaxScore = function () {
 };
 
 entutor.flashrecorder.prototype.hide = function (delay) {
+
+//TODO : stop recording on hide
     if (delay && parseInt(delay) > 0) {
-        setTimeout(this.hideDelayed, entutor.hideDelay);
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
     } else {
-        this.domElement.hide();
+        this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
     }
 };
 
 entutor.flashrecorder.prototype.show = function (delay) {
+
+    if(this.result.passed===true && this.hideOnCorrect){
+        return;
+    }
     if(delay && parseInt(delay)>0){
-        setTimeout(this.showDelayed,entutor.showDelay);
+        if(!this.showLock && !this.wrapper.is(':visible')){
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
+            this.wrapper.css({width:0, height:0});
+            this.wrapper.show();
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.showLock=true;
+        }
     }else{
-        this.domElement.show();
-        if(this.autostart){
-            entutor.recorderApp.startRecording($('button[data-id="'+this.id+'"]'));
+        this.wrapper.css({width:'', height:''});
+        this.wrapper.show();
+        this.showLock=false;
+        if(this.onShow){
+            this.onShow();
+            this.onShow = false;
         }
     }
 };
@@ -3870,6 +4186,7 @@ entutor.flashrecorder.prototype.isVisible = function(){
 };
 
 entutor.flashrecorder.prototype.start = function () {
+    // TODO: autostart
     if(this.autostart && this.isVisible()){
         entutor.recorderApp.startRecording($('button[data-id="'+this.id+'"]'));
     }
@@ -4158,6 +4475,7 @@ entutor.html5recorder = function (parent, options) {
             self.onStart=false;
         }
         self.showLock=false;
+        self.wrapper.css({width:'', height:''});
     };
     this.hideLock=false;
     this.onHideFinished=function(){
@@ -4182,10 +4500,8 @@ entutor.html5recorder.prototype.draw = function () {
     
     var self=this;
 
-    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
 
     this.domElement = $('<span id="task' + this.id + '" class="task-audio ' + this.classes + '"></span>');
-    this.wrapper.append(this.domElement);
 
     // words to show
     this.wordsDom = $('<span id="taskwords' + this.id + '" class="task-audio-words"></span>');
@@ -4284,12 +4600,13 @@ entutor.html5recorder.prototype.draw = function () {
     this.domElement.append(this.configElement);    
     
     
+
+
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.domElement);
     if(this.precondition==='beforeCorrect'){
         this.hide();
     }    
-
-
-
     return this.wrapper;
     // return this.domElement;
 };
@@ -4427,13 +4744,20 @@ entutor.html5recorder.prototype.getMaxScore = function () {
 
 entutor.html5recorder.prototype.hide = function(delay){
     if (delay && parseInt(delay) > 0) {
-        this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
     } else {
         this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
     }
 };
 
 entutor.html5recorder.prototype.show = function(delay){
+    if(this.result.passed===true && this.hideOnCorrect){
+        return;
+    }
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
             var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
@@ -4445,6 +4769,7 @@ entutor.html5recorder.prototype.show = function(delay){
     }else{
         this.wrapper.css({width:'', height:''});
         this.wrapper.show();
+        this.showLock=false;
         if(this.onStart){
             this.onStart();
             this.onStart=false;
@@ -4616,15 +4941,18 @@ entutor.inputs.sequence = function (parent, options) {
     this.hint=this.options.hint||'';
 
     this.showLock=false;
-    this.onShowFinished=function(){
-        if(self.onStart){
-            self.onStart();
-            self.onStart=false;
-        }
-        for(var it=0; it<self.items.length; it++){
-            self.items[it].obj.show();
-        }
-        self.showLock=false;
+    this.onShowFinished=function(delay){
+        return function(){
+            if(self.onStart){
+                self.onStart();
+                self.onStart=false;
+            }
+            self.showLock=false;
+            self.wrapper.css({width:'', height:''});
+            for(var it=0; it<self.items.length; it++){
+                self.items[it].obj.show(delay);
+            }
+        };
     };
     this.hideLock=false;
     this.onHideFinished=function(){
@@ -4675,9 +5003,13 @@ entutor.inputs.sequence.prototype.showHint = function () {
 
 entutor.inputs.sequence.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
-        this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+        if(!this.hideLock){
+            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.hideLock=true;
+        }
     } else {
         this.wrapper.hide().css({width:'', height:''});
+        this.hideLock=false;
         for(var it=0; it<this.items.length; it++){
             this.items[it].obj.hide();
         }
@@ -4702,13 +5034,12 @@ entutor.inputs.sequence.prototype.show = function (delay) {
     if(this.result.passed===true && this.hideOnCorrect){
         return;
     }
-
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
             var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
             this.wrapper.css({width:0, height:0});
             this.wrapper.show();
-            this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
+            this.wrapper.animate( style, delay, 'swing', this.onShowFinished(delay) );
             this.showLock=true;
         }
     }else{
@@ -4792,10 +5123,8 @@ entutor.inputs.sequence.prototype.draw = function () {
     };
 
 
-    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
     
     this.domElement = $('<span id="task' + this.id + '" class="task-'+this.type+' '+this.arrange+' transition ' + this.classes + '"></span>');
-    this.wrapper.append(this.domElement);
     
     var item=null;
 
@@ -4837,11 +5166,13 @@ entutor.inputs.sequence.prototype.draw = function () {
         }
     }
 
+
+    //return this.domElement;
+    this.wrapper= $('<span id="task' + this.id + 'wrapper" class="wrapper"></span>');
+    this.wrapper.append(this.domElement);
     if (this.precondition === 'beforeCorrect') {
         this.hide();
     }
-
-    //return this.domElement;
     return this.wrapper;
 };
 

@@ -24,10 +24,10 @@
       "hideOnCorrect": false,
       "media": {
        "title": "title",
-       "m4v": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.mp4",
-       "ogv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.ogv",
-       "wav": "http://localhost/entutor-js/task/test/webmv%20file%20URL",
-       "webmv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm"
+       "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
+       "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
+       "wav": "../test/webmv%20file%20URL",
+       "webmv": "../snippet/media/EddiethebeagleDumbo.webm"
       },
       "subtitles": []
      },
@@ -66,10 +66,10 @@
       "hideOnCorrect": false,
       "media": {
        "title": "title",
-       "m4v": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.mp4",
-       "ogv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.ogv",
-       "wav": "http://localhost/entutor-js/task/test/webmv%20file%20URL",
-       "webmv": "http://localhost/entutor-js/task/snippet/media/EddiethebeagleDumbo.webm"
+       "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
+       "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
+       "wav": "../test/webmv%20file%20URL",
+       "webmv": "../snippet/media/EddiethebeagleDumbo.webm"
       },
       "subtitles": []
      },
