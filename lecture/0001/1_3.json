@@ -75,7 +75,7 @@
       "precondition": "none",
       "autostart": false,
       "autocheck": false,
-      "text": "a",
+      "text": "a_big",
       "hideOnCorrect": false,
       "duration": "5",
       "taskPassScore": "0.6"
@@ -108,7 +108,7 @@
       "precondition": "none",
       "autostart": false,
       "autocheck": false,
-      "text": "b",
+      "text": "a_sound",
       "hideOnCorrect": false,
       "duration": "5",
       "taskPassScore": "0.6"
@@ -141,7 +141,7 @@
       "precondition": "none",
       "autostart": false,
       "autocheck": false,
-      "text": "c",
+      "text": "a_small",
       "hideOnCorrect": false,
       "duration": "5",
       "taskPassScore": "0.6"
@@ -174,7 +174,7 @@
       "precondition": "none",
       "autostart": false,
       "autocheck": false,
-      "text": "d",
+      "text": "a_sound",
       "hideOnCorrect": false,
       "duration": "5",
       "taskPassScore": 0.7
