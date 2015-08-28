@@ -222,7 +222,10 @@ entutor.testPresentation.prototype.draw = function () {
 
 // =============================================================================
 entutor.utils={};
-entutor.utils.parseTime = function(timestring){
+entutor.utils.parseTime = function(t){
+    
+    var timestring=t+'';
+    
     var seconds=parseFloat(timestring.replace(/,/,'.'));
     if(!isNaN(seconds)){
         return seconds;
