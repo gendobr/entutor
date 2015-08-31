@@ -12,8 +12,8 @@ entutor.debug = true;
 entutor.verboseTest = false;
 entutor.verbosePrecondition = false;
 
-entutor.hideDelay=1200;
-entutor.showDelay=500;
+entutor.hideDelay=1500;
+entutor.showDelay=1500;
 
 
 entutor.i18n={
@@ -436,14 +436,15 @@ entutor.inputs.card = function (parent, options) {
                 self.onStart=false;
             }
             self.showLock=false;
-            self.wrapper.css({width:'', height:''});
+            self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
+            //self.wrapper.css({opacity:1, overflow: 'visible'});
             self.showChildren(delay);
         };
     };
 
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, padding:'', overflow: 'visible'});
         self.hideLock=false;
         for (var key = 0; key < self.children.length; key++) {
             self.children[key].hide();
@@ -564,11 +565,12 @@ entutor.inputs.card.prototype.getMaxScore = function () {
 entutor.inputs.card.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"})
+                        .animate({width:'0px', height:'0px', padding:'0px', opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
         for (var key = 0; key < this.children.length; key++) {
             this.children[key].hide();
@@ -586,14 +588,20 @@ entutor.inputs.card.prototype.show = function (delay) {
     }
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            //            var targetWidth=this.domElement.width();
+            //            var targetHeight=this.domElement.height();
+            //            var style={width:targetWidth+'px', height:targetHeight+'px',opacity:1};
+            //            // console.log(this.id, style);
+            //            this.wrapper.css({width:0, height:0,opacity:0, overflow:"hidden"});
+            //            this.wrapper.show();
+            //            this.wrapper.animate( style, delay, 'swing', this.onShowFinished(delay) );
+            this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
             this.wrapper.show();
-            this.wrapper.animate( style, delay, 'swing', this.onShowFinished(delay) );
-            this.showLock=true;
+            this.showChildren(delay);
+            this.showLock=false;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         this.showLock=false;
         this.showChildren();
@@ -722,12 +730,12 @@ entutor.inputs.html = function (parent, options) {
             this.onShow();
             this.onShow=false;
         }
-        self.wrapper.css({width:'', height:''});
+        self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
     };
 
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         self.hideLock=false;
     };
     
@@ -775,11 +783,11 @@ entutor.inputs.html.prototype.getMaxScore = function () {
 entutor.inputs.html.prototype.hide = function (delay) {
     if(!this.animationFrame && delay && parseInt(delay)>0){
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"}).animate({width:'0px', height:'0px',opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
     }
 };
@@ -793,14 +801,14 @@ entutor.inputs.html.prototype.show = function (delay) {
     }
     if(!this.animationFrame && delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px',opacity:1};
+            this.wrapper.css({width:0, height:0,opacity:0});
             this.wrapper.show();
             this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
             this.showLock=true;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         this.showLock=false;
         if(this.onShow){
@@ -909,12 +917,12 @@ entutor.inputs.text = function (parent, options) {
     this.showLock=false;
     this.onShowFinished=function(){
         self.showLock=false;
-        self.wrapper.css({width:'', height:''});
+        self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
     };
 
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         self.hideLock=false;
     };
     
@@ -1045,11 +1053,11 @@ entutor.inputs.text.prototype.getMaxScore = function () {
 entutor.inputs.text.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"}).animate({width:'0px', height:'0px',opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
     }
 };
@@ -1064,14 +1072,14 @@ entutor.inputs.text.prototype.show = function (delay) {
     }
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px',opacity:1};
+            this.wrapper.css({width:0, height:0,opacity:0});
             this.wrapper.show();
             this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
             this.showLock=true;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         this.showLock=false;
     }
@@ -1157,12 +1165,13 @@ entutor.inputs.radio = function (parent, options) {
     this.showLock=false;
     this.onShowFinished=function(){
         self.showLock=false;
-        self.wrapper.css({width:'', height:''});
+        self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
+        console.log(this.id, self.wrapper.width(), self.wrapper.height());
     };
 
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         self.hideLock=false;
     };
     
@@ -1280,11 +1289,11 @@ entutor.inputs.radio.prototype.getMaxScore = function () {
 entutor.inputs.radio.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"}).animate({width:'0px', height:'0px',opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
     }
 };
@@ -1295,14 +1304,15 @@ entutor.inputs.radio.prototype.show = function (delay) {
     }
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px',opacity:1};
+            console.log(this.id, style);
+            this.wrapper.css({width:0, height:0,opacity:0});
             this.wrapper.show();
             this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
             this.showLock=true;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         this.showLock=false;
     }
@@ -1392,12 +1402,12 @@ entutor.inputs.checkbox = function (parent, options) {
     this.showLock=false;
     this.onShowFinished=function(){
         self.showLock=false;
-        self.wrapper.css({width:'', height:''});
+        self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
     };
 
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         self.hideLock=false;
     };
     
@@ -1516,11 +1526,11 @@ entutor.inputs.checkbox.prototype.getMaxScore = function () {
 entutor.inputs.checkbox.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"}).animate({width:'0px', height:'0px',opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
     }
 };
@@ -1531,14 +1541,14 @@ entutor.inputs.checkbox.prototype.show = function (delay) {
     }
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px',opacity:1};
+            this.wrapper.css({width:0, height:0,opacity:0});
             this.wrapper.show();
             this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
             this.showLock=true;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         this.showLock=false;
     }
@@ -1589,9 +1599,7 @@ entutor.inputs.checkbox.prototype.showHint = function () {
 //        maxScore:''
 //        precondition:'none' | 
 //        supplied : "mp3,oga,wav"
-//    this.labels = options.labels || {};
-//    this.labels.playing = this.labels.playing || '||';
-//    this.labels.paused  = this.labels.paused  || '>' ;
+
 //    media:{
 //                 title:'Бублички',
 //                 mp3:'./playmessage/bublichki.mp3'
@@ -1624,9 +1632,10 @@ entutor.inputs.sound = function (parent, options) {
     this.maxScore = 1;
 
     this.media = options.media || {};
-    this.labels = options.labels || {};
-    this.labels.playing = this.labels.playing || '||';
-    this.labels.paused = this.labels.paused || '>';
+    //this.labels = options.labels || {};
+    //this.labels.playing = this.labels.playing || '||';
+    //this.labels.paused = this.labels.paused || '>';
+    this.labels={playing:'',paused:''};
     
     this.showLock=false;
     this.onShowFinished=function(){
@@ -1635,12 +1644,12 @@ entutor.inputs.sound = function (parent, options) {
             this.onShow = false;
         }
         self.showLock=false;
-        self.wrapper.css({width:'', height:''});
+        self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
     };
 
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         self.hideLock=false;
     };
     
@@ -1694,12 +1703,12 @@ entutor.inputs.sound.prototype.draw = function () {
 
     this.btn.click(function (ev) {
         var btn = $(this);
-        btn.attr('value', self.labels.paused);
+        btn.attr('value', self.labels.paused).removeClass('playing');
         if (self.player.data().jPlayer.status.paused) {
             self.player.jPlayer("pauseOthers");
-            $('.sound_button').attr('value', self.labels.paused);
+            $('.sound_button').attr('value', self.labels.paused).removeClass('playing');
             self.player.jPlayer("play");
-            btn.attr('value', self.labels.playing);
+            btn.attr('value', self.labels.playing).addClass('playing');
         } else {
             self.player.jPlayer("pause");
             btn.attr('value', self.labels.paused);
@@ -1727,11 +1736,11 @@ entutor.inputs.sound.prototype.getMaxScore = function () {
 entutor.inputs.sound.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"}).animate({width:'0px', height:'0px',opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
     }
     this.player.jPlayer("pause");
@@ -1744,14 +1753,14 @@ entutor.inputs.sound.prototype.show = function (delay) {
     }
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px',opacity:1};
+            this.wrapper.css({width:0, height:0,opacity:0, overflow: 'hidden'});
             this.wrapper.show();
             this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
             this.showLock=true;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         this.showLock=false;
         if(this.onShow){
@@ -1774,15 +1783,15 @@ entutor.inputs.sound.prototype.start = function () {
             if(self.autostart){
                 if(self.isVisible()){
                     self.player.jPlayer("pauseOthers");
-                    $('.sound_button').attr('value', self.labels.paused);
+                    $('.sound_button').attr('value', self.labels.paused).removeClass('playing');
                     self.player.jPlayer("play");
-                    self.btn.attr('value', self.labels.playing);            
+                    self.btn.attr('value', self.labels.playing).addClass('playing');            
                 }else{
                     self.onShow=function(){
                         self.player.jPlayer("pauseOthers");
-                        $('.sound_button').attr('value', self.labels.paused);
+                        $('.sound_button').attr('value', self.labels.paused).removeClass('playing');
                         self.player.jPlayer("play");
-                        self.btn.attr('value', self.labels.playing);            
+                        self.btn.attr('value', self.labels.playing).addClass('playing');            
                     };
                 }
             }
@@ -1798,7 +1807,7 @@ entutor.inputs.sound.prototype.start = function () {
         volume: 1,
         toggleDuration: true,
         ended: function () {
-            self.btn.attr('value', self.labels.paused);
+            self.btn.attr('value', self.labels.paused).removeClass('playing');
             self.passed=true;
             self.notify([]);
             if(self.hideOnCorrect){
@@ -1928,9 +1937,7 @@ entutor.inputs.video = function (parent, options) {
         }
     };
     
-    this.labels = options.labels || {};
-    this.labels.playing = this.labels.playing || '||';
-    this.labels.paused = this.labels.paused || '>';
+    
     this.media = options.media || {};
     // entutor.jplayers[this.id] = this;
     
@@ -1941,12 +1948,12 @@ entutor.inputs.video = function (parent, options) {
             this.onShow = false;
         }
         self.showLock=false;
-        self.wrapper.css({width:'', height:''});
+        self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
     };
 
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         self.hideLock=false;
     };
 };
@@ -2045,11 +2052,11 @@ entutor.inputs.video.prototype.hide = function (delay) {
     this.player.jPlayer("pause");
     if (delay && parseInt(delay) > 0) {
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"}).animate({width:'0px', height:'0px',opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
     }
 };
@@ -2060,14 +2067,14 @@ entutor.inputs.video.prototype.show = function (delay) {
     }
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px',opacity:1};
+            this.wrapper.css({width:0, height:0,opacity:0, overflow: 'hidden'});
             this.wrapper.show();
             this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
             this.showLock=true;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         this.showLock=false;
         if(this.onShow){
@@ -2187,12 +2194,12 @@ entutor.inputs.counter = function (parent, options) {
     this.showLock=false;
     this.onShowFinished=function(){
         self.showLock=false;
-        self.wrapper.css({width:'', height:''});
+        self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
     };
 
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         self.hideLock=false;
     };
 };
@@ -2363,11 +2370,11 @@ entutor.inputs.counter.prototype.getMaxScore = function () {
 entutor.inputs.counter.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"}).animate({width:'0px', height:'0px',opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
     }
 };
@@ -2375,14 +2382,14 @@ entutor.inputs.counter.prototype.hide = function (delay) {
 entutor.inputs.counter.prototype.show = function (delay) {
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px',opacity:1};
+            this.wrapper.css({width:0, height:0,opacity:0, overflow: 'hidden'});
             this.wrapper.show();
             this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
             this.showLock=true;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         this.showLock=false;
     }
@@ -2491,12 +2498,12 @@ entutor.inputs.dropzone = function (parent, options) {
     this.showLock=false;
     this.onShowFinished=function(){
         self.showLock=false;
-        self.wrapper.css({width:'', height:''});
+        self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
     };
 
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         self.hideLock=false;
     };
 
@@ -2682,11 +2689,11 @@ entutor.inputs.dropzone.prototype.getMaxScore = function () {
 entutor.inputs.dropzone.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"}).animate({width:'0px', height:'0px',opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
     }
 };
@@ -2697,14 +2704,14 @@ entutor.inputs.dropzone.prototype.show = function (delay) {
     }
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px',opacity:1};
+            this.wrapper.css({width:0, height:0,opacity:0, overflow: 'hidden'});
             this.wrapper.show();
             this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
             this.showLock=true;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         this.showLock=false;
     }
@@ -3132,12 +3139,12 @@ entutor.inputs.slideshow = function (parent, options) {
             this.onShow = false;
         }
         self.showLock=false;
-        self.wrapper.css({width:'', height:''});
+        self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
     };
 
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         self.hideLock=false;
     };
     // entutor.jplayers[this.id] = this;
@@ -3254,11 +3261,11 @@ entutor.inputs.slideshow.prototype.getMaxScore = function () {
 entutor.inputs.slideshow.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"}).animate({width:'0px', height:'0px',opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
     }
 };
@@ -3269,14 +3276,14 @@ entutor.inputs.slideshow.prototype.show = function (delay) {
     }
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px',opacity:1};
+            this.wrapper.css({width:0, height:0,opacity:0, overflow: 'hidden'});
             this.wrapper.show();
             this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
             this.showLock=true;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         this.showLock=false;
         if(this.onShow){
@@ -3977,12 +3984,12 @@ entutor.flashrecorder = function (parent, options) {
             this.onShow = false;
         }
         self.showLock=false;
-        self.wrapper.css({width:'', height:''});
+        self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
     };
 
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         self.hideLock=false;
     };
 
@@ -4148,11 +4155,11 @@ entutor.flashrecorder.prototype.hide = function (delay) {
 //TODO : stop recording on hide
     if (delay && parseInt(delay) > 0) {
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"}).animate({width:'0px', height:'0px',opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
     }
 };
@@ -4164,14 +4171,14 @@ entutor.flashrecorder.prototype.show = function (delay) {
     }
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px',opacity:1};
+            this.wrapper.css({width:0, height:0,opacity:0, overflow: 'hidden'});
             this.wrapper.show();
             this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
             this.showLock=true;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         this.showLock=false;
         if(this.onShow){
@@ -4475,11 +4482,11 @@ entutor.html5recorder = function (parent, options) {
             self.onStart=false;
         }
         self.showLock=false;
-        self.wrapper.css({width:'', height:''});
+        self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
     };
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         self.hideLock=false;
     };
 };
@@ -4745,11 +4752,11 @@ entutor.html5recorder.prototype.getMaxScore = function () {
 entutor.html5recorder.prototype.hide = function(delay){
     if (delay && parseInt(delay) > 0) {
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"}).animate({width:'0px', height:'0px',opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
     }
 };
@@ -4760,14 +4767,14 @@ entutor.html5recorder.prototype.show = function(delay){
     }
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px',opacity:1};
+            this.wrapper.css({width:0, height:0,opacity:0, overflow: 'hidden'});
             this.wrapper.show();
             this.wrapper.animate( style, delay, 'swing', this.onShowFinished );
             this.showLock=true;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         this.showLock=false;
         if(this.onStart){
@@ -4948,7 +4955,7 @@ entutor.inputs.sequence = function (parent, options) {
                 self.onStart=false;
             }
             self.showLock=false;
-            self.wrapper.css({width:'', height:''});
+            self.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
             for(var it=0; it<self.items.length; it++){
                 self.items[it].obj.show(delay);
             }
@@ -4956,7 +4963,7 @@ entutor.inputs.sequence = function (parent, options) {
     };
     this.hideLock=false;
     this.onHideFinished=function(){
-        self.wrapper.hide().css({width:'', height:''});
+        self.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         self.hideLock=false;
         for(var it=0; it<self.items.length; it++){
             self.items[it].obj.hide();
@@ -5004,11 +5011,11 @@ entutor.inputs.sequence.prototype.showHint = function () {
 entutor.inputs.sequence.prototype.hide = function (delay) {
     if (delay && parseInt(delay) > 0) {
         if(!this.hideLock){
-            this.wrapper.animate({width:'0px', height:'0px'}, delay,'swing', this.onHideFinished );
+            this.wrapper.css({overflow:"hidden"}).animate({width:'0px', height:'0px',opacity:0}, delay,'swing', this.onHideFinished );
             this.hideLock=true;
         }
     } else {
-        this.wrapper.hide().css({width:'', height:''});
+        this.wrapper.hide().css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.hideLock=false;
         for(var it=0; it<this.items.length; it++){
             this.items[it].obj.hide();
@@ -5036,14 +5043,14 @@ entutor.inputs.sequence.prototype.show = function (delay) {
     }
     if(delay && parseInt(delay)>0){
         if(!this.showLock && !this.wrapper.is(':visible')){
-            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px'};
-            this.wrapper.css({width:0, height:0});
+            var style={width:this.domElement.outerWidth()+'px', height:this.domElement.outerHeight()+'px',opacity:1};
+            this.wrapper.css({width:0, height:0,opacity:0, overflow: 'hidden'});
             this.wrapper.show();
             this.wrapper.animate( style, delay, 'swing', this.onShowFinished(delay) );
             this.showLock=true;
         }
     }else{
-        this.wrapper.css({width:'', height:''});
+        this.wrapper.css({width:'', height:'',opacity:1, overflow: 'visible'});
         this.wrapper.show();
         for(var it=0; it<this.items.length; it++){
             this.items[it].obj.show();

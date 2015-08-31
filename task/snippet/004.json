@@ -11,7 +11,8 @@
     "precondition": "none",
     "hideOnCorrect": true,
     "duration": "1",
-    "innerHtml": "A <input type=text size=3>"
+    "innerHtml": "A <input type=text size=3>",
+    "animationFrame": true
    },
    {
     "type": "html",
@@ -19,7 +20,8 @@
     "precondition": "beforeCorrect",
     "hideOnCorrect": false,
     "duration": "1",
-    "innerHtml": "A <input type=text size=3 value=\"a\" disabled=\"true\">"
+    "innerHtml": "A <input type=text size=3 value=\"a\" disabled=\"true\">",
+    "animationFrame": true
    },
    {
     "type": "card",
@@ -47,7 +49,8 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": "none",
-        "innerHtml": "B"
+        "innerHtml": "B",
+        "animationFrame": true
        },
        {
         "type": "text",
@@ -80,7 +83,8 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "C"
+        "innerHtml": "C",
+        "animationFrame": true
        },
        {
         "type": "text",
@@ -113,7 +117,8 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "D"
+        "innerHtml": "D",
+        "animationFrame": true
        },
        {
         "type": "text",
@@ -158,7 +163,8 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "E"
+        "innerHtml": "E",
+        "animationFrame": true
        },
        {
         "type": "text",
@@ -190,7 +196,8 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "F"
+        "innerHtml": "F",
+        "animationFrame": true
        },
        {
         "type": "text",
@@ -222,7 +229,8 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "G"
+        "innerHtml": "G",
+        "animationFrame": true
        },
        {
         "type": "text",
@@ -241,7 +249,7 @@
     ]
    }
   ],
-  "classes": "",
+  "classes": "height-s",
   "arrange": "vertical",
   "taskPassScore": 1,
   "precondition": "none",

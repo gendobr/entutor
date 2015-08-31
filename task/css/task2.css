@@ -777,3 +777,7 @@ display: block;
 .radio, .checkbox{
     display:inline-block;
 }
+
+.wrapper{
+    display:inline-block;
+}

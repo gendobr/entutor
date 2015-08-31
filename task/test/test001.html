@@ -33,9 +33,22 @@
             .task-audio-interface{
                 width:auto;
             }
-            .wrapper{
-                display:inline-block;
-                overflow: hidden;
+            .task-card-vertical > .task-card-element{
+                font-size:0px;
+                line-height:0px;
+            }
+            .task-sound, .task-html, .task-text, .task-radiobuttons, .task-checkbox-label,
+            .task-sound, .task-video, .task-counter, .task-counterplace, .task-dropzone,
+            .task-slideshow, .task-recorder, .task-audio, .task-sequence{
+                font-size:2rem;
+                line-height:3rem;
+                width: -moz-max-content;
+                width: -webkit-max-content;
+                width: -o-max-content;
+                width: max-content;
+            }
+            .task-radio-label{
+                white-space:nowrap;
             }
         </style>
     </head>

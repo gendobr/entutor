@@ -31,7 +31,8 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "A"
+        "innerHtml": "A",
+        "animationFrame": true
        },
        {
         "type": "dropzone",
@@ -40,8 +41,9 @@
         "test": "testSet",
         "hideOnCorrect": false,
         "ejectCounterOnError": true,
-        "pattern": "a",
-        "size": "3"
+        "pattern": "a\naa",
+        "size": "3",
+        "multiple": true
        }
       ]
      },
@@ -61,7 +63,8 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "B"
+        "innerHtml": "B",
+        "animationFrame": true
        },
        {
         "type": "dropzone",
@@ -70,8 +73,9 @@
         "test": "testSet",
         "hideOnCorrect": false,
         "ejectCounterOnError": true,
-        "pattern": "b",
-        "size": "3"
+        "pattern": "b\nbb",
+        "size": "3",
+        "multiple": true
        }
       ]
      },
@@ -91,7 +95,8 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "C"
+        "innerHtml": "C",
+        "animationFrame": true
        },
        {
         "type": "dropzone",
@@ -100,8 +105,9 @@
         "test": "testSet",
         "hideOnCorrect": false,
         "ejectCounterOnError": true,
-        "pattern": "c",
-        "size": "3"
+        "pattern": "c\ncc",
+        "size": "3",
+        "multiple": true
        }
       ]
      },
@@ -121,7 +127,8 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "D"
+        "innerHtml": "D",
+        "animationFrame": true
        },
        {
         "type": "dropzone",
@@ -130,8 +137,9 @@
         "test": "testSet",
         "hideOnCorrect": false,
         "ejectCounterOnError": true,
-        "pattern": "d",
-        "size": "3"
+        "pattern": "d\ndd",
+        "size": "3",
+        "multiple": true
        }
       ]
      }
@@ -174,6 +182,34 @@
       "precondition": "none",
       "innerHtml": "c",
       "value": ""
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "[æ]",
+      "value": "aa"
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "[bb]",
+      "value": "bb"
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "[cc]",
+      "value": "cc"
+     },
+     {
+      "type": "counter",
+      "classes": "",
+      "precondition": "none",
+      "innerHtml": "[dd]",
+      "value": "dd"
      }
     ]
    }
