@@ -1,0 +1,53 @@
+{
+ "presentation": {
+  "innerHtml": "Познакомьтесь с буквой и звуком"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "slideshow",
+    "classes": "",
+    "precondition": "none",
+    "supplied": "mp3,oga,wav",
+    "hideOnCorrect": false,
+    "media": {
+     "title": "Звук [æ]",
+     "mp3": "http://localhost/entutor/task/snippet/media/task001.mp3",
+     "oga": "http://localhost/entutor/task/snippet/media/task001.ogg",
+     "wav": "http://localhost/entutor/task/snippet/media/task001.wav"
+    },
+    "slides": [
+     {
+      "html": "<div class=\"frame\">Буква <br><b>Bb [bi:]</b></div>",
+      "from": "1",
+      "to": "4"
+     },
+     {
+      "html": "<div class=\"frame\">звук <br><b>[b]</b></div>",
+      "from": "4",
+      "to": "8"
+     },
+     {
+      "html": "<div class=\"frame\">Letter <br><b>Bb [bi:]</b></div>",
+      "from": "8",
+      "to": "11"
+     },
+     {
+      "html": "<div class=\"frame\">sound <br><b>[b]</b></div>",
+      "from": "11",
+      "to": "14"
+     }
+    ],
+    "autostart": false
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

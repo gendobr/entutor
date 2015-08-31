@@ -1,0 +1,155 @@
+{
+ "presentation": {
+  "innerHtml": "25. Прослушайте диктора и выберите букву, соответствующую звуку"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/task001.mp3",
+       "oga": "../snippet/media/task001.ogg",
+       "wav": "../snippet/media/task001.wav"
+      },
+      "completeViewRequired": false
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "Aa",
+       "2": "Bb",
+       "3": "Cc",
+       "4": "Dd",
+       "5": "Ee",
+       "6": "Gg"
+      },
+      "correctVariant": "1",
+      "autocheck": false
+     }
+    ],
+    "autocheck": false
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/task001.mp3",
+       "oga": "../snippet/media/task001.ogg",
+       "wav": "../snippet/media/task001.wav"
+      },
+      "completeViewRequired": false
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "2",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "Bb",
+       "2": "Aa",
+       "3": "Cc",
+       "4": "Ee",
+       "5": "Oo",
+       "6": "Gg"
+      },
+      "autocheck": false
+     }
+    ],
+    "autocheck": false
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/task001.mp3",
+       "oga": "../snippet/media/task001.ogg",
+       "wav": "../snippet/media/task001.wav"
+      },
+      "completeViewRequired": false
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "3",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "Cc",
+       "2": "Bb",
+       "3": "Aa",
+       "4": "Gg",
+       "5": "Ee",
+       "6": "Ff"
+      },
+      "autocheck": false
+     }
+    ]
+   }
+  ],
+  "classes": "height-xxs",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}

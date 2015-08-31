@@ -142,9 +142,18 @@
 
 .task-radio-correct{
     background-color:#aaffaa;
+	border-radius: 15px 15px 15px 15px;
+    -moz-border-radius: 15px 15px 15px 15px;
+    -webkit-border-radius: 15px 15px 15px 15px;
+	    display: inline-block;
 }
 .task-radio-error{
     background-color:orange;
+	border-radius: 15px 15px 15px 15px;
+    -moz-border-radius: 15px 15px 15px 15px;
+    -webkit-border-radius: 15px 15px 15px 15px;
+	    display: inline-block;
+
 }
 .task-radio-checked{
     background-color:#fff;
@@ -450,7 +459,7 @@
 	border-radius:50px 50px 50px 50px;	
     -moz-border-radius:50px 50px 50px 50px;
     -webkit-border-radius:50px 50px 50px 50px;
-	margin:0 35px 0 30px;
+	margin:0 30px 0 30px;
 	box-shadow:3px 3px 11px #9e8d95;
 -moz-box-shadow:3px 3px 11px #9e8d95;
 -webkit-box-shadow:3px 3px 11px #9e8d95;
@@ -777,3 +786,83 @@ display: block;
 .radio, .checkbox{
     display:inline-block;
 }
+
+
+
+.task-radio-label input[type=radio]{
+display:none;
+}
+.task-radio-label:before{
+display      : inline-block;
+  width:24px;
+  height:24px;
+  background   : url('../img/checks1.png') no-repeat 0 0;
+  background-position:0px -48px;
+  line-height  : 24px;
+  content:" ";
+  vertical-align:middle;
+}
+.task-radio-checked.task-radio-label:before{
+
+  background-position:0px -72px;
+}
+
+
+
+.task-radio-label input[type=chekbox]{
+display:none;
+}
+.task-radio-label:before{
+display      : inline-block;
+  width:24px;
+  height:24px;
+  background   : url('../img/checks1.png') no-repeat 0 0;
+  line-height  : 24px;
+  content:" ";
+  vertical-align:middle;
+}
+.task-radio-checked.task-radio-label:before{
+
+  background-position:0px -24px;
+}
+
+
+
+
+
+.sound_button_start{
+background: #89c122;
+    background-image: url('../img/play0.png');
+    background-size: 90px 90px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: inline-block;
+    vertical-align: middle;
+    width: 90px;
+    height: 90px;
+    border-radius: 50px 50px 50px 50px;
+    -moz-border-radius: 50px 50px 50px 50px;
+    -webkit-border-radius: 50px 50px 50px 50px;
+    margin: 0 30px 0 30px;
+    box-shadow: 3px 3px 11px #9e8d95;
+    -moz-box-shadow: 3px 3px 11px #9e8d95;
+    -webkit-box-shadow: 3px 3px 11px #9e8d95;
+}
+
+.sound_button_stop{
+background-image: url('../img/pause0.png');
+    background-size: 90px 90px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: inline-block;
+    vertical-align: middle;
+    animation-name: example;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    width: 90px;
+    height: 90px;
+    border-radius: 50px 50px 50px 50px;
+    -moz-border-radius: 50px 50px 50px 50px;
+    -webkit-border-radius: 50px 50px 50px 50px;
+}
+
