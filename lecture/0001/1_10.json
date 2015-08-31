@@ -1,0 +1,83 @@
+{
+ "presentation": {
+  "innerHtml": "Повторите за диктором"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "video",
+    "classes": "",
+    "precondition": "none",
+    "autostart": false,
+    "supplied": "m4v,ogv,webmv",
+    "hideOnCorrect": false,
+    "media": {
+     "title": "«Aa»",
+     "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
+     "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
+     "webmv": "../snippet/media/EddiethebeagleDumbo.webm",
+     "wav": "../snippet/media/EddiethebeagleDumbo.webm"
+    },
+    "subtitles": [
+     {
+      "html": "<h3>«Ee»</h3>",
+      "from": "0",
+      "to": "5"
+     },
+     {
+      "html": "<h4 style=\"color:#2A36AB;\">Повторите!</h4>",
+      "from": "6",
+      "to": "12"
+     },
+     {
+      "html": "",
+      "from": "",
+      "to": ""
+     },
+     {
+      "html": "",
+      "from": "",
+      "to": ""
+     }
+    ],
+    "completeViewRequired": false
+   },
+   {
+    "type": "video",
+    "classes": "",
+    "precondition": "none",
+    "autostart": false,
+    "supplied": "m4v,ogv,webmv",
+    "hideOnCorrect": false,
+    "completeViewRequired": false,
+    "media": {
+     "title": "«[æ]»",
+     "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
+     "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
+     "wav": "../snippet/media/EddiethebeagleDumbo.webm",
+     "webmv": "../snippet/media/EddiethebeagleDumbo.webm"
+    },
+    "subtitles": [
+     {
+      "html": "<h3>«[e]»</h3>",
+      "from": "0",
+      "to": "5"
+     },
+     {
+      "html": "<h4 style=\"color:#2A36AB;\">Повторите!</h4>",
+      "from": "6",
+      "to": "12"
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

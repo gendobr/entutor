@@ -1,0 +1,138 @@
+{
+ "presentation": {
+  "innerHtml": "Заполните пробелы буквами"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "html",
+    "classes": "",
+    "precondition": "none",
+    "hideOnCorrect": false,
+    "duration": 0,
+    "animationFrame": true,
+    "innerHtml": "<h4>Пример</h4>\n<img src=\"/entutor/lecture/0001/media/1_7.gif\">"
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "card",
+      "classes": "nomargin",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "beforeCorrect",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "<h4>G</h4>",
+        "animationFrame": true
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "g",
+        "value": "",
+        "size": 1,
+        "autocheck": true,
+        "resetOnError": true,
+        "maxlength": 1
+       }
+      ],
+      "autocheck": false
+     },
+     {
+      "type": "card",
+      "classes": "nomargin",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "A",
+        "value": "",
+        "size": 1,
+        "autocheck": true,
+        "resetOnError": true,
+        "maxlength": 1
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": "none",
+        "innerHtml": "<h4>a</h4>",
+        "animationFrame": true
+       }
+      ],
+      "autocheck": false
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "animationFrame": true,
+        "innerHtml": "<h4>E</h4>"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "e",
+        "value": "",
+        "size": 1
+       }
+      ]
+     }
+    ],
+    "autocheck": true
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}
