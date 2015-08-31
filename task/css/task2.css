@@ -16,9 +16,9 @@
     -moz-border-radius:10px 10px 10px 10px;
     -webkit-border-radius:10px 10px 10px 10px;
     border-radius:10px 10px 10px 10px;
-	font-size:130%;
-	color:#775566;
-	font-weight:bold;
+    font-size:130%;
+    color:#775566;
+    font-weight:bold;
 
 }
 
@@ -42,9 +42,9 @@
 }
 
 .task-html {
-  display: inline-block;
-  margin-top: 12px;
-  /* margin-right:1em; */
+    display: inline-block;
+    margin-top: 12px;
+    /* margin-right:1em; */
 }
 
 
@@ -142,17 +142,17 @@
 
 .task-radio-correct{
     background-color:#aaffaa;
-	border-radius: 15px 15px 15px 15px;
+    border-radius: 15px 15px 15px 15px;
     -moz-border-radius: 15px 15px 15px 15px;
     -webkit-border-radius: 15px 15px 15px 15px;
-	    display: inline-block;
+    display: inline-block;
 }
 .task-radio-error{
     background-color:orange;
-	border-radius: 15px 15px 15px 15px;
+    border-radius: 15px 15px 15px 15px;
     -moz-border-radius: 15px 15px 15px 15px;
     -webkit-border-radius: 15px 15px 15px 15px;
-	    display: inline-block;
+    display: inline-block;
 
 }
 .task-radio-checked{
@@ -448,21 +448,21 @@
     vertical-align: middle;    
 }
 .task-audio-start-record{background:#89c122;
-    background-image: url('../img/rec0.png');
-    background-size:90px 90px;
-    background-repeat:no-repeat;
-    background-position:center center;
-    display:inline-block;
-    vertical-align: middle;
-    width: 90px;
-    height: 90px;
-	border-radius:50px 50px 50px 50px;	
-    -moz-border-radius:50px 50px 50px 50px;
-    -webkit-border-radius:50px 50px 50px 50px;
-	margin:0 30px 0 30px;
-	box-shadow:3px 3px 11px #9e8d95;
--moz-box-shadow:3px 3px 11px #9e8d95;
--webkit-box-shadow:3px 3px 11px #9e8d95;
+                         background-image: url('../img/rec0.png');
+                         background-size:90px 90px;
+                         background-repeat:no-repeat;
+                         background-position:center center;
+                         display:inline-block;
+                         vertical-align: middle;
+                         width: 90px;
+                         height: 90px;
+                         border-radius:50px 50px 50px 50px;	
+                         -moz-border-radius:50px 50px 50px 50px;
+                         -webkit-border-radius:50px 50px 50px 50px;
+                         margin:0 30px 0 30px;
+                         box-shadow:3px 3px 11px #9e8d95;
+                         -moz-box-shadow:3px 3px 11px #9e8d95;
+                         -webkit-box-shadow:3px 3px 11px #9e8d95;
 
 }
 
@@ -487,9 +487,9 @@
     animation-name: example;
     animation-duration: 4s;
     animation-iteration-count: infinite;
-	 width: 90px;
+    width: 90px;
     height: 90px;
-	border-radius:50px 50px 50px 50px;	
+    border-radius:50px 50px 50px 50px;	
     -moz-border-radius:50px 50px 50px 50px;
     -webkit-border-radius:50px 50px 50px 50px;
 }
@@ -567,7 +567,7 @@
 }
 
 .task-slideshow{
-display:inline-block;
+    display:inline-block;
 }
 .task-radiobuttons,
 .task-video,
@@ -664,7 +664,7 @@ display:inline-block;
 /*
   Для текста в элементе slideshow
   Мало текста и большое поле сверху
- */
+*/
 .taskPresentationText .frame{
     text-align:center;
     font-size:150%;
@@ -674,7 +674,7 @@ display:inline-block;
 /*
   Для текста в элементе slideshow
   Много текста и маленькое поле сверху
- */
+*/
 .taskPresentationText .frame2{
     text-align:center;
     font-size:150%;
@@ -764,7 +764,7 @@ display:inline-block;
 
 
 .task-card input [type="text"]{
-display: block;
+    display: block;
     width: 100%;
     height: 34px;
     padding: 6px 12px;
@@ -790,40 +790,40 @@ display: block;
 
 
 .task-radio-label input[type=radio]{
-display:none;
+    display:none;
 }
 .task-radio-label:before{
-display      : inline-block;
-  width:24px;
-  height:24px;
-  background   : url('../img/checks1.png') no-repeat 0 0;
-  background-position:0px -48px;
-  line-height  : 24px;
-  content:" ";
-  vertical-align:middle;
+    display      : inline-block;
+    width:24px;
+    height:24px;
+    background   : url('../img/checks1.png') no-repeat 0 0;
+    background-position:0px -48px;
+    line-height  : 24px;
+    content:" ";
+    vertical-align:middle;
 }
 .task-radio-checked.task-radio-label:before{
 
-  background-position:0px -72px;
+    background-position:0px -72px;
 }
 
 
 
 .task-radio-label input[type=chekbox]{
-display:none;
+    display:none;
 }
 .task-radio-label:before{
-display      : inline-block;
-  width:24px;
-  height:24px;
-  background   : url('../img/checks1.png') no-repeat 0 0;
-  line-height  : 24px;
-  content:" ";
-  vertical-align:middle;
+    display      : inline-block;
+    width:24px;
+    height:24px;
+    background   : url('../img/checks1.png') no-repeat 0 0;
+    line-height  : 24px;
+    content:" ";
+    vertical-align:middle;
 }
 .task-radio-checked.task-radio-label:before{
 
-  background-position:0px -24px;
+    background-position:0px -24px;
 }
 
 
@@ -831,7 +831,7 @@ display      : inline-block;
 
 
 .sound_button_start{
-background: #89c122;
+    background: #89c122;
     background-image: url('../img/play0.png');
     background-size: 90px 90px;
     background-repeat: no-repeat;
@@ -850,7 +850,7 @@ background: #89c122;
 }
 
 .sound_button_stop{
-background-image: url('../img/pause0.png');
+    background-image: url('../img/pause0.png');
     background-size: 90px 90px;
     background-repeat: no-repeat;
     background-position: center center;
@@ -868,4 +868,24 @@ background-image: url('../img/pause0.png');
 
 .wrapper{
     display:inline-block;
+}
+
+
+
+.task-card-vertical > .task-card-element{
+    font-size:0px;
+    line-height:0px;
+}
+.task-sound, .task-html, .task-text, .task-radiobuttons, .task-checkbox-label,
+.task-sound, .task-video, .task-counter, .task-counterplace, .task-dropzone,
+.task-slideshow, .task-recorder, .task-audio, .task-sequence{
+    font-size:2rem;
+    line-height:3rem;
+    width: -moz-max-content;
+    width: -webkit-max-content;
+    width: -o-max-content;
+    width: max-content;
+}
+.task-radio-label{
+    white-space:nowrap;
 }
