@@ -830,7 +830,7 @@
 
 
 
-.sound_button_start{
+.sound_button{
     background: #89c122;
     background-image: url('../img/play0.png');
     background-size: 90px 90px;
@@ -849,7 +849,7 @@
     -webkit-box-shadow: 3px 3px 11px #9e8d95;
 }
 
-.sound_button_stop{
+.sound_button.playing{
     background-image: url('../img/pause0.png');
     background-size: 90px 90px;
     background-repeat: no-repeat;

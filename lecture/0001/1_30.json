@@ -1,0 +1,310 @@
+{
+ "presentation": {
+  "innerHtml": "30. Прослушайте диктора и выберите правильный вариант"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/letters-sound/a.mp3",
+       "oga": "../snippet/media/letters-sound/a.ogg",
+       "wav": "../snippet/media/letters-sound/a.wav"
+      },
+      "completeViewRequired": false
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "Ii",
+       "2": "Aa",
+       "3": "Ee"
+      },
+      "correctVariant": "2",
+      "autocheck": false
+     }
+    ],
+    "autocheck": false
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor/task/snippet/media/task001.mp3",
+       "oga": "http://localhost/entutor/task/snippet/media/task001.ogg",
+       "wav": "http://localhost/entutor/task/snippet/media/task001.wav"
+      },
+      "completeViewRequired": false
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "[p]",
+       "2": "[b]",
+       "3": "[d]"
+      },
+      "autocheck": false
+     }
+    ],
+    "autocheck": false
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor/task/snippet/media/task001.mp3",
+       "oga": "http://localhost/entutor/task/snippet/media/task001.ogg",
+       "wav": "http://localhost/entutor/task/snippet/media/task001.wav"
+      },
+      "completeViewRequired": false
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "3",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "[e]",
+       "2": "[æ]",
+       "3": "[ɪ]"
+      },
+      "autocheck": false
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "completeViewRequired": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/letters-sound/g.mp3",
+       "oga": "../snippet/media/letters-sound/g.ogg",
+       "wav": "../snippet/media/letters-sound/g.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "2",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "Bb",
+       "2": "Gg",
+       "3": "Pp"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "completeViewRequired": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor/task/snippet/media/task001.mp3",
+       "oga": "http://localhost/entutor/task/snippet/media/task001.ogg",
+       "wav": "http://localhost/entutor/task/snippet/media/task001.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "1",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "[æ]",
+       "2": "[ɪ]",
+       "3": "[e]"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "completeViewRequired": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "../snippet/media/letters-sound/p.mp3",
+       "oga": "../snippet/media/letters-sound/p.ogg",
+       "wav": "../snippet/media/letters-sound/p.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "2",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "Dd",
+       "2": "Pp",
+       "3": "Bb"
+      }
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "sound",
+      "classes": "",
+      "precondition": "none",
+      "autostart": true,
+      "completeViewRequired": false,
+      "supplied": "mp3,oga,wav",
+      "hideOnCorrect": false,
+      "media": {
+       "title": "",
+       "mp3": "http://localhost/entutor/task/snippet/media/task001.mp3",
+       "oga": "http://localhost/entutor/task/snippet/media/task001.ogg",
+       "wav": "http://localhost/entutor/task/snippet/media/task001.wav"
+      }
+     },
+     {
+      "type": "radio",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "correctVariant": "3",
+      "size": "5",
+      "arrange": "horizontal",
+      "variant": {
+       "1": "[p]",
+       "2": "[d]",
+       "3": "[b]"
+      }
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false,
+  "autocheck": true
+ }
+}
