@@ -1,6 +1,6 @@
 {
  "presentation": {
-  "innerHtml": "Озвучьте буквы и звуки"
+  "innerHtml": "11. Озвучьте буквы и звуки"
  },
  "inputs": {
   "type": "card",
@@ -58,7 +58,7 @@
     "precondition": "beforeCorrect",
     "customtest": "",
     "maxScore": 1,
-    "hideOnCorrect": true,
+    "hideOnCorrect": false,
     "children": [
      {
       "type": "html",
@@ -66,22 +66,21 @@
       "precondition": "none",
       "hideOnCorrect": false,
       "duration": 0,
-      "innerHtml": "<h1>[g]</h1>",
-      "animationFrame": true
+      "animationFrame": true,
+      "innerHtml": "<h1>G</h1>"
      },
      {
       "type": "recorder",
-      "classes": "nowords",
+      "classes": "",
       "precondition": "none",
       "autostart": false,
       "autocheck": false,
-      "text": "g_sound",
+      "text": "G_big",
       "hideOnCorrect": false,
       "duration": "5",
-      "taskPassScore": "0.6"
+      "taskPassScore": 0.7
      }
-    ],
-    "autocheck": true
+    ]
    },
    {
     "type": "card",
@@ -115,6 +114,102 @@
      }
     ],
     "autocheck": true
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "animationFrame": true,
+      "innerHtml": "<h1>[æ]</h1>"
+     },
+     {
+      "type": "recorder",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "a_sound",
+      "hideOnCorrect": false,
+      "duration": "5",
+      "taskPassScore": 0.7
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "animationFrame": true,
+      "innerHtml": "<h1>g</h1>"
+     },
+     {
+      "type": "recorder",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "g_small",
+      "hideOnCorrect": false,
+      "duration": "5",
+      "taskPassScore": 0.7
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "animationFrame": true,
+      "innerHtml": "<h1>A</h1>"
+     },
+     {
+      "type": "recorder",
+      "classes": "",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "a_big",
+      "hideOnCorrect": false,
+      "duration": 30,
+      "taskPassScore": 0.7
+     }
+    ]
    },
    {
     "type": "card",
@@ -198,134 +293,6 @@
       "hideOnCorrect": false,
       "duration": 0,
       "animationFrame": true,
-      "innerHtml": "<h1>[æ]</h1>"
-     },
-     {
-      "type": "recorder",
-      "classes": "",
-      "precondition": "none",
-      "autostart": false,
-      "autocheck": false,
-      "text": "a_sound",
-      "hideOnCorrect": false,
-      "duration": "5",
-      "taskPassScore": 0.7
-     }
-    ]
-   },
-   {
-    "type": "card",
-    "classes": "",
-    "arrange": "horizontal",
-    "taskPassScore": 1,
-    "precondition": "beforeCorrect",
-    "customtest": "",
-    "maxScore": 1,
-    "hideOnCorrect": false,
-    "children": [
-     {
-      "type": "html",
-      "classes": "",
-      "precondition": "none",
-      "hideOnCorrect": false,
-      "duration": 0,
-      "animationFrame": true,
-      "innerHtml": "<h1>[g]</h1>"
-     },
-     {
-      "type": "recorder",
-      "classes": "",
-      "precondition": "none",
-      "autostart": false,
-      "autocheck": false,
-      "text": "g_small",
-      "hideOnCorrect": false,
-      "duration": "5",
-      "taskPassScore": 0.7
-     }
-    ]
-   },
-   {
-    "type": "card",
-    "classes": "",
-    "arrange": "horizontal",
-    "taskPassScore": 1,
-    "precondition": "beforeCorrect",
-    "customtest": "",
-    "maxScore": 1,
-    "hideOnCorrect": false,
-    "children": [
-     {
-      "type": "html",
-      "classes": "",
-      "precondition": "none",
-      "hideOnCorrect": false,
-      "duration": 0,
-      "animationFrame": true,
-      "innerHtml": "<h1>G</h1>"
-     },
-     {
-      "type": "recorder",
-      "classes": "",
-      "precondition": "none",
-      "autostart": false,
-      "autocheck": false,
-      "text": "G_big",
-      "hideOnCorrect": false,
-      "duration": "5",
-      "taskPassScore": 0.7
-     }
-    ]
-   },
-   {
-    "type": "card",
-    "classes": "",
-    "arrange": "horizontal",
-    "taskPassScore": 1,
-    "precondition": "beforeCorrect",
-    "customtest": "",
-    "maxScore": 1,
-    "hideOnCorrect": false,
-    "children": [
-     {
-      "type": "html",
-      "classes": "",
-      "precondition": "none",
-      "hideOnCorrect": false,
-      "duration": 0,
-      "animationFrame": true,
-      "innerHtml": "<h1>A</h1>"
-     },
-     {
-      "type": "recorder",
-      "classes": "",
-      "precondition": "none",
-      "autostart": false,
-      "autocheck": false,
-      "text": "a_big",
-      "hideOnCorrect": false,
-      "duration": 30,
-      "taskPassScore": 0.7
-     }
-    ]
-   },
-   {
-    "type": "card",
-    "classes": "",
-    "arrange": "horizontal",
-    "taskPassScore": 1,
-    "precondition": "beforeCorrect",
-    "customtest": "",
-    "maxScore": 1,
-    "hideOnCorrect": false,
-    "children": [
-     {
-      "type": "html",
-      "classes": "",
-      "precondition": "none",
-      "hideOnCorrect": false,
-      "duration": 0,
-      "animationFrame": true,
       "innerHtml": "<h1>E</h1>"
      },
      {
@@ -340,6 +307,39 @@
       "taskPassScore": 0.7
      }
     ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "horizontal",
+    "taskPassScore": 1,
+    "precondition": "beforeCorrect",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": true,
+    "children": [
+     {
+      "type": "html",
+      "classes": "",
+      "precondition": "none",
+      "hideOnCorrect": false,
+      "duration": 0,
+      "innerHtml": "<h1>[g]</h1>",
+      "animationFrame": true
+     },
+     {
+      "type": "recorder",
+      "classes": "nowords",
+      "precondition": "none",
+      "autostart": false,
+      "autocheck": false,
+      "text": "g_sound",
+      "hideOnCorrect": false,
+      "duration": "5",
+      "taskPassScore": "0.6"
+     }
+    ],
+    "autocheck": true
    }
   ],
   "classes": "",

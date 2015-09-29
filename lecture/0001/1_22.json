@@ -1,6 +1,6 @@
 {
  "presentation": {
-  "innerHtml": "12. Заполните пробелы буквами"
+  "innerHtml": "22 Заполните пробелы буквами"
  },
  "inputs": {
   "type": "card",
@@ -40,7 +40,7 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "<h4>G</h4>",
+        "innerHtml": "<h4>E</h4>",
         "animationFrame": true
        },
        {
@@ -48,7 +48,7 @@
         "classes": "",
         "precondition": "none",
         "hideOnCorrect": false,
-        "pattern": "g",
+        "pattern": "e",
         "value": "",
         "size": 1,
         "autocheck": true,
@@ -63,7 +63,7 @@
       "classes": "nomargin",
       "arrange": "horizontal",
       "taskPassScore": 1,
-      "precondition": "none",
+      "precondition": "beforeCorrect",
       "customtest": "",
       "maxScore": 1,
       "hideOnCorrect": false,
@@ -73,7 +73,40 @@
         "classes": "",
         "precondition": "none",
         "hideOnCorrect": false,
-        "pattern": "A",
+        "pattern": "I",
+        "value": "",
+        "size": 1,
+        "autocheck": true,
+        "resetOnError": true,
+        "maxlength": 1
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "animationFrame": true,
+        "innerHtml": "<h4>i</h4>"
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "nomargin",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "beforeCorrect",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "B",
         "value": "",
         "size": 1,
         "autocheck": true,
@@ -86,7 +119,7 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": "none",
-        "innerHtml": "<h4>a</h4>",
+        "innerHtml": "<h4>b</h4>",
         "animationFrame": true
        }
       ],
@@ -94,10 +127,10 @@
      },
      {
       "type": "card",
-      "classes": "",
+      "classes": "nomargin",
       "arrange": "horizontal",
       "taskPassScore": 1,
-      "precondition": "none",
+      "precondition": "beforeCorrect",
       "customtest": "",
       "maxScore": 1,
       "hideOnCorrect": false,
@@ -109,16 +142,52 @@
         "hideOnCorrect": false,
         "duration": 0,
         "animationFrame": true,
-        "innerHtml": "<h4>E</h4>"
+        "innerHtml": "<h4>A</h4>"
        },
        {
         "type": "text",
         "classes": "",
         "precondition": "none",
         "hideOnCorrect": false,
-        "pattern": "e",
+        "pattern": "a",
         "value": "",
-        "size": 1
+        "size": 1,
+        "maxlength": 1,
+        "autocheck": true,
+        "resetOnError": true
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "nomargin",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "beforeCorrect",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "G",
+        "value": "",
+        "size": 1,
+        "maxlength": 1,
+        "autocheck": true,
+        "resetOnError": true
+       },
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "animationFrame": true,
+        "innerHtml": "<h4>g</h4>"
        }
       ]
      }

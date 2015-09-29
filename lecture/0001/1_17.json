@@ -1,6 +1,6 @@
 {
  "presentation": {
-  "innerHtml": "Заполните пробелы буквами"
+  "innerHtml": "17. Заполните пробелы буквами"
  },
  "inputs": {
   "type": "card",
@@ -71,49 +71,6 @@
      },
      {
       "type": "card",
-      "classes": "",
-      "arrange": "horizontal",
-      "taskPassScore": 1,
-      "precondition": "none",
-      "customtest": "",
-      "maxScore": 1,
-      "hideOnCorrect": false,
-      "children": [
-       {
-        "type": "html",
-        "classes": "",
-        "precondition": "none",
-        "hideOnCorrect": false,
-        "duration": 0,
-        "animationFrame": true,
-        "innerHtml": "<h4>[b]</h4>"
-       },
-       {
-        "type": "text",
-        "classes": "",
-        "precondition": "none",
-        "hideOnCorrect": false,
-        "pattern": "B",
-        "value": "",
-        "size": 1,
-        "autocheck": true,
-        "resetOnError": true
-       },
-       {
-        "type": "text",
-        "classes": "",
-        "precondition": "none",
-        "hideOnCorrect": false,
-        "pattern": "b",
-        "value": "",
-        "size": 1,
-        "autocheck": true,
-        "resetOnError": true
-       }
-      ]
-     },
-     {
-      "type": "card",
       "classes": "nomargin",
       "arrange": "horizontal",
       "taskPassScore": 1,
@@ -156,6 +113,49 @@
        }
       ],
       "autocheck": false
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "horizontal",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "animationFrame": true,
+        "innerHtml": "<h4>[b]</h4>"
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "B",
+        "value": "",
+        "size": 1,
+        "autocheck": true,
+        "resetOnError": true
+       },
+       {
+        "type": "text",
+        "classes": "",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "pattern": "b",
+        "value": "",
+        "size": 1,
+        "autocheck": true,
+        "resetOnError": true
+       }
+      ]
      },
      {
       "type": "card",

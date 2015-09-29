@@ -1,6 +1,6 @@
 {
  "presentation": {
-  "innerHtml": "26. Сформируйте карточки"
+  "innerHtml": "13. Сформируйте карточки"
  },
  "inputs": {
   "type": "card",
@@ -63,7 +63,7 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "B",
+        "innerHtml": "E",
         "animationFrame": true
        },
        {
@@ -73,39 +73,7 @@
         "test": "testSet",
         "hideOnCorrect": false,
         "ejectCounterOnError": true,
-        "pattern": "b\nb",
-        "size": "5",
-        "multiple": true
-       }
-      ]
-     },
-     {
-      "type": "card",
-      "classes": "",
-      "arrange": "horizontal",
-      "taskPassScore": 1,
-      "precondition": "none",
-      "customtest": "",
-      "maxScore": 1,
-      "hideOnCorrect": false,
-      "children": [
-       {
-        "type": "html",
-        "classes": "bukva",
-        "precondition": "none",
-        "hideOnCorrect": false,
-        "duration": 0,
-        "innerHtml": "C",
-        "animationFrame": true
-       },
-       {
-        "type": "dropzone",
-        "classes": "",
-        "precondition": "none",
-        "test": "testSet",
-        "hideOnCorrect": false,
-        "ejectCounterOnError": true,
-        "pattern": "c\nc",
+        "pattern": "e\ne",
         "size": "5",
         "multiple": true
        }
@@ -127,7 +95,7 @@
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "D",
+        "innerHtml": "G",
         "animationFrame": true
        },
        {
@@ -137,7 +105,7 @@
         "test": "testSet",
         "hideOnCorrect": false,
         "ejectCounterOnError": true,
-        "pattern": "d\nd",
+        "pattern": "g\ng",
         "size": "5",
         "multiple": true
        }
@@ -159,7 +127,7 @@
       "type": "counter",
       "classes": "",
       "precondition": "none",
-      "innerHtml": "d",
+      "innerHtml": "e",
       "value": ""
      },
      {
@@ -173,14 +141,7 @@
       "type": "counter",
       "classes": "",
       "precondition": "none",
-      "innerHtml": "b",
-      "value": ""
-     },
-     {
-      "type": "counter",
-      "classes": "",
-      "precondition": "none",
-      "innerHtml": "c",
+      "innerHtml": "g",
       "value": ""
      },
      {
@@ -194,22 +155,15 @@
       "type": "counter",
       "classes": "",
       "precondition": "none",
-      "innerHtml": "[b]",
-      "value": "b"
+      "innerHtml": "[g]",
+      "value": "g"
      },
      {
       "type": "counter",
       "classes": "",
       "precondition": "none",
-      "innerHtml": "[c]",
-      "value": "c"
-     },
-     {
-      "type": "counter",
-      "classes": "",
-      "precondition": "none",
-      "innerHtml": "[d]",
-      "value": "d"
+      "innerHtml": "[e]",
+      "value": "e"
      }
     ]
    }

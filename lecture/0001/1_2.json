@@ -1,6 +1,6 @@
 {
  "presentation": {
-  "innerHtml": "Повторите за диктором"
+  "innerHtml": "2. Повторите за диктором"
  },
  "inputs": {
   "type": "card",
@@ -55,7 +55,7 @@
      "title": "«[æ]»",
      "m4v": "../snippet/media/EddiethebeagleDumbo.mp4",
      "ogv": "../snippet/media/EddiethebeagleDumbo.ogv",
-     "wav": "webmv file URL",
+     "wav": "../snippet/media/EddiethebeagleDumbo.webm",
      "webmv": "../snippet/media/EddiethebeagleDumbo.webm"
     },
     "subtitles": [

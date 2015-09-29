@@ -1,6 +1,6 @@
 {
  "presentation": {
-  "innerHtml": "1. Познакомьтесь с буквой и звуком"
+  "innerHtml": "23 Познакомьтесь с буквой и звуком"
  },
  "inputs": {
   "type": "card",
@@ -19,22 +19,22 @@
     },
     "slides": [
      {
-      "html": "<div class=\"frame\">Буква <br><b>Aa [eɪ]</b></div>",
+      "html": "<div class=\"frame\">Буква <br><b>Dd [di:]</b></div>",
       "from": "1",
       "to": "4"
      },
      {
-      "html": "<div class=\"frame\">звук <br><b>[æ]</b></div>",
+      "html": "<div class=\"frame\">звук <br><b>[d]</b></div>",
       "from": "4",
       "to": "8"
      },
      {
-      "html": "<div class=\"frame\">Letter <br><b>Aa [eɪ]</b></div>",
+      "html": "<div class=\"frame\">Letter <br><b>Dd [di:]</b></div>",
       "from": "8",
       "to": "11"
      },
      {
-      "html": "<div class=\"frame\">sound <br><b>[æ]</b></div>",
+      "html": "<div class=\"frame\">sound <br><b>[d]</b></div>",
       "from": "11",
       "to": "14"
      }

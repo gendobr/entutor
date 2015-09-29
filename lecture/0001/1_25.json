@@ -13,7 +13,7 @@
     "precondition": "none",
     "customtest": "",
     "maxScore": 1,
-    "hideOnCorrect": false,
+    "hideOnCorrect": true,
     "children": [
      {
       "type": "sound",
@@ -105,7 +105,7 @@
     "precondition": "beforeCorrect",
     "customtest": "",
     "maxScore": 1,
-    "hideOnCorrect": false,
+    "hideOnCorrect": true,
     "children": [
      {
       "type": "sound",

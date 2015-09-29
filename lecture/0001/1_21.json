@@ -1,0 +1,413 @@
+{
+ "presentation": {
+  "innerHtml": "21. Выберите гласные буквы"
+ },
+ "inputs": {
+  "type": "card",
+  "children": [
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "vertical",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "html",
+        "classes": "slovo",
+        "precondition": "none",
+        "hideOnCorrect": false,
+        "duration": 0,
+        "innerHtml": "<b>Гласные</b>",
+        "animationFrame": true
+       },
+       {
+        "type": "dropzone",
+        "classes": "",
+        "precondition": "none",
+        "test": "testSet",
+        "hideOnCorrect": false,
+        "pattern": "A\nE\nI\na\ne\ni",
+        "ejectCounterOnError": true,
+        "size": "20",
+        "multiple": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "type": "card",
+    "classes": "",
+    "arrange": "flow",
+    "taskPassScore": 1,
+    "precondition": "none",
+    "customtest": "",
+    "maxScore": 1,
+    "hideOnCorrect": false,
+    "children": [
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": false,
+        "completeViewRequired": false,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "../snippet/media/task001.mp3",
+         "oga": "../snippet/media/task001.ogg",
+         "wav": "../snippet/media/task001.wav"
+        }
+       },
+       {
+        "type": "counter",
+        "classes": "otstup_vnizu",
+        "precondition": "none",
+        "innerHtml": "G",
+        "value": ""
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": false,
+        "completeViewRequired": false,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "../snippet/media/task001.mp3",
+         "oga": "../snippet/media/task001.ogg",
+         "wav": "../snippet/media/task001.wav"
+        }
+       },
+       {
+        "type": "counter",
+        "classes": "otstup_vnizu",
+        "precondition": "none",
+        "innerHtml": "e",
+        "value": ""
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": false,
+        "completeViewRequired": false,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "../snippet/media/task001.mp3",
+         "oga": "../snippet/media/task001.ogg",
+         "wav": "../snippet/media/task001.wav"
+        }
+       },
+       {
+        "type": "counter",
+        "classes": "otstup_vnizu",
+        "precondition": "none",
+        "innerHtml": "I",
+        "value": ""
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": false,
+        "completeViewRequired": false,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "../snippet/media/task001.mp3",
+         "oga": "../snippet/media/task001.ogg",
+         "wav": "../snippet/media/task001.wav"
+        }
+       },
+       {
+        "type": "counter",
+        "classes": "otstup_vnizu",
+        "precondition": "none",
+        "innerHtml": "b",
+        "value": ""
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": false,
+        "completeViewRequired": false,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "../snippet/media/task001.mp3",
+         "oga": "../snippet/media/task001.ogg",
+         "wav": "../snippet/media/task001.wav"
+        }
+       },
+       {
+        "type": "counter",
+        "classes": "otstup_vnizu",
+        "precondition": "none",
+        "innerHtml": "A",
+        "value": ""
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": false,
+        "completeViewRequired": false,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "../snippet/media/task001.mp3",
+         "oga": "../snippet/media/task001.ogg",
+         "wav": "../snippet/media/task001.wav"
+        }
+       },
+       {
+        "type": "counter",
+        "classes": "otstup_vnizu",
+        "precondition": "none",
+        "innerHtml": "g",
+        "value": ""
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": false,
+        "completeViewRequired": false,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "../snippet/media/task001.mp3",
+         "oga": "../snippet/media/task001.ogg",
+         "wav": "../snippet/media/task001.wav"
+        }
+       },
+       {
+        "type": "counter",
+        "classes": "otstup_vnizu",
+        "precondition": "none",
+        "innerHtml": "E",
+        "value": ""
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": false,
+        "completeViewRequired": false,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "../snippet/media/task001.mp3",
+         "oga": "../snippet/media/task001.ogg",
+         "wav": "../snippet/media/task001.wav"
+        }
+       },
+       {
+        "type": "counter",
+        "classes": "otstup_vnizu",
+        "precondition": "none",
+        "innerHtml": "B",
+        "value": ""
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": false,
+        "completeViewRequired": false,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "../snippet/media/task001.mp3",
+         "oga": "../snippet/media/task001.ogg",
+         "wav": "../snippet/media/task001.wav"
+        }
+       },
+       {
+        "type": "counter",
+        "classes": "otstup_vnizu",
+        "precondition": "none",
+        "innerHtml": "a",
+        "value": ""
+       }
+      ]
+     },
+     {
+      "type": "card",
+      "classes": "",
+      "arrange": "vertical",
+      "taskPassScore": 1,
+      "precondition": "none",
+      "customtest": "",
+      "maxScore": 1,
+      "hideOnCorrect": false,
+      "children": [
+       {
+        "type": "sound",
+        "classes": "",
+        "precondition": "none",
+        "autostart": false,
+        "completeViewRequired": false,
+        "supplied": "mp3,oga,wav",
+        "hideOnCorrect": false,
+        "media": {
+         "title": "",
+         "mp3": "../snippet/media/task001.mp3",
+         "oga": "../snippet/media/task001.ogg",
+         "wav": "../snippet/media/task001.wav"
+        }
+       },
+       {
+        "type": "counter",
+        "classes": "otstup_vnizu",
+        "precondition": "none",
+        "innerHtml": "i",
+        "value": ""
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "classes": "",
+  "arrange": "vertical",
+  "taskPassScore": 1,
+  "precondition": "none",
+  "customtest": "",
+  "maxScore": 1,
+  "hideOnCorrect": false
+ }
+}

@@ -1,6 +1,6 @@
 {
  "presentation": {
-  "innerHtml": "Заполните пробелы буквами"
+  "innerHtml": "7. Заполните пробелы буквами"
  },
  "inputs": {
   "type": "card",
@@ -36,11 +36,11 @@
       "children": [
        {
         "type": "html",
-        "classes": "",
+        "classes": "bukva",
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": "none",
-        "innerHtml": "<h4>A&nbsp;&nbsp;</h4>",
+        "innerHtml": "<h4>A</h4>",
         "animationFrame": true
        },
        {
@@ -70,11 +70,11 @@
       "children": [
        {
         "type": "html",
-        "classes": "",
+        "classes": "bukva",
         "precondition": "none",
         "hideOnCorrect": false,
         "duration": 0,
-        "innerHtml": "<h4>G&nbsp;&nbsp;</h4>",
+        "innerHtml": "<h4>G</h4>",
         "animationFrame": true
        },
        {
